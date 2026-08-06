@@ -4,7 +4,7 @@ import sys
 FPS = 60
 
 class GameApp:
-    def __init__(self):
+    def __init__(self) -> None:
         pygame.init()
 
         self.running = True
@@ -16,7 +16,7 @@ class GameApp:
         self.clock = pygame.time.Clock()
         self.delta_time = 0
 
-    def run(self):
+    def run(self) -> None:
         try:
             while self.running:
                 if pygame.event.get(pygame.QUIT):
