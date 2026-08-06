@@ -8,9 +8,7 @@ class GameApp:
 
         self.running = True
 
-        self.screen = pygame.display.set_mode((500, 500))
-        self.screen_width = 500
-        self.screen_height = 500
+        self.screen = pygame.display.set_mode((Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT))
 
         self.clock = pygame.time.Clock()
         self.delta_time = 0
