@@ -20,6 +20,8 @@ class GameApp:
         try:
             while self.running:
                 if pygame.event.get(pygame.QUIT):
+                    # reminder that all exit logic is in the `finally` block
+                    # near the bottom of the function
                     self.running = False
 
                 pygame.display.flip()
