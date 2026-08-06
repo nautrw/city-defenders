@@ -9,7 +9,7 @@ class GameApp:
 
         self.running = True
 
-        self.screen = pygame.display.set_mode((500, 500), pygame.SCALED)
+        self.screen = pygame.display.set_mode((500, 500))
         self.screen_width = 500
         self.screen_height = 500
 
