@@ -26,5 +26,7 @@ class ConfigurationManager:
         for domain in domains:
             if hasattr(domain, name):
                 return getattr(domain, name)
+        
+        raise AttributeError(f'{name} config key does not exist')
 
 config = ConfigurationManager()
