@@ -1,7 +1,6 @@
 import pygame
 import sys
-
-FPS = 60
+from .core.config import config as Config
 
 class GameApp:
     def __init__(self) -> None:
@@ -25,7 +24,7 @@ class GameApp:
                     self.running = False
 
                 pygame.display.flip()
-                self.delta_time = self.clock.tick(FPS) / 1000.0
+                self.delta_time = self.clock.tick(Config.FPS) / 1000.0
         finally:
             pygame.quit()
 
