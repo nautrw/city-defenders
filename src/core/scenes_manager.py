@@ -26,7 +26,7 @@ class Scene(ABC):
     def update(self, delta_time: int | float) -> None:
         ...
 
-    def render(self) -> None:
+    def render(self, screen: pygame.Surface) -> None:
         pass
 
     def on_enter(self) -> None:
