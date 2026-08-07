@@ -6,10 +6,9 @@ class BaseTurret(pygame.sprite.Sprite):
     rect: pygame.Rect | pygame.FRect
     image: pygame.Surface
     
-    def __init__(self, attachment_center_x: int | float, attachment_center_y: int | float):
+    def __init__(self, attachment_center: tuple[int | float, int | float]):
         super().__init__()
-        self.attachment_center_x = attachment_center_x
-        self.attachment_center_y = attachment_center_y
+        self.attachment_center = attachment_center
 
     def update(self, delta_time: int | float):
         ...
