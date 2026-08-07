@@ -8,17 +8,15 @@ class CorvetteShip(BaseShip):
     rect: pygame.Rect | pygame.FRect
     image: pygame.Surface
 
-    display_name: str = "Corvette"
-    description: str = "A basic spaceship. Nothing much to see."
 
     def __init__(self, turrets: list[BaseTurret]):
         super().__init__()
+
+        self.display_name: str = "Corvette"
+        self.description: str = "A basic spaceship. Nothing much to see here."
 
         self.image = pygame.image.load("src/assets/ships/corvette.png")
         self.rect = self.image.get_rect()
 
         self.equipped_turrets = turrets
-        self.mounting_points = ((36, 57),)
-        print(self.display_name)
-
-c = CorvetteShip([BaseTurret(1, 2)])
+        self.mounting_points = ((36, 57),) # 1 turret
