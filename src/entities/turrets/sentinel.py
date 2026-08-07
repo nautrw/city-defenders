@@ -1,5 +1,5 @@
 import pygame
-from src.core.base_turret import BaseTurret
+from .base_turret import BaseTurret
 
 class SentinelTurret(BaseTurret):
     # pygame.Sprite defaults these two to None and by LSP will scream at me
