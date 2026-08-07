@@ -15,19 +15,23 @@ class BaseShip(pygame.sprite.Sprite):
 
         self.image: pygame.Surface
 
-        # ((gun1, (x, y), (gun2, (x, y), (gun3, (x, y)))
-        self.guns: tuple[tuple[BaseGun, tuple[int | float, int | float]], ...]
+        self.equipped_guns: list[BaseGun] # subclasses can be added too
+
+        # set of x,y coordinates corresponding to points on the sprite image
+        # where the guns are attached to (see the draw method)
+        self.gun_placements: tuple[tuple[int | float, int | float], ...]
 
     def update(self, delta_time: int | float):
         ...
     
     def draw(self, screen: pygame.Surface):
-        for gun_obj, placement in self.guns:
-            gun_image = gun_obj.image
-            gun_rect = gun_image.get_rect()
-            acx, acy = gun_obj.attachment_center_x, gun_obj.attachment_center_y
-            px, py = placement
-            gun_rect.topleft = (px - acx, py - acy)
-            self.image.blit(gun_image, gun_rect)
+        for gun_obj in self.equipped_guns:
+            for placement in self.gun_placements:
+                gun_image = gun_obj.image
+                gun_rect = gun_image.get_rect()
+                acx, acy = gun_obj.attachment_center_x, gun_obj.attachment_center_y
+                px, py = placement
+                gun_rect.topleft = (px - acx, py - acy)
+                self.image.blit(gun_image, gun_rect)
 
-        screen.blit(self.image, self.rect)
+                screen.blit(self.image, self.rect)

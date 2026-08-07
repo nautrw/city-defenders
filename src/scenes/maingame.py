@@ -29,7 +29,9 @@ class Ship(BaseShip):
         self.rect = self.image.get_rect()
         self.rect.center = (100, 100)
 
-        self.guns = ((Gun(), (46.5, 97.5)),)
+        self.equipped_guns = [Gun()]
+        self.gun_placements = ((46.5, 97.5),)
+        
 
 
 class MainGameScene(Scene):
