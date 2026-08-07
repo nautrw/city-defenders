@@ -1,5 +1,5 @@
 import pygame
-from .base_gun import BaseGun
+from .base_turret import BaseTurret
 
 class BaseShip(pygame.sprite.Sprite):
     # pygame.Sprite defaults these two to None and by LSP will scream at me
@@ -15,7 +15,7 @@ class BaseShip(pygame.sprite.Sprite):
 
         self.image: pygame.Surface
 
-        self.equipped_guns: list[BaseGun] # subclasses can be added too
+        self.equipped_turrets: list[BaseTurret] # subclasses can be added too
 
         # set of x,y coordinates corresponding to points on the sprite image
         # where the guns are attached to (see the draw method)
@@ -25,7 +25,7 @@ class BaseShip(pygame.sprite.Sprite):
         ...
     
     def draw(self, screen: pygame.Surface):
-        for gun_obj in self.equipped_guns:
+        for gun_obj in self.equipped_turrets:
             for placement in self.mounting_points:
                 gun_image = gun_obj.image
                 gun_rect = gun_image.get_rect()

@@ -1,6 +1,6 @@
 import pygame
 
-class BaseGun(pygame.sprite.Sprite):
+class BaseTurret(pygame.sprite.Sprite):
     # pygame.Sprite defaults these two to None and by LSP will scream at me
     # if I don't put these
     rect: pygame.Rect | pygame.FRect
