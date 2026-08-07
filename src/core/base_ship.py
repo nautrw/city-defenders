@@ -18,7 +18,8 @@ class BaseShip(pygame.sprite.Sprite):
         self.equipped_turrets: list[BaseTurret] # subclasses can be added too
 
         # set of x,y coordinates corresponding to points on the sprite image
-        # where the guns are attached to (see the draw method)
+        # where the guns are attached to (see the draw method);
+        # also determines how many turrets a spaceship supports
         self.mounting_points: tuple[tuple[int | float, int | float], ...]
 
     def update(self, delta_time: int | float):
