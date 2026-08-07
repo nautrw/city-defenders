@@ -18,14 +18,17 @@ class Scene(ABC):
 
     # Abstractmethods make it so that its required for any other classes that
     # inherit from this to implement the functions themselves
+    @abstractmethod
     def handle_events(self, events: list[pygame.Event]) -> None:
         ...
 
+    @abstractmethod
     def update(self, delta_time: int | float) -> None:
         ...
 
+    @abstractmethod
     def render(self, screen: pygame.Surface) -> None:
-        pass
+        ...
 
     def on_enter(self) -> None:
         pass
