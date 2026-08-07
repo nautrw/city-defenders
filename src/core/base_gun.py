@@ -8,6 +8,8 @@ class BaseGun(pygame.sprite.Sprite):
     
     def __init__(self, attachment_center_x: int | float, attachment_center_y: int | float):
         super().__init__()
+        self.attachment_center_x = attachment_center_x
+        self.attachment_center_y = attachment_center_y
 
     def update(self, delta_time: int | float):
         ...

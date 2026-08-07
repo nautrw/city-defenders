@@ -25,7 +25,9 @@ class BaseShip(pygame.sprite.Sprite):
         for gun_obj, placement in self.guns:
             gun_image = gun_obj.image
             gun_rect = gun_image.get_rect()
-            gun_rect.center = placement
+            acx, acy = gun_obj.attachment_center_x, gun_obj.attachment_center_y
+            px, py = placement
+            gun_rect.topleft = (px - acx, py - acy)
             self.image.blit(gun_image, gun_rect)
 
         screen.blit(self.image, self.rect)
