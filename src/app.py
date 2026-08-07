@@ -25,7 +25,3 @@ class GameApp:
                 self.delta_time = self.clock.tick(Config.FPS) / 1000.0
         finally:
             pygame.quit()
-
-if __name__ == "__main__":
-    app = GameApp()
-    app.run()
