@@ -7,7 +7,7 @@ class BaseShip(pygame.sprite.Sprite):
     rect: pygame.Rect | pygame.FRect
     image: pygame.Surface
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
         self.display_name: str
@@ -22,10 +22,10 @@ class BaseShip(pygame.sprite.Sprite):
         # also determines how many turrets a spaceship supports
         self.mounting_points: tuple[tuple[int | float, int | float], ...]
 
-    def update(self, delta_time: int | float):
+    def update(self, delta_time: int | float) -> None:
         ...
     
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen: pygame.Surface) -> None:
         for gun_obj in self.equipped_turrets:
             for placement in self.mounting_points:
                 gun_image = gun_obj.image

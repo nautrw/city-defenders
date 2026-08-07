@@ -5,18 +5,18 @@ from src.entities.ships.corvette import CorvetteShip
 from src.entities.turrets.sentinel import SentinelTurret
 
 class MainGameScene(Scene):
-    def __init__(self, manager: SceneManager):
+    def __init__(self, manager: SceneManager) -> None:
         super().__init__(manager)
         
         self.screen_width = Config.SCREEN_WIDTH
         self.screen_height = Config.SCREEN_HEIGHT
         self.ship = CorvetteShip([SentinelTurret()])
 
-    def handle_events(self, events: list[pygame.Event]):
+    def handle_events(self, events: list[pygame.Event]) -> None:
         pass
     
-    def update(self, delta_time: int | float):
+    def update(self, delta_time: int | float) -> None:
         pass
 
-    def render(self, screen: pygame.Surface):
+    def render(self, screen: pygame.Surface) -> None:
         self.ship.draw(screen)

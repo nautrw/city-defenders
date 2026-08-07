@@ -6,12 +6,12 @@ class BaseTurret(pygame.sprite.Sprite):
     rect: pygame.Rect | pygame.FRect
     image: pygame.Surface
     
-    def __init__(self, attachment_center: tuple[int | float, int | float]):
+    def __init__(self, attachment_center: tuple[int | float, int | float]) -> None:
         super().__init__()
         self.attachment_center = attachment_center
 
-    def update(self, delta_time: int | float):
+    def update(self, delta_time: int | float) -> None:
         ...
 
-    def draw(self, screen: pygame.Surface):
+    def draw(self, screen: pygame.Surface) -> None:
         screen.blit(self.image, self.rect)
