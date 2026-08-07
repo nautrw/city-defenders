@@ -1,6 +1,8 @@
 import pygame
 import sys
 from .core.config import config as Config
+from .scenes.maingame import MainGameScene
+from .core.scenes_manager import SceneManager, Scene
 
 class GameApp:
     def __init__(self) -> None:
@@ -13,6 +15,9 @@ class GameApp:
         self.clock = pygame.time.Clock()
         self.delta_time = 0
 
+        self.scene_manager = SceneManager(self.screen)
+        self.scene_manager.switch_scene(MainGameScene(self.scene_manager))
+
     def run(self) -> None:
         try:
             while self.running:
@@ -20,6 +25,10 @@ class GameApp:
                     # reminder that all exit logic is in the `finally` block
                     # near the bottom of the function
                     self.running = False
+
+                self.scene_manager.current_scene.handle_events(pygame.event.get())
+                self.scene_manager.current_scene.update(self.delta_time)
+                self.scene_manager.current_scene.render(self.screen)
 
                 pygame.display.flip()
                 self.delta_time = self.clock.tick(Config.FPS) / 1000.0
