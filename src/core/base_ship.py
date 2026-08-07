@@ -1,5 +1,5 @@
 import pygame
-from .base_turret import BaseTurret
+from src.core.base_turret import BaseTurret
 
 class BaseShip(pygame.sprite.Sprite):
     # pygame.Sprite defaults these two to None and by LSP will scream at me
