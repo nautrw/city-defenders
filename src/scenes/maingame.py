@@ -30,9 +30,7 @@ class Ship(BaseShip):
         self.rect.center = (100, 100)
 
         self.equipped_guns = [Gun()]
-        self.gun_placements = ((46.5, 97.5),)
-        
-
+        self.mounting_points = ((46.5, 97.5),)
 
 class MainGameScene(Scene):
     def __init__(self, manager: SceneManager):

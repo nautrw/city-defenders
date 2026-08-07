@@ -19,14 +19,14 @@ class BaseShip(pygame.sprite.Sprite):
 
         # set of x,y coordinates corresponding to points on the sprite image
         # where the guns are attached to (see the draw method)
-        self.gun_placements: tuple[tuple[int | float, int | float], ...]
+        self.mounting_points: tuple[tuple[int | float, int | float], ...]
 
     def update(self, delta_time: int | float):
         ...
     
     def draw(self, screen: pygame.Surface):
         for gun_obj in self.equipped_guns:
-            for placement in self.gun_placements:
+            for placement in self.mounting_points:
                 gun_image = gun_obj.image
                 gun_rect = gun_image.get_rect()
                 acx, acy = gun_obj.attachment_center_x, gun_obj.attachment_center_y
