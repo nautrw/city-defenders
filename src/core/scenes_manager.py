@@ -5,10 +5,12 @@ class SceneManager:
     def __init__(self, screen: pygame.Surface) -> None:
         self.screen = screen
         
-        self.current_scene = Scene(self)
+        self.current_scene: Scene | None = None
 
     def switch_scene(self, scene: Scene) -> None:
-        self.current_scene.on_exit()
+        if self.current_scene:
+            self.current_scene.on_exit()
+
         self.current_scene = scene
         self.current_scene.on_enter()
 
