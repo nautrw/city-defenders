@@ -2,7 +2,7 @@ import pygame
 from src.core.scenes_manager import Scene, SceneManager
 from src.core.config import config as Config
 from src.core.base_turret import BaseTurret
-from src.core.base_ship import BaseShip
+from src.entities.ships.corvette import CorvetteShip
 
 class Turret(BaseTurret):
     # pygame.Sprite defaults these two to None and by LSP will scream at me
@@ -16,29 +16,13 @@ class Turret(BaseTurret):
         self.image = pygame.image.load("src/assets/turrets/basic_turret.png")
         self.rect = self.image.get_rect()
 
-class Ship(BaseShip):
-    # pygame.Sprite defaults these two to None and by LSP will scream at me
-    # if I don't put these
-    rect: pygame.Rect | pygame.FRect
-    image: pygame.Surface
-
-    def __init__(self):
-        super().__init__()
-
-        self.image = pygame.image.load("src/assets/ships/corvette.png")
-        self.rect = self.image.get_rect()
-        self.rect.center = (100, 100)
-
-        self.equipped_turrets = [Turret()]
-        self.mounting_points = ((36, 57),)
-
 class MainGameScene(Scene):
     def __init__(self, manager: SceneManager):
         super().__init__(manager)
         
         self.screen_width = Config.SCREEN_WIDTH
         self.screen_height = Config.SCREEN_HEIGHT
-        self.ship = Ship()
+        self.ship = CorvetteShip([Turret()])
 
     def handle_events(self, events: list[pygame.Event]):
         pass

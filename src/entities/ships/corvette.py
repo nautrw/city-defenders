@@ -17,6 +17,7 @@ class CorvetteShip(BaseShip):
 
         self.image = pygame.image.load("src/assets/ships/corvette.png")
         self.rect = self.image.get_rect()
+        self.rect.center = (100, 100)
 
         self.equipped_turrets = turrets
         self.mounting_points = ((36, 57),) # 1 turret
