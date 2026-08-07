@@ -1,6 +1,6 @@
 import pygame
-from src.core.base_ship import BaseShip
-from src.core.base_turret import BaseTurret
+from src.entities.ships.base_ship import BaseShip
+from src.entities.turrets.base_turret import BaseTurret
 
 class CorvetteShip(BaseShip):
     # pygame.Sprite defaults these two to None and by LSP will scream at me
