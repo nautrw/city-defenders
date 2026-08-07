@@ -11,11 +11,10 @@ class Gun(BaseGun):
     image: pygame.Surface
 
     def __init__(self):
-        super().__init__(0, 0)
+        super().__init__(9.5, 53.5)
 
         self.image = pygame.image.load("src/assets/guns/basic-gun.png")
         self.rect = self.image.get_rect()
-        self.rect.center = (0,0)
 
 class Ship(BaseShip):
     # pygame.Sprite defaults these two to None and by LSP will scream at me
@@ -30,7 +29,8 @@ class Ship(BaseShip):
         self.rect = self.image.get_rect()
         self.rect.center = (100, 100)
 
-        self.guns = ((Gun(), (0, 0)),)
+        self.guns = ((Gun(), (46.5, 97.5)),)
+
 
 class MainGameScene(Scene):
     def __init__(self, manager: SceneManager):
