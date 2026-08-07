@@ -11,7 +11,7 @@ class Turret(BaseTurret):
     image: pygame.Surface
 
     def __init__(self):
-        super().__init__(9.5, 53.5)
+        super().__init__(7, 33)
 
         self.image = pygame.image.load("src/assets/turrets/basic_turret.png")
         self.rect = self.image.get_rect()
@@ -30,7 +30,7 @@ class Ship(BaseShip):
         self.rect.center = (100, 100)
 
         self.equipped_turrets = [Turret()]
-        self.mounting_points = ((46.5, 97.5),)
+        self.mounting_points = ((36, 57),)
 
 class MainGameScene(Scene):
     def __init__(self, manager: SceneManager):
