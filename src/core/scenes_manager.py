@@ -8,9 +8,9 @@ class SceneManager:
         self.current_scene = Scene(self)
 
     def switch_scene(self, scene: Scene) -> None:
-        self.scene.on_exit()
-        self.scene = scene
-        self.scene.on_enter()
+        self.current_scene.on_exit()
+        self.current_scene = scene
+        self.current_scene.on_enter()
 
 class Scene(ABC):
     def __init__(self, manager: SceneManager) -> None:
