@@ -16,7 +16,8 @@ class MainGameScene(Scene):
         pass
     
     def update(self, delta_time: int | float) -> None:
-        pass
+        self.ship.update(delta_time)
 
     def render(self, screen: pygame.Surface) -> None:
+        screen.fill((0, 0, 0))
         self.ship.draw(screen)

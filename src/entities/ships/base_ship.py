@@ -22,9 +22,34 @@ class BaseShip(pygame.sprite.Sprite):
         # also determines how many turrets a spaceship supports
         self.mounting_points: tuple[tuple[int | float, int | float], ...]
 
+        self.position = pygame.Vector2()
+
+        self.angle = 0
+        self.rotation = 22.5
+        self.velocity = pygame.Vector2(0, 0)
+        self.movement_speed = 250
+
+        self.friction = 100
+
     def update(self, delta_time: int | float) -> None:
-        ...
-    
+        pressed_keys = pygame.key.get_pressed()
+
+        if pressed_keys[pygame.K_w]:
+            self.velocity.y = -self.movement_speed * delta_time
+        if pressed_keys[pygame.K_a]:
+            self.velocity.x = -self.movement_speed * delta_time
+        if pressed_keys[pygame.K_s]:
+            self.velocity.y = self.movement_speed * delta_time
+        if pressed_keys[pygame.K_d]:
+            self.velocity.x = self.movement_speed * delta_time
+
+        if not pressed_keys[pygame.K_w] and not pressed_keys[pygame.K_s]:
+            self.velocity.y = 0
+        if not pressed_keys[pygame.K_a] and not pressed_keys[pygame.K_d]:
+            self.velocity.x = 0
+
+        self.rect.center += self.velocity
+
     def draw(self, screen: pygame.Surface) -> None:
         for gun_obj in self.equipped_turrets:
             for placement in self.mounting_points:
@@ -35,4 +60,4 @@ class BaseShip(pygame.sprite.Sprite):
                 gun_rect.topleft = (px - acx, py - acy)
                 self.image.blit(gun_image, gun_rect)
 
-                screen.blit(self.image, self.rect)
+        screen.blit(self.image, self.rect)
