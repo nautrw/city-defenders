@@ -64,4 +64,6 @@ class BaseShip(pygame.sprite.Sprite):
                 gun_rect.topleft = (px - acx, py - acy)
                 self.image.blit(gun_image, gun_rect)
 
-        screen.blit(self.image, self.rect)
+        rotated_image = pygame.transform.rotate(self.image, -self.angle)
+        rotated_rect = rotated_image.get_rect(center=self.rect.center)
+        screen.blit(rotated_image, rotated_rect)
