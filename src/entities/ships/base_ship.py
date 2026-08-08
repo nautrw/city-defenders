@@ -48,6 +48,10 @@ class BaseShip(pygame.sprite.Sprite):
         if not pressed_keys[pygame.K_a] and not pressed_keys[pygame.K_d]:
             self.velocity.x = 0
 
+        if not self.velocity == (0, 0):
+            self.velocity = self.velocity.normalize() * self.movement_speed * delta_time
+
+        print(self.velocity)
         self.rect.center += self.velocity
 
     def draw(self, screen: pygame.Surface) -> None:
