@@ -29,8 +29,6 @@ class BaseShip(pygame.sprite.Sprite):
         self.velocity = pygame.Vector2(0, 0)
         self.movement_speed = 250
 
-        self.friction = 100
-
     def update(self, delta_time: int | float) -> None:
         pressed_keys = pygame.key.get_pressed()
 
@@ -52,7 +50,6 @@ class BaseShip(pygame.sprite.Sprite):
             # normalize vector so that moving diagonally isnt faster
             self.velocity = self.velocity.normalize() * self.movement_speed * delta_time
 
-        print(self.velocity)
         self.rect.center += self.velocity
 
     def draw(self, screen: pygame.Surface) -> None:
