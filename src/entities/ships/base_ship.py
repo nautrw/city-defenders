@@ -49,6 +49,7 @@ class BaseShip(pygame.sprite.Sprite):
             self.velocity.x = 0
 
         if not self.velocity == (0, 0):
+            # normalize vector so that moving diagonally isnt faster
             self.velocity = self.velocity.normalize() * self.movement_speed * delta_time
 
         print(self.velocity)
