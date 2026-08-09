@@ -1,5 +1,6 @@
 import pygame
 from src.core.scenes_manager import Scene, SceneManager
+from src.core.config import config as Config
 from typing import TYPE_CHECKING
 
 # Solves the circular import error as a result of src.app being uninitialized
@@ -24,4 +25,6 @@ class MainGameScene(Scene):
     def render(self, surface: pygame.Surface) -> None:
         for y, row in enumerate(range(5)):
             for x, tile in enumerate(range(5)):
-                surface.blit(self.grass_img, (150 + x * 12 - y * 12, 100 + x * 6 + y * 6))
+                w = Config.TILE_TOP_WIDTH
+                h = Config.TILE_TOP_HEIGHT
+                surface.blit(self.grass_img, (150 + x * w - y * w, 100 + x * h + y * h))

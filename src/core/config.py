@@ -9,15 +9,24 @@ class DisplayConfig:
     SCREEN_HEIGHT: int = 720
     FPS: int = 60
 
+@dataclass(frozen=True)
+class TilesConfig:
+    FULL_TILE_WIDTH: int = 26
+    FULL_TILE_HEIGHT: int = 29
+    TILE_TOP_WIDTH: int = 12
+    TILE_TOP_HEIGHT: int = 6
+
 class ConfigurationManager:
     """Manages configuration globals by domain accross the game."""
 
     def __init__(self) -> None:
         self.display_config = DisplayConfig()
+        self.tiles_config = TilesConfig()
 
     def __getattr__(self, name: str) -> Any:
-        domains: tuple[object] = (
+        domains: tuple = (
             self.display_config,
+            self.tiles_config,
         )
 
         # Treats all attributes from all domains as globals
