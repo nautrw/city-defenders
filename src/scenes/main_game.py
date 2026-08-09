@@ -1,6 +1,13 @@
 import pygame
 from src.core.scenes_manager import Scene, SceneManager
-from src.app import GameApp
+from typing import TYPE_CHECKING
+
+# Solves the circular import error as a result of src.app being uninitialized
+# TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
+# actually imported
+if TYPE_CHECKING:
+    from src.app import GameApp
+
 
 class MainGameScene(Scene):
     def __init__(self, game: GameApp):

@@ -1,6 +1,12 @@
 import pygame
 from abc import ABC, abstractmethod
-from src.app import GameApp
+from typing import TYPE_CHECKING
+
+# Solves the circular import error as a result of src.app being uninitialized
+# TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
+# actually imported
+if TYPE_CHECKING:
+    from src.app import GameApp
 
 class SceneManager:
     def __init__(self) -> None:
@@ -40,7 +46,7 @@ class SceneManager:
         new_scene.on_enter()
 
 class Scene(ABC):
-    def __init__(self, game: "GameApp") -> None:
+    def __init__(self, game: GameApp) -> None:
         self.game = game
 
     # Abstractmethods make it so that its required for any other classes that
