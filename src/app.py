@@ -1,8 +1,8 @@
 import pygame
 import sys
-from .core.config import config as Config
-from .scenes.maingame import MainGameScene
-from .core.scenes_manager import SceneManager, Scene
+from src.core.config import config as Config
+from src.scenes.main_game import MainGameScene
+from src.core.scenes_manager import SceneManager, Scene
 
 class GameApp:
     def __init__(self) -> None:
