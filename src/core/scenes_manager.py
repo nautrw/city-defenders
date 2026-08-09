@@ -1,22 +1,21 @@
 import pygame
 from abc import ABC, abstractmethod
+from src.app import GameApp
 
 class SceneManager:
-    def __init__(self, screen: pygame.Surface) -> None:
+    def __init__(self, screen: pygame.Surface, initial_scene: Scene) -> None:
         self.screen = screen
         
-        self.current_scene: Scene | None = None
+        self.current_scene: Scene = initial_scene
 
     def switch_scene(self, scene: Scene) -> None:
-        if self.current_scene:
-            self.current_scene.on_exit()
-
+        self.current_scene.on_exit()
         self.current_scene = scene
         self.current_scene.on_enter()
 
 class Scene(ABC):
-    def __init__(self, manager: SceneManager) -> None:
-        self.manager = manager
+    def __init__(self, game: GameApp) -> None:
+        self.game = game
 
     # Abstractmethods make it so that its required for any other classes that
     # inherit from this to implement the functions themselves
@@ -29,7 +28,7 @@ class Scene(ABC):
         ...
 
     @abstractmethod
-    def render(self, screen: pygame.Surface) -> None:
+    def render(self, surface: pygame.Surface) -> None:
         ...
 
     def on_enter(self) -> None:

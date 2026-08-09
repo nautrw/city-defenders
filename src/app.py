@@ -15,8 +15,7 @@ class GameApp:
         self.clock = pygame.time.Clock()
         self.delta_time = 0
 
-        self.scene_manager = SceneManager(self.screen)
-        self.scene_manager.switch_scene(MainGameScene(self.scene_manager))
+        self.scene_manager = SceneManager(self.screen, MainGameScene(self))
 
     def run(self) -> None:
         try:
