@@ -24,17 +24,14 @@ class MainGameScene(Scene):
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == pygame.BUTTON_MIDDLE:
-                    print("down")
                     if self._grid.rect.collidepoint(mx, my):
                         self._dragging_grid = True
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == pygame.BUTTON_MIDDLE:
-                    print("down")
                     self._dragging_grid = False
             elif event.type == pygame.MOUSEMOTION:
                 if self._dragging_grid:
-                    if self._grid.rect.collidepoint(mx, my):
-                        self._grid.rect.topleft = mx, my
+                    self._grid.rect.topleft = mx, my
 
     def update(self, delta_time: int | float) -> None:
         pass
