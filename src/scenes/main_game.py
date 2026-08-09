@@ -15,12 +15,30 @@ class MainGameScene(Scene):
     def __init__(self, game: GameApp):
         super().__init__(game)
         self._grid = Grid(10, 10, 0, 0)
+        self._grid_offset = pygame.Vector2()
+        self._dragging_grid = False
 
     def handle_events(self, events: list[pygame.Event]) -> None:
-        pass
+        for event in events:
+            mx, my = pygame.mouse.get_pos()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == pygame.BUTTON_MIDDLE:
+                    print("down")
+                    if self._grid.rect.collidepoint(mx, my):
+                        self._dragging_grid = True
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == pygame.BUTTON_MIDDLE:
+                    print("down")
+                    self._dragging_grid = False
+            elif event.type == pygame.MOUSEMOTION:
+                if self._dragging_grid:
+                    if self._grid.rect.collidepoint(mx, my):
+                        self._grid.rect.topleft = mx, my
 
     def update(self, delta_time: int | float) -> None:
         pass
 
     def render(self, surface: pygame.Surface) -> None:
+        surface.fill("black")
         self._grid.draw(surface)

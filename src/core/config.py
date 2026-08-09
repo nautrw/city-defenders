@@ -7,7 +7,7 @@ from dataclasses import dataclass
 class DisplayConfig:
     SCREEN_WIDTH: int = 1280
     SCREEN_HEIGHT: int = 720
-    FPS: int = 60
+    FPS: int = 120
 
 @dataclass(frozen=True)
 class TilesConfig:
