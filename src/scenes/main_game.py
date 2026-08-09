@@ -12,6 +12,8 @@ if TYPE_CHECKING:
 class MainGameScene(Scene):
     def __init__(self, game: GameApp):
         super().__init__(game)
+        self.grass_img = pygame.image.load('src/assets/tiles/forest_grass.png')
+        self.dirt_img = pygame.image.load('src/assets/tiles/dirt.png')
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         pass
@@ -20,4 +22,6 @@ class MainGameScene(Scene):
         pass
 
     def render(self, surface: pygame.Surface) -> None:
-        pass
+        for y, row in enumerate(range(5)):
+            for x, tile in enumerate(range(5)):
+                surface.blit(self.grass_img, (150 + x * 12 - y * 12, 100 + x * 6 + y * 6))
