@@ -3,18 +3,44 @@ from abc import ABC, abstractmethod
 from src.app import GameApp
 
 class SceneManager:
-    def __init__(self, screen: pygame.Surface, initial_scene: Scene) -> None:
-        self.screen = screen
-        
-        self.current_scene: Scene = initial_scene
+    def __init__(self) -> None:
+        self._scenes_stack: list[Scene] = []
 
-    def switch_scene(self, scene: Scene) -> None:
-        self.current_scene.on_exit()
-        self.current_scene = scene
-        self.current_scene.on_enter()
+    @property
+    def current_scene(self) -> Scene | None:
+        if not self._scenes_stack:
+            return None
+        
+        return self._scenes_stack[-1]
+
+    @property
+    def stack_length(self) -> int:
+        return len(self._scenes_stack)
+
+    def pop(self) -> None:
+        if self._scenes_stack:
+            old_scene = self._scenes_stack.pop()
+            old_scene.on_exit()
+
+        # protects against calling on_enter on NoneType if the stack is empty
+        # after popping
+        if self._scenes_stack: 
+            self._scenes_stack[-1].on_enter()
+
+    def switch(self, new_scene: Scene) -> None:
+        if self._scenes_stack:
+            old_scene = self._scenes_stack.pop()
+            old_scene.on_exit()
+
+        self._scenes_stack.append(new_scene)
+        new_scene.on_enter()
+
+    def push(self, new_scene: Scene) -> None:
+        self._scenes_stack.append(new_scene)
+        new_scene.on_enter()
 
 class Scene(ABC):
-    def __init__(self, game: GameApp) -> None:
+    def __init__(self, game: "GameApp") -> None:
         self.game = game
 
     # Abstractmethods make it so that its required for any other classes that

@@ -15,7 +15,8 @@ class GameApp:
         self.clock = pygame.time.Clock()
         self.delta_time = 0
 
-        self.scene_manager = SceneManager(self.screen, MainGameScene(self))
+        self.scene_manager = SceneManager()
+        self.scene_manager.push(MainGameScene(self))
 
     def run(self) -> None:
         try:
@@ -24,10 +25,11 @@ class GameApp:
                     # reminder that all exit logic is in the `finally` block
                     # near the bottom of the function
                     self.running = False
-
-                self.scene_manager.current_scene.handle_events(pygame.event.get())
-                self.scene_manager.current_scene.update(self.delta_time)
-                self.scene_manager.current_scene.render(self.screen)
+                
+                if self.scene_manager.current_scene:
+                    self.scene_manager.current_scene.handle_events(pygame.event.get())
+                    self.scene_manager.current_scene.update(self.delta_time)
+                    self.scene_manager.current_scene.render(self.screen)
 
                 pygame.display.flip()
                 self.delta_time = self.clock.tick(Config.FPS) / 1000.0
