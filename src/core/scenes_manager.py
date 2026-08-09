@@ -24,6 +24,8 @@ class SceneManager:
         return len(self._scenes_stack)
 
     def pop(self) -> None:
+        """Removes the top scene from the stack."""
+
         if self._scenes_stack:
             old_scene = self._scenes_stack.pop()
             old_scene.on_exit()
@@ -34,6 +36,9 @@ class SceneManager:
             self._scenes_stack[-1].on_enter()
 
     def switch(self, new_scene: Scene) -> None:
+        """
+        Switches the top scene from the stack without affecting the one below.
+        """
         if self._scenes_stack:
             old_scene = self._scenes_stack.pop()
             old_scene.on_exit()
@@ -42,6 +47,7 @@ class SceneManager:
         new_scene.on_enter()
 
     def push(self, new_scene: Scene) -> None:
+        """Pushes a new scene to the stack without affecting the one below.."""
         self._scenes_stack.append(new_scene)
         new_scene.on_enter()
 
