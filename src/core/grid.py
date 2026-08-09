@@ -17,6 +17,6 @@ class Grid(pygame.sprite.Sprite):
         for y, row in enumerate(self._tiles):
             for x, tile in enumerate(row):
                 tile = TILE_REGISTRY[tile]
-                self._surface.blit(tile.image, ((x * Config.TILE_TOP_WIDTH) - (y * Config.TILE_TOP_WIDTH)), (x * Config.TILE_TOP_HEIGHT) + (y * Config.TILE_TOP_HEIGHT))
+                self._surface.blit(tile.image, (((x * Config.TILE_TOP_WIDTH) - (y * Config.TILE_TOP_WIDTH)), (x * Config.TILE_TOP_HEIGHT) + (y * Config.TILE_TOP_HEIGHT)))
 
         surface.blit(self._surface, self._rect)
