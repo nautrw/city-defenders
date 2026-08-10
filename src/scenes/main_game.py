@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class MainGameScene(Scene):
     def __init__(self, game: GameApp):
         super().__init__(game)
-        self._grid = Grid(10, 10, 0, 0)
+        self._grid = Grid(10, 10, 100, 100)
         self._grid_offset = pygame.Vector2()
         self._dragging_grid = False
 

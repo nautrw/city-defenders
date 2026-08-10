@@ -11,7 +11,7 @@ class Grid(pygame.sprite.Sprite):
         # dimensions are in numbers of tiles
         self.width = width
         self.height = height
-        self._tiles: np.ndarray = np.zeros((5, 5))
+        self._tiles: np.ndarray = np.array([[0 for _ in range(self.width)] for _ in range(self.height)])
         self._surface = pygame.Surface((self.width * Config.FULL_TILE_WIDTH, self.height * Config.FULL_TILE_HEIGHT))
         self.rect = self._surface.get_rect()
         self.rect.topleft = (screen_x, screen_y)
