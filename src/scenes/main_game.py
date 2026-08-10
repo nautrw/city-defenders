@@ -26,12 +26,16 @@ class MainGameScene(Scene):
                 if event.button == pygame.BUTTON_MIDDLE:
                     if self._grid.rect.collidepoint(mx, my):
                         self._dragging_grid = True
+                        self._grid_offset = pygame.Vector2(mx - self._grid.rect.x, my - self._grid.rect.y)
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == pygame.BUTTON_MIDDLE:
                     self._dragging_grid = False
             elif event.type == pygame.MOUSEMOTION:
                 if self._dragging_grid:
-                    self._grid.rect.topleft = mx, my
+                    self._grid.rect.topleft = (
+                        mx - self._grid_offset.x,
+                        my - self._grid_offset.y
+                    )
 
     def update(self, delta_time: int | float) -> None:
         pass
