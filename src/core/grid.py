@@ -39,3 +39,13 @@ class Grid(pygame.sprite.Sprite):
                 self._surface.blit(tile.image, (isometric_x_position, isometric_y_position))
 
         surface.blit(self._surface, self.rect)
+
+    def screen_coord_to_grid(self, screen_x: int | float, screen_y: int | float) -> tuple[int | float, int | float]:
+        relative_x = (screen_x - self.rect.topleft[0]) - self.grid_drawing_offset
+        relative_y = screen_y - self.rect.topleft[1]
+
+        x_coord = ((relative_x / Config.TILE_TOP_WIDTH) + (relative_y / Config.TILE_TOP_HEIGHT)) // 2
+        y_coord = ((relative_y / Config.TILE_TOP_HEIGHT) - (relative_x / Config.TILE_TOP_WIDTH)) // 2
+
+        return int(x_coord) - 1, int(y_coord)
+
