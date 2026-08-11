@@ -4,7 +4,7 @@ from pathlib import Path
 
 class TileRoles(Enum):
     NORMAL = auto()
-    ROAD = auto()
+    UNBUILDABLE = auto() # units can't be placed here
 
 class Tile(pygame.sprite.Sprite):
     image: pygame.Surface
@@ -16,7 +16,7 @@ class Tile(pygame.sprite.Sprite):
         self.role = role
 
 TILE_REGISTRY = {
-    0: Tile(name="dirt", role=TileRoles.ROAD),
+    0: Tile(name="dirt", role=TileRoles.UNBUILDABLE),
     1: Tile(name="forest_grass", role=TileRoles.NORMAL),
     2: Tile(name="stone", role=TileRoles.NORMAL)
 }
