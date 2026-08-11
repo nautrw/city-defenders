@@ -12,11 +12,11 @@ class DisplayConfig:
 @dataclass(frozen=True)
 class TilesConfig:
     # The full tile sprite dimensions
-    FULL_TILE_WIDTH: int = 26
-    FULL_TILE_HEIGHT: int = 29
+    FULL_TILE_WIDTH: int = 104
+    FULL_TILE_HEIGHT: int = 116
     # The top faces of the tiles; must be used for rendering offsets and such
-    TILE_TOP_WIDTH: int = 12
-    TILE_TOP_HEIGHT: int = 6
+    TILE_TOP_WIDTH: int = 48
+    TILE_TOP_HEIGHT: int = 24
 
 class ConfigurationManager:
     """Manages configuration globals by domain accross the game."""
