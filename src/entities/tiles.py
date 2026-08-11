@@ -17,5 +17,6 @@ class Tile(pygame.sprite.Sprite):
 
 TILE_REGISTRY = {
     0: Tile(name="dirt", role=TileRoles.ROAD),
-    1: Tile(name="forest_grass", role=TileRoles.NORMAL)
+    1: Tile(name="forest_grass", role=TileRoles.NORMAL),
+    2: Tile(name="stone", role=TileRoles.NORMAL)
 }
