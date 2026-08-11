@@ -41,6 +41,7 @@ class Grid(pygame.sprite.Sprite):
         surface.blit(self._surface, self.rect)
 
     def screen_coord_to_grid(self, screen_x: int | float, screen_y: int | float) -> tuple[int | float, int | float]:
+        """Gets the grid x- and y-coordinates from a point on the screen."""
         relative_x = (screen_x - self.rect.topleft[0]) - self.grid_drawing_offset
         relative_y = screen_y - self.rect.topleft[1]
 
