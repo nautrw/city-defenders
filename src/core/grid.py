@@ -13,12 +13,22 @@ class Grid(pygame.sprite.Sprite):
         self.height = height
         self._tiles: np.ndarray = np.array([[0 for _ in range(self.width)] for _ in range(self.height)])
         
-        self.surface_width = (self.width * Config.FULL_TILE_WIDTH) * 2
-        self.surface_height = (self.height * Config.FULL_TILE_HEIGHT)
-        self._surface = pygame.Surface((self.surface_width, self.surface_height))
+        self.surface_width = (
+        (self.width + self.height - 2) * Config.TILE_TOP_WIDTH
+        + Config.FULL_TILE_WIDTH * 2 # it clips a little to the right
+        )
+
+        self.surface_height = (
+        (self.width + self.height - 2) * Config.TILE_TOP_HEIGHT
+        + Config.FULL_TILE_HEIGHT
+        )
+        self._surface = pygame.Surface(
+        (self.surface_width, self.surface_height),
+        pygame.SRCALPHA,
+        )
         self.rect = self._surface.get_rect()
         self.rect.topleft = (screen_x, screen_y)
-        self.grid_drawing_offset = self.width * Config.FULL_TILE_WIDTH
+        self.grid_drawing_offset = self.height * Config.TILE_TOP_WIDTH
 
     def draw(self, surface: pygame.Surface):
         for y, row in enumerate(self._tiles):
