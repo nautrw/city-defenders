@@ -9,6 +9,8 @@ class Grid(pygame.sprite.Sprite):
     image: pygame.Surface
 
     def __init__(self, width: int, height: int, screen_x: int | float, screen_y: int | float):
+        super().__init__()
+
         # dimensions are in numbers of tiles
         self.width = width
         self.height = height
