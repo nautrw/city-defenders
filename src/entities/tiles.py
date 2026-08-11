@@ -19,4 +19,5 @@ TILE_REGISTRY = {
     0: Tile(name="dirt", role=TileRoles.UNBUILDABLE),
     1: Tile(name="forest_grass", role=TileRoles.NORMAL),
     2: Tile(name="stone", role=TileRoles.NORMAL)
+    3: Tile(name="water", role=TileRoles.UNBUILDABLE)
 }
