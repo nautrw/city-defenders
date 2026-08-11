@@ -1,4 +1,5 @@
 import pygame
+import random
 import numpy as np
 from src.entities.tiles import Tile, TILE_REGISTRY
 from src.core.config import config as Config
@@ -11,7 +12,7 @@ class Grid(pygame.sprite.Sprite):
         # dimensions are in numbers of tiles
         self.width = width
         self.height = height
-        self._tiles: np.ndarray = np.array([[0 for _ in range(self.width)] for _ in range(self.height)])
+        self._tiles: np.ndarray = np.array([[random.randint(0, max(TILE_REGISTRY.keys())) for _ in range(self.width)] for _ in range(self.height)])
         
         self.surface_width = (
         (self.width + self.height - 2) * Config.TILE_TOP_WIDTH
