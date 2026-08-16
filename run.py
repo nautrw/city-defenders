@@ -1,3 +1,4 @@
+import pygame
 from src.app import GameApp
 
 if __name__ == "__main__":
