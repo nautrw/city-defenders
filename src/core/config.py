@@ -1,3 +1,4 @@
+import pygame
 from typing import Any
 from enum import Enum, auto
 from dataclasses import dataclass
@@ -5,8 +6,9 @@ from dataclasses import dataclass
 # Dataclasses with frozen=True are immutable
 @dataclass(frozen=True)
 class DisplayConfig:
-    SCREEN_WIDTH: int = 1280
-    SCREEN_HEIGHT: int = 720
+    SCREEN_WIDTH: int = 360
+    SCREEN_HEIGHT: int = 240
+    FLAGS: int = pygame.SCALED
     FPS: int = 120
 
 @dataclass(frozen=True)
