@@ -15,6 +15,6 @@ def split_tileset(image: pygame.Surface, tile_width: int, tile_height: int) -> d
             tile_rect_left = (tile_x * tile_width) % image_dimensions[0]
             tile_rect_top = (tile_y * tile_height) % image_dimensions[1]
 
-            result[tile_i] = image.subsurface(tile_rect_left, tile_rect_top, tile_width, tile_height)
+            result[tile_i + 1] = image.subsurface(tile_rect_left, tile_rect_top, tile_width, tile_height)
 
     return result
