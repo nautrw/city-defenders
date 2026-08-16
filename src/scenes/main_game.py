@@ -28,9 +28,28 @@ class MainGameScene(Scene):
         self.map_surf = pygame.Surface((self.map_width, self.map_height))
         self.map_rect = self.map_surf.get_rect(topleft=(0,0))
 
+        self.dragging_map = False
+        self.map_offset = pygame.Vector2()
+
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             mx, my = pygame.mouse.get_pos()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == pygame.BUTTON_MIDDLE:
+                    if self.map_rect.collidepoint(mx, my):
+                        self.dragging_map = True
+                        self.map_offset = pygame.Vector2(mx - self.map_rect.x, my - self.map_rect.y)
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == pygame.BUTTON_MIDDLE:
+                    if self.map_rect.collidepoint(mx, my):
+                        self.dragging_map = False
+            elif event.type == pygame.MOUSEMOTION:
+                if self.dragging_map:
+                    self.map_rect.topleft = pygame.Vector2(
+                        mx - self.map_offset.x,
+                        my - self.map_offset.y
+                    )
 
     def update(self, delta_time: int | float) -> None:
         pass
