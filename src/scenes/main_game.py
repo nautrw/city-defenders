@@ -46,10 +46,14 @@ class MainGameScene(Scene):
                         self.dragging_map = False
             elif event.type == pygame.MOUSEMOTION:
                 if self.dragging_map:
-                    self.map_rect.topleft = pygame.Vector2(
-                        mx - self.map_offset.x,
-                        my - self.map_offset.y
-                    )
+                    new_offset = pygame.Vector2(
+                            mx - self.map_offset.x,
+                            my - self.map_offset.y
+                        )
+
+                    # lowk idk why u have to multiply the width by 1/3 but ig it works
+                    if ((-self.game.screen.width * 1/3) < new_offset.x < 0) and (-self.game.screen.height < new_offset.y < 0):
+                        self.map_rect.topleft = new_offset
 
     def update(self, delta_time: int | float) -> None:
         pass
