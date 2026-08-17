@@ -19,11 +19,9 @@ class GameMap(pygame.sprite.Sprite):
 
         self.image = pygame.Surface((self.map_width, self.map_height))
         self.rect = self.image.get_rect(topleft=(0, 0))
-        
-        self.offset = pygame.Vector2()
 
     def update(self, dt: int | float) -> None:
-        self.rect.topleft = self.offset
+        pass
 
     def draw(self, surface: pygame.Surface) -> None:
         for y, row in enumerate(self.map_data):
