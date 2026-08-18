@@ -33,6 +33,8 @@ class MainGameScene(Scene):
                     if self.map.rect.collidepoint(mx, my):
                         self.dragging_map = True
                         self.camera_offset = pygame.Vector2(mx - self.map.rect.x, my - self.map.rect.y)
+                if event.button == pygame.BUTTON_LEFT:
+                    print(self.map.screen_to_map_coord(self.camera_offset, (mx, my)))
             elif event.type == pygame.MOUSEBUTTONUP:
                 if event.button == pygame.BUTTON_MIDDLE:
                     if self.map.rect.collidepoint(mx, my):

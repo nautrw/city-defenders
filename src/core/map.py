@@ -1,5 +1,7 @@
+from pygame.examples.headless_no_windows_needed import screen
 import pygame
 from src.core.config import config as Config
+from src.core.utils import Coordinate
 
 class GameMap(pygame.sprite.Sprite):
     image: pygame.Surface
@@ -22,6 +24,13 @@ class GameMap(pygame.sprite.Sprite):
 
     def update(self, dt: int | float) -> None:
         pass
+    
+    def screen_to_map_coord(self, offset: Coordinate, screen_coords: Coordinate) -> Coordinate:
+        print(f"offset: {offset}")
+        print(f"screen coords: {screen_coords}")
+        print(f"map rect: {self.rect.x, self.rect.y}")
+        # return (screen_coords[0] - offset[0], screen_coords[1] - offset[1])
+        return (self.rect.x - screen_coords[0], self.rect.y - screen_coords[1])
 
     def draw(self, surface: pygame.Surface) -> None:
         for y, row in enumerate(self.map_data):
