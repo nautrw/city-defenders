@@ -1,5 +1,8 @@
 import pygame
 
+# A coord type to not have to type it out
+Coordinate = pygame.Vector2 | tuple[int | float, int | float]
+
 def split_tileset(image: pygame.Surface, tile_width: int, tile_height: int) -> dict[int, pygame.Surface]:
     image_dimensions = image.get_rect().size
 
