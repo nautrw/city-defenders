@@ -1,4 +1,3 @@
-from pygame.examples.headless_no_windows_needed import screen
 import pygame
 from src.core.config import config as Config
 from src.core.utils import Coordinate
