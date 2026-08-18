@@ -24,8 +24,8 @@ class GameMap(pygame.sprite.Sprite):
     def update(self, dt: int | float) -> None:
         pass
     
-    def screen_to_map_coord(self, screen_coords: Coordinate) -> Coordinate:
-        return (self.rect.x - screen_coords[0], self.rect.y - screen_coords[1])
+    def screen_to_map_coord(self, screen_x: int | float, screen_y: int | float) -> Coordinate:
+        return (self.rect.x - screen_x, self.rect.y - screen_y)
 
     def draw(self, surface: pygame.Surface) -> None:
         for y, row in enumerate(self.map_data):
