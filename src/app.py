@@ -37,13 +37,16 @@ class GameApp:
     def run(self) -> None:
         try:
             while self.running:
-                if pygame.event.get(pygame.QUIT):
-                    # reminder that all exit logic is in the `finally` block
-                    # near the bottom of the function
-                    self.running = False
+                events = pygame.event.get()
+
+                for event in events:
+                    if event.type == pygame.QUIT:
+                        # reminder that all exit logic is in the `finally` block
+                        # near the bottom of the function
+                        self.running = False
                 
                 if self.scene_manager.current_scene:
-                    self.scene_manager.current_scene.handle_events(pygame.event.get())
+                    self.scene_manager.current_scene.handle_events(events)
                     self.scene_manager.current_scene.update(self.delta_time)
                     self.scene_manager.current_scene.render(self.screen)
 
