@@ -15,7 +15,7 @@ class GameMap(pygame.sprite.Sprite):
         self.tiles_width = len(map_data[0])
         self.tiles_height = len(map_data)
 
-        self.map_width = self.tiles_height * Config.TILE_WIDTH
+        self.map_width = self.tiles_width * Config.TILE_WIDTH
         self.map_height = self.tiles_height * Config.TILE_HEIGHT
 
         self.image = pygame.Surface((self.map_width, self.map_height))
