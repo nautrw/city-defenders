@@ -1,3 +1,7 @@
+import numpy as np
+from typing import LiteralString
+import json
+from os import PathLike
 import pygame
 
 # A coord type to not have to type it out
@@ -19,5 +23,30 @@ def split_tileset(image: pygame.Surface, tile_width: int, tile_height: int) -> d
             tile_rect_top = (tile_y * tile_height) % image_dimensions[1]
 
             result[tile_i + 1] = image.subsurface(tile_rect_left, tile_rect_top, tile_width, tile_height)
+
+    return result
+
+def load_json_file(file: PathLike | LiteralString) -> dict:
+    with open(file, 'r') as f:
+        return json.load(f)
+
+def clean_map_json(map_json: dict) -> dict:
+    map_width, map_height = map_json["width"], map_json["height"]
+    result = {
+        "map_width": map_width,
+        "map_height": map_height,
+        "layers": {}
+    }
+
+    for wanted_layer_name in ("ground", "path_tiles", "path_polygon"):
+        new_layer = [layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name][0]
+
+        if new_layer["type"] == "tilelayer":
+            new_layer["data"] = np.reshape(new_layer["data"], (map_width, map_height))
+        elif new_layer["name"] == "path_polygon":
+            new_layer["data"] = new_layer["objects"][0]["polyline"]
+            del new_layer["objects"]
+
+        result["layers"][wanted_layer_name] = new_layer
 
     return result
