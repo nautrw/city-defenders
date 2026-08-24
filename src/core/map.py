@@ -1,6 +1,8 @@
 import pygame
+
 from src.core.config import config as Config
 from src.core.utils import Coordinate
+
 
 class MapTile(pygame.sprite.Sprite):
     image: pygame.Surface
