@@ -35,6 +35,7 @@ class GameMap(pygame.sprite.Sprite):
 
         self.ground_tiles = pygame.sprite.Group()
         self.path_tiles = pygame.sprite.Group()
+        self.enemies_path = map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"]
 
         self._load_layer(Config.GROUND_TILES_LAYER_NAME, self.ground_tiles)
         self._load_layer(Config.PATH_TILES_LAYER_NAME, self.path_tiles)
