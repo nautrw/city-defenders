@@ -5,13 +5,14 @@ class HealthBar(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    def __init__(self, width: int = 28, height: int = 5, border_width: int = 1):
+    def __init__(self, width: int = 28, height: int = 5, border_width: int = 1, position_offset: int = -4):
         super().__init__()
 
         self.width = width
         self.height = height
         self.border_width = border_width
         self.border_offset = self.border_width * 2
+        self.position_offset = position_offset
 
         self.image = pygame.Surface((self.width, self.height))
         self.rect = self.image.get_rect()
@@ -20,7 +21,7 @@ class HealthBar(pygame.sprite.Sprite):
 
     def update(self, current_health: int, max_health: int, position: tuple[float, float]):
         self.rect.centerx = int(position[0])
-        self.rect.centery = int(position[1] - 4)
+        self.rect.centery = int(position[1] + self.position_offset)
 
         self.health_percent = current_health / max_health
     
