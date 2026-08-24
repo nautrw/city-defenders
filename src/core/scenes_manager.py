@@ -9,6 +9,30 @@ import pygame
 if TYPE_CHECKING:
     from src.app import GameApp  # noqa: TC004
 
+class Scene(ABC):
+    def __init__(self, game: GameApp) -> None:
+        self.game = game
+
+    # Abstractmethods make it so that its required for any other classes that
+    # inherit from this to implement the functions themselves
+    @abstractmethod
+    def handle_events(self, events: list[pygame.Event]) -> None:
+        ...
+
+    @abstractmethod
+    def update(self, delta_time: float) -> None:
+        ...
+
+    @abstractmethod
+    def render(self, surface: pygame.Surface) -> None:
+        ...
+
+    def on_enter(self) -> None:
+        pass
+
+    def on_exit(self) -> None:
+        pass
+
 class SceneManager:
     def __init__(self) -> None:
         self._scenes_stack: list[Scene] = []
@@ -51,27 +75,3 @@ class SceneManager:
         """Pushes a new scene to the stack without affecting the one below.."""
         self._scenes_stack.append(new_scene)
         new_scene.on_enter()
-
-class Scene(ABC):
-    def __init__(self, game: GameApp) -> None:
-        self.game = game
-
-    # Abstractmethods make it so that its required for any other classes that
-    # inherit from this to implement the functions themselves
-    @abstractmethod
-    def handle_events(self, events: list[pygame.Event]) -> None:
-        ...
-
-    @abstractmethod
-    def update(self, delta_time: float) -> None:
-        ...
-
-    @abstractmethod
-    def render(self, surface: pygame.Surface) -> None:
-        ...
-
-    def on_enter(self) -> None:
-        pass
-
-    def on_exit(self) -> None:
-        pass
