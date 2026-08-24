@@ -26,7 +26,6 @@ class GameMap(pygame.sprite.Sprite):
 
         self.tileset = tileset
         self.map_data = map_data
-        print(self.map_data)
 
         self.tiles_width = map_data["width"]
         self.tiles_height = map_data["height"]
