@@ -45,7 +45,7 @@ class GameMap(pygame.sprite.Sprite):
 
         for y, row in enumerate(layer):
             for x, tile_id in enumerate(row):
-                if tile_id == -1: # empty
+                if tile_id == 0: # tiled uses 0 for empty tiles
                     continue
                 
                 tile = MapTile(x, y, self.tileset[tile_id])

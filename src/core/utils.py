@@ -43,7 +43,10 @@ def clean_map_json(map_json: dict) -> dict:
         new_layer = [layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name][0].copy()
 
         if new_layer["type"] == "tilelayer":
-            # tiled saves the normal tilemaps as 1d arrays
+            # tiled saves the normal tilemaps as 1d arrays so i reshape to make it into 2d
+
+            # TILED USES 0 FOR EMPTY TILES; THE GENERATED MAP TILE IDS ARE NOT
+            # 0 BASED
             new_layer["data"] = np.reshape(new_layer["data"], (map_height, map_width))
         elif new_layer["name"] == Config.ENEMY_PATH_LAYER_NAME:
             obj = new_layer["objects"][0]
@@ -57,8 +60,6 @@ def clean_map_json(map_json: dict) -> dict:
             new_layer["data"] = [(point["x"] + x_offset, point["y"] + y_offset) for point in obj["polyline"]]
             del new_layer["objects"]
 
-        if new_layer["name"] == Config.PATH_TILES_LAYER_NAME:
-            new_layer["data"] = np.vectorize(lambda x: -1 if x == 0 else x)(new_layer["data"])
 
         result["layers"][wanted_layer_name] = new_layer
 
