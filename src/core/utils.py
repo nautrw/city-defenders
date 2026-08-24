@@ -43,7 +43,7 @@ def clean_map_json(map_json: dict) -> dict:
         new_layer = [layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name][0]
 
         if new_layer["type"] == "tilelayer":
-            new_layer["data"] = np.reshape(new_layer["data"], (map_width, map_height))
+            new_layer["data"] = np.reshape(new_layer["data"], (map_height, map_width))
         elif new_layer["name"] == Config.ENEMY_PATH_LAYER_NAME:
             new_layer["data"] = new_layer["objects"][0]["polyline"]
             del new_layer["objects"]
