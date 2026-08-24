@@ -30,6 +30,8 @@ class MainGameScene(Scene):
         self.dragging_map = False
         self.camera_offset = pygame.Vector2(0, 0)
 
+        self.paused = False
+
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             mx, my = pygame.mouse.get_pos()
@@ -72,12 +74,21 @@ class MainGameScene(Scene):
                         self.map.rect.y = new_offset.y
 
                     # self.map.rect.topleft = new_offset
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.paused = not self.paused
 
     def update(self, delta_time: float) -> None:
-        self.enemies_group.update(delta_time)
+        if not self.paused:
+            self.enemies_group.update(delta_time)
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")
         self.map.draw(surface)
 
-        self.enemies_group.draw(self.map.image)
+        # pygame.sprite.Group.draw() only blits the sprite image,
+        # but the enemies have a health bar that is drawn in their .draw()
+        # method, so I call it normally (the draw function does little more)
+        # than that
+        for enemy in self.enemies_group:
+            enemy.draw(self.map.image)
