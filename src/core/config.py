@@ -12,6 +12,7 @@ class DisplayConfig:
     FLAGS: int = pygame.SCALED
     FPS: int = 120
 
+
 @dataclass(frozen=True)
 class TilesConfig:
     TILE_WIDTH: int = 32
@@ -19,6 +20,7 @@ class TilesConfig:
     GROUND_TILES_LAYER_NAME: str = "ground"
     PATH_TILES_LAYER_NAME: str = "path_tiles"
     ENEMY_PATH_LAYER_NAME: str = "path_polygon"
+
 
 class ConfigurationManager:
     """Manages configuration globals by domain accross the game."""
@@ -39,7 +41,8 @@ class ConfigurationManager:
         for domain in domains:
             if hasattr(domain, name):
                 return getattr(domain, name)
-        
-        raise AttributeError(f'{name} config key does not exist')
+
+        raise AttributeError(f"{name} config key does not exist")
+
 
 config = ConfigurationManager()

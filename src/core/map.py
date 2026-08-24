@@ -6,13 +6,16 @@ from src.core.utils import Coordinate
 
 class MapTile(pygame.sprite.Sprite):
     image: pygame.Surface
-    rect:  pygame.Rect | pygame.FRect
+    rect: pygame.Rect | pygame.FRect
 
     def __init__(self, map_x: int, map_y: int, tile_img: pygame.Surface):
         super().__init__()
 
         self.image = tile_img.copy()
-        self.rect = self.image.get_rect(topleft=(map_x * Config.TILE_WIDTH, map_y * Config.TILE_HEIGHT))
+        self.rect = self.image.get_rect(
+            topleft=(map_x * Config.TILE_WIDTH, map_y * Config.TILE_HEIGHT)
+        )
+
 
 class GameMap(pygame.sprite.Sprite):
     image: pygame.Surface
@@ -30,7 +33,7 @@ class GameMap(pygame.sprite.Sprite):
 
         self.map_width = self.tiles_width * Config.TILE_WIDTH
         self.map_height = self.tiles_height * Config.TILE_HEIGHT
-        
+
         self.ground_tiles = pygame.sprite.Group()
         self.path_tiles = pygame.sprite.Group()
 
@@ -47,9 +50,9 @@ class GameMap(pygame.sprite.Sprite):
 
         for y, row in enumerate(layer):
             for x, tile_id in enumerate(row):
-                if tile_id == 0: # tiled uses 0 for empty tiles
+                if tile_id == 0:  # tiled uses 0 for empty tiles
                     continue
-                
+
                 tile = MapTile(x, y, self.tileset[tile_id])
                 group.add(tile)
 
@@ -59,11 +62,17 @@ class GameMap(pygame.sprite.Sprite):
         self.ground_tiles.draw(self.image)
         self.path_tiles.draw(self.image)
 
-        pygame.draw.lines(self.image, "black", False, self.map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"], width=2)
+        pygame.draw.lines(
+            self.image,
+            "black",
+            False,
+            self.map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"],
+            width=2,
+        )
 
     def update(self, dt: float) -> None:
         pass
-    
+
     def screen_to_map_coord(self, screen_x: float, screen_y: float) -> Coordinate:
         return (self.rect.x - screen_x, self.rect.y - screen_y)
 

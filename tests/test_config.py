@@ -21,6 +21,7 @@ def test_attribute_errors():
     with pytest.raises(AttributeError):
         Config.this_neither_will_be_key
 
+
 def test_display_config_frozen():
     display = DisplayConfig()
 

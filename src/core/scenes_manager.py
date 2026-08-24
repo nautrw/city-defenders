@@ -9,6 +9,7 @@ import pygame
 if TYPE_CHECKING:
     from src.app import GameApp  # noqa: TC004
 
+
 class Scene(ABC):
     def __init__(self, game: GameApp) -> None:
         self.game = game
@@ -16,22 +17,20 @@ class Scene(ABC):
     # Abstractmethods make it so that its required for any other classes that
     # inherit from this to implement the functions themselves
     @abstractmethod
-    def handle_events(self, events: list[pygame.Event]) -> None:
-        ...
+    def handle_events(self, events: list[pygame.Event]) -> None: ...
 
     @abstractmethod
-    def update(self, delta_time: float) -> None:
-        ...
+    def update(self, delta_time: float) -> None: ...
 
     @abstractmethod
-    def render(self, surface: pygame.Surface) -> None:
-        ...
+    def render(self, surface: pygame.Surface) -> None: ...
 
     def on_enter(self) -> None:
         pass
 
     def on_exit(self) -> None:
         pass
+
 
 class SceneManager:
     def __init__(self) -> None:
@@ -41,7 +40,7 @@ class SceneManager:
     def current_scene(self) -> Scene | None:
         if not self._scenes_stack:
             return None
-        
+
         return self._scenes_stack[-1]
 
     @property
@@ -57,7 +56,7 @@ class SceneManager:
 
         # protects against calling on_enter on NoneType if the stack is empty
         # after popping
-        if self._scenes_stack: 
+        if self._scenes_stack:
             self._scenes_stack[-1].on_enter()
 
     def switch(self, new_scene: Scene) -> None:

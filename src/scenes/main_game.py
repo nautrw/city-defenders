@@ -33,7 +33,9 @@ class MainGameScene(Scene):
                 if event.button == pygame.BUTTON_MIDDLE:
                     if self.map.rect.collidepoint(mx, my):
                         self.dragging_map = True
-                        self.camera_offset = pygame.Vector2(mx - self.map.rect.x, my - self.map.rect.y)
+                        self.camera_offset = pygame.Vector2(
+                            mx - self.map.rect.x, my - self.map.rect.y
+                        )
                 if event.button == pygame.BUTTON_LEFT:
                     print(self.map.screen_to_map_coord(mx, my))
             elif event.type == pygame.MOUSEBUTTONUP:
@@ -43,15 +45,22 @@ class MainGameScene(Scene):
             elif event.type == pygame.MOUSEMOTION:
                 if self.dragging_map:
                     new_offset = pygame.Vector2(
-                            mx - self.camera_offset.x,
-                            my - self.camera_offset.y
-                        )
+                        mx - self.camera_offset.x, my - self.camera_offset.y
+                    )
 
-#                     print(f"""
-# new offset: {new_offset}
-# screen size: {self.game.screen.get_size()}
-# map size: {self.map.rect.size}""")
-                    if (0 < -new_offset.x < (self.map.map_width - self.game.screen.width)) and (0 < -new_offset.y < (self.map.map_height - self.game.screen.height)):
+                    #                     print(f"""
+                    # new offset: {new_offset}
+                    # screen size: {self.game.screen.get_size()}
+                    # map size: {self.map.rect.size}""")
+                    if (
+                        0
+                        < -new_offset.x
+                        < (self.map.map_width - self.game.screen.width)
+                    ) and (
+                        0
+                        < -new_offset.y
+                        < (self.map.map_height - self.game.screen.height)
+                    ):
                         self.map.rect.topleft = new_offset
 
                     # self.map.rect.topleft = new_offset
