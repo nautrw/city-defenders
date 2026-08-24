@@ -56,12 +56,15 @@ class MainGameScene(Scene):
                         0
                         < -new_offset.x
                         < (self.map.map_width - self.game.screen.width)
-                    ) and (
+                    ):
+                        self.map.rect.x = new_offset.x
+
+                    if (
                         0
                         < -new_offset.y
                         < (self.map.map_height - self.game.screen.height)
                     ):
-                        self.map.rect.topleft = new_offset
+                        self.map.rect.y = new_offset.y
 
                     # self.map.rect.topleft = new_offset
 
