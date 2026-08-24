@@ -13,13 +13,12 @@ if TYPE_CHECKING:
 
 
 class MainGameScene(Scene):
-    def __init__(self, game: GameApp, map_data: list[list[int]]):
+    def __init__(self, game: GameApp, map: GameMap):
         super().__init__(game)
 
         tileset = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
         self.tiles = split_tileset(tileset, Config.TILE_WIDTH, Config.TILE_HEIGHT)
-        self.map_data = map_data
-        self.map = GameMap(self.tiles, map_data)
+        self.map = map
 
         self.dragging_map = False
         self.camera_offset = pygame.Vector2(0, 0)

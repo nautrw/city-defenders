@@ -1,5 +1,6 @@
 import numpy as np
 from typing import LiteralString
+from src.core.config import config as Config
 import json
 from os import PathLike
 import pygame
@@ -33,19 +34,22 @@ def load_json_file(file: PathLike | LiteralString) -> dict:
 def clean_map_json(map_json: dict) -> dict:
     map_width, map_height = map_json["width"], map_json["height"]
     result = {
-        "map_width": map_width,
-        "map_height": map_height,
+        "width": map_width,
+        "height": map_height,
         "layers": {}
     }
 
-    for wanted_layer_name in ("ground", "path_tiles", "path_polygon"):
+    for wanted_layer_name in (Config.GROUND_TILES_LAYER_NAME, Config.PATH_TILES_LAYER_NAME, Config.ENEMY_PATH_LAYER_NAME):
         new_layer = [layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name][0]
 
         if new_layer["type"] == "tilelayer":
             new_layer["data"] = np.reshape(new_layer["data"], (map_width, map_height))
-        elif new_layer["name"] == "path_polygon":
+        elif new_layer["name"] == Config.ENEMY_PATH_LAYER_NAME:
             new_layer["data"] = new_layer["objects"][0]["polyline"]
             del new_layer["objects"]
+
+        if new_layer["name"] == Config.PATH_TILES_LAYER_NAME:
+            new_layer["data"] = np.vectorize(lambda x: -1 if x == 0 else x)(new_layer["data"])
 
         result["layers"][wanted_layer_name] = new_layer
 

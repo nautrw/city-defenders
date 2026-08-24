@@ -15,6 +15,9 @@ class DisplayConfig:
 class TilesConfig:
     TILE_WIDTH: int = 32
     TILE_HEIGHT: int = 32
+    GROUND_TILES_LAYER_NAME: str = "ground"
+    PATH_TILES_LAYER_NAME: str = "path_tiles"
+    ENEMY_PATH_LAYER_NAME: str = "path_polygon"
 
 class ConfigurationManager:
     """Manages configuration globals by domain accross the game."""

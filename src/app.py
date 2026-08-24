@@ -1,8 +1,13 @@
+import json
+from os import path
+import numpy
 import pygame
 import sys
 from src.core.config import config as Config
 from src.scenes.main_game import MainGameScene
 from src.core.scenes_manager import SceneManager, Scene
+from src.core.utils import load_json_file, clean_map_json, split_tileset
+from src.core.map import GameMap
 
 class GameApp:
     def __init__(self) -> None:
@@ -15,24 +20,13 @@ class GameApp:
         self.clock = pygame.time.Clock()
         self.delta_time = 0
 
+        tileset_img = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
+        tileset = split_tileset(tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT)
+        map_data = clean_map_json(load_json_file(path.join("src", "assets", "maps", "Test.json")))
+
         self.scene_manager = SceneManager()
-        self.scene_manager.push(MainGameScene(self, map_data = [
-            [  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 11,  8,  8, ],
-            [  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 11,  8,  8, ],
-            [  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 11,  8,  8, ],
-            [  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8,  8, 11,  8,  8, ],
-            [  8,  8,  8, 11, 11, 11, 11, 11, 11,  8,  8,  8, 11,  8,  8, ],
-            [  8,  8,  8, 11,  8,  8,  8,  8, 11,  8,  8,  8, 11,  8,  8, ],
-            [  8,  8,  8, 11,  8,  8,  8,  8, 11,  8,  8,  8, 11,  8,  8, ],
-            [  8,  8,  8, 11,  8,  8,  8,  8, 11,  8,  8,  8, 11,  8,  8, ],
-            [  8,  8,  8, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11,  8,  8, ],
-            [  8,  8,  8,  8,  8,  8,  8,  8, 11,  8,  8,  8,  8,  8,  8, ],
-            [  8,  8,  8, 11, 11, 11,  8,  8, 11,  8,  8,  8,  8,  8,  8, ],
-            [  8,  8,  8, 11,  8, 11,  8,  8, 11,  8,  8,  8,  8,  8,  8, ],
-            [  8,  8,  8, 11, 11, 11, 11, 11, 11,  8,  8,  8,  8,  8,  8, ],
-            [  8,  8,  8,  8,  8, 11,  8,  8,  8,  8,  8,  8,  8,  8,  8, ],
-            [  8,  8,  8,  8,  8, 11,  8,  8,  8,  8,  8,  8,  8,  8,  8, ],
-        ]))
+        self.scene_manager.push(MainGameScene(self, GameMap(tileset, map_data)))
+        
 
     def run(self) -> None:
         try:
