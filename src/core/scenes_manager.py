@@ -1,12 +1,13 @@
-import pygame
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
+
+import pygame
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
 # actually imported
 if TYPE_CHECKING:
-    from src.app import GameApp
+    from src.app import GameApp  # noqa: TC004
 
 class SceneManager:
     def __init__(self) -> None:
