@@ -1,13 +1,13 @@
-import json
 from os import path
-import numpy
+
 import pygame
-import sys
+
 from src.core.config import config as Config
-from src.scenes.main_game import MainGameScene
-from src.core.scenes_manager import SceneManager, Scene
-from src.core.utils import load_json_file, clean_map_json, split_tileset
 from src.core.map import GameMap
+from src.core.scenes_manager import SceneManager
+from src.core.utils import clean_map_json, load_json_file, split_tileset
+from src.scenes.main_game import MainGameScene
+
 
 class GameApp:
     def __init__(self) -> None:
