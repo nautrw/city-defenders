@@ -1,9 +1,11 @@
-import numpy as np
-from typing import LiteralString
-from src.core.config import config as Config
 import json
 from os import PathLike
+from typing import LiteralString
+
+import numpy as np
 import pygame
+
+from src.core.config import config as Config
 
 # A coord type to not have to type it out
 Coordinate = pygame.Vector2 | tuple[int | float, int | float]
