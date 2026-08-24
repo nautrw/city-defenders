@@ -46,6 +46,11 @@ def clean_map_json(map_json: dict) -> dict:
             new_layer["data"] = np.reshape(new_layer["data"], (map_height, map_width))
         elif new_layer["name"] == Config.ENEMY_PATH_LAYER_NAME:
             obj = new_layer["objects"][0]
+            
+            # the polyline is its own small surface in the tiled map editor
+            # and points are saved relative to the surface instead of the whole
+            # map surface; so i add the offset again so its relative to the
+            # full map image
             x_offset, y_offset = int(obj["x"]), int(obj["y"])
 
             new_layer["data"] = [(point["x"] + x_offset, point["y"] + y_offset) for point in obj["polyline"]]
