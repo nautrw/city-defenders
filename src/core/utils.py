@@ -43,6 +43,7 @@ def clean_map_json(map_json: dict) -> dict:
         new_layer = [layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name][0]
 
         if new_layer["type"] == "tilelayer":
+            # tiled saves the normal tilemaps as 1d arrays
             new_layer["data"] = np.reshape(new_layer["data"], (map_height, map_width))
         elif new_layer["name"] == Config.ENEMY_PATH_LAYER_NAME:
             obj = new_layer["objects"][0]
