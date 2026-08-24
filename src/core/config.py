@@ -1,7 +1,8 @@
-import pygame
-from typing import Any
-from enum import Enum, auto
 from dataclasses import dataclass
+from typing import Any
+
+import pygame
+
 
 # Dataclasses with frozen=True are immutable
 @dataclass(frozen=True)
