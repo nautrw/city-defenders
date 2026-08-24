@@ -27,15 +27,14 @@ class HealthBar(pygame.sprite.Sprite):
 
         self.image.fill("black")
 
-        if current_health >= max_health / width_inside_border:
-            health_percent = current_health / max_health
-            health_width = int(health_percent * width_inside_border)
+        health_percent = current_health / max_health
+        health_width = int(health_percent * width_inside_border)
 
-            # color linear interpolation allows for the gradient shifting as
-            # the health decreases
-            color = pygame.Color.lerp(pygame.Color(255, 0, 0), pygame.Color(0, 255, 0), health_percent)
+        # color linear interpolation allows for the gradient shifting as
+        # the health decreases
+        color = pygame.Color.lerp(pygame.Color(255, 0, 0), pygame.Color(0, 255, 0), health_percent)
 
-            pygame.draw.rect(self.image, color, pygame.Rect(self.border_width, self.border_width, health_width, height_inside_border))
+        pygame.draw.rect(self.image, color, pygame.Rect(self.border_width, self.border_width, health_width, height_inside_border))
     
     def draw(self, surface: pygame.Surface):
         surface.blit(self.image, self.rect)
