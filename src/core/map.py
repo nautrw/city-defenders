@@ -61,10 +61,10 @@ class GameMap(pygame.sprite.Sprite):
 
         pygame.draw.lines(self.image, "black", False, self.map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"], width=2)
 
-    def update(self, dt: int | float) -> None:
+    def update(self, dt: float) -> None:
         pass
     
-    def screen_to_map_coord(self, screen_x: int | float, screen_y: int | float) -> Coordinate:
+    def screen_to_map_coord(self, screen_x: float, screen_y: float) -> Coordinate:
         return (self.rect.x - screen_x, self.rect.y - screen_y)
 
     def draw(self, surface: pygame.Surface) -> None:
