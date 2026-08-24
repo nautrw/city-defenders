@@ -63,7 +63,7 @@ class Scene(ABC):
         ...
 
     @abstractmethod
-    def update(self, delta_time: int | float) -> None:
+    def update(self, delta_time: float) -> None:
         ...
 
     @abstractmethod
