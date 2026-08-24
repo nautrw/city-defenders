@@ -40,7 +40,7 @@ def clean_map_json(map_json: dict) -> dict:
     }
 
     for wanted_layer_name in (Config.GROUND_TILES_LAYER_NAME, Config.PATH_TILES_LAYER_NAME, Config.ENEMY_PATH_LAYER_NAME):
-        new_layer = [layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name][0]
+        new_layer = [layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name][0].copy()
 
         if new_layer["type"] == "tilelayer":
             # tiled saves the normal tilemaps as 1d arrays
