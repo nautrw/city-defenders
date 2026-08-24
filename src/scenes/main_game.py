@@ -1,15 +1,17 @@
-import pygame
-from src.core.scenes_manager import Scene, SceneManager
-from src.core.config import config as Config
-from src.core.utils import split_tileset
 from typing import TYPE_CHECKING
+
+import pygame
+
+from src.core.config import config as Config
 from src.core.map import GameMap
+from src.core.scenes_manager import Scene
+from src.core.utils import split_tileset
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
 # actually imported
 if TYPE_CHECKING:
-    from src.app import GameApp
+    from src.app import GameApp  # noqa: TC004
 
 
 class MainGameScene(Scene):
