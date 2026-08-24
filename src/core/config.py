@@ -1,3 +1,4 @@
+from pygame.typing import SequenceLike
 from dataclasses import dataclass
 from typing import Any
 
@@ -21,6 +22,10 @@ class TilesConfig:
     PATH_TILES_LAYER_NAME: str = "path_tiles"
     ENEMY_PATH_LAYER_NAME: str = "path_polygon"
 
+@dataclass(frozen=True)
+class ColorsConfig:
+    LOW_HEALTH_COLOR: SequenceLike[int] | str | int = (255, 0, 0)
+    MAX_HEALTH_COLOR: SequenceLike[int] | str | int = (0, 255, 0)
 
 class ConfigurationManager:
     """Manages configuration globals by domain accross the game."""
@@ -28,11 +33,13 @@ class ConfigurationManager:
     def __init__(self) -> None:
         self.display_config = DisplayConfig()
         self.tiles_config = TilesConfig()
+        self.colors_config = ColorsConfig()
 
     def __getattr__(self, name: str) -> Any:
         domains: tuple = (
             self.display_config,
             self.tiles_config,
+            self.colors_config
         )
 
         # Treats all attributes from all domains as globals

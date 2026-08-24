@@ -1,5 +1,7 @@
 import pygame
 
+from src.core.config import config as Config
+
 
 class HealthBar(pygame.sprite.Sprite):
     image: pygame.Surface
@@ -38,6 +40,6 @@ class HealthBar(pygame.sprite.Sprite):
 
         # color linear interpolation allows for the gradient shifting as
         # the health decreases
-        color = pygame.Color.lerp(pygame.Color(255, 0, 0), pygame.Color(0, 255, 0), self.health_percent)
+        color = pygame.Color.lerp(pygame.Color(Config.LOW_HEALTH_COLOR), pygame.Color(Config.MAX_HEALTH_COLOR), self.health_percent)
 
         pygame.draw.rect(self.image, color, pygame.Rect(self.border_width, self.border_width, health_width, height_inside_border))
