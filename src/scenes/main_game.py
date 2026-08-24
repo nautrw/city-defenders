@@ -6,6 +6,7 @@ from src.core.config import config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.core.utils import split_tileset
+from src.entities.enemies.slime import Slime
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
@@ -21,6 +22,10 @@ class MainGameScene(Scene):
         tileset = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
         self.tiles = split_tileset(tileset, Config.TILE_WIDTH, Config.TILE_HEIGHT)
         self.map = map
+
+        self.enemies_group = pygame.sprite.Group()
+        slime = Slime(self.map.enemies_path)
+        self.enemies_group.add(slime)
 
         self.dragging_map = False
         self.camera_offset = pygame.Vector2(0, 0)
@@ -69,8 +74,10 @@ class MainGameScene(Scene):
                     # self.map.rect.topleft = new_offset
 
     def update(self, delta_time: float) -> None:
-        pass
+        self.enemies_group.update(delta_time)
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")
         self.map.draw(surface)
+
+        self.enemies_group.draw(self.map.image)
