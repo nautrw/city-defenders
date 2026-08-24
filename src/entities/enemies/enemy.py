@@ -13,7 +13,6 @@ class Enemy(pygame.sprite.Sprite):
 
         self.path_waypoints = path_waypoints
         self.waypoint_index = 1
-        self.movement_target = self.path_waypoints[self.waypoint_index]
         self.position = pygame.Vector2(self.path_waypoints[0])
         self.velocity = pygame.Vector2()
 
@@ -25,16 +24,20 @@ class Enemy(pygame.sprite.Sprite):
         surface.blit(self.image, self.rect)
     
     def update(self, dt: float) -> None:
-        if self.waypoint_index < len(self.path_waypoints):
-            heading = self.movement_target - pygame.Vector2(self.rect.center)
-            distance_to_target = heading.length()
-            heading.normalize_ip()
+        if self.waypoint_index >= len(self.path_waypoints):
+            self.kill()
+            return
 
-            if distance_to_target <= 2:
-                self.waypoint_index += 1
-                self.movement_target = self.path_waypoints[self.waypoint_index]
+        movement_target = pygame.Vector2(self.path_waypoints[self.waypoint_index])
+        movement = movement_target - pygame.Vector2(self.rect.center)
+        distance_to_target = movement.length()
 
-            self.velocity = heading * self.movement_speed * dt
+        if distance_to_target <= (self.movement_speed * dt):
+            self.position = movement_target
+            self.waypoint_index += 1
+        else:
+            movement.normalize_ip()
+            self.velocity = movement * self.movement_speed
+            self.position += self.velocity * dt
 
-        self.position += self.velocity
         self.rect.center = self.position
