@@ -1,5 +1,5 @@
 import pygame
-
+from src.entities.health_bar import HealthBar
 
 class Enemy(pygame.sprite.Sprite):
     image: pygame.Surface
@@ -20,8 +20,11 @@ class Enemy(pygame.sprite.Sprite):
         self.max_health = max_health
         self.health = max_health
 
+        self.health_bar = HealthBar()
+
     def draw(self, surface: pygame.Surface):
         surface.blit(self.image, self.rect)
+        self.health_bar.draw(surface)
     
     def update(self, dt: float) -> None:
         if self.waypoint_index >= len(self.path_waypoints):
@@ -41,3 +44,6 @@ class Enemy(pygame.sprite.Sprite):
             self.position += self.velocity * dt
 
         self.rect.center = self.position
+        
+        self.health_bar.update(self.health, self.max_health, self.rect.midtop)
+
