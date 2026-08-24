@@ -49,9 +49,9 @@ def clean_map_json(map_json: dict) -> dict:
         Config.PATH_TILES_LAYER_NAME,
         Config.ENEMY_PATH_LAYER_NAME,
     ):
-        new_layer = [
+        new_layer = next(
             layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name
-        ][0].copy()
+        ).copy()
 
         if new_layer["type"] == "tilelayer":
             # tiled saves the normal tilemaps as 1d arrays so i reshape to make it into 2d
