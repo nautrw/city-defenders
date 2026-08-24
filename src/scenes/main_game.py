@@ -65,7 +65,7 @@ class MainGameScene(Scene):
 
                     # self.map.rect.topleft = new_offset
 
-    def update(self, delta_time: int | float) -> None:
+    def update(self, delta_time: float) -> None:
         pass
 
     def render(self, surface: pygame.Surface) -> None:
