@@ -45,9 +45,14 @@ class MainGameScene(Scene):
                             my - self.camera_offset.y
                         )
 
-                    # lowk idk why u have to multiply the width by 1/3 but ig it works
-                    if ((-self.game.screen.width * 1/3) < new_offset.x < 0) and (-self.game.screen.height < new_offset.y < 0):
+#                     print(f"""
+# new offset: {new_offset}
+# screen size: {self.game.screen.get_size()}
+# map size: {self.map.rect.size}""")
+                    if (0 < -new_offset.x < (self.map.map_width - self.game.screen.width)) and (0 < -new_offset.y < (self.map.map_height - self.game.screen.height)):
                         self.map.rect.topleft = new_offset
+
+                    # self.map.rect.topleft = new_offset
 
     def update(self, delta_time: int | float) -> None:
         pass
