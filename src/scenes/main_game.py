@@ -30,7 +30,7 @@ class MainGameScene(Scene):
             mx, my = pygame.mouse.get_pos()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == pygame.BUTTON_MIDDLE:
+                if event.button == pygame.BUTTON_MIDDLE: # noqa: SIM102
                     if self.map.rect.collidepoint(mx, my):
                         self.dragging_map = True
                         self.camera_offset = pygame.Vector2(
@@ -39,7 +39,7 @@ class MainGameScene(Scene):
                 if event.button == pygame.BUTTON_LEFT:
                     print(self.map.screen_to_map_coord(mx, my))
             elif event.type == pygame.MOUSEBUTTONUP:
-                if event.button == pygame.BUTTON_MIDDLE:
+                if event.button == pygame.BUTTON_MIDDLE: # noqa: SIM102
                     if self.map.rect.collidepoint(mx, my):
                         self.dragging_map = False
             elif event.type == pygame.MOUSEMOTION:
