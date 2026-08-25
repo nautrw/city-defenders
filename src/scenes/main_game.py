@@ -29,7 +29,7 @@ class MainGameScene(Scene):
         self.enemies_group.add(slime)
 
         self.turrets_group = pygame.sprite.Group()
-        crossbow = CrossbowTurret(100, 100)
+        crossbow = CrossbowTurret(150, 100)
         self.turrets_group.add(crossbow)
 
         self.projectiles_group = pygame.sprite.Group()
