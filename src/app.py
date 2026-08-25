@@ -1,4 +1,4 @@
-from os import path
+from pathlib import Path
 
 import pygame
 
@@ -28,7 +28,7 @@ class GameApp:
             tileset_img, Config.TILES.tile_height, Config.TILES.tile_height
         )
         map_data = clean_map_json(
-            load_json_file(path.join("src", "assets", "maps", "Test.json"))
+            load_json_file(Path("src", "assets", "maps", "Test.json"))
         )
 
         self.scene_manager = SceneManager()
