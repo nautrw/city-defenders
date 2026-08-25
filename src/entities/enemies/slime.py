@@ -11,7 +11,7 @@ class Slime(Enemy):
 
     def __init__(self, path_waypoints: list[tuple[float, float]]):
         image = pygame.image.load(
-            path.join("src", "assets", "entities", "slime.png")
+            path.join("src", "assets", "entities", "enemies", "slime.png")
         ).convert_alpha()
 
         super().__init__(image=image, movement_speed=50, max_health=10, path_waypoints=path_waypoints)
