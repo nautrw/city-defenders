@@ -1,13 +1,13 @@
 import json
 import math
-from os import PathLike
-from typing import LiteralString
+from pathlib import Path
 
 import numpy as np
 import pygame
 
 import src.core.config as Config
 
+sprites_dict = {file.name.replace('.png', ''): file for file in list(Path('src', 'assets').rglob('*.png'))}
 
 def split_tileset(
     image: pygame.Surface, tile_width: int, tile_height: int
@@ -33,7 +33,7 @@ def split_tileset(
     return result
 
 
-def load_json_file(file: PathLike | LiteralString) -> dict:
+def load_json_file(file: Path) -> dict:
     with open(file, "r") as f:
         return json.load(f)
 
@@ -80,3 +80,6 @@ def clean_map_json(map_json: dict) -> dict:
 def angle_to_point(origin_x: float, origin_y: float, target_x: float, target_y: float):
     direction = pygame.Vector2(target_x, target_y) - pygame.Vector2(origin_x, origin_y)
     return 360 - math.degrees(math.atan2(direction.x, -direction.y))
+
+def load_asset(name: str):
+    return pygame.image.load(sprites_dict[name]).convert_alpha()
