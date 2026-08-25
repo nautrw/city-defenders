@@ -50,48 +50,8 @@ class MainGameScene(Scene):
         for event in events:
             mx, my = pygame.mouse.get_pos()
 
-            if not any(
-                element.rect.collidepoint(mx, my) for element in self.ui_elements
-            ):
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
-                        if self.map.rect.collidepoint(mx, my):
-                            self.dragging_map = True
-                            self.camera_offset = pygame.Vector2(
-                                mx - self.map.rect.x, my - self.map.rect.y
-                            )
-                    if event.button == pygame.BUTTON_LEFT:
-                        print(self.map.screen_to_map_coord(mx, my))
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
-                        if self.map.rect.collidepoint(mx, my):
-                            self.dragging_map = False
-                elif event.type == pygame.MOUSEMOTION:
-                    if self.dragging_map:
-                        new_offset = pygame.Vector2(
-                            mx - self.camera_offset.x, my - self.camera_offset.y
-                        )
-
-                        #                     print(f"""
-                        # new offset: {new_offset}
-                        # screen size: {self.game.screen.get_size()}
-                        # map size: {self.map.rect.size}""")
-                        if (
-                            0
-                            < -new_offset.x
-                            < (self.map.map_width - self.game.screen.width)
-                        ):
-                            self.map.rect.x = new_offset.x
-
-                        if (
-                            0
-                            < -new_offset.y
-                            < (self.map.map_height - self.game.screen.height)
-                        ):
-                            self.map.rect.y = new_offset.y
-
-                        # self.map.rect.topleft = new_offset
-            
+            self.handle_map_dragging(event, mx, my)
+                        
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.paused = not self.paused
@@ -99,6 +59,49 @@ class MainGameScene(Scene):
                     self.draw_turret_radiuses = not self.draw_turret_radiuses
             elif event.type == CUSTOM_BUTTON_CLICKED:
                 print(event.button.rect)
+
+    def handle_map_dragging(self, event: pygame.Event, mouse_x: int, mouse_y: int):
+        if not any(
+            element.rect.collidepoint(mouse_x, mouse_y) for element in self.ui_elements
+        ):
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
+                    if self.map.rect.collidepoint(mouse_x, mouse_y):
+                        self.dragging_map = True
+                        self.camera_offset = pygame.Vector2(
+                            mouse_x - self.map.rect.x, mouse_y - self.map.rect.y
+                        )
+                if event.button == pygame.BUTTON_LEFT:
+                    print(self.map.screen_to_map_coord(mouse_x, mouse_y))
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
+                    if self.map.rect.collidepoint(mouse_x, mouse_y):
+                        self.dragging_map = False
+            elif event.type == pygame.MOUSEMOTION:
+                if self.dragging_map:
+                    new_offset = pygame.Vector2(
+                        mouse_x - self.camera_offset.x, mouse_y - self.camera_offset.y
+                    )
+
+                    #                     print(f"""
+                    # new offset: {new_offset}
+                    # screen size: {self.game.screen.get_size()}
+                    # map size: {self.map.rect.size}""")
+                    if (
+                        0
+                        < -new_offset.x
+                        < (self.map.map_width - self.game.screen.width)
+                    ):
+                        self.map.rect.x = new_offset.x
+
+                    if (
+                        0
+                        < -new_offset.y
+                        < (self.map.map_height - self.game.screen.height)
+                    ):
+                        self.map.rect.y = new_offset.y
+
+                        # self.map.rect.topleft = new_offset
 
     def update(self, delta_time: float) -> None:
         if not self.paused:
