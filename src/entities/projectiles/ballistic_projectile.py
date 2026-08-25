@@ -39,5 +39,5 @@ class BallisticProjectile(pygame.sprite.Sprite):
             self.kill()
 
     def draw(self, surface: pygame.Surface):
-        self.image = pygame.transform.rotate(self.original_image, -self.angle)
+        self.image = pygame.transform.rotate(self.original_image, self.angle)
         surface.blit(self.image, self.rect)
