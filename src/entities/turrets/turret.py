@@ -70,7 +70,7 @@ class Turret(pygame.sprite.Sprite):
             radius = self.area.radius
             pygame.draw.circle(
                 circle_surf,
-                Config.ColorsConfig.turret_radius_color,
+                Config.TURRET_RADIUS_COLOR,
                 (radius, radius),
                 radius,
             )

@@ -5,7 +5,7 @@ import pygame
 import src.core.config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import split_tileset
+from src.core.utils import load_asset, split_tileset
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
 from src.gui.button import Button
@@ -23,7 +23,7 @@ class MainGameScene(Scene):
 
         tileset = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
         self.tiles = split_tileset(
-            tileset, Config.TILES.tile_width, Config.TILES.tile_height
+            tileset, Config.TILE_WIDTH, Config.TILE_HEIGHT
         )
         self.map = map
 
@@ -43,8 +43,9 @@ class MainGameScene(Scene):
         self.paused = False
         self.draw_turret_radiuses = False
 
-        x = pygame.image.load("src/assets/gui/build_icon.png").convert_alpha()
-        button = Button(50, 50, 50, 50, text="Build", image=x)
+        build_icon = load_asset("build_icon")
+        
+        button = Button(5, 215, 20, 20, image=build_icon)
         self.ui_elements = [button]
 
     def handle_events(self, events: list[pygame.Event]) -> None:

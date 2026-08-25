@@ -20,11 +20,11 @@ class Button:
         width: int,
         height: int,
         inner_padding: int = 2,
-        normal_bg: ColorLike = Config.ColorsConfig.button_normal_bg,
-        hover_bg: ColorLike = Config.ColorsConfig.button_hovered_bg,
-        pressed_bg: ColorLike = Config.ColorsConfig.button_pressed_bg,
+        normal_bg: ColorLike = Config.BUTTON_NORMAL_BG,
+        hover_bg: ColorLike = Config.BUTTON_HOVERED_BG,
+        pressed_bg: ColorLike = Config.BUTTON_PRESSED_BG,
         text: str = "",
-        text_color: ColorLike = Config.ColorsConfig.text_normal,
+        text_color: ColorLike = Config.TEXT_NORMAL,
         image: pygame.Surface | None = None,
     ) -> None:
         self.x = x
@@ -50,7 +50,7 @@ class Button:
         self.text = text
         if self.text:
             self.font = pygame.font.Font(
-                Config.FontConfig.font_name, Config.FontConfig.font_size_normal
+                Config.FONT_NAME, Config.FONT_SIZE_NORMAL
             )
             self.text_surface = self.font.render(self.text, False, text_color)
             self.text_rect = self.text_surface.get_rect(

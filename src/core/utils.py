@@ -7,7 +7,7 @@ import pygame
 
 import src.core.config as Config
 
-sprites_dict = {file.name.replace('.png', ''): file for file in list(Path('src', 'assets').rglob('*.png'))}
+sprites_dict = {file.name.replace('.png', ''): file for file in list(Config.ASSET_PATH.rglob('*.png'))}
 
 def split_tileset(
     image: pygame.Surface, tile_width: int, tile_height: int
@@ -43,9 +43,9 @@ def clean_map_json(map_json: dict) -> dict:
     result = {"width": map_width, "height": map_height, "layers": {}}
 
     for wanted_layer_name in (
-        Config.TILES.ground_tiles_layer_name,
-        Config.TILES.path_tiles_layer_name,
-        Config.TILES.enemy_path_layer_name,
+        Config.GROUND_TILES_LAYER_NAME,
+        Config.PATH_TILES_LAYER_NAME,
+        Config.ENEMY_PATH_LAYER_NAME,
     ):
         new_layer = next(
             layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name
@@ -57,7 +57,7 @@ def clean_map_json(map_json: dict) -> dict:
             # TILED USES 0 FOR EMPTY TILES; THE GENERATED MAP TILE IDS ARE NOT
             # 0 BASED
             new_layer["data"] = np.reshape(new_layer["data"], (map_height, map_width))
-        elif new_layer["name"] == Config.TILES.enemy_path_layer_name:
+        elif new_layer["name"] == Config.ENEMY_PATH_LAYER_NAME:
             obj = new_layer["objects"][0]
 
             # the polyline is its own small surface in the tiled map editor

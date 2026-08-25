@@ -1,49 +1,36 @@
-from dataclasses import dataclass
+from pathlib import Path
 
 import pygame
 from pygame.typing import ColorLike
 
-
-# Dataclasses with frozen=True are immutable
-@dataclass(frozen=True)
-class DisplayConfig:
-    screen_width: int = 360
-    screen_height: int = 240
-    flags: int = pygame.SCALED
-    fps: int = 120
+SCREEN_WIDTH: int = 360
+SCREEN_HEIGHT: int = 240
+FLAGS: int = pygame.SCALED
+FPS: int = 120
 
 
-@dataclass(frozen=True)
-class TilesConfig:
-    tile_width: int = 32
-    tile_height: int = 32
-    ground_tiles_layer_name: str = "ground"
-    path_tiles_layer_name: str = "path_tiles"
-    enemy_path_layer_name: str = "path_polygon"
+TILE_WIDTH: int = 32
+TILE_HEIGHT: int = 32
+
+GROUND_TILES_LAYER_NAME: str = "ground"
+PATH_TILES_LAYER_NAME: str = "path_tiles"
+ENEMY_PATH_LAYER_NAME: str = "path_polygon"
 
 
-@dataclass(frozen=True)
-class ColorsConfig:
-    low_health_color: ColorLike = (255, 0, 0)
-    max_health_color: ColorLike = (0, 255, 0)
-    turret_radius_color: ColorLike = (185, 69, 29, 100)
+LOW_HEALTH_COLOR: ColorLike = (255, 0, 0)
+MAX_HEALTH_COLOR: ColorLike = (0, 255, 0)
+TURRET_RADIUS_COLOR: ColorLike = (185, 69, 29, 100)
 
-    button_normal_bg: ColorLike = "darkgray"
-    button_hovered_bg: ColorLike = "lightgray"
-    button_pressed_bg: ColorLike = "lightcoral"
+BUTTON_NORMAL_BG: ColorLike = "darkgray"
+BUTTON_HOVERED_BG: ColorLike = "lightgray"
+BUTTON_PRESSED_BG: ColorLike = "lightcoral"
 
-    dark_bg: ColorLike = "#15191e"
+DARK_BG: ColorLike = "#15191e"
 
-    text_normal: ColorLike = "black"
+TEXT_NORMAL: ColorLike = "black"
 
-
-@dataclass(frozen=True)
-class FontConfig:
-    font_name: str = "freesansbold.ttf"
-    font_size_normal = 8
+FONT_NAME: str = "freesansbold.ttf"
+FONT_SIZE_NORMAL = 8
 
 
-DISPLAY = DisplayConfig()
-TILES = TilesConfig()
-COLORS = ColorsConfig()
-FONT = FontConfig()
+ASSET_PATH: Path = Path("src", "assets")
