@@ -37,9 +37,18 @@ class Turret(pygame.sprite.Sprite):
 
         self.turret_angle = 0
 
+        # assuming the tip is directly at the top center; must be manually
+        # specified as a coordinate of the sprite otherwise
+        self.turret_tip = pygame.Vector2(0, -self.turret_image.get_height() / 2)
+
     def _shoot_at(self, enemy: Enemy):
         enemy_position = pygame.Vector2(enemy.rect.center)
-        projectile = Arrow(position=pygame.Vector2(self.base_rect.midtop), target=enemy_position)
+
+        # this is so it shoots from the tip of the turret
+        projectile_offset = self.turret_tip.rotate(-self.turret_angle)
+        projectile_position = self.position + projectile_offset
+
+        projectile = Arrow(position=pygame.Vector2(projectile_position), target=enemy_position)
         return projectile
 
     def draw(self, surface: pygame.Surface, draw_radiuses: bool):
