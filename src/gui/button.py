@@ -5,6 +5,8 @@ from pygame.typing import ColorLike
 
 import src.core.config as Config
 
+CUSTOM_BUTTON_CLICKED = pygame.event.custom_type()
+
 
 class ButtonStates(Enum):
     NORMAL = auto()
@@ -65,6 +67,9 @@ class Button:
             self.surface.fill(self.hover_bg)
         elif self.state == ButtonStates.PRESSED:
             self.surface.fill(self.pressed_bg)
+
+            event = pygame.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
+            pygame.event.post(event)
 
         if self.image:
             self.surface.blit(self.image, self.image_rect)

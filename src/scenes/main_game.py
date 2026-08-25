@@ -8,7 +8,7 @@ from src.core.scenes_manager import Scene
 from src.core.utils import load_asset, split_tileset
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
-from src.gui.button import Button
+from src.gui.button import Button, CUSTOM_BUTTON_CLICKED
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
@@ -91,11 +91,14 @@ class MainGameScene(Scene):
                             self.map.rect.y = new_offset.y
 
                         # self.map.rect.topleft = new_offset
-            elif event.type == pygame.KEYDOWN:
+            
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.paused = not self.paused
                 elif event.key == pygame.K_r:
                     self.draw_turret_radiuses = not self.draw_turret_radiuses
+            elif event.type == CUSTOM_BUTTON_CLICKED:
+                print(event.button.rect)
 
     def update(self, delta_time: float) -> None:
         if not self.paused:
