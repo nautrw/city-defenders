@@ -7,7 +7,16 @@ class BallisticProjectile(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    def __init__(self, x_position: float, y_position: float, target_x: float, target_y: float, image: pygame.Surface, movement_speed: int, damage: int):
+    def __init__(
+        self,
+        x_position: float,
+        y_position: float,
+        target_x: float,
+        target_y: float,
+        image: pygame.Surface,
+        movement_speed: int,
+        damage: int,
+    ):
         super().__init__()
 
         self.original_image = image
@@ -20,7 +29,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         self.target = pygame.Vector2(target_x, target_y)
 
         self.damage = damage
-        
+
         self.angle = 0
 
     def update(self, dt: float, enemies_group: pygame.sprite.Group) -> None:
@@ -29,7 +38,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         self.velocity = movement * self.movement_speed
         self.position += self.velocity * dt
         self.rect.center = self.position
-        
+
         self.angle = angle_to_point(self.position, self.target)
 
         if collisions := pygame.sprite.spritecollide(self, enemies_group, False):

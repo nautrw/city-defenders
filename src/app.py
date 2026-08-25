@@ -16,14 +16,17 @@ class GameApp:
         self.running = True
 
         self.screen = pygame.display.set_mode(
-            (Config.DISPLAY.screen_width, Config.DISPLAY.screen_height), Config.DISPLAY.flags
+            (Config.DISPLAY.screen_width, Config.DISPLAY.screen_height),
+            Config.DISPLAY.flags,
         )
 
         self.clock = pygame.time.Clock()
         self.delta_time = 0
 
         tileset_img = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
-        tileset = split_tileset(tileset_img, Config.TILES.tile_height, Config.TILES.tile_height)
+        tileset = split_tileset(
+            tileset_img, Config.TILES.tile_height, Config.TILES.tile_height
+        )
         map_data = clean_map_json(
             load_json_file(path.join("src", "assets", "maps", "Test.json"))
         )

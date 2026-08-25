@@ -22,7 +22,9 @@ class MainGameScene(Scene):
         super().__init__(game)
 
         tileset = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
-        self.tiles = split_tileset(tileset, Config.TILES.tile_width, Config.TILES.tile_height)
+        self.tiles = split_tileset(
+            tileset, Config.TILES.tile_width, Config.TILES.tile_height
+        )
         self.map = map
 
         self.enemies_group = pygame.sprite.Group()
@@ -50,7 +52,7 @@ class MainGameScene(Scene):
             mx, my = pygame.mouse.get_pos()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == pygame.BUTTON_MIDDLE: # noqa: SIM102
+                if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
                     if self.map.rect.collidepoint(mx, my):
                         self.dragging_map = True
                         self.camera_offset = pygame.Vector2(
@@ -59,7 +61,7 @@ class MainGameScene(Scene):
                 if event.button == pygame.BUTTON_LEFT:
                     print(self.map.screen_to_map_coord(mx, my))
             elif event.type == pygame.MOUSEBUTTONUP:
-                if event.button == pygame.BUTTON_MIDDLE: # noqa: SIM102
+                if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
                     if self.map.rect.collidepoint(mx, my):
                         self.dragging_map = False
             elif event.type == pygame.MOUSEMOTION:
@@ -96,7 +98,9 @@ class MainGameScene(Scene):
     def update(self, delta_time: float) -> None:
         if not self.paused:
             self.enemies_group.update(delta_time)
-            self.turrets_group.update(delta_time, self.enemies_group, self.projectiles_group)
+            self.turrets_group.update(
+                delta_time, self.enemies_group, self.projectiles_group
+            )
             self.projectiles_group.update(delta_time, self.enemies_group)
 
             for element in self.ui_elements:

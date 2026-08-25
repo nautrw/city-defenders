@@ -7,7 +7,13 @@ class HealthBar(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    def __init__(self, width: int = 28, height: int = 5, border_width: int = 1, position_offset: int = -4):
+    def __init__(
+        self,
+        width: int = 28,
+        height: int = 5,
+        border_width: int = 1,
+        position_offset: int = -4,
+    ):
         super().__init__()
 
         self.width = width
@@ -21,12 +27,14 @@ class HealthBar(pygame.sprite.Sprite):
 
         self.health_percent = 1.0
 
-    def update(self, current_health: int, max_health: int, position: tuple[float, float]):
+    def update(
+        self, current_health: int, max_health: int, position: tuple[float, float]
+    ):
         self.rect.centerx = int(position[0])
         self.rect.centery = int(position[1] + self.position_offset)
 
         self.health_percent = current_health / max_health
-    
+
     def draw(self, surface: pygame.Surface):
         surface.blit(self.image, self.rect)
 
@@ -40,6 +48,16 @@ class HealthBar(pygame.sprite.Sprite):
 
         # color linear interpolation allows for the gradient shifting as
         # the health decreases
-        color = pygame.Color.lerp(pygame.Color(Config.COLORS.low_health_color), pygame.Color(Config.COLORS.max_health_color), self.health_percent)
+        color = pygame.Color.lerp(
+            pygame.Color(Config.COLORS.low_health_color),
+            pygame.Color(Config.COLORS.max_health_color),
+            self.health_percent,
+        )
 
-        pygame.draw.rect(self.image, color, pygame.Rect(self.border_width, self.border_width, health_width, height_inside_border))
+        pygame.draw.rect(
+            self.image,
+            color,
+            pygame.Rect(
+                self.border_width, self.border_width, health_width, height_inside_border
+            ),
+        )

@@ -7,7 +7,13 @@ class Enemy(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    def __init__(self, image: pygame.Surface, movement_speed: int, max_health: int, path_waypoints: list[tuple[float, float]]):
+    def __init__(
+        self,
+        image: pygame.Surface,
+        movement_speed: int,
+        max_health: int,
+        path_waypoints: list[tuple[float, float]],
+    ):
         super().__init__()
 
         self.image = image
@@ -27,7 +33,7 @@ class Enemy(pygame.sprite.Sprite):
     def draw(self, surface: pygame.Surface):
         surface.blit(self.image, self.rect)
         self.health_bar.draw(surface)
-    
+
     def update(self, dt: float) -> None:
         if self.waypoint_index >= len(self.path_waypoints):
             self.kill()
@@ -46,7 +52,7 @@ class Enemy(pygame.sprite.Sprite):
             self.position += self.velocity * dt
 
         self.rect.center = self.position
-        
+
         self.health_bar.update(self.health, self.max_health, self.rect.midtop)
 
         if self.health <= 0:

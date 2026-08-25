@@ -34,7 +34,9 @@ class GameMap(pygame.sprite.Sprite):
 
         self.ground_tiles = pygame.sprite.Group()
         self.path_tiles = pygame.sprite.Group()
-        self.enemies_path = map_data["layers"][Config.TILES.enemy_path_layer_name]["data"]
+        self.enemies_path = map_data["layers"][Config.TILES.enemy_path_layer_name][
+            "data"
+        ]
 
         self._load_layer(Config.TILES.ground_tiles_layer_name, self.ground_tiles)
         self._load_layer(Config.TILES.path_tiles_layer_name, self.path_tiles)
@@ -71,7 +73,9 @@ class GameMap(pygame.sprite.Sprite):
     def update(self, dt: float) -> None:
         pass
 
-    def screen_to_map_coord(self, screen_x: float, screen_y: float) -> tuple[float, float]:
+    def screen_to_map_coord(
+        self, screen_x: float, screen_y: float
+    ) -> tuple[float, float]:
         return (self.rect.x - screen_x, self.rect.y - screen_y)
 
     def draw(self, surface: pygame.Surface) -> None:

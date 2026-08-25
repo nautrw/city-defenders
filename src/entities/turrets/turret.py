@@ -17,12 +17,22 @@ class Turret(pygame.sprite.Sprite):
     rect: pygame.Rect | pygame.FRect
 
     # type[BallisticProjectile] allows passing any CLASS that is a subclass of BallisticProjectile
-    def __init__(self, x_position: int, y_position: int, turret_image: pygame.Surface, projectile: type[BallisticProjectile], shooting_speed: float, area_radius: float):
+    def __init__(
+        self,
+        x_position: int,
+        y_position: int,
+        turret_image: pygame.Surface,
+        projectile: type[BallisticProjectile],
+        shooting_speed: float,
+        area_radius: float,
+    ):
         super().__init__()
 
         self.position = pygame.Vector2(x_position, y_position)
 
-        self.base = pygame.image.load(path.join("src", "assets", "entities", "turrets", "turret_base.png")).convert_alpha()
+        self.base = pygame.image.load(
+            path.join("src", "assets", "entities", "turrets", "turret_base.png")
+        ).convert_alpha()
         self.original_turret_image = turret_image
         self.turret_image = turret_image.copy()
 
@@ -48,27 +58,46 @@ class Turret(pygame.sprite.Sprite):
         projectile_offset = self.turret_tip.rotate(-self.turret_angle)
         projectile_position = self.position + projectile_offset
 
-        projectile = Arrow(x_position=projectile_position[0], y_position=projectile_position[1], target_x=enemy_position[0], target_y=enemy_position[1])
+        projectile = Arrow(
+            x_position=projectile_position[0],
+            y_position=projectile_position[1],
+            target_x=enemy_position[0],
+            target_y=enemy_position[1],
+        )
         return projectile
 
     def draw(self, surface: pygame.Surface, draw_radiuses: bool):
         if draw_radiuses:
             circle_surf = pygame.Surface(self.area.as_rect().size, pygame.SRCALPHA)
             radius = self.area.radius
-            pygame.draw.circle(circle_surf, Config.ColorsConfig.turret_radius_color, (radius, radius), radius)
+            pygame.draw.circle(
+                circle_surf,
+                Config.ColorsConfig.turret_radius_color,
+                (radius, radius),
+                radius,
+            )
             surface.blit(circle_surf, self.area.as_rect())
 
-        self.turret_image = pygame.transform.rotate(self.original_turret_image, self.turret_angle)
+        self.turret_image = pygame.transform.rotate(
+            self.original_turret_image, self.turret_angle
+        )
         self.turret_rect = self.turret_image.get_rect(center=self.base_rect.center)
 
         surface.blit(self.base, self.base_rect)
         surface.blit(self.turret_image, self.turret_rect)
 
-    def update(self, delta_time: float, enemies_group: pygame.sprite.Group, projectiles_group: pygame.sprite.Group):
+    def update(
+        self,
+        delta_time: float,
+        enemies_group: pygame.sprite.Group,
+        projectiles_group: pygame.sprite.Group,
+    ):
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
-                self.turret_angle = angle_to_point(self.base_rect.center, enemy.rect.center)
-                
+                self.turret_angle = angle_to_point(
+                    self.base_rect.center, enemy.rect.center
+                )
+
                 if self.shoot_cooldown_delta_time >= self.shooting_speed:
                     projectile = self._shoot_at(enemy)
                     projectiles_group.add(projectile)
