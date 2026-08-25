@@ -1,11 +1,9 @@
-from pathlib import Path
-
 import pygame
 
 import src.core.config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import SceneManager
-from src.core.utils import clean_map_json, load_asset, load_map, split_tileset
+from src.core.utils import load_asset, load_map, split_tileset
 from src.scenes.main_game import MainGameScene
 
 
