@@ -13,4 +13,4 @@ class Arrow(BallisticProjectile):
     def __init__(self, position: Coordinate, target: Coordinate):
         image = pygame.image.load(path.join("src", "assets", "entities", "projectiles", "arrow.png"))
 
-        super().__init__(position=position, target=target, image=image, movement_speed=50, damage=5)
+        super().__init__(position=position, target=target, image=image, movement_speed=10, damage=5)
