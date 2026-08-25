@@ -1,5 +1,7 @@
 import pygame
+
 from src.entities.health_bar import HealthBar
+
 
 class Enemy(pygame.sprite.Sprite):
     image: pygame.Surface
