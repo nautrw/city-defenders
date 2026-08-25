@@ -22,8 +22,6 @@ class Enemy(pygame.sprite.Sprite):
 
         self.health_bar = HealthBar()
 
-        self.test = 0
-
     def draw(self, surface: pygame.Surface):
         surface.blit(self.image, self.rect)
         self.health_bar.draw(surface)
@@ -48,9 +46,3 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.center = self.position
         
         self.health_bar.update(self.health, self.max_health, self.rect.midtop)
-
-        self.test += dt
-
-        if self.test >= 0.1:
-            self.test = 0
-            self.health -= 0.1
