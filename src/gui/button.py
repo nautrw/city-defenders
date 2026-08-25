@@ -28,6 +28,7 @@ class Button:
         text: str = "",
         text_color: ColorLike = Config.TEXT_NORMAL,
         image: pygame.Surface | None = None,
+        once_per_click: bool = True,
     ) -> None:
         self.x = x
         self.y = y
@@ -58,7 +59,9 @@ class Button:
                 top=(self.image.get_rect().height + inner_padding if self.image else 0)
                 + inner_padding,
             )
-            print(self.text_rect)
+
+        self.pressed_last_frame = False
+        self.once_per_click = once_per_click
 
     def draw(self, surface: pygame.Surface) -> None:
         if self.state == ButtonStates.NORMAL:
@@ -67,9 +70,6 @@ class Button:
             self.surface.fill(self.hover_bg)
         elif self.state == ButtonStates.PRESSED:
             self.surface.fill(self.pressed_bg)
-
-            event = pygame.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
-            pygame.event.post(event)
 
         if self.image:
             self.surface.blit(self.image, self.image_rect)
@@ -82,11 +82,17 @@ class Button:
     def update(self, delta_time: float) -> None:
         mouse_position = pygame.mouse.get_pos()
         pressed_buttons = pygame.mouse.get_pressed()
+        pressed = pressed_buttons[0]  # left click
 
         if self.rect.collidepoint(mouse_position):
-            self.state = ButtonStates.HOVERED
+            self.state = ButtonStates.PRESSED if pressed else ButtonStates.HOVERED
 
-            if pressed_buttons[0]:  # left click
-                self.state = ButtonStates.PRESSED
+            if pressed and (not self.once_per_click or not self.pressed_last_frame):
+                event = pygame.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
+                pygame.event.post(event)
+
+                self.pressed_last_frame = True
         else:
             self.state = ButtonStates.NORMAL
+
+        self.pressed_last_frame = pressed
