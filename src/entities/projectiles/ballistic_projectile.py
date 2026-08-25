@@ -24,3 +24,6 @@ class BallisticProjectile(pygame.sprite.Sprite):
         self.velocity = movement * self.movement_speed
         self.position += self.velocity * dt
         self.rect.center = self.position
+
+    def draw(self, surface: pygame.Surface):
+        surface.blit(self.image, self.rect)
