@@ -1,7 +1,6 @@
 from enum import Enum, auto
 
 import pygame
-from numpy import inner
 from pygame.typing import ColorLike
 
 import src.core.config as Config
