@@ -34,3 +34,4 @@ FONT_SIZE_NORMAL = 8
 
 
 ASSET_PATH: Path = Path("src", "assets")
+MAPS_PATH: Path = Path("src", "assets", "maps")
