@@ -13,7 +13,7 @@ class ButtonStates(Enum):
     PRESSED = auto()
 
 class Button:
-    def __init__(self, x: int, y: int, width: int, height: int, inner_padding: int = 2, normal_bg: ColorLike = Config.ColorsConfig.button_normal_bg, hover_bg: ColorLike = Config.ColorsConfig.button_hovered_bg, pressed_bg: ColorLike = Config.ColorsConfig.button_pressed_bg, text: str = '', text_color: ColorLike = Config.ColorsConfig.text_normal, image: pygame.Surface | None = None):
+    def __init__(self, x: int, y: int, width: int, height: int, inner_padding: int = 2, normal_bg: ColorLike = Config.ColorsConfig.button_normal_bg, hover_bg: ColorLike = Config.ColorsConfig.button_hovered_bg, pressed_bg: ColorLike = Config.ColorsConfig.button_pressed_bg, text: str = '', text_color: ColorLike = Config.ColorsConfig.text_normal, image: pygame.Surface | None = None) -> None:
         self.x = x
         self.y = y
         self.width = width
@@ -39,7 +39,7 @@ class Button:
             self.text_rect = self.text_surface.get_rect(centerx=self.width // 2, top=(self.image.get_rect().height + inner_padding if self.image else 0) + inner_padding)
             print(self.text_rect)
 
-    def draw(self, surface: pygame.Surface):
+    def draw(self, surface: pygame.Surface) -> None:
         if self.state == ButtonStates.NORMAL:
             self.surface.fill(self.normal_bg)
         elif self.state == ButtonStates.HOVERED:
@@ -55,7 +55,7 @@ class Button:
 
         surface.blit(self.surface, self.rect)
 
-    def update(self, delta_time: float):
+    def update(self, delta_time: float) -> None:
         mouse_position = pygame.mouse.get_pos()
         pressed_buttons = pygame.mouse.get_pressed()
 
