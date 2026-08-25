@@ -5,7 +5,7 @@ import pygame
 import src.core.config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import SceneManager
-from src.core.utils import clean_map_json, load_json_file, split_tileset
+from src.core.utils import clean_map_json, load_asset, load_json_file, split_tileset
 from src.scenes.main_game import MainGameScene
 
 
@@ -23,10 +23,8 @@ class GameApp:
         self.clock = pygame.time.Clock()
         self.delta_time = 0
 
-        tileset_img = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
-        tileset = split_tileset(
-            tileset_img, Config.TILE_HEIGHT, Config.TILE_HEIGHT
-        )
+        tileset_img = load_asset("tileset")
+        tileset = split_tileset(tileset_img, Config.TILE_HEIGHT, Config.TILE_HEIGHT)
         map_data = clean_map_json(
             load_json_file(Path("src", "assets", "maps", "Test.json"))
         )

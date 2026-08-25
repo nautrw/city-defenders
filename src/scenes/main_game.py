@@ -22,9 +22,7 @@ class MainGameScene(Scene):
         super().__init__(game)
 
         tileset = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
-        self.tiles = split_tileset(
-            tileset, Config.TILE_WIDTH, Config.TILE_HEIGHT
-        )
+        self.tiles = split_tileset(tileset, Config.TILE_WIDTH, Config.TILE_HEIGHT)
         self.map = map
 
         self.enemies_group = pygame.sprite.Group()
@@ -44,7 +42,7 @@ class MainGameScene(Scene):
         self.draw_turret_radiuses = False
 
         build_icon = load_asset("build_icon")
-        
+
         button = Button(5, 215, 20, 20, image=build_icon)
         self.ui_elements = [button]
 

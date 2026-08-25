@@ -7,7 +7,11 @@ import pygame
 
 import src.core.config as Config
 
-sprites_dict = {file.name.replace('.png', ''): file for file in list(Config.ASSET_PATH.rglob('*.png'))}
+sprites_dict = {
+    file.name.replace(".png", ""): file
+    for file in list(Config.ASSET_PATH.rglob("*.png"))
+}
+
 
 def split_tileset(
     image: pygame.Surface, tile_width: int, tile_height: int
@@ -80,6 +84,7 @@ def clean_map_json(map_json: dict) -> dict:
 def angle_to_point(origin_x: float, origin_y: float, target_x: float, target_y: float):
     direction = pygame.Vector2(target_x, target_y) - pygame.Vector2(origin_x, origin_y)
     return 360 - math.degrees(math.atan2(direction.x, -direction.y))
+
 
 def load_asset(name: str):
     return pygame.image.load(sprites_dict[name]).convert_alpha()

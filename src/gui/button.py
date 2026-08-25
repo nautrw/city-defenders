@@ -49,9 +49,7 @@ class Button:
 
         self.text = text
         if self.text:
-            self.font = pygame.font.Font(
-                Config.FONT_NAME, Config.FONT_SIZE_NORMAL
-            )
+            self.font = pygame.font.Font(Config.FONT_NAME, Config.FONT_SIZE_NORMAL)
             self.text_surface = self.font.render(self.text, False, text_color)
             self.text_rect = self.text_surface.get_rect(
                 centerx=self.width // 2,
