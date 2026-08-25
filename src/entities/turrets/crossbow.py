@@ -1,7 +1,6 @@
-from os import path
-
 import pygame
 
+from src.core.utils import load_asset
 from src.entities.projectiles.arrow import Arrow
 from src.entities.turrets.turret import Turret
 
@@ -11,9 +10,7 @@ class CrossbowTurret(Turret):
     rect: pygame.Rect | pygame.FRect
 
     def __init__(self, x_position: int, y_position: int):
-        image = pygame.image.load(
-            path.join("src", "assets", "entities", "turrets", "crossbow.png")
-        )
+        image = load_asset("crossbow")
 
         super().__init__(
             x_position=x_position,
