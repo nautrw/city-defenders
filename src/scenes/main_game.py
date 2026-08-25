@@ -8,6 +8,7 @@ from src.core.scenes_manager import Scene
 from src.core.utils import split_tileset
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
+from src.gui.button import Button
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
@@ -39,6 +40,9 @@ class MainGameScene(Scene):
 
         self.paused = False
         self.draw_turret_radiuses = False
+
+        button = Button(50, 50, 50, 50)
+        self.ui_elements = [button]
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
@@ -94,6 +98,9 @@ class MainGameScene(Scene):
             self.turrets_group.update(delta_time, self.enemies_group, self.projectiles_group)
             self.projectiles_group.update(delta_time, self.enemies_group)
 
+            for element in self.ui_elements:
+                element.update(delta_time)
+
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")
         self.map.draw(surface)
@@ -110,3 +117,6 @@ class MainGameScene(Scene):
 
         for projectile in self.projectiles_group:
             projectile.draw(self.map.image)
+
+        for element in self.ui_elements:
+            element.draw(surface)
