@@ -1,15 +1,15 @@
-from turtle import circle
-from src.entities.projectiles.arrow import Arrow
-from numpy import angle
 from os import path
+from turtle import circle
 
 import pygame
+from numpy import angle
 from pygame.geometry import Circle
 
+import src.core.config as Config
 from src.core.utils import angle_to_point
 from src.entities.enemies.enemy import Enemy
+from src.entities.projectiles.arrow import Arrow
 from src.entities.projectiles.ballistic_projectile import BallisticProjectile
-import src.core.config as Config
 
 
 class Turret(pygame.sprite.Sprite):

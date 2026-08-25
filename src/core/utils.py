@@ -1,5 +1,5 @@
-import math
 import json
+import math
 from os import PathLike
 from typing import LiteralString
 
