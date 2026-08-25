@@ -1,3 +1,4 @@
+import math
 import json
 from os import PathLike
 from typing import LiteralString
@@ -77,3 +78,6 @@ def clean_map_json(map_json: dict) -> dict:
         result["layers"][wanted_layer_name] = new_layer
 
     return result
+
+def angle_to_point(origin: Coordinate, target: Coordinate):
+    return (360 - (math.atan2(origin[1]-target[1],origin[0]-target[0]))) * (180 / math.pi)
