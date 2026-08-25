@@ -7,6 +7,7 @@ from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.core.utils import split_tileset
 from src.entities.enemies.slime import Slime
+from src.entities.turrets.crossbow import CrossbowTurret
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
@@ -26,6 +27,10 @@ class MainGameScene(Scene):
         self.enemies_group = pygame.sprite.Group()
         slime = Slime(self.map.enemies_path)
         self.enemies_group.add(slime)
+
+        self.turrets_group = pygame.sprite.Group()
+        crossbow = CrossbowTurret(50, 50)
+        self.turrets_group.add(crossbow)
 
         self.dragging_map = False
         self.camera_offset = pygame.Vector2(0, 0)
@@ -81,6 +86,7 @@ class MainGameScene(Scene):
     def update(self, delta_time: float) -> None:
         if not self.paused:
             self.enemies_group.update(delta_time)
+            self.turrets_group.update(delta_time)
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")
@@ -92,3 +98,6 @@ class MainGameScene(Scene):
         # than that
         for enemy in self.enemies_group:
             enemy.draw(self.map.image)
+
+        for turret in self.turrets_group:
+            turret.draw(self.map.image)
