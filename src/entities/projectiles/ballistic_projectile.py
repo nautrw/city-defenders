@@ -7,13 +7,13 @@ class BallisticProjectile(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    def __init__(self, x_position: int, y_position: int, target: Coordinate, image: pygame.Surface, movement_speed: int):
+    def __init__(self, position: Coordinate, target: Coordinate, image: pygame.Surface, movement_speed: int):
         super().__init__()
 
         self.image = image
-        self.rect = image.get_rect(centerx=x_position, bottom=y_position)
+        self.rect = image.get_rect(centerx=position[0], bottom=position[1])
 
-        self.position = pygame.Vector2(x_position, y_position)
+        self.position = pygame.Vector2(position)
         self.velocity = pygame.Vector2()
         self.movement_speed = movement_speed
         self.target = target

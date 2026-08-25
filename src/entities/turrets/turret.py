@@ -39,7 +39,7 @@ class Turret(pygame.sprite.Sprite):
 
     def _shoot_at(self, enemy: Enemy):
         enemy_position = pygame.Vector2(enemy.rect.center)
-        projectile = Arrow(self.base_rect.x, self.base_rect.y, enemy_position)
+        projectile = Arrow(position=pygame.Vector2(self.base_rect.midtop), target=enemy_position)
         return projectile
 
     def draw(self, surface: pygame.Surface, draw_radiuses: bool):
