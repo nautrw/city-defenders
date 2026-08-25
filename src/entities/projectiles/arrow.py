@@ -1,7 +1,6 @@
-from os import path
-
 import pygame
 
+from src.core.utils import load_asset
 from src.entities.projectiles.ballistic_projectile import BallisticProjectile
 
 
@@ -12,9 +11,7 @@ class Arrow(BallisticProjectile):
     def __init__(
         self, x_position: float, y_position: float, target_x: float, target_y: float
     ):
-        image = pygame.image.load(
-            path.join("src", "assets", "entities", "projectiles", "arrow.png")
-        )
+        image = load_asset("arrow")
 
         super().__init__(
             x_position=x_position,
