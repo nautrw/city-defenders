@@ -48,3 +48,6 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.center = self.position
         
         self.health_bar.update(self.health, self.max_health, self.rect.midtop)
+
+        if self.health <= 0:
+            self.kill()
