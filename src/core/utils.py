@@ -77,7 +77,6 @@ def clean_map_json(map_json: dict) -> dict:
     return result
 
 
-def angle_to_point(origin: Coordinate, target: Coordinate):
-    direction = pygame.Vector2(target) - pygame.Vector2(origin)
+def angle_to_point(origin_x: float, origin_y: float, target_x: float, target_y: float):
+    direction = pygame.Vector2(target_x, target_y) - pygame.Vector2(origin_x, origin_y)
     return 360 - math.degrees(math.atan2(direction.x, -direction.y))
-    # return (360 - (math.atan2(origin[1]-target[1],origin[0]-target[0]))) * (180 / math.pi)

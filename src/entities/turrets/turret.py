@@ -1,8 +1,6 @@
 from os import path
-from turtle import circle
 
 import pygame
-from numpy import angle
 from pygame.geometry import Circle
 
 import src.core.config as Config
@@ -95,7 +93,7 @@ class Turret(pygame.sprite.Sprite):
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
                 self.turret_angle = angle_to_point(
-                    self.base_rect.center, enemy.rect.center
+                    self.base_rect.centerx, self.base_rect.centery, enemy.rect.centerx, enemy.rect.centery
                 )
 
                 if self.shoot_cooldown_delta_time >= self.shooting_speed:
