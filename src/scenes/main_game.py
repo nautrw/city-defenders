@@ -92,7 +92,7 @@ class MainGameScene(Scene):
         if not self.paused:
             self.enemies_group.update(delta_time)
             self.turrets_group.update(delta_time, self.enemies_group, self.projectiles_group)
-            self.projectiles_group.update(delta_time)
+            self.projectiles_group.update(delta_time, self.enemies_group)
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")
