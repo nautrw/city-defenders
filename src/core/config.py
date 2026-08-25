@@ -1,4 +1,4 @@
-from pygame.typing import SequenceLike
+from pygame.typing import ColorLike
 from dataclasses import dataclass
 from typing import Any
 
@@ -24,9 +24,13 @@ class TilesConfig:
 
 @dataclass(frozen=True)
 class ColorsConfig:
-    low_health_color: SequenceLike[int] | str | int = (255, 0, 0)
-    max_health_color: SequenceLike[int] | str | int = (0, 255, 0)
-    turret_radius_color: SequenceLike[int] | str | int = (185, 69, 29, 100)
+    low_health_color: ColorLike = (255, 0, 0)
+    max_health_color: ColorLike = (0, 255, 0)
+    turret_radius_color: ColorLike = (185, 69, 29, 100)
+
+    button_normal_bg: ColorLike = "darkgray"
+    button_hovered_bg: ColorLike = "lightgray"
+    button_pressed_bg: ColorLike = "lightcoral"
 
 DISPLAY = DisplayConfig()
 TILES = TilesConfig()
