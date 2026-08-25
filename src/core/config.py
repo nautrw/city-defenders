@@ -26,6 +26,7 @@ class TilesConfig:
 class ColorsConfig:
     low_health_color: SequenceLike[int] | str | int = (255, 0, 0)
     max_health_color: SequenceLike[int] | str | int = (0, 255, 0)
+    turret_radius_color: SequenceLike[int] | str | int = (185, 69, 29, 100)
 
 DISPLAY = DisplayConfig()
 TILES = TilesConfig()

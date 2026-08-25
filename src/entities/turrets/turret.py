@@ -1,3 +1,4 @@
+from turtle import circle
 from src.entities.projectiles.arrow import Arrow
 from numpy import angle
 from os import path
@@ -8,6 +9,7 @@ from pygame.geometry import Circle
 from src.core.utils import angle_to_point
 from src.entities.enemies.enemy import Enemy
 from src.entities.projectiles.ballistic_projectile import BallisticProjectile
+import src.core.config as Config
 
 
 class Turret(pygame.sprite.Sprite):
@@ -39,7 +41,13 @@ class Turret(pygame.sprite.Sprite):
         projectile = Arrow(self.base_rect.x, self.base_rect.y, enemy_position)
         return projectile
 
-    def draw(self, surface: pygame.Surface):
+    def draw(self, surface: pygame.Surface, draw_radiuses: bool):
+        if draw_radiuses:
+            circle_surf = pygame.Surface(self.area.as_rect().size, pygame.SRCALPHA)
+            radius = self.area.radius
+            pygame.draw.circle(circle_surf, Config.ColorsConfig.turret_radius_color, (radius, radius), radius)
+            surface.blit(circle_surf, self.area.as_rect())
+
         self.turret_image = pygame.transform.rotate(self.original_turret_image, self.turret_angle)
         self.turret_rect = self.turret_image.get_rect(center=self.base_rect.center)
 
@@ -51,3 +59,4 @@ class Turret(pygame.sprite.Sprite):
             if self.area.colliderect(enemy.rect):
                 self.turret_angle = angle_to_point(self.base_rect.center, enemy.rect.center)
                 projectile = self._shoot_at(enemy)
+                projectiles_group.add(projectile)

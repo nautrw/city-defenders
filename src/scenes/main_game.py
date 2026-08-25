@@ -38,6 +38,7 @@ class MainGameScene(Scene):
         self.camera_offset = pygame.Vector2(0, 0)
 
         self.paused = False
+        self.draw_turret_radiuses = False
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
@@ -84,6 +85,8 @@ class MainGameScene(Scene):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.paused = not self.paused
+                elif event.key == pygame.K_r:
+                    self.draw_turret_radiuses = not self.draw_turret_radiuses
 
     def update(self, delta_time: float) -> None:
         if not self.paused:
@@ -103,7 +106,7 @@ class MainGameScene(Scene):
             enemy.draw(self.map.image)
 
         for turret in self.turrets_group:
-            turret.draw(self.map.image)
+            turret.draw(self.map.image, self.draw_turret_radiuses)
 
         for projectile in self.projectiles_group:
             projectile.draw(self.map.image)
