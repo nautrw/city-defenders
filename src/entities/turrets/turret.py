@@ -31,6 +31,7 @@ class Turret(pygame.sprite.Sprite):
 
         self.projectile = projectile
         self.shooting_speed = shooting_speed
+        self.shoot_cooldown_delta_time = 0
 
         self.area = Circle(self.base_rect.center, area_radius)
 
@@ -58,5 +59,10 @@ class Turret(pygame.sprite.Sprite):
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
                 self.turret_angle = angle_to_point(self.base_rect.center, enemy.rect.center)
-                projectile = self._shoot_at(enemy)
-                projectiles_group.add(projectile)
+                
+                if self.shoot_cooldown_delta_time >= self.shooting_speed:
+                    projectile = self._shoot_at(enemy)
+                    projectiles_group.add(projectile)
+                    self.shoot_cooldown_delta_time = 0
+
+        self.shoot_cooldown_delta_time += delta_time
