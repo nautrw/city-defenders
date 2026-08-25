@@ -41,7 +41,8 @@ class MainGameScene(Scene):
         self.paused = False
         self.draw_turret_radiuses = False
 
-        button = Button(50, 50, 50, 50, text="hello")
+        x = pygame.image.load("src/assets/gui/build_icon.png").convert_alpha()
+        button = Button(50, 50, 50, 50, text="Build", image=x)
         self.ui_elements = [button]
 
     def handle_events(self, events: list[pygame.Event]) -> None:
