@@ -1,10 +1,8 @@
-from os import path
-
 import pygame
 from pygame.geometry import Circle
 
 import src.core.config as Config
-from src.core.utils import angle_to_point
+from src.core.utils import angle_to_point, load_asset
 from src.entities.enemies.enemy import Enemy
 from src.entities.projectiles.arrow import Arrow
 from src.entities.projectiles.ballistic_projectile import BallisticProjectile
@@ -28,9 +26,7 @@ class Turret(pygame.sprite.Sprite):
 
         self.position = pygame.Vector2(x_position, y_position)
 
-        self.base = pygame.image.load(
-            path.join("src", "assets", "entities", "turrets", "turret_base.png")
-        ).convert_alpha()
+        self.base = load_asset("turret_base")
         self.original_turret_image = turret_image
         self.turret_image = turret_image.copy()
 
