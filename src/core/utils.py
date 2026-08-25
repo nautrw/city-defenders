@@ -89,6 +89,5 @@ def angle_to_point(origin_x: float, origin_y: float, target_x: float, target_y: 
     direction = pygame.Vector2(target_x, target_y) - pygame.Vector2(origin_x, origin_y)
     return 360 - math.degrees(math.atan2(direction.x, -direction.y))
 
-
 def load_asset(name: str):
     return pygame.image.load(SPRITES_DICT[name]).convert_alpha()

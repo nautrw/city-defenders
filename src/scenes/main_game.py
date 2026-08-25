@@ -21,7 +21,7 @@ class MainGameScene(Scene):
     def __init__(self, game: GameApp, map: GameMap):
         super().__init__(game)
 
-        tileset = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
+        tileset = load_asset("tileset")
         self.tiles = split_tileset(tileset, Config.TILE_WIDTH, Config.TILE_HEIGHT)
         self.map = map
 
