@@ -5,7 +5,7 @@ from typing import LiteralString
 import numpy as np
 import pygame
 
-from src.core.config import config as Config
+import src.core.config as Config
 
 # A coord type to not have to type it out
 Coordinate = pygame.Vector2 | tuple[int | float, int | float]
@@ -45,9 +45,9 @@ def clean_map_json(map_json: dict) -> dict:
     result = {"width": map_width, "height": map_height, "layers": {}}
 
     for wanted_layer_name in (
-        Config.GROUND_TILES_LAYER_NAME,
-        Config.PATH_TILES_LAYER_NAME,
-        Config.ENEMY_PATH_LAYER_NAME,
+        Config.TILES.ground_tiles_layer_name,
+        Config.TILES.path_tiles_layer_name,
+        Config.TILES.enemy_path_layer_name,
     ):
         new_layer = next(
             layer for layer in map_json["layers"] if layer["name"] == wanted_layer_name
@@ -59,7 +59,7 @@ def clean_map_json(map_json: dict) -> dict:
             # TILED USES 0 FOR EMPTY TILES; THE GENERATED MAP TILE IDS ARE NOT
             # 0 BASED
             new_layer["data"] = np.reshape(new_layer["data"], (map_height, map_width))
-        elif new_layer["name"] == Config.ENEMY_PATH_LAYER_NAME:
+        elif new_layer["name"] == Config.TILES.enemy_path_layer_name:
             obj = new_layer["objects"][0]
 
             # the polyline is its own small surface in the tiled map editor

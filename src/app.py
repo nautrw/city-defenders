@@ -2,7 +2,7 @@ from os import path
 
 import pygame
 
-from src.core.config import config as Config
+import src.core.config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import SceneManager
 from src.core.utils import clean_map_json, load_json_file, split_tileset
@@ -16,14 +16,14 @@ class GameApp:
         self.running = True
 
         self.screen = pygame.display.set_mode(
-            (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT), Config.FLAGS
+            (Config.DISPLAY.screen_width, Config.DISPLAY.screen_height), Config.DISPLAY.flags
         )
 
         self.clock = pygame.time.Clock()
         self.delta_time = 0
 
         tileset_img = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
-        tileset = split_tileset(tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT)
+        tileset = split_tileset(tileset_img, Config.TILES.tile_height, Config.TILES.tile_height)
         map_data = clean_map_json(
             load_json_file(path.join("src", "assets", "maps", "Test.json"))
         )
@@ -48,6 +48,6 @@ class GameApp:
                     self.scene_manager.current_scene.render(self.screen)
 
                 pygame.display.flip()
-                self.delta_time = self.clock.tick(Config.FPS) / 1000.0
+                self.delta_time = self.clock.tick(Config.DISPLAY.fps) / 1000.0
         finally:
             pygame.quit()

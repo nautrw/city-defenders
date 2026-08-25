@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 import pygame
 
-from src.core.config import config as Config
+import src.core.config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.core.utils import split_tileset
@@ -20,7 +20,7 @@ class MainGameScene(Scene):
         super().__init__(game)
 
         tileset = pygame.image.load("src/assets/tiles/tileset.png").convert_alpha()
-        self.tiles = split_tileset(tileset, Config.TILE_WIDTH, Config.TILE_HEIGHT)
+        self.tiles = split_tileset(tileset, Config.TILES.tile_width, Config.TILES.tile_height)
         self.map = map
 
         self.enemies_group = pygame.sprite.Group()

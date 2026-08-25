@@ -8,48 +8,31 @@ import pygame
 # Dataclasses with frozen=True are immutable
 @dataclass(frozen=True)
 class DisplayConfig:
-    SCREEN_WIDTH: int = 360
-    SCREEN_HEIGHT: int = 240
-    FLAGS: int = pygame.SCALED
-    FPS: int = 120
+    screen_width: int = 360
+    screen_height: int = 240
+    flags: int = pygame.SCALED
+    fps: int = 120
 
 
 @dataclass(frozen=True)
 class TilesConfig:
-    TILE_WIDTH: int = 32
-    TILE_HEIGHT: int = 32
-    GROUND_TILES_LAYER_NAME: str = "ground"
-    PATH_TILES_LAYER_NAME: str = "path_tiles"
-    ENEMY_PATH_LAYER_NAME: str = "path_polygon"
+    tile_width: int = 32
+    tile_height: int = 32
+    ground_tiles_layer_name: str = "ground"
+    path_tiles_layer_name: str = "path_tiles"
+    enemy_path_layer_name: str = "path_polygon"
 
 @dataclass(frozen=True)
 class ColorsConfig:
-    LOW_HEALTH_COLOR: SequenceLike[int] | str | int = (255, 0, 0)
-    MAX_HEALTH_COLOR: SequenceLike[int] | str | int = (0, 255, 0)
+    low_health_color: SequenceLike[int] | str | int = (255, 0, 0)
+    max_health_color: SequenceLike[int] | str | int = (0, 255, 0)
 
+@dataclass(frozen=True)
 class ConfigurationManager:
-    """Manages configuration globals by domain accross the game."""
+    display: DisplayConfig = DisplayConfig()
+    tiles: TilesConfig = TilesConfig()
+    colors: ColorsConfig = ColorsConfig()
 
-    def __init__(self) -> None:
-        self.display_config = DisplayConfig()
-        self.tiles_config = TilesConfig()
-        self.colors_config = ColorsConfig()
-
-    def __getattr__(self, name: str) -> Any:
-        domains: tuple = (
-            self.display_config,
-            self.tiles_config,
-            self.colors_config
-        )
-
-        # Treats all attributes from all domains as globals
-        # (ex. allows Config.FPS when normally it'd be
-        #  Config.DisplayConfig.FPS)
-        for domain in domains:
-            if hasattr(domain, name):
-                return getattr(domain, name)
-
-        raise AttributeError(f"{name} config key does not exist")
-
-
-config = ConfigurationManager()
+DISPLAY = DisplayConfig()
+TILES = TilesConfig()
+COLORS = ColorsConfig()

@@ -1,6 +1,6 @@
 import pygame
 
-from src.core.config import config as Config
+import src.core.config as Config
 from src.core.utils import Coordinate
 
 
@@ -13,7 +13,7 @@ class MapTile(pygame.sprite.Sprite):
 
         self.image = tile_img.copy()
         self.rect = self.image.get_rect(
-            topleft=(map_x * Config.TILE_WIDTH, map_y * Config.TILE_HEIGHT)
+            topleft=(map_x * Config.TILES.tile_width, map_y * Config.TILES.tile_height)
         )
 
 
@@ -30,15 +30,15 @@ class GameMap(pygame.sprite.Sprite):
         self.tiles_width = map_data["width"]
         self.tiles_height = map_data["height"]
 
-        self.map_width = self.tiles_width * Config.TILE_WIDTH
-        self.map_height = self.tiles_height * Config.TILE_HEIGHT
+        self.map_width = self.tiles_width * Config.TILES.tile_width
+        self.map_height = self.tiles_height * Config.TILES.tile_height
 
         self.ground_tiles = pygame.sprite.Group()
         self.path_tiles = pygame.sprite.Group()
-        self.enemies_path = map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"]
+        self.enemies_path = map_data["layers"][Config.TILES.enemy_path_layer_name]["data"]
 
-        self._load_layer(Config.GROUND_TILES_LAYER_NAME, self.ground_tiles)
-        self._load_layer(Config.PATH_TILES_LAYER_NAME, self.path_tiles)
+        self._load_layer(Config.TILES.ground_tiles_layer_name, self.ground_tiles)
+        self._load_layer(Config.TILES.path_tiles_layer_name, self.path_tiles)
 
         self.image = pygame.Surface((self.map_width, self.map_height))
 
@@ -65,7 +65,7 @@ class GameMap(pygame.sprite.Sprite):
             self.image,
             "black",
             False,
-            self.map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"],
+            self.map_data["layers"][Config.TILES.enemy_path_layer_name]["data"],
             width=2,
         )
 
