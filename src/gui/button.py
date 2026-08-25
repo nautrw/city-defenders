@@ -30,13 +30,13 @@ class Button:
 
         self.image = image
         if self.image:
-            self.image_rect = self.image.get_rect(topleft=(inner_padding, inner_padding))
+            self.image_rect = self.image.get_rect(centerx=self.width // 2, top=inner_padding)
 
         self.text = text
         if self.text:
             self.font = pygame.font.Font(Config.FontConfig.font_name, Config.FontConfig.font_size_normal)
             self.text_surface = self.font.render(self.text, False, text_color)
-            self.text_rect = self.text_surface.get_rect(topleft=(inner_padding, (self.image.get_rect().height + inner_padding if self.image else 0) + inner_padding))
+            self.text_rect = self.text_surface.get_rect(centerx=self.width // 2, top=(self.image.get_rect().height + inner_padding if self.image else 0) + inner_padding)
             print(self.text_rect)
 
     def draw(self, surface: pygame.Surface):
