@@ -1,8 +1,7 @@
-from pygame.typing import ColorLike
 from dataclasses import dataclass
-from typing import Any
 
 import pygame
+from pygame.typing import ColorLike
 
 
 # Dataclasses with frozen=True are immutable
