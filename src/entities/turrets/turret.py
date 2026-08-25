@@ -48,7 +48,7 @@ class Turret(pygame.sprite.Sprite):
         projectile_offset = self.turret_tip.rotate(-self.turret_angle)
         projectile_position = self.position + projectile_offset
 
-        projectile = Arrow(position=pygame.Vector2(projectile_position), target=enemy_position)
+        projectile = Arrow(x_position=projectile_position[0], y_position=projectile_position[1], target_x=enemy_position[0], target_y=enemy_position[1])
         return projectile
 
     def draw(self, surface: pygame.Surface, draw_radiuses: bool):

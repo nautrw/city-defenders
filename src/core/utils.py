@@ -8,9 +8,6 @@ import pygame
 
 import src.core.config as Config
 
-# A coord type to not have to type it out
-Coordinate = pygame.Vector2 | tuple[int | float, int | float]
-
 
 def split_tileset(
     image: pygame.Surface, tile_width: int, tile_height: int

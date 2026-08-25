@@ -1,23 +1,23 @@
 import pygame
 
-from src.core.utils import Coordinate, angle_to_point
+from src.core.utils import angle_to_point
 
 
 class BallisticProjectile(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    def __init__(self, position: Coordinate, target: Coordinate, image: pygame.Surface, movement_speed: int, damage: int):
+    def __init__(self, x_position: float, y_position: float, target_x: float, target_y: float, image: pygame.Surface, movement_speed: int, damage: int):
         super().__init__()
 
         self.original_image = image
         self.image = self.original_image.copy()
-        self.rect = image.get_rect(centerx=position[0], bottom=position[1])
+        self.rect = image.get_rect(centerx=x_position, bottom=y_position)
 
-        self.position = pygame.Vector2(position)
+        self.position = pygame.Vector2(x_position, y_position)
         self.velocity = pygame.Vector2()
         self.movement_speed = movement_speed
-        self.target = target
+        self.target = pygame.Vector2(target_x, target_y)
 
         self.damage = damage
         

@@ -1,7 +1,6 @@
 import pygame
 
 import src.core.config as Config
-from src.core.utils import Coordinate
 
 
 class MapTile(pygame.sprite.Sprite):
@@ -72,7 +71,7 @@ class GameMap(pygame.sprite.Sprite):
     def update(self, dt: float) -> None:
         pass
 
-    def screen_to_map_coord(self, screen_x: float, screen_y: float) -> Coordinate:
+    def screen_to_map_coord(self, screen_x: float, screen_y: float) -> tuple[float, float]:
         return (self.rect.x - screen_x, self.rect.y - screen_y)
 
     def draw(self, surface: pygame.Surface) -> None:
