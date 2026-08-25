@@ -27,12 +27,6 @@ class ColorsConfig:
     low_health_color: SequenceLike[int] | str | int = (255, 0, 0)
     max_health_color: SequenceLike[int] | str | int = (0, 255, 0)
 
-@dataclass(frozen=True)
-class ConfigurationManager:
-    display: DisplayConfig = DisplayConfig()
-    tiles: TilesConfig = TilesConfig()
-    colors: ColorsConfig = ColorsConfig()
-
 DISPLAY = DisplayConfig()
 TILES = TilesConfig()
 COLORS = ColorsConfig()
