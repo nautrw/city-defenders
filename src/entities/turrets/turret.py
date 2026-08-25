@@ -1,6 +1,7 @@
 from os import path
 
 import pygame
+from pygame.geometry import Circle
 
 from src.entities.projectiles.ballistic_projectile import BallisticProjectile
 
@@ -14,23 +15,22 @@ class Turret(pygame.sprite.Sprite):
 
         self.position = pygame.Vector2(x_position, y_position)
 
-        self.base = pygame.image.load(path.join("src", "assets", "entities", "turrets", "turret_base.png"))
+        self.base = pygame.image.load(path.join("src", "assets", "entities", "turrets", "turret_base.png")).convert_alpha()
         self.original_turret_image = turret_image
         self.turret_image = turret_image.copy()
 
-        self.rect = self.image.get_rect(center=self.position)
+        self.base_rect = self.base.get_rect(center=self.position)
+        self.turret_rect = self.turret_image.get_rect(center=self.position)
 
         self.projectile = projectile
         self.shooting_speed = shooting_speed
 
-        self.area = pygame.geometry.Circle(pos=self.rect.center, r=area_radius)
+        self.area = Circle(self.base_rect.center, area_radius)
 
         self.turret_angle = 0
 
     def draw(self, surface: pygame.Surface):
-        self.image.blit(self.base, self.base.get_rect(topleft=(0, 0)))
-        
         self.turret_image = pygame.transform.rotate(self.original_turret_image, self.turret_angle)
-        self.image.blit(self.turret_image, self.turret_image.get_rect(center=self.position))
 
-        surface.blit(self.image, self.rect)
+        surface.blit(self.base, self.base_rect)
+        surface.blit(self.turret_image, self.turret_rect)
