@@ -41,7 +41,7 @@ class MainGameScene(Scene):
         self.paused = False
         self.draw_turret_radiuses = False
 
-        button = Button(50, 50, 50, 50)
+        button = Button(50, 50, 50, 50, text="hello")
         self.ui_elements = [button]
 
     def handle_events(self, events: list[pygame.Event]) -> None:

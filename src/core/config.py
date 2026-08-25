@@ -30,7 +30,17 @@ class ColorsConfig:
     button_normal_bg: ColorLike = "darkgray"
     button_hovered_bg: ColorLike = "lightgray"
     button_pressed_bg: ColorLike = "lightcoral"
+    
+    dark_bg: ColorLike = "#15191e"
+
+    text_normal: ColorLike = "black"
+
+@dataclass(frozen=True)
+class FontConfig:
+    font_name: str = "freesansbold.ttf"
+    font_size_normal = 8
 
 DISPLAY = DisplayConfig()
 TILES = TilesConfig()
 COLORS = ColorsConfig()
+FONT = FontConfig()
