@@ -40,14 +40,14 @@ class Turret(pygame.sprite.Sprite):
         return projectile
 
     def draw(self, surface: pygame.Surface):
-        self.turret_image = pygame.transform.rotate(self.original_turret_image, -self.turret_angle)
+        self.turret_image = pygame.transform.rotate(self.original_turret_image, self.turret_angle)
         self.turret_rect = self.turret_image.get_rect(center=self.base_rect.center)
 
         surface.blit(self.base, self.base_rect)
         surface.blit(self.turret_image, self.turret_rect)
 
-    def update(self, delta_time: float, enemies_group: pygame.sprite.Group):
+    def update(self, delta_time: float, enemies_group: pygame.sprite.Group, projectiles_group: pygame.sprite.Group):
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
                 self.turret_angle = angle_to_point(self.base_rect.center, enemy.rect.center)
-                self._shoot_at(enemy)
+                projectile = self._shoot_at(enemy)

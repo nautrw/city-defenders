@@ -32,6 +32,8 @@ class MainGameScene(Scene):
         crossbow = CrossbowTurret(100, 100)
         self.turrets_group.add(crossbow)
 
+        self.projectiles_group = pygame.sprite.Group()
+
         self.dragging_map = False
         self.camera_offset = pygame.Vector2(0, 0)
 
@@ -86,7 +88,8 @@ class MainGameScene(Scene):
     def update(self, delta_time: float) -> None:
         if not self.paused:
             self.enemies_group.update(delta_time)
-            self.turrets_group.update(delta_time, self.enemies_group)
+            self.turrets_group.update(delta_time, self.enemies_group, self.projectiles_group)
+            self.projectiles_group.update(delta_time)
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")
@@ -101,3 +104,6 @@ class MainGameScene(Scene):
 
         for turret in self.turrets_group:
             turret.draw(self.map.image)
+
+        for projectile in self.projectiles_group:
+            projectile.draw(self.map.image)
