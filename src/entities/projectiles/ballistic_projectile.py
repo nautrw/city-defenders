@@ -2,6 +2,7 @@ import pygame
 
 from src.core.utils import Coordinate
 
+
 class BallisticProjectile(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
