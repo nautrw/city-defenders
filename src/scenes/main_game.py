@@ -29,7 +29,7 @@ class MainGameScene(Scene):
         self.enemies_group.add(slime)
 
         self.turrets_group = pygame.sprite.Group()
-        crossbow = CrossbowTurret(50, 50)
+        crossbow = CrossbowTurret(100, 100)
         self.turrets_group.add(crossbow)
 
         self.dragging_map = False
@@ -86,7 +86,7 @@ class MainGameScene(Scene):
     def update(self, delta_time: float) -> None:
         if not self.paused:
             self.enemies_group.update(delta_time)
-            self.turrets_group.update(delta_time)
+            self.turrets_group.update(delta_time, self.enemies_group)
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")

@@ -1,8 +1,12 @@
+from src.entities.projectiles.arrow import Arrow
+from numpy import angle
 from os import path
 
 import pygame
 from pygame.geometry import Circle
 
+from src.core.utils import angle_to_point
+from src.entities.enemies.enemy import Enemy
 from src.entities.projectiles.ballistic_projectile import BallisticProjectile
 
 
@@ -30,8 +34,20 @@ class Turret(pygame.sprite.Sprite):
 
         self.turret_angle = 0
 
+    def _shoot_at(self, enemy: Enemy):
+        enemy_position = pygame.Vector2(enemy.rect.center)
+        projectile = Arrow(self.base_rect.x, self.base_rect.y, enemy_position)
+        return projectile
+
     def draw(self, surface: pygame.Surface):
-        self.turret_image = pygame.transform.rotate(self.original_turret_image, self.turret_angle)
+        self.turret_image = pygame.transform.rotate(self.original_turret_image, -self.turret_angle)
+        self.turret_rect = self.turret_image.get_rect(center=self.base_rect.center)
 
         surface.blit(self.base, self.base_rect)
         surface.blit(self.turret_image, self.turret_rect)
+
+    def update(self, delta_time: float, enemies_group: pygame.sprite.Group):
+        for enemy in enemies_group:
+            if self.area.colliderect(enemy.rect):
+                self.turret_angle = angle_to_point(self.base_rect.center, enemy.rect.center)
+                self._shoot_at(enemy)
