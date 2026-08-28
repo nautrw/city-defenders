@@ -2,9 +2,10 @@ import pygame
 from pygame.typing import ColorLike
 
 import src.core.config as Config
+from src.gui.element import Element
 
 
-class ElementContainer:
+class ElementContainer(Element):
     def __init__(self, x: int, y: int, width: int, height: int, inner_padding: int = 2, bg_color: ColorLike = Config.BUTTON_NORMAL_BG) -> None:
         self.x = x
         self.y = y
