@@ -28,4 +28,5 @@ class ElementContainer(Element):
         surface.blit(self.surface, self.rect)
 
     def update(self, delta_time: float) -> None:
-        pass
+        for element in self.elements:
+            element.update(delta_time)
