@@ -80,13 +80,53 @@ class MainGameScene(Scene):
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
-            mx, my = pygame.mouse.get_pos()
+            mouse_x, mouse_y = pygame.mouse.get_pos()
 
-            self.handle_map_dragging(event, mx, my)
+            if not any(
+                element.rect.collidepoint(mouse_x, mouse_y) for element in self.ui_elements
+            ):
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
+                        if self.map.rect.collidepoint(mouse_x, mouse_y):
+                            self.dragging_map = True
+                            self.camera_offset = pygame.Vector2(
+                                mouse_x - self.map.rect.x, mouse_y - self.map.rect.y
+                            )
+                    if event.button == pygame.BUTTON_LEFT: # noqa: SIM102
+                        if self.turret_to_place:
+                            self.turrets_group.add(self.turret_to_place)
+                            self.state = MainGameSceneStates.NORMAL
+                            self.turret_to_place = None
 
-            if self.state == MainGameSceneStates.PLACING_TURRET and self.turret_to_place:
-                self.handle_turret_placement(event, mx, my)
-                        
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
+                        if self.map.rect.collidepoint(mouse_x, mouse_y):
+                            self.dragging_map = False
+                elif event.type == pygame.MOUSEMOTION:
+                    if self.dragging_map:
+                        new_offset = pygame.Vector2(
+                            mouse_x - self.camera_offset.x, mouse_y - self.camera_offset.y
+                        )
+
+                        if (
+                            0
+                            < -new_offset.x
+                            < (self.map.map_width - self.game.screen.width)
+                        ):
+                            self.map.rect.x = new_offset.x
+
+                        if (
+                            0
+                            < -new_offset.y
+                            < (self.map.map_height - self.game.screen.height)
+                        ):
+                            self.map.rect.y = new_offset.y
+
+                    # turret must be moved alongside the map
+                    if self.turret_to_place:
+                        new_coord = self.map.screen_to_map_coord(mouse_x, mouse_y)
+                        self.turret_to_place.move_center(*new_coord)
+           
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.paused = not self.paused
@@ -101,63 +141,7 @@ class MainGameScene(Scene):
                     self.refresh_ui()
                 if event.button.id == "crossbow_turret_button":
                     self.state = MainGameSceneStates.PLACING_TURRET
-                    self.turret_to_place = CrossbowTurret(mx, my)
-
-    def handle_turret_placement(self, event: pygame.Event, mouse_x: int, mouse_y: int):
-        if self.turret_to_place:
-            print(self.turret_to_place.rect)
-            if event.type == pygame.MOUSEMOTION:
-                self.turret_to_place.base_rect.center = (mouse_x, mouse_y)
-                self.turret_to_place.turret_rect.center = (mouse_x, mouse_y)
-                self.turret_to_place.area.center = (mouse_x, mouse_y)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == pygame.BUTTON_RIGHT:
-                    self.turrets_group.add(self.turret_to_place)
-                    self.state = MainGameSceneStates.NORMAL
-                    self.turret_to_place = None
-
-    def handle_map_dragging(self, event: pygame.Event, mouse_x: int, mouse_y: int):
-        if not any(
-            element.rect.collidepoint(mouse_x, mouse_y) for element in self.ui_elements
-        ):
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
-                    if self.map.rect.collidepoint(mouse_x, mouse_y):
-                        self.dragging_map = True
-                        self.camera_offset = pygame.Vector2(
-                            mouse_x - self.map.rect.x, mouse_y - self.map.rect.y
-                        )
-                if event.button == pygame.BUTTON_LEFT:
-                    print(self.map.screen_to_map_coord(mouse_x, mouse_y))
-            elif event.type == pygame.MOUSEBUTTONUP:
-                if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
-                    if self.map.rect.collidepoint(mouse_x, mouse_y):
-                        self.dragging_map = False
-            elif event.type == pygame.MOUSEMOTION:
-                if self.dragging_map:
-                    new_offset = pygame.Vector2(
-                        mouse_x - self.camera_offset.x, mouse_y - self.camera_offset.y
-                    )
-
-                    #                     print(f"""
-                    # new offset: {new_offset}
-                    # screen size: {self.game.screen.get_size()}
-                    # map size: {self.map.rect.size}""")
-                    if (
-                        0
-                        < -new_offset.x
-                        < (self.map.map_width - self.game.screen.width)
-                    ):
-                        self.map.rect.x = new_offset.x
-
-                    if (
-                        0
-                        < -new_offset.y
-                        < (self.map.map_height - self.game.screen.height)
-                    ):
-                        self.map.rect.y = new_offset.y
-
-                        # self.map.rect.topleft = new_offset
+                    self.turret_to_place = CrossbowTurret(mouse_x, mouse_y)
 
     def update(self, delta_time: float) -> None:
         if not self.paused:

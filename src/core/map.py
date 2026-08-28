@@ -74,7 +74,7 @@ class GameMap(pygame.sprite.Sprite):
     def screen_to_map_coord(
         self, screen_x: float, screen_y: float
     ) -> tuple[float, float]:
-        return (self.rect.x - screen_x, self.rect.y - screen_y)
+        return (screen_x - self.rect.x, screen_y - self.rect.y)
 
     def draw(self, surface: pygame.Surface) -> None:
         surface.blit(self.image, self.rect)
