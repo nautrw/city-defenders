@@ -83,8 +83,7 @@ class Button(Element):
 
         surface.blit(self.surface, self.rect)
 
-    def update(self, delta_time: float) -> None:
-        mouse_position = pygame.mouse.get_pos()
+    def update(self, delta_time: float, mouse_position: tuple[int, int]) -> None:
         pressed_buttons = pygame.mouse.get_pressed()
         pressed = pressed_buttons[0]  # left click
 
@@ -100,3 +99,4 @@ class Button(Element):
             self.state = ButtonStates.NORMAL
 
         self.pressed_last_frame = pressed
+

@@ -143,7 +143,7 @@ class MainGameScene(Scene):
             self.projectiles_group.update(delta_time, self.enemies_group)
 
             for element in self.ui_elements:
-                element.update(delta_time)
+                element.update(delta_time, pygame.mouse.get_pos())
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")

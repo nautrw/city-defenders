@@ -12,5 +12,5 @@ class Element(ABC):
         ...
     
     @abstractmethod
-    def update(self, delta_time: float) -> None:
+    def update(self, delta_time: float, mouse_position: tuple[int, int]) -> None:
         ...

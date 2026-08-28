@@ -1,3 +1,4 @@
+from pygame.mouse import get_relative_mode
 import pygame
 from pygame.typing import ColorLike
 
@@ -29,6 +30,9 @@ class ElementContainer(Element):
 
         surface.blit(self.surface, self.rect)
 
-    def update(self, delta_time: float) -> None:
+    def update(self, delta_time: float, mouse_position: tuple[int, int]) -> None:
+        # relative_mouse_position = (self.x - mouse_position[0], self.y - mouse_position[1])
+        relative_mouse_position = (mouse_position[0] - self.x, mouse_position[1] - self.y)
+
         for element in self.elements:
-            element.update(delta_time)
+            element.update(delta_time, relative_mouse_position)
