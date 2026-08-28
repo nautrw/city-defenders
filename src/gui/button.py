@@ -18,6 +18,7 @@ class ButtonStates(Enum):
 class Button(Element):
     def __init__(
         self,
+        id: str,
         x: int,
         y: int,
         width: int,
@@ -31,6 +32,8 @@ class Button(Element):
         image: pygame.Surface | None = None,
         once_per_click: bool = True,
     ) -> None:
+        super().__init__(id)
+
         self.x = x
         self.y = y
         self.width = width

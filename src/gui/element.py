@@ -4,8 +4,8 @@ import pygame
 
 
 class Element(ABC):
-    def __init__(self) -> None:
-        pass
+    def __init__(self, id: str) -> None:
+        self.id = id
 
     @abstractmethod
     def draw(self, surface: pygame.Surface) -> None:
