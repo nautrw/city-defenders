@@ -1,4 +1,3 @@
-from numpy import cross
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -23,6 +22,10 @@ class UIStates(Enum):
     COLLAPSED = auto()
     TOWER_MENU = auto()
 
+class MainGameSceneStates(Enum):
+    NORMAL = auto()
+    PLACING_TURRET = auto()
+
 class MainGameScene(Scene):
     def __init__(self, game: GameApp, map: GameMap):
         super().__init__(game)
@@ -36,8 +39,8 @@ class MainGameScene(Scene):
         self.enemies_group.add(slime)
 
         self.turrets_group = pygame.sprite.Group()
-        crossbow = CrossbowTurret(150, 100)
-        self.turrets_group.add(crossbow)
+        # crossbow = CrossbowTurret(150, 100)
+        # self.turrets_group.add(crossbow)
 
         self.projectiles_group = pygame.sprite.Group()
 
@@ -46,6 +49,9 @@ class MainGameScene(Scene):
 
         self.paused = False
         self.draw_turret_radiuses = False
+
+        self.state: MainGameSceneStates = MainGameSceneStates.NORMAL
+        self.turret_to_place = None
 
         self.ui_elements = []
         self.ui_state = UIStates.COLLAPSED
@@ -77,6 +83,9 @@ class MainGameScene(Scene):
             mx, my = pygame.mouse.get_pos()
 
             self.handle_map_dragging(event, mx, my)
+
+            if self.state == MainGameSceneStates.PLACING_TURRET and self.turret_to_place:
+                self.handle_turret_placement(event, mx, my)
                         
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -90,6 +99,22 @@ class MainGameScene(Scene):
                 elif event.button.id == "tower_menu_close_button":
                     self.ui_state = UIStates.COLLAPSED
                     self.refresh_ui()
+                if event.button.id == "crossbow_turret_button":
+                    self.state = MainGameSceneStates.PLACING_TURRET
+                    self.turret_to_place = CrossbowTurret(mx, my)
+
+    def handle_turret_placement(self, event: pygame.Event, mouse_x: int, mouse_y: int):
+        if self.turret_to_place:
+            print(self.turret_to_place.rect)
+            if event.type == pygame.MOUSEMOTION:
+                self.turret_to_place.base_rect.center = (mouse_x, mouse_y)
+                self.turret_to_place.turret_rect.center = (mouse_x, mouse_y)
+                self.turret_to_place.area.center = (mouse_x, mouse_y)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == pygame.BUTTON_RIGHT:
+                    self.turrets_group.add(self.turret_to_place)
+                    self.state = MainGameSceneStates.NORMAL
+                    self.turret_to_place = None
 
     def handle_map_dragging(self, event: pygame.Event, mouse_x: int, mouse_y: int):
         if not any(
@@ -161,6 +186,9 @@ class MainGameScene(Scene):
 
         for projectile in self.projectiles_group:
             projectile.draw(self.map.image)
+
+        if self.turret_to_place:
+            self.turret_to_place.draw(self.map.image, True)
 
         for element in self.ui_elements:
             element.draw(surface)
