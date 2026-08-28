@@ -1,3 +1,4 @@
+from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
@@ -8,7 +9,8 @@ from src.core.scenes_manager import Scene
 from src.core.utils import load_asset, split_tileset
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
-from src.gui.button import Button, CUSTOM_BUTTON_CLICKED
+from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
+from src.gui.container import ElementContainer
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
@@ -16,6 +18,9 @@ from src.gui.button import Button, CUSTOM_BUTTON_CLICKED
 if TYPE_CHECKING:
     from src.app import GameApp  # noqa: TC004
 
+class UIStates(Enum):
+    COLLAPSED = auto()
+    TOWER_MENU = auto()
 
 class MainGameScene(Scene):
     def __init__(self, game: GameApp, map: GameMap):
@@ -41,10 +46,27 @@ class MainGameScene(Scene):
         self.paused = False
         self.draw_turret_radiuses = False
 
-        build_icon = load_asset("build_icon")
+        self.ui_elements = []
+        self.ui_state = UIStates.COLLAPSED
+        self.refresh_ui()
 
-        button = Button(5, 215, 20, 20, image=build_icon)
-        self.ui_elements = [button]
+    def refresh_ui(self) -> None:
+        self.ui_elements = []
+
+        if self.ui_state == UIStates.COLLAPSED:
+            build_icon = load_asset("build_icon")
+            build_button = Button("build_towers", 5, 215, 20, 20, image=build_icon)
+
+            self.ui_elements.append(build_button)
+        elif self.ui_state == UIStates.TOWER_MENU:
+            container_width = 100
+            container_left = self.game.screen.width - container_width
+
+            container_height = self.game.screen.height
+            self.ui_elements.append(ElementContainer("tower_menu", self.game.screen.width - container_width, 0, container_width, container_height, bg_color="black"))
+
+            close_icon = load_asset("close_icon")
+            self.ui_elements.append(Button("tower_menu_close_button", 238, 2, 20, 20, image=close_icon))
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
@@ -58,7 +80,12 @@ class MainGameScene(Scene):
                 elif event.key == pygame.K_r:
                     self.draw_turret_radiuses = not self.draw_turret_radiuses
             elif event.type == CUSTOM_BUTTON_CLICKED:
-                print(event.button.rect)
+                if event.button.id == "build_towers":
+                    self.ui_state = UIStates.TOWER_MENU
+                    self.refresh_ui()
+                elif event.button.id == "tower_menu_close_button":
+                    self.ui_state = UIStates.COLLAPSED
+                    self.refresh_ui()
 
     def handle_map_dragging(self, event: pygame.Event, mouse_x: int, mouse_y: int):
         if not any(
