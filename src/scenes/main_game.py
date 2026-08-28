@@ -1,3 +1,4 @@
+from numpy import cross
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -55,15 +56,18 @@ class MainGameScene(Scene):
 
         if self.ui_state == UIStates.COLLAPSED:
             build_icon = load_asset("build_icon")
-            build_button = Button("build_towers", 5, 215, 20, 20, image=build_icon)
+            build_button = Button("build_towers", 338, 2, 20, 20, image=build_icon)
 
             self.ui_elements.append(build_button)
         elif self.ui_state == UIStates.TOWER_MENU:
             container_width = 100
-            container_left = self.game.screen.width - container_width
-
             container_height = self.game.screen.height
-            self.ui_elements.append(ElementContainer("tower_menu", self.game.screen.width - container_width, 0, container_width, container_height, bg_color="black"))
+            tower_menu_cotnainer = ElementContainer("tower_menu", self.game.screen.width - container_width, 0, container_width, container_height, bg_color="black")
+
+            crossbow_turret_icon = pygame.transform.scale(load_asset("crossbow"), (16, 16))
+            tower_menu_cotnainer.elements.append(Button("crossbow_turret_button", 2, 2, 20, 20, image=crossbow_turret_icon))
+
+            self.ui_elements.append(tower_menu_cotnainer)
 
             close_icon = load_asset("close_icon")
             self.ui_elements.append(Button("tower_menu_close_button", 238, 2, 20, 20, image=close_icon))
