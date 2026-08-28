@@ -4,6 +4,7 @@ import pygame
 from pygame.typing import ColorLike
 
 import src.core.config as Config
+from src.gui.element import Element
 
 CUSTOM_BUTTON_CLICKED = pygame.event.custom_type()
 
@@ -14,7 +15,7 @@ class ButtonStates(Enum):
     PRESSED = auto()
 
 
-class Button:
+class Button(Element):
     def __init__(
         self,
         x: int,
