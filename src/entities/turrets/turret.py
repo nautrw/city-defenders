@@ -27,7 +27,8 @@ class Turret(pygame.sprite.Sprite):
 
         self.position = pygame.Vector2(x_position, y_position)
 
-        self.base = load_asset("turret_base")
+        self.original_base_image = load_asset("turret_base")
+        self.base = self.original_base_image.copy()
         self.original_turret_image = turret_image
         self.turret_image = turret_image.copy()
 
@@ -73,6 +74,8 @@ class Turret(pygame.sprite.Sprite):
         draw_radiuses: bool,
         overlay_color: ColorLike | None = None,
     ):
+        self.base = self.original_base_image.copy()
+
         if draw_radiuses:
             circle_surf = pygame.Surface(self.area.as_rect().size, pygame.SRCALPHA)
             radius = self.area.radius
@@ -90,6 +93,7 @@ class Turret(pygame.sprite.Sprite):
         self.turret_rect = self.turret_image.get_rect(center=self.rect.center)
 
         if overlay_color:
+            self.base.fill(overlay_color, special_flags=pygame.BLEND_RGBA_MIN)
             self.turret_image.fill(overlay_color, special_flags=pygame.BLEND_RGBA_MIN)
 
         surface.blit(self.base, self.rect)
