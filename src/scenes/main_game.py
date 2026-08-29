@@ -12,6 +12,7 @@ from src.entities.turrets.crossbow import CrossbowTurret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
+from src.gui.text import Text, TextPlacementModes
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
@@ -24,6 +25,7 @@ class UIStates(Enum):
     COLLAPSED = auto()
     TOWER_MENU = auto()
     PLACING_TURRET = auto()
+    TURRET_SELECTED = auto()
 
 
 class MainGameSceneStates(Enum):
@@ -55,7 +57,6 @@ class MainGameSceneGUIManager(GUIManager):
                 0,
                 container_width,
                 container_height,
-                bg_color="black",
             )
 
             crossbow_turret_icon = pygame.transform.scale(
@@ -79,12 +80,42 @@ class MainGameSceneGUIManager(GUIManager):
                 "discard_turret_button", 338, 2, 20, 20, image=close_icon
             )
             self.elements.append(discard_button)
+        elif self.state == UIStates.TURRET_SELECTED:
+            container_width = 100
+            container_height = self.scene.game.screen.height
+            selected_tower_menu = ElementContainer(
+                "selected_tower_menu",
+                self.scene.game.screen.width - container_width,
+                0,
+                container_width,
+                container_height,
+            )
+
+            tower_name = Text(
+                self.scene.selected_turret.display_name, # ty:ignore[unresolved-attribute]
+                container_width // 2,
+                10,
+                placement_mode=TextPlacementModes.CENTER,
+            )
+
+            selected_tower_menu.elements.append(tower_name)
+
+            self.elements.append(selected_tower_menu)
+
+            close_icon = load_asset("close_icon")
+            self.elements.append(
+                Button(
+                    "selected_tower_menu_close_button", 238, 2, 20, 20, image=close_icon
+                )
+            )
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
             if event.button.id == "build_towers":
                 self.switch_state(UIStates.TOWER_MENU)
-            elif event.button.id == "tower_menu_close_button":
+            elif event.button.id.endswith("_close_button"):
+                # elif event.button.id == "tower_menu_close_button":
+                # elif event.button.id == "selected_tower_menu_close_button":
                 self.switch_state(UIStates.COLLAPSED)
             elif event.button.id == "discard_turret_button":
                 self.switch_state(UIStates.TOWER_MENU)
@@ -127,6 +158,7 @@ class MainGameScene(Scene):
         self.state: MainGameSceneStates = MainGameSceneStates.NORMAL
         self.turret_to_place = None
         self.can_place_turret = False
+        self.selected_turret = None
 
         self.gui_manager = MainGameSceneGUIManager(self)
 
@@ -146,12 +178,21 @@ class MainGameScene(Scene):
                             self.camera_offset = pygame.Vector2(
                                 mouse_x - self.map.rect.x, mouse_y - self.map.rect.y
                             )
-                    if event.button == pygame.BUTTON_LEFT:  # noqa: SIM102
-                        if self.turret_to_place and self.can_place_turret:
-                            self.turrets_group.add(self.turret_to_place)
-                            self.state = MainGameSceneStates.NORMAL
-                            self.gui_manager.switch_state(UIStates.TOWER_MENU)
-                            self.turret_to_place = None
+                    if event.button == pygame.BUTTON_LEFT:
+                        if self.state == MainGameSceneStates.PLACING_TURRET:
+                            if self.turret_to_place and self.can_place_turret:
+                                self.turrets_group.add(self.turret_to_place)
+                                self.state = MainGameSceneStates.NORMAL
+                                self.gui_manager.switch_state(UIStates.TOWER_MENU)
+                                self.turret_to_place = None
+                                self.can_place_turret = False  # reset
+                        elif self.state == MainGameSceneStates.NORMAL:
+                            for turret in self.turrets_group:
+                                if turret.rect.collidepoint(mouse_x, mouse_y):
+                                    self.selected_turret = turret
+                                    self.gui_manager.switch_state(
+                                        UIStates.TURRET_SELECTED
+                                    )
 
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
