@@ -1,5 +1,4 @@
 import pygame
-from pygame.mouse import get_relative_mode
 from pygame.typing import ColorLike
 
 import src.core.config as Config
