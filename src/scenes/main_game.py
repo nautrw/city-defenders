@@ -22,6 +22,7 @@ if TYPE_CHECKING:
 class UIStates(Enum):
     COLLAPSED = auto()
     TOWER_MENU = auto()
+    PLACING_TURRET = auto()
 
 
 class MainGameSceneStates(Enum):
@@ -96,6 +97,10 @@ class MainGameScene(Scene):
             self.ui_elements.append(
                 Button("tower_menu_close_button", 238, 2, 20, 20, image=close_icon)
             )
+        elif self.ui_state == UIStates.PLACING_TURRET:
+            close_icon = load_asset("close_icon")
+            discard_button = Button("discard_turret_button", 338, 2, 20, 20, image=close_icon)
+            self.ui_elements.append(discard_button)
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
@@ -163,8 +168,14 @@ class MainGameScene(Scene):
                 elif event.button.id == "tower_menu_close_button":
                     self.ui_state = UIStates.COLLAPSED
                     self.refresh_ui()
-                if event.button.id == "crossbow_turret_button":
+                elif event.button.id == "discard_turret_button":
+                    self.ui_state = UIStates.TOWER_MENU
+                    self.turret_to_place = None
+                    self.refresh_ui()
+                elif event.button.id == "crossbow_turret_button":
                     self.state = MainGameSceneStates.PLACING_TURRET
+                    self.ui_state = UIStates.PLACING_TURRET
+                    self.refresh_ui()
                     self.turret_to_place = CrossbowTurret(mouse_x, mouse_y)
 
     def update(self, delta_time: float) -> None:
