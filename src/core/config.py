@@ -19,7 +19,7 @@ ENEMY_PATH_LAYER_NAME: str = "path_polygon"
 
 LOW_HEALTH_COLOR: ColorLike = (255, 0, 0)
 MAX_HEALTH_COLOR: ColorLike = (0, 255, 0)
-TURRET_RADIUS_COLOR: ColorLike = (185, 69, 29, 100)
+TURRET_RADIUS_COLOR: ColorLike = (0, 0, 0, 75)
 
 BUTTON_NORMAL_BG: ColorLike = "darkgray"
 BUTTON_HOVERED_BG: ColorLike = "lightgray"
