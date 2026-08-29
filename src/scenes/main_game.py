@@ -18,13 +18,16 @@ from src.gui.container import ElementContainer
 if TYPE_CHECKING:
     from src.app import GameApp  # noqa: TC004
 
+
 class UIStates(Enum):
     COLLAPSED = auto()
     TOWER_MENU = auto()
 
+
 class MainGameSceneStates(Enum):
     NORMAL = auto()
     PLACING_TURRET = auto()
+
 
 class MainGameScene(Scene):
     def __init__(self, game: GameApp, map: GameMap):
@@ -69,22 +72,38 @@ class MainGameScene(Scene):
         elif self.ui_state == UIStates.TOWER_MENU:
             container_width = 100
             container_height = self.game.screen.height
-            tower_menu_cotnainer = ElementContainer("tower_menu", self.game.screen.width - container_width, 0, container_width, container_height, bg_color="black")
+            tower_menu_cotnainer = ElementContainer(
+                "tower_menu",
+                self.game.screen.width - container_width,
+                0,
+                container_width,
+                container_height,
+                bg_color="black",
+            )
 
-            crossbow_turret_icon = pygame.transform.scale(load_asset("crossbow"), (16, 16))
-            tower_menu_cotnainer.elements.append(Button("crossbow_turret_button", 2, 2, 20, 20, image=crossbow_turret_icon))
+            crossbow_turret_icon = pygame.transform.scale(
+                load_asset("crossbow"), (16, 16)
+            )
+            tower_menu_cotnainer.elements.append(
+                Button(
+                    "crossbow_turret_button", 2, 2, 20, 20, image=crossbow_turret_icon
+                )
+            )
 
             self.ui_elements.append(tower_menu_cotnainer)
 
             close_icon = load_asset("close_icon")
-            self.ui_elements.append(Button("tower_menu_close_button", 238, 2, 20, 20, image=close_icon))
+            self.ui_elements.append(
+                Button("tower_menu_close_button", 238, 2, 20, 20, image=close_icon)
+            )
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             mouse_x, mouse_y = pygame.mouse.get_pos()
 
             if not any(
-                element.rect.collidepoint(mouse_x, mouse_y) for element in self.ui_elements
+                element.rect.collidepoint(mouse_x, mouse_y)
+                for element in self.ui_elements
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
@@ -93,7 +112,7 @@ class MainGameScene(Scene):
                             self.camera_offset = pygame.Vector2(
                                 mouse_x - self.map.rect.x, mouse_y - self.map.rect.y
                             )
-                    if event.button == pygame.BUTTON_LEFT: # noqa: SIM102
+                    if event.button == pygame.BUTTON_LEFT:  # noqa: SIM102
                         if self.turret_to_place and self.can_place_turret:
                             self.turrets_group.add(self.turret_to_place)
                             self.state = MainGameSceneStates.NORMAL
@@ -106,7 +125,8 @@ class MainGameScene(Scene):
                 elif event.type == pygame.MOUSEMOTION:
                     if self.dragging_map:
                         new_offset = pygame.Vector2(
-                            mouse_x - self.camera_offset.x, mouse_y - self.camera_offset.y
+                            mouse_x - self.camera_offset.x,
+                            mouse_y - self.camera_offset.y,
                         )
 
                         if (
@@ -127,7 +147,9 @@ class MainGameScene(Scene):
                     if self.turret_to_place:
                         new_coord = self.map.screen_to_map_coord(mouse_x, mouse_y)
                         self.turret_to_place.move_center(*new_coord)
-                        self.can_place_turret = not pygame.sprite.spritecollide(self.turret_to_place, self.map.path_tiles, False)
+                        self.can_place_turret = not pygame.sprite.spritecollide(
+                            self.turret_to_place, self.map.path_tiles, False
+                        )
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -174,7 +196,9 @@ class MainGameScene(Scene):
             projectile.draw(self.map.image)
 
         if self.turret_to_place:
-            overlay_color = (0, 255, 0, 255) if self.can_place_turret else (255, 0, 0, 255) 
+            overlay_color = (
+                (0, 255, 0, 255) if self.can_place_turret else (255, 0, 0, 255)
+            )
             self.turret_to_place.draw(self.map.image, True, overlay_color=overlay_color)
 
         for element in self.ui_elements:

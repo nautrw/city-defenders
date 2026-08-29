@@ -12,7 +12,7 @@ SPRITES_DICT = {
 }
 MAPS_DICT = {
     file.name.replace(".json", ""): file
-    for file in list(Config.MAPS_PATH.rglob('*.json'))
+    for file in list(Config.MAPS_PATH.rglob("*.json"))
 }
 
 
@@ -78,16 +78,19 @@ def clean_map_json(map_json: dict) -> dict:
 
     return result
 
+
 def load_map(name: str) -> dict:
     path = MAPS_DICT[name]
 
-    with open(path, 'r') as f:
+    with open(path, "r") as f:
         map_json = json.load(f)
         return clean_map_json(map_json)
+
 
 def angle_to_point(origin_x: float, origin_y: float, target_x: float, target_y: float):
     direction = pygame.Vector2(target_x, target_y) - pygame.Vector2(origin_x, origin_y)
     return 360 - math.degrees(math.atan2(direction.x, -direction.y))
+
 
 def load_asset(name: str):
     return pygame.image.load(SPRITES_DICT[name]).convert_alpha()

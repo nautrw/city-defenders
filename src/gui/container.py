@@ -1,5 +1,5 @@
-from pygame.mouse import get_relative_mode
 import pygame
+from pygame.mouse import get_relative_mode
 from pygame.typing import ColorLike
 
 import src.core.config as Config
@@ -7,7 +7,16 @@ from src.gui.element import Element
 
 
 class ElementContainer(Element):
-    def __init__(self, id: str, x: int, y: int, width: int, height: int, inner_padding: int = 2, bg_color: ColorLike = Config.BUTTON_NORMAL_BG) -> None:
+    def __init__(
+        self,
+        id: str,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+        inner_padding: int = 2,
+        bg_color: ColorLike = Config.BUTTON_NORMAL_BG,
+    ) -> None:
         super().__init__(id)
 
         self.x = x
@@ -32,7 +41,10 @@ class ElementContainer(Element):
 
     def update(self, delta_time: float, mouse_position: tuple[int, int]) -> None:
         # relative_mouse_position = (self.x - mouse_position[0], self.y - mouse_position[1])
-        relative_mouse_position = (mouse_position[0] - self.x, mouse_position[1] - self.y)
+        relative_mouse_position = (
+            mouse_position[0] - self.x,
+            mouse_position[1] - self.y,
+        )
 
         for element in self.elements:
             element.update(delta_time, relative_mouse_position)

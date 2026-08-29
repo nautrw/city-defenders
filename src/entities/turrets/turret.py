@@ -60,14 +60,19 @@ class Turret(pygame.sprite.Sprite):
             target_y=enemy_position[1],
         )
         return projectile
-    
+
     def move_center(self, new_x: float, new_y: float) -> None:
         self.position = (new_x, new_y)
         self.rect.center = self.position
         self.turret_rect.center = self.position
         self.area.center = self.position
 
-    def draw(self, surface: pygame.Surface, draw_radiuses: bool, overlay_color: ColorLike | None = None):
+    def draw(
+        self,
+        surface: pygame.Surface,
+        draw_radiuses: bool,
+        overlay_color: ColorLike | None = None,
+    ):
         if draw_radiuses:
             circle_surf = pygame.Surface(self.area.as_rect().size, pygame.SRCALPHA)
             radius = self.area.radius

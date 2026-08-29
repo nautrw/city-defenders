@@ -23,7 +23,7 @@ class GameApp:
 
         tileset_img = load_asset("tileset")
         tileset = split_tileset(tileset_img, Config.TILE_HEIGHT, Config.TILE_HEIGHT)
-        map_data = load_map('Test')
+        map_data = load_map("Test")
 
         self.scene_manager = SceneManager()
         self.scene_manager.push(MainGameScene(self, GameMap(tileset, map_data)))

@@ -99,4 +99,3 @@ class Button(Element):
             self.state = ButtonStates.NORMAL
 
         self.pressed_last_frame = pressed
-
