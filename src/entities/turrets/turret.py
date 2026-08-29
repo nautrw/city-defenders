@@ -1,5 +1,6 @@
 import pygame
 from pygame.geometry import Circle
+from pygame.typing import ColorLike
 
 import src.core.config as Config
 from src.core.utils import angle_to_point, load_asset
@@ -30,14 +31,16 @@ class Turret(pygame.sprite.Sprite):
         self.original_turret_image = turret_image
         self.turret_image = turret_image.copy()
 
-        self.base_rect = self.base.get_rect(center=self.position)
+        # turret needs to have a separate rect because of rotation, so i use
+        # the base as the rect
+        self.rect = self.base.get_rect(center=self.position)
         self.turret_rect = self.turret_image.get_rect(center=self.position)
 
         self.projectile = projectile
         self.shooting_speed = shooting_speed
         self.shoot_cooldown_delta_time = 0
 
-        self.area = Circle(self.base_rect.center, area_radius)
+        self.area = Circle(self.rect.center, area_radius)
 
         self.turret_angle = 0
 
@@ -60,11 +63,11 @@ class Turret(pygame.sprite.Sprite):
     
     def move_center(self, new_x: float, new_y: float) -> None:
         self.position = (new_x, new_y)
-        self.base_rect.center = self.position
+        self.rect.center = self.position
         self.turret_rect.center = self.position
         self.area.center = self.position
 
-    def draw(self, surface: pygame.Surface, draw_radiuses: bool):
+    def draw(self, surface: pygame.Surface, draw_radiuses: bool, overlay_color: ColorLike | None = None):
         if draw_radiuses:
             circle_surf = pygame.Surface(self.area.as_rect().size, pygame.SRCALPHA)
             radius = self.area.radius
@@ -79,9 +82,12 @@ class Turret(pygame.sprite.Sprite):
         self.turret_image = pygame.transform.rotate(
             self.original_turret_image, self.turret_angle
         )
-        self.turret_rect = self.turret_image.get_rect(center=self.base_rect.center)
+        self.turret_rect = self.turret_image.get_rect(center=self.rect.center)
 
-        surface.blit(self.base, self.base_rect)
+        if overlay_color:
+            self.turret_image.fill(overlay_color, special_flags=pygame.BLEND_RGBA_MIN)
+
+        surface.blit(self.base, self.rect)
         surface.blit(self.turret_image, self.turret_rect)
 
     def update(
@@ -93,8 +99,8 @@ class Turret(pygame.sprite.Sprite):
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
                 self.turret_angle = angle_to_point(
-                    self.base_rect.centerx,
-                    self.base_rect.centery,
+                    self.rect.centerx,
+                    self.rect.centery,
                     enemy.rect.centerx,
                     enemy.rect.centery,
                 )

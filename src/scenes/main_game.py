@@ -52,6 +52,7 @@ class MainGameScene(Scene):
 
         self.state: MainGameSceneStates = MainGameSceneStates.NORMAL
         self.turret_to_place = None
+        self.can_place_turret = False
 
         self.ui_elements = []
         self.ui_state = UIStates.COLLAPSED
@@ -93,7 +94,7 @@ class MainGameScene(Scene):
                                 mouse_x - self.map.rect.x, mouse_y - self.map.rect.y
                             )
                     if event.button == pygame.BUTTON_LEFT: # noqa: SIM102
-                        if self.turret_to_place:
+                        if self.turret_to_place and self.can_place_turret:
                             self.turrets_group.add(self.turret_to_place)
                             self.state = MainGameSceneStates.NORMAL
                             self.turret_to_place = None
@@ -126,7 +127,8 @@ class MainGameScene(Scene):
                     if self.turret_to_place:
                         new_coord = self.map.screen_to_map_coord(mouse_x, mouse_y)
                         self.turret_to_place.move_center(*new_coord)
-           
+                        self.can_place_turret = not pygame.sprite.spritecollide(self.turret_to_place, self.map.path_tiles, False)
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.paused = not self.paused
@@ -172,7 +174,8 @@ class MainGameScene(Scene):
             projectile.draw(self.map.image)
 
         if self.turret_to_place:
-            self.turret_to_place.draw(self.map.image, True)
+            overlay_color = (0, 255, 0, 255) if self.can_place_turret else (255, 0, 0, 255) 
+            self.turret_to_place.draw(self.map.image, True, overlay_color=overlay_color)
 
         for element in self.ui_elements:
             element.draw(surface)
