@@ -4,8 +4,10 @@ import pygame
 
 
 class Element(ABC):
-    def __init__(self, id: str) -> None:
+    def __init__(self, id: str, image: pygame.Surface, rect: pygame.Rect) -> None:
         self.id = id
+        self.image = image
+        self.rect = rect
 
     @abstractmethod
     def draw(self, surface: pygame.Surface) -> None: ...

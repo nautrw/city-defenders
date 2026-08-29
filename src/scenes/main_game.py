@@ -11,6 +11,7 @@ from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
+from src.gui.gui_manager import GUIManager
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
@@ -28,6 +29,75 @@ class UIStates(Enum):
 class MainGameSceneStates(Enum):
     NORMAL = auto()
     PLACING_TURRET = auto()
+
+
+class MainGameSceneGUIManager(GUIManager):
+    def __init__(self, scene: Scene) -> None:
+        default_state = UIStates.COLLAPSED
+
+        super().__init__(scene, default_state)
+        self.refresh()
+
+    def refresh(self) -> None:
+        self.elements = []
+
+        if self.state == UIStates.COLLAPSED:
+            build_icon = load_asset("build_icon")
+            build_button = Button("build_towers", 338, 2, 20, 20, image=build_icon)
+
+            self.elements.append(build_button)
+        elif self.state == UIStates.TOWER_MENU:
+            container_width = 100
+            container_height = self.scene.game.screen.height
+            tower_menu_cotnainer = ElementContainer(
+                "tower_menu",
+                self.scene.game.screen.width - container_width,
+                0,
+                container_width,
+                container_height,
+                bg_color="black",
+            )
+
+            crossbow_turret_icon = pygame.transform.scale(
+                load_asset("crossbow"), (16, 16)
+            )
+            tower_menu_cotnainer.elements.append(
+                Button(
+                    "crossbow_turret_button", 2, 2, 20, 20, image=crossbow_turret_icon
+                )
+            )
+
+            self.elements.append(tower_menu_cotnainer)
+
+            close_icon = load_asset("close_icon")
+            self.elements.append(
+                Button("tower_menu_close_button", 238, 2, 20, 20, image=close_icon)
+            )
+        elif self.state == UIStates.PLACING_TURRET:
+            close_icon = load_asset("close_icon")
+            discard_button = Button(
+                "discard_turret_button", 338, 2, 20, 20, image=close_icon
+            )
+            self.elements.append(discard_button)
+
+    def handle_event(self, event: pygame.Event) -> None:
+        if event.type == CUSTOM_BUTTON_CLICKED:
+            if event.button.id == "build_towers":
+                self.switch_state(UIStates.TOWER_MENU)
+            elif event.button.id == "tower_menu_close_button":
+                self.switch_state(UIStates.COLLAPSED)
+            elif event.button.id == "discard_turret_button":
+                self.switch_state(UIStates.TOWER_MENU)
+                self.scene.turret_to_place = None  # ty: ignore[unresolved-attribute]
+            elif event.button.id == "crossbow_turret_button":
+                self.switch_state(UIStates.PLACING_TURRET)
+
+                self.scene.state = (  # ty:ignore[unresolved-attribute]
+                    MainGameSceneStates.PLACING_TURRET
+                )
+                self.scene.turret_to_place = (  # ty:ignore[unresolved-attribute]
+                    CrossbowTurret(*pygame.mouse.get_pos())
+                )
 
 
 class MainGameScene(Scene):
@@ -58,57 +128,16 @@ class MainGameScene(Scene):
         self.turret_to_place = None
         self.can_place_turret = False
 
-        self.ui_elements = []
-        self.ui_state = UIStates.COLLAPSED
-        self.refresh_ui()
-
-    def refresh_ui(self) -> None:
-        self.ui_elements = []
-
-        if self.ui_state == UIStates.COLLAPSED:
-            build_icon = load_asset("build_icon")
-            build_button = Button("build_towers", 338, 2, 20, 20, image=build_icon)
-
-            self.ui_elements.append(build_button)
-        elif self.ui_state == UIStates.TOWER_MENU:
-            container_width = 100
-            container_height = self.game.screen.height
-            tower_menu_cotnainer = ElementContainer(
-                "tower_menu",
-                self.game.screen.width - container_width,
-                0,
-                container_width,
-                container_height,
-                bg_color="black",
-            )
-
-            crossbow_turret_icon = pygame.transform.scale(
-                load_asset("crossbow"), (16, 16)
-            )
-            tower_menu_cotnainer.elements.append(
-                Button(
-                    "crossbow_turret_button", 2, 2, 20, 20, image=crossbow_turret_icon
-                )
-            )
-
-            self.ui_elements.append(tower_menu_cotnainer)
-
-            close_icon = load_asset("close_icon")
-            self.ui_elements.append(
-                Button("tower_menu_close_button", 238, 2, 20, 20, image=close_icon)
-            )
-        elif self.ui_state == UIStates.PLACING_TURRET:
-            close_icon = load_asset("close_icon")
-            discard_button = Button("discard_turret_button", 338, 2, 20, 20, image=close_icon)
-            self.ui_elements.append(discard_button)
+        self.gui_manager = MainGameSceneGUIManager(self)
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
+
             mouse_x, mouse_y = pygame.mouse.get_pos()
 
             if not any(
                 element.rect.collidepoint(mouse_x, mouse_y)
-                for element in self.ui_elements
+                for element in self.gui_manager.elements
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
@@ -121,6 +150,7 @@ class MainGameScene(Scene):
                         if self.turret_to_place and self.can_place_turret:
                             self.turrets_group.add(self.turret_to_place)
                             self.state = MainGameSceneStates.NORMAL
+                            self.gui_manager.switch_state(UIStates.TOWER_MENU)
                             self.turret_to_place = None
 
                 elif event.type == pygame.MOUSEBUTTONUP:
@@ -161,22 +191,8 @@ class MainGameScene(Scene):
                     self.paused = not self.paused
                 elif event.key == pygame.K_r:
                     self.draw_turret_radiuses = not self.draw_turret_radiuses
-            elif event.type == CUSTOM_BUTTON_CLICKED:
-                if event.button.id == "build_towers":
-                    self.ui_state = UIStates.TOWER_MENU
-                    self.refresh_ui()
-                elif event.button.id == "tower_menu_close_button":
-                    self.ui_state = UIStates.COLLAPSED
-                    self.refresh_ui()
-                elif event.button.id == "discard_turret_button":
-                    self.ui_state = UIStates.TOWER_MENU
-                    self.turret_to_place = None
-                    self.refresh_ui()
-                elif event.button.id == "crossbow_turret_button":
-                    self.state = MainGameSceneStates.PLACING_TURRET
-                    self.ui_state = UIStates.PLACING_TURRET
-                    self.refresh_ui()
-                    self.turret_to_place = CrossbowTurret(mouse_x, mouse_y)
+
+            self.gui_manager.handle_event(event)
 
     def update(self, delta_time: float) -> None:
         if not self.paused:
@@ -186,8 +202,7 @@ class MainGameScene(Scene):
             )
             self.projectiles_group.update(delta_time, self.enemies_group)
 
-            for element in self.ui_elements:
-                element.update(delta_time, pygame.mouse.get_pos())
+            self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")
@@ -206,11 +221,10 @@ class MainGameScene(Scene):
         for projectile in self.projectiles_group:
             projectile.draw(self.map.image)
 
+        self.gui_manager.render_elements(surface)
+
         if self.turret_to_place:
             overlay_color = (
                 (0, 255, 0, 255) if self.can_place_turret else (255, 0, 0, 255)
             )
             self.turret_to_place.draw(self.map.image, True, overlay_color=overlay_color)
-
-        for element in self.ui_elements:
-            element.draw(surface)

@@ -17,8 +17,6 @@ class ElementContainer(Element):
         inner_padding: int = 2,
         bg_color: ColorLike = Config.BUTTON_NORMAL_BG,
     ) -> None:
-        super().__init__(id)
-
         self.x = x
         self.y = y
         self.width = width
@@ -30,6 +28,8 @@ class ElementContainer(Element):
         self.rect = self.surface.get_rect(topleft=(self.x, self.y))
 
         self.elements = []
+
+        super().__init__(id, self.surface, self.rect)
 
     def draw(self, surface: pygame.Surface) -> None:
         self.surface.fill(self.bg_color)

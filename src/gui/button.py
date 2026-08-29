@@ -32,8 +32,6 @@ class Button(Element):
         image: pygame.Surface | None = None,
         once_per_click: bool = True,
     ) -> None:
-        super().__init__(id)
-
         self.x = x
         self.y = y
         self.width = width
@@ -43,6 +41,8 @@ class Button(Element):
 
         self.surface = pygame.Surface((self.width, self.height))
         self.rect = self.surface.get_rect(topleft=(self.x, self.y))
+
+        super().__init__(id, self.surface, self.rect)
 
         self.normal_bg = normal_bg
         self.hover_bg = hover_bg
