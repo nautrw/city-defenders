@@ -10,6 +10,7 @@ from src.scenes.main_game import MainGameScene
 class GameApp:
     def __init__(self) -> None:
         pygame.init()
+        pygame.font.init()
 
         self.running = True
 
