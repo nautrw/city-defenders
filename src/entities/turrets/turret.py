@@ -16,6 +16,8 @@ class Turret(pygame.sprite.Sprite):
     # type[BallisticProjectile] allows passing any CLASS that is a subclass of BallisticProjectile
     def __init__(
         self,
+        display_name: str,
+        description: str,
         x_position: int,
         y_position: int,
         turret_image: pygame.Surface,
@@ -24,6 +26,9 @@ class Turret(pygame.sprite.Sprite):
         area_radius: float,
     ):
         super().__init__()
+
+        self.display_name = display_name
+        self.description = description
 
         self.position = pygame.Vector2(x_position, y_position)
 

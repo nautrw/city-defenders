@@ -13,6 +13,8 @@ class CrossbowTurret(Turret):
         image = load_asset("crossbow")
 
         super().__init__(
+            display_name="Crossbow",
+            description="An automatic crossbow. Slowly shoots arrows at enemies.",
             x_position=x_position,
             y_position=y_position,
             turret_image=image,
