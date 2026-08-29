@@ -184,6 +184,8 @@ class MainGameScene(Scene):
                         self.turret_to_place.move_center(*new_coord)
                         self.can_place_turret = not pygame.sprite.spritecollide(
                             self.turret_to_place, self.map.path_tiles, False
+                        ) and not pygame.sprite.spritecollide(
+                            self.turret_to_place, self.turrets_group, False
                         )
 
             if event.type == pygame.KEYDOWN:
