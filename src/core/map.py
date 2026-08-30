@@ -72,9 +72,12 @@ class GameMap(pygame.sprite.Sprite):
         pass
 
     def screen_to_map_coord(
-        self, screen_x: float, screen_y: float
+        self, screen_x: float, screen_y: float, zoomed: bool = True
     ) -> tuple[float, float]:
-        return (screen_x - self.rect.x, screen_y - self.rect.y)
+        map_x = (screen_x - self.rect.x) // Config.MAP_SCALE_FACTOR if zoomed else 1
+        map_y = (screen_y - self.rect.y) // Config.MAP_SCALE_FACTOR if zoomed else 1
+
+        return (map_x, map_y)
 
     def draw(self, surface: pygame.Surface) -> None:
         surface.blit(self.image, self.rect)

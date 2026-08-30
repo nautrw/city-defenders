@@ -3,14 +3,15 @@ from pathlib import Path
 import pygame
 from pygame.typing import ColorLike
 
-SCREEN_WIDTH: int = 360
-SCREEN_HEIGHT: int = 240
+SCREEN_WIDTH: int = 1440
+SCREEN_HEIGHT: int = 960
 FLAGS: int = pygame.SCALED
 FPS: int = 120
 
 
 TILE_WIDTH: int = 32
 TILE_HEIGHT: int = 32
+MAP_SCALE_FACTOR: int = 4
 
 GROUND_TILES_LAYER_NAME: str = "ground"
 PATH_TILES_LAYER_NAME: str = "path_tiles"

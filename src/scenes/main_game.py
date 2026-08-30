@@ -92,7 +92,7 @@ class MainGameSceneGUIManager(GUIManager):
             )
 
             tower_name = Text(
-                self.scene.selected_turret.display_name, # ty:ignore[unresolved-attribute]
+                self.scene.selected_turret.display_name,  # ty:ignore[unresolved-attribute]
                 container_width // 2,
                 10,
                 placement_mode=TextPlacementModes.CENTER,
@@ -136,6 +136,15 @@ class MainGameScene(Scene):
         super().__init__(game)
 
         self.map = map
+        self.game_surface = pygame.Surface(self.map.image.size)
+        self.game_surface_rect = self.game_surface.get_rect()
+        self.scaled_game_surface_size = (
+            self.game_surface_rect.width * Config.MAP_SCALE_FACTOR,
+            self.game_surface_rect.height * Config.MAP_SCALE_FACTOR,
+        )
+
+        self.dragging_map = False
+        self.camera_offset = pygame.Vector2(0, 0)
 
         self.enemies_group = pygame.sprite.Group()
         slime = Slime(self.map.enemies_path)
@@ -146,9 +155,6 @@ class MainGameScene(Scene):
         # self.turrets_group.add(crossbow)
 
         self.projectiles_group = pygame.sprite.Group()
-
-        self.dragging_map = False
-        self.camera_offset = pygame.Vector2(0, 0)
 
         self.paused = False
         self.draw_turret_radiuses = False
@@ -164,6 +170,7 @@ class MainGameScene(Scene):
         for event in events:
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
+            map_coord = self.map.screen_to_map_coord(mouse_x, mouse_y)
 
             if not any(
                 element.rect.collidepoint(mouse_x, mouse_y)
@@ -171,11 +178,10 @@ class MainGameScene(Scene):
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
-                        if self.map.rect.collidepoint(mouse_x, mouse_y):
+                        print(self.game_surface_rect, map_coord)
+                        if self.game_surface_rect.collidepoint(map_coord):
                             self.dragging_map = True
-                            self.camera_offset = pygame.Vector2(
-                                mouse_x - self.map.rect.x, mouse_y - self.map.rect.y
-                            )
+                            self.camera_offset = pygame.Vector2(mouse_x, mouse_y) - (pygame.Vector2(self.map.rect.topleft) * Config.MAP_SCALE_FACTOR)
                     if event.button == pygame.BUTTON_LEFT:
                         if self.state == MainGameSceneStates.PLACING_TURRET:
                             if self.turret_to_place and self.can_place_turret:
@@ -194,28 +200,29 @@ class MainGameScene(Scene):
 
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
-                        if self.map.rect.collidepoint(mouse_x, mouse_y):
+                        if self.game_surface_rect.collidepoint(map_coord):
                             self.dragging_map = False
                 elif event.type == pygame.MOUSEMOTION:
                     if self.dragging_map:
-                        new_offset = pygame.Vector2(
-                            mouse_x - self.camera_offset.x,
-                            mouse_y - self.camera_offset.y,
-                        )
+                        # new_offset = pygame.Vector2(
+                        #     mouse_x - self.camera_offset.x,
+                        #     mouse_y - self.camera_offset.y,
+                        # )
+                        new_offset = pygame.Vector2(mouse_x, mouse_y) - self.camera_offset
 
                         if (
                             0
                             < -new_offset.x
-                            < (self.map.map_width - self.game.screen.width)
+                            < (self.game_surface_rect.width - self.game.screen.width)
                         ):
-                            self.map.rect.x = new_offset.x
+                            self.map.rect.x = new_offset.x / Config.MAP_SCALE_FACTOR
 
                         if (
                             0
                             < -new_offset.y
                             < (self.map.map_height - self.game.screen.height)
                         ):
-                            self.map.rect.y = new_offset.y
+                            self.map.rect.y = new_offset.y / Config.MAP_SCALE_FACTOR
 
                     # turret must be moved alongside the map
                     if self.turret_to_place:
@@ -247,25 +254,33 @@ class MainGameScene(Scene):
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")
-        self.map.draw(surface)
+
+        self.map.draw(self.game_surface)
 
         # pygame.sprite.Group.draw() only blits the sprite image,
         # but the enemies have a health bar that is drawn in their .draw()
         # method, so I call it normally (the draw function does little more)
         # than that
         for enemy in self.enemies_group:
-            enemy.draw(self.map.image)
+            enemy.draw(self.game_surface)
 
         for turret in self.turrets_group:
-            turret.draw(self.map.image, self.draw_turret_radiuses)
+            turret.draw(self.game_surface, self.draw_turret_radiuses)
 
         for projectile in self.projectiles_group:
-            projectile.draw(self.map.image)
-
-        self.gui_manager.render_elements(surface)
+            projectile.draw(self.game_surface)
 
         if self.turret_to_place:
             overlay_color = (
                 (0, 255, 0, 255) if self.can_place_turret else (255, 0, 0, 255)
             )
-            self.turret_to_place.draw(self.map.image, True, overlay_color=overlay_color)
+            self.turret_to_place.draw(
+                self.game_surface, True, overlay_color=overlay_color
+            )
+
+        scaled_game_surface = pygame.transform.scale(
+            self.game_surface, self.scaled_game_surface_size
+        )
+        surface.blit(scaled_game_surface, scaled_game_surface.get_rect())
+
+        self.gui_manager.render_elements(surface)
