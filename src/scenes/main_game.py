@@ -45,7 +45,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         if self.state == UIStates.COLLAPSED:
             build_icon = load_asset("build_icon")
-            build_button = Button("build_towers", 338, 2, 20, 20, image=build_icon)
+            build_button = Button("build_towers", 1362, 8, 70, 70, image=build_icon)
 
             self.elements.append(build_button)
         elif self.state == UIStates.TOWER_MENU:
