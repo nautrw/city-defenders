@@ -21,7 +21,7 @@ class Text(Element):
         text: str,
         x: float,
         y: float,
-        size: int = 8,
+        size: int = 24,
         placement_mode: TextPlacementModes = TextPlacementModes.TOPLEFT,
         antialias: bool = False,
         fg_color: ColorLike = Config.TEXT_NORMAL,
