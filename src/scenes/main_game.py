@@ -51,7 +51,8 @@ class MainGameSceneGUIManager(GUIManager):
             build_icon = load_scaled_asset("build_icon")
             build_button = Button(
                 "build_towers",
-                1362,
+                (self.scene.game.screen.width - self.button_side_length)
+                - self.button_external_padding,
                 self.button_external_padding,
                 self.button_side_length,
                 self.button_side_length,
