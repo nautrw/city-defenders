@@ -6,7 +6,7 @@ import pygame
 import src.core.config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import load_asset
+from src.core.utils import load_scaled_asset
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
@@ -38,20 +38,32 @@ class MainGameSceneGUIManager(GUIManager):
         default_state = UIStates.COLLAPSED
 
         super().__init__(scene, default_state)
+
+        self.button_external_padding = 8
+        self.button_side_length = 70
+
         self.refresh()
 
     def refresh(self) -> None:
         self.elements = []
 
         if self.state == UIStates.COLLAPSED:
-            build_icon = load_asset("build_icon")
-            build_button = Button("build_towers", 1362, 8, 70, 70, image=build_icon)
+            build_icon = load_scaled_asset("build_icon")
+            build_button = Button(
+                "build_towers",
+                1362,
+                self.button_external_padding,
+                self.button_side_length,
+                self.button_side_length,
+                image=build_icon,
+            )
 
             self.elements.append(build_button)
         elif self.state == UIStates.TOWER_MENU:
-            container_width = 100
+            container_width = 500
             container_height = self.scene.game.screen.height
-            tower_menu_cotnainer = ElementContainer(
+
+            tower_menu_container = ElementContainer(
                 "tower_menu",
                 self.scene.game.screen.width - container_width,
                 0,
@@ -60,24 +72,43 @@ class MainGameSceneGUIManager(GUIManager):
             )
 
             crossbow_turret_icon = pygame.transform.scale(
-                load_asset("crossbow"), (16, 16)
+                load_scaled_asset("crossbow"), (64, 64)
             )
-            tower_menu_cotnainer.elements.append(
+            tower_menu_container.elements.append(
                 Button(
-                    "crossbow_turret_button", 2, 2, 20, 20, image=crossbow_turret_icon
+                    "crossbow_turret_button",
+                    self.button_external_padding,
+                    self.button_external_padding,
+                    self.button_side_length,
+                    self.button_side_length,
+                    image=crossbow_turret_icon,
                 )
             )
 
-            self.elements.append(tower_menu_cotnainer)
+            self.elements.append(tower_menu_container)
 
-            close_icon = load_asset("close_icon")
+            close_icon = load_scaled_asset("close_icon")
             self.elements.append(
-                Button("tower_menu_close_button", 238, 2, 20, 20, image=close_icon)
+                Button(
+                    "tower_menu_close_button",
+                    (self.scene.game.screen.width - container_width)
+                    - (self.button_side_length + self.button_external_padding),
+                    self.button_external_padding,
+                    self.button_side_length,
+                    self.button_side_length,
+                    image=close_icon,
+                )
             )
         elif self.state == UIStates.PLACING_TURRET:
-            close_icon = load_asset("close_icon")
+            close_icon = load_scaled_asset("close_icon")
             discard_button = Button(
-                "discard_turret_button", 338, 2, 20, 20, image=close_icon
+                "discard_turret_button",
+                (self.scene.game.screen.width - self.button_side_length)
+                - self.button_external_padding,
+                self.button_external_padding,
+                self.button_side_length,
+                self.button_side_length,
+                image=close_icon,
             )
             self.elements.append(discard_button)
         elif self.state == UIStates.TURRET_SELECTED:
@@ -102,7 +133,7 @@ class MainGameSceneGUIManager(GUIManager):
 
             self.elements.append(selected_tower_menu)
 
-            close_icon = load_asset("close_icon")
+            close_icon = load_scaled_asset("close_icon")
             self.elements.append(
                 Button(
                     "selected_tower_menu_close_button", 238, 2, 20, 20, image=close_icon
@@ -177,7 +208,7 @@ class MainGameScene(Scene):
                 for element in self.gui_manager.elements
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == pygame.BUTTON_MIDDLE: # noqa: SIM102
+                    if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
                         if self.game_surface_rect.collidepoint(map_coord):
                             self.dragging_map = True
                     if event.button == pygame.BUTTON_LEFT:
@@ -200,20 +231,24 @@ class MainGameScene(Scene):
                         self.dragging_map = False
                 elif event.type == pygame.MOUSEMOTION:
                     if self.dragging_map:
-                        mouse_movement = pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
+                        mouse_movement = (
+                            pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
+                        )
                         new_offset = self.camera_offset - mouse_movement
 
                         if (
                             0
                             < new_offset.x
-                            < self.game_surface_rect.width - ( self.game.screen.width / Config.MAP_SCALE_FACTOR )
+                            < self.game_surface_rect.width
+                            - (self.game.screen.width / Config.MAP_SCALE_FACTOR)
                         ):
                             self.camera_offset.x = new_offset.x
 
                         if (
                             0
                             < new_offset.y
-                            < self.game_surface.height - (self.game.screen.height / Config.MAP_SCALE_FACTOR)
+                            < self.game_surface.height
+                            - (self.game.screen.height / Config.MAP_SCALE_FACTOR)
                         ):
                             self.camera_offset.y = new_offset.y
 
@@ -280,7 +315,7 @@ class MainGameScene(Scene):
             self.camera_offset.x * Config.MAP_SCALE_FACTOR,
             self.camera_offset.y * Config.MAP_SCALE_FACTOR,
             self.game.screen.width,
-            self.game.screen.height
+            self.game.screen.height,
         )
         surface.blit(scaled_game_surface, (0, 0), camera_view)
 

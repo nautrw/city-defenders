@@ -12,6 +12,7 @@ FPS: int = 120
 TILE_WIDTH: int = 32
 TILE_HEIGHT: int = 32
 MAP_SCALE_FACTOR: int = 4
+GUI_ICON_SIZE: tuple[int, int] = (64, 64)
 
 GROUND_TILES_LAYER_NAME: str = "ground"
 PATH_TILES_LAYER_NAME: str = "path_tiles"
