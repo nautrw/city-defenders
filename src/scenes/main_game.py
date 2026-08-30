@@ -135,8 +135,6 @@ class MainGameScene(Scene):
     def __init__(self, game: GameApp, map: GameMap):
         super().__init__(game)
 
-        tileset = load_asset("tileset")
-        self.tiles = split_tileset(tileset, Config.TILE_WIDTH, Config.TILE_HEIGHT)
         self.map = map
 
         self.enemies_group = pygame.sprite.Group()
