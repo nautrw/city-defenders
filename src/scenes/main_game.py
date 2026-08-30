@@ -214,19 +214,17 @@ class MainGameScene(Scene):
                         mouse_movement = pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
                         new_offset = self.camera_offset - mouse_movement
 
-                        print(f"""
-camera offset: {self.camera_offset}
-new_offset: {new_offset}
-game surface: {self.game_surface_rect}""")
                         if (
                             0
                             < new_offset.x
+                            < self.game_surface_rect.width - ( self.game.screen.width / Config.MAP_SCALE_FACTOR )
                         ):
                             self.camera_offset.x = new_offset.x
 
                         if (
                             0
                             < new_offset.y
+                            < self.game_surface.height - (self.game.screen.height / Config.MAP_SCALE_FACTOR)
                         ):
                             self.camera_offset.y = new_offset.y
 
