@@ -210,7 +210,7 @@ class MainGameScene(Scene):
         for event in events:
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            map_coord = self.screen_to_world_coord(mouse_x, mouse_y)
+            mouse_world_coord = self.screen_to_world_coord(mouse_x, mouse_y)
 
             if not any(
                 element.rect.collidepoint(mouse_x, mouse_y)
@@ -218,7 +218,7 @@ class MainGameScene(Scene):
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
-                        if self.game_surface_rect.collidepoint(map_coord):
+                        if self.game_surface_rect.collidepoint(mouse_world_coord):
                             self.dragging_map = True
                     if event.button == pygame.BUTTON_LEFT:
                         if self.state == MainGameSceneStates.PLACING_TURRET:
@@ -230,7 +230,7 @@ class MainGameScene(Scene):
                                 self.can_place_turret = False  # reset
                         elif self.state == MainGameSceneStates.NORMAL:
                             for turret in self.turrets_group:
-                                if turret.rect.collidepoint(map_coord):
+                                if turret.rect.collidepoint(mouse_world_coord):
                                     self.selected_turret = turret
                                     self.gui_manager.switch_state(
                                         UIStates.TURRET_SELECTED
@@ -263,7 +263,7 @@ class MainGameScene(Scene):
 
                     # turret must be moved alongside the map
                     if self.turret_to_place:
-                        new_coord = pygame.Vector2(map_coord)
+                        new_coord = pygame.Vector2(mouse_world_coord)
                         self.turret_to_place.move_center(*new_coord)
                         self.can_place_turret = not pygame.sprite.spritecollide(
                             self.turret_to_place, self.map.path_tiles, False
