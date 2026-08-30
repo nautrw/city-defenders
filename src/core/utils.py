@@ -14,6 +14,10 @@ MAPS_DICT = {
     file.name.replace(".json", ""): file
     for file in list(Config.MAPS_PATH.rglob("*.json"))
 }
+FONTS_DICT = {
+    file.name.replace(".ttf", ""): file
+    for file in list(Config.FONTS_PATH.rglob("*.ttf"))
+}
 
 
 def split_tileset(
@@ -98,3 +102,5 @@ def load_asset(name: str):
 def load_scaled_asset(asset_name: str, new_size: tuple[int, int]=Config.GUI_ICON_SIZE):
         return pygame.transform.scale(load_asset(asset_name), new_size)
 
+def get_font(font_name: str):
+    return FONTS_DICT[font_name]

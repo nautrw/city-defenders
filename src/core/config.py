@@ -31,9 +31,10 @@ DARK_BG: ColorLike = "#15191e"
 
 TEXT_NORMAL: ColorLike = "black"
 
-FONT_NAME: str = "freesansbold.ttf"
+FONT_NORMAL: str = "Oleaguid"
 FONT_SIZE_NORMAL = 8
 
 
 ASSET_PATH: Path = Path("src", "assets")
 MAPS_PATH: Path = Path("src", "assets", "maps")
+FONTS_PATH: Path = Path("src", "assets", "fonts")

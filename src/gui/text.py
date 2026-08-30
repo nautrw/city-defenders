@@ -4,6 +4,7 @@ import pygame
 from pygame.typing import ColorLike
 
 import src.core.config as Config
+from src.core.utils import get_font
 from src.gui.element import Element
 
 
@@ -21,12 +22,13 @@ class Text(Element):
         text: str,
         x: float,
         y: float,
-        size: int = 24,
+        size: int = 36,
         placement_mode: TextPlacementModes = TextPlacementModes.TOPLEFT,
         antialias: bool = True,
         fg_color: ColorLike = Config.TEXT_NORMAL,
+        font_name: str = Config.FONT_NORMAL
     ):
-        self.font = pygame.font.Font("freesansbold.ttf", size)
+        self.font = pygame.font.Font(get_font(font_name), size)
 
         self.x = x
         self.y = y
