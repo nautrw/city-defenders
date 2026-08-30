@@ -113,7 +113,7 @@ class MainGameSceneGUIManager(GUIManager):
             )
             self.elements.append(discard_button)
         elif self.state == UIStates.TURRET_SELECTED:
-            container_width = 100
+            container_width = 500
             container_height = self.scene.game.screen.height
             selected_tower_menu = ElementContainer(
                 "selected_tower_menu",
@@ -137,7 +137,13 @@ class MainGameSceneGUIManager(GUIManager):
             close_icon = load_scaled_asset("close_icon")
             self.elements.append(
                 Button(
-                    "selected_tower_menu_close_button", 238, 2, 20, 20, image=close_icon
+                    "selected_tower_menu_close_button",
+                    (self.scene.game.screen.width - container_width)
+                    - (self.button_side_length + self.button_external_padding),
+                    self.button_external_padding,
+                    self.button_side_length,
+                    self.button_side_length,
+                    image=close_icon,
                 )
             )
 
