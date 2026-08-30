@@ -158,10 +158,10 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.state = (  # ty:ignore[unresolved-attribute]
                     MainGameSceneStates.PLACING_TURRET
                 )
-                self.scene.turret_to_place = (  # ty:ignore[unresolved-attribute]
-                    CrossbowTurret(
-                        *self.scene.screen_to_world_coord(*pygame.mouse.get_pos())
-                    )  # ty:ignore[unresolved-attribute]
+                self.scene.turret_to_place = CrossbowTurret(  # ty:ignore[unresolved-attribute]
+                    *self.scene.screen_to_world_coord(  # ty:ignore[unresolved-attribute]
+                        *pygame.mouse.get_pos()
+                    )
                 )
 
 
