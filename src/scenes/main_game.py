@@ -6,7 +6,7 @@ import pygame
 import src.core.config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import load_asset, split_tileset
+from src.core.utils import load_asset
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
@@ -144,6 +144,8 @@ class MainGameScene(Scene):
         )
 
         self.dragging_map = False
+        self.drag_start_mouse = pygame.Vector2()
+        self.drag_start_camera = pygame.Vector2()
         self.camera_offset = pygame.Vector2(0, 0)
 
         self.enemies_group = pygame.sprite.Group()
@@ -177,11 +179,12 @@ class MainGameScene(Scene):
                 for element in self.gui_manager.elements
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
-                        print(self.game_surface_rect, map_coord)
+                    if event.button == pygame.BUTTON_MIDDLE: # noqa: SIM102
                         if self.game_surface_rect.collidepoint(map_coord):
                             self.dragging_map = True
-                            self.camera_offset = pygame.Vector2(mouse_x, mouse_y) - (pygame.Vector2(self.map.rect.topleft) * Config.MAP_SCALE_FACTOR)
+                            # self.camera_offset = pygame.Vector2(mouse_x, mouse_y) - (pygame.Vector2(self.map.rect.topleft) * Config.MAP_SCALE_FACTOR)
+                            # self.drag_start_mouse = pygame.Vector2(mouse_x, mouse_y)
+                            # self.drag_start_camera = pygame.Vector2(self.camera_offset)
                     if event.button == pygame.BUTTON_LEFT:
                         if self.state == MainGameSceneStates.PLACING_TURRET:
                             if self.turret_to_place and self.can_place_turret:
@@ -197,32 +200,35 @@ class MainGameScene(Scene):
                                     self.gui_manager.switch_state(
                                         UIStates.TURRET_SELECTED
                                     )
-
                 elif event.type == pygame.MOUSEBUTTONUP:
-                    if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
-                        if self.game_surface_rect.collidepoint(map_coord):
-                            self.dragging_map = False
+                    if event.button == pygame.BUTTON_MIDDLE:
+                        self.dragging_map = False
                 elif event.type == pygame.MOUSEMOTION:
                     if self.dragging_map:
                         # new_offset = pygame.Vector2(
                         #     mouse_x - self.camera_offset.x,
                         #     mouse_y - self.camera_offset.y,
                         # )
-                        new_offset = pygame.Vector2(mouse_x, mouse_y) - self.camera_offset
+                        # new_offset = pygame.Vector2(mouse_x, mouse_y) - self.camera_offset
+                        #
+                        mouse_movement = pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
+                        new_offset = self.camera_offset - mouse_movement
+
+                        print(f"""
+camera offset: {self.camera_offset}
+new_offset: {new_offset}
+game surface: {self.game_surface_rect}""")
+                        if (
+                            0
+                            < new_offset.x
+                        ):
+                            self.camera_offset.x = new_offset.x
 
                         if (
                             0
-                            < -new_offset.x
-                            < (self.game_surface_rect.width - self.game.screen.width)
+                            < new_offset.y
                         ):
-                            self.map.rect.x = new_offset.x / Config.MAP_SCALE_FACTOR
-
-                        if (
-                            0
-                            < -new_offset.y
-                            < (self.map.map_height - self.game.screen.height)
-                        ):
-                            self.map.rect.y = new_offset.y / Config.MAP_SCALE_FACTOR
+                            self.camera_offset.y = new_offset.y
 
                     # turret must be moved alongside the map
                     if self.turret_to_place:
@@ -281,6 +287,14 @@ class MainGameScene(Scene):
         scaled_game_surface = pygame.transform.scale(
             self.game_surface, self.scaled_game_surface_size
         )
-        surface.blit(scaled_game_surface, scaled_game_surface.get_rect())
+        # surface.blit(scaled_game_surface, scaled_game_surface.get_rect())
+
+        camera_view = pygame.Rect(
+            self.camera_offset.x * Config.MAP_SCALE_FACTOR,
+            self.camera_offset.y * Config.MAP_SCALE_FACTOR,
+            self.game.screen.width,
+            self.game.screen.height
+        )
+        surface.blit(scaled_game_surface, (0, 0), camera_view)
 
         self.gui_manager.render_elements(surface)
