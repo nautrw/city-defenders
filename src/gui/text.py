@@ -23,7 +23,7 @@ class Text(Element):
         y: float,
         size: int = 24,
         placement_mode: TextPlacementModes = TextPlacementModes.TOPLEFT,
-        antialias: bool = False,
+        antialias: bool = True,
         fg_color: ColorLike = Config.TEXT_NORMAL,
     ):
         self.font = pygame.font.Font("freesansbold.ttf", size)
