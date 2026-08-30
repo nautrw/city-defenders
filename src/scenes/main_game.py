@@ -230,7 +230,7 @@ class MainGameScene(Scene):
                                 self.can_place_turret = False  # reset
                         elif self.state == MainGameSceneStates.NORMAL:
                             for turret in self.turrets_group:
-                                if turret.rect.collidepoint(mouse_x, mouse_y):
+                                if turret.rect.collidepoint(map_coord):
                                     self.selected_turret = turret
                                     self.gui_manager.switch_state(
                                         UIStates.TURRET_SELECTED
