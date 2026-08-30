@@ -248,6 +248,7 @@ class MainGameScene(Scene):
                         self.dragging_map = False
                 elif event.type == pygame.MOUSEMOTION:
                     if self.dragging_map:
+                        # event.rel is the amount of mouse movement
                         mouse_movement = (
                             pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
                         )
