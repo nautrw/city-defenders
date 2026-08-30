@@ -158,8 +158,8 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.state = (  # ty:ignore[unresolved-attribute]
                     MainGameSceneStates.PLACING_TURRET
                 )
-                self.scene.turret_to_place = (  # ty:ignore[unresolved-attribute]
-                    CrossbowTurret(*pygame.mouse.get_pos())
+                self.scene.turret_to_place = ( # ty:ignore[unresolved-attribute]
+                    CrossbowTurret(*self.scene.screen_to_world_coord(*pygame.mouse.get_pos())) # ty:ignore[unresolved-attribute]
                 )
 
 
@@ -198,11 +198,19 @@ class MainGameScene(Scene):
 
         self.gui_manager = MainGameSceneGUIManager(self)
 
+    def screen_to_world_coord(
+        self, screen_x: float, screen_y: float
+    ) -> tuple[float, float]:
+        screen_pos = pygame.Vector2(screen_x, screen_y)
+        
+        world_coord = (screen_pos / Config.MAP_SCALE_FACTOR) + self.camera_offset
+        return (world_coord.x, world_coord.y)
+
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            map_coord = self.map.screen_to_map_coord(mouse_x, mouse_y)
+            map_coord = self.screen_to_world_coord(mouse_x, mouse_y)
 
             if not any(
                 element.rect.collidepoint(mouse_x, mouse_y)
@@ -255,7 +263,7 @@ class MainGameScene(Scene):
 
                     # turret must be moved alongside the map
                     if self.turret_to_place:
-                        new_coord = self.map.screen_to_map_coord(mouse_x, mouse_y)
+                        new_coord = pygame.Vector2(map_coord)
                         self.turret_to_place.move_center(*new_coord)
                         self.can_place_turret = not pygame.sprite.spritecollide(
                             self.turret_to_place, self.map.path_tiles, False
