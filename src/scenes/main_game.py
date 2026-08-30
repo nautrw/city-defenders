@@ -153,8 +153,6 @@ class MainGameScene(Scene):
         self.enemies_group.add(slime)
 
         self.turrets_group = pygame.sprite.Group()
-        # crossbow = CrossbowTurret(150, 100)
-        # self.turrets_group.add(crossbow)
 
         self.projectiles_group = pygame.sprite.Group()
 
@@ -182,9 +180,6 @@ class MainGameScene(Scene):
                     if event.button == pygame.BUTTON_MIDDLE: # noqa: SIM102
                         if self.game_surface_rect.collidepoint(map_coord):
                             self.dragging_map = True
-                            # self.camera_offset = pygame.Vector2(mouse_x, mouse_y) - (pygame.Vector2(self.map.rect.topleft) * Config.MAP_SCALE_FACTOR)
-                            # self.drag_start_mouse = pygame.Vector2(mouse_x, mouse_y)
-                            # self.drag_start_camera = pygame.Vector2(self.camera_offset)
                     if event.button == pygame.BUTTON_LEFT:
                         if self.state == MainGameSceneStates.PLACING_TURRET:
                             if self.turret_to_place and self.can_place_turret:
@@ -205,12 +200,6 @@ class MainGameScene(Scene):
                         self.dragging_map = False
                 elif event.type == pygame.MOUSEMOTION:
                     if self.dragging_map:
-                        # new_offset = pygame.Vector2(
-                        #     mouse_x - self.camera_offset.x,
-                        #     mouse_y - self.camera_offset.y,
-                        # )
-                        # new_offset = pygame.Vector2(mouse_x, mouse_y) - self.camera_offset
-                        #
                         mouse_movement = pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
                         new_offset = self.camera_offset - mouse_movement
 
