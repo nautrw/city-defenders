@@ -34,7 +34,7 @@ class Enemy(pygame.sprite.Sprite):
         surface.blit(self.image, self.rect)
         self.health_bar.draw(surface)
 
-    def update(self, dt: float) -> None:
+    def update(self, delta_time: float) -> None:
         if self.waypoint_index >= len(self.path_waypoints):
             self.kill()
             return
@@ -43,13 +43,13 @@ class Enemy(pygame.sprite.Sprite):
         movement = movement_target - pygame.Vector2(self.rect.center)
         distance_to_target = movement.length()
 
-        if distance_to_target <= (self.movement_speed * dt):
+        if distance_to_target <= (self.movement_speed * delta_time):
             self.position = movement_target
             self.waypoint_index += 1
         else:
             movement.normalize_ip()
             self.velocity = movement * self.movement_speed
-            self.position += self.velocity * dt
+            self.position += self.velocity * delta_time
 
         self.rect.center = self.position
 

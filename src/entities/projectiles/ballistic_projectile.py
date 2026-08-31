@@ -46,14 +46,14 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
         self.angle = 0
 
-    def update(self, dt: float, enemies_group: pygame.sprite.Group) -> None:
+    def update(self, delta_time: float, enemies_group: pygame.sprite.Group) -> None:
         movement = self.target - pygame.Vector2(self.rect.center)
 
         if movement.length_squared() != 0:
             movement.normalize_ip()
 
         self.velocity = movement * self.movement_speed
-        self.position += self.velocity * dt
+        self.position += self.velocity * delta_time
         self.rect.center = self.position
 
         self.angle = angle_to_point(

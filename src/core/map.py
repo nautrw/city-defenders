@@ -68,7 +68,7 @@ class GameMap(pygame.sprite.Sprite):
             width=2,
         )
 
-    def update(self, dt: float) -> None:
+    def update(self, delta_time: float) -> None:
         pass
 
     def draw(self, surface: pygame.Surface) -> None:
