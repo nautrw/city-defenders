@@ -193,7 +193,7 @@ class MainGameSceneGUIManager(GUIManager):
                     MainGameSceneStates.PLACING_TURRET
                 )
                 self.scene.turret_to_place = CrossbowTurret(  # ty:ignore[unresolved-attribute]
-                    *self.scene.screen_to_world_coord(  # ty:ignore[unresolved-attribute]
+                    *self.scene.camera.viewport_to_world(  # ty:ignore[unresolved-attribute]
                         *pygame.mouse.get_pos()
                     )
                 )
