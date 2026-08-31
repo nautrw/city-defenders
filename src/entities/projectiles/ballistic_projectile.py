@@ -35,6 +35,9 @@ class BallisticProjectile(pygame.sprite.Sprite):
     def update(self, dt: float, enemies_group: pygame.sprite.Group) -> None:
         movement = self.target - pygame.Vector2(self.rect.center)
 
+        if movement.length_squared() != 0:
+            movement.normalize_ip()
+
         self.velocity = movement * self.movement_speed
         self.position += self.velocity * dt
         self.rect.center = self.position
