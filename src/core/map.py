@@ -40,8 +40,8 @@ class GameMap(pygame.sprite.Sprite):
         self._load_layer(Config.PATH_TILES_LAYER_NAME, self.path_tiles)
 
         self.image = pygame.Surface((self.map_width, self.map_height))
-
         self.rect = self.image.get_rect(topleft=(0, 0))
+        self._draw_map()
 
     def _load_layer(self, layer_name: str, group: pygame.sprite.Group) -> None:
         layer = self.map_data["layers"][layer_name]["data"]
@@ -54,7 +54,7 @@ class GameMap(pygame.sprite.Sprite):
                 tile = MapTile(x, y, self.tileset[tile_id])
                 group.add(tile)
 
-    def _redraw_map(self) -> None:
+    def _draw_map(self) -> None:
         self.image.fill((0, 0, 0, 0))
 
         self.ground_tiles.draw(self.image)
@@ -72,5 +72,4 @@ class GameMap(pygame.sprite.Sprite):
         pass
 
     def draw(self, surface: pygame.Surface) -> None:
-        self._redraw_map()
         surface.blit(self.image, self.rect)
