@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 import pygame
 
 import src.core.config as Config
+from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.core.utils import load_scaled_asset
@@ -210,10 +211,8 @@ class MainGameScene(Scene):
             self.game_surface_rect.height * Config.MAP_SCALE_FACTOR,
         )
 
-        self.dragging_map = False
-        self.drag_start_mouse = pygame.Vector2()
-        self.drag_start_camera = pygame.Vector2()
-        self.camera_offset = pygame.Vector2(0, 0)
+        self.camera = Camera(*self.game.screen.size, *self.game_surface_rect.size, Config.MAP_SCALE_FACTOR)
+        self.dragging_camera = False
 
         self.enemies_group = pygame.sprite.Group()
         slime = Slime(self.map.enemies_path)
@@ -233,19 +232,11 @@ class MainGameScene(Scene):
 
         self.gui_manager = MainGameSceneGUIManager(self)
 
-    def screen_to_world_coord(
-        self, screen_x: float, screen_y: float
-    ) -> tuple[float, float]:
-        screen_pos = pygame.Vector2(screen_x, screen_y)
-
-        world_coord = (screen_pos / Config.MAP_SCALE_FACTOR) + self.camera_offset
-        return (world_coord.x, world_coord.y)
-
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
 
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            mouse_world_coord = self.screen_to_world_coord(mouse_x, mouse_y)
+            mouse_world_coord = self.camera.viewport_to_world(mouse_x, mouse_y)
 
             if not any(
                 element.rect.collidepoint(mouse_x, mouse_y)
@@ -254,7 +245,7 @@ class MainGameScene(Scene):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
                         if self.game_surface_rect.collidepoint(mouse_world_coord):
-                            self.dragging_map = True
+                            self.dragging_camera = True
                     if event.button == pygame.BUTTON_LEFT:
                         if self.state == MainGameSceneStates.PLACING_TURRET:
                             if self.turret_to_place and self.can_place_turret:
@@ -272,30 +263,17 @@ class MainGameScene(Scene):
                                     )
                 elif event.type == pygame.MOUSEBUTTONUP:
                     if event.button == pygame.BUTTON_MIDDLE:
-                        self.dragging_map = False
+                        self.dragging_camera = False
                 elif event.type == pygame.MOUSEMOTION:
-                    if self.dragging_map:
+                    if self.dragging_camera:
                         # event.rel is the amount of mouse movement
                         mouse_movement = (
                             pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
                         )
-                        new_offset = self.camera_offset - mouse_movement
 
-                        if (
-                            0
-                            < new_offset.x
-                            < self.game_surface_rect.width
-                            - (self.game.screen.width / Config.MAP_SCALE_FACTOR)
-                        ):
-                            self.camera_offset.x = new_offset.x
-
-                        if (
-                            0
-                            < new_offset.y
-                            < self.game_surface.height
-                            - (self.game.screen.height / Config.MAP_SCALE_FACTOR)
-                        ):
-                            self.camera_offset.y = new_offset.y
+                        self.camera.move(
+                            int(mouse_movement.x), int(mouse_movement.y)
+                        )
 
                     # turret must be moved alongside the map
                     if self.turret_to_place:
@@ -357,8 +335,8 @@ class MainGameScene(Scene):
         # surface.blit(scaled_game_surface, scaled_game_surface.get_rect())
 
         camera_view = pygame.Rect(
-            self.camera_offset.x * Config.MAP_SCALE_FACTOR,
-            self.camera_offset.y * Config.MAP_SCALE_FACTOR,
+            self.camera.offset.x * Config.MAP_SCALE_FACTOR,
+            self.camera.offset.y * Config.MAP_SCALE_FACTOR,
             self.game.screen.width,
             self.game.screen.height,
         )
