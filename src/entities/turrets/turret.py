@@ -5,8 +5,7 @@ from pygame.typing import ColorLike
 import src.core.config as Config
 from src.core.utils import angle_to_point, load_asset
 from src.entities.enemies.enemy import Enemy
-from src.entities.projectiles.ballistic_projectile import \
-    BallisticProjectileType
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 
 
 class Turret(pygame.sprite.Sprite):
