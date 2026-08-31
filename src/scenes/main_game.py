@@ -126,11 +126,19 @@ class MainGameSceneGUIManager(GUIManager):
             tower_name = Text(
                 self.scene.selected_turret.display_name,  # ty:ignore[unresolved-attribute]
                 container_width // 2,
-                10,
-                placement_mode=TextPlacementModes.CENTER,
+                self.button_external_padding,
+                placement_mode=TextPlacementModes.TOP_CENTER,
+                size=Config.FONT_SIZE_HEADER
+            )
+
+            tower_description = Text(
+                self.scene.selected_turret.description, # ty:ignore[unresolved-attribute]
+                self.button_external_padding,
+                tower_name.rect.bottom + self.button_external_padding,
             )
 
             selected_tower_menu.elements.append(tower_name)
+            selected_tower_menu.elements.append(tower_description)
 
             self.elements.append(selected_tower_menu)
 
