@@ -54,7 +54,9 @@ class Text(Element):
         self.render_text()
 
     def render_text(self) -> None:
-        self.image = self.font.render(self.text, self.antialias, self.fg_color, wraplength=self.wrap_length)
+        self.image = self.font.render(
+            self.text, self.antialias, self.fg_color, wraplength=self.wrap_length
+        )
 
         if self.placement_mode == TextPlacementModes.TOP_LEFT:
             self.rect = self.image.get_rect(topleft=(self.x, self.y))

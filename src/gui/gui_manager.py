@@ -14,12 +14,10 @@ class GUIManager(ABC):
         self.elements: list[Element] = []
 
     @abstractmethod
-    def refresh(self) -> None:
-        ...
+    def refresh(self) -> None: ...
 
     @abstractmethod
-    def handle_event(self, event: pygame.Event) -> None:
-        ...
+    def handle_event(self, event: pygame.Event) -> None: ...
 
     def render_elements(self, surface: pygame.Surface) -> None:
         for element in self.elements:

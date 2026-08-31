@@ -211,7 +211,11 @@ class MainGameScene(Scene):
             self.game_surface_rect.height * Config.MAP_SCALE_FACTOR,
         )
 
-        self.camera = Camera(*self.game.screen.size, *self.game_surface_rect.size, Config.MAP_SCALE_FACTOR)
+        self.camera = Camera(
+            *self.game.screen.size,
+            *self.game_surface_rect.size,
+            Config.MAP_SCALE_FACTOR,
+        )
         self.dragging_camera = False
 
         self.enemies_group = pygame.sprite.Group()
@@ -234,7 +238,6 @@ class MainGameScene(Scene):
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
-
             mouse_x, mouse_y = pygame.mouse.get_pos()
             mouse_world_coord = self.camera.viewport_to_world(mouse_x, mouse_y)
 
@@ -271,9 +274,7 @@ class MainGameScene(Scene):
                             pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
                         )
 
-                        self.camera.move(
-                            int(mouse_movement.x), int(mouse_movement.y)
-                        )
+                        self.camera.move(int(mouse_movement.x), int(mouse_movement.y))
 
                     # turret must be moved alongside the map
                     if self.turret_to_place:

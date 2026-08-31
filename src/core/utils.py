@@ -99,8 +99,12 @@ def angle_to_point(origin_x: float, origin_y: float, target_x: float, target_y: 
 def load_asset(name: str):
     return pygame.image.load(SPRITES_DICT[name]).convert_alpha()
 
-def load_scaled_asset(asset_name: str, new_size: tuple[int, int]=Config.GUI_ICON_SIZE):
-        return pygame.transform.scale(load_asset(asset_name), new_size)
+
+def load_scaled_asset(
+    asset_name: str, new_size: tuple[int, int] = Config.GUI_ICON_SIZE
+):
+    return pygame.transform.scale(load_asset(asset_name), new_size)
+
 
 def get_font(font_name: str):
     return FONTS_DICT[font_name]
