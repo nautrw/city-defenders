@@ -20,7 +20,7 @@ class GameApp:
         )
 
         self.clock = pygame.time.Clock()
-        self.delta_time = 0
+        self.delta_time = 0.0
 
         tileset_img = load_asset("tileset")
         tileset = split_tileset(tileset_img, Config.TILE_HEIGHT, Config.TILE_HEIGHT)
