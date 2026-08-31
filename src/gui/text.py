@@ -9,8 +9,9 @@ from src.gui.element import Element
 
 
 class TextPlacementModes(Enum):
-    TOPLEFT = auto()
-    CENTER = auto()
+    TOP_LEFT = auto()
+    CENTER_CENTER = auto()
+    TOP_CENTER = auto()
 
 
 class Text(Element):
@@ -26,7 +27,8 @@ class Text(Element):
         placement_mode: TextPlacementModes = TextPlacementModes.TOP_LEFT,
         antialias: bool = True,
         fg_color: ColorLike = Config.TEXT_NORMAL,
-        font_name: str = Config.FONT_NORMAL
+        font_name: str = Config.FONT_NORMAL,
+        wrap_length: int = 500,
     ):
         self.font = pygame.font.Font(get_font(font_name), size)
 
@@ -37,6 +39,7 @@ class Text(Element):
         self.text = text
         self.antialias = antialias
         self.fg_color = fg_color
+        self.wrap_length = wrap_length
 
         self.render_text()
 
@@ -51,9 +54,11 @@ class Text(Element):
         self.render_text()
 
     def render_text(self) -> None:
-        self.image = self.font.render(self.text, self.antialias, self.fg_color)
+        self.image = self.font.render(self.text, self.antialias, self.fg_color, wraplength=self.wrap_length)
 
-        if self.placement_mode == TextPlacementModes.TOPLEFT:
+        if self.placement_mode == TextPlacementModes.TOP_LEFT:
             self.rect = self.image.get_rect(topleft=(self.x, self.y))
-        elif self.placement_mode == TextPlacementModes.CENTER:
+        elif self.placement_mode == TextPlacementModes.CENTER_CENTER:
             self.rect = self.image.get_rect(center=(self.x, self.y))
+        elif self.placement_mode == TextPlacementModes.TOP_CENTER:
+            self.rect = self.image.get_rect(centerx=self.x, top=self.y)
