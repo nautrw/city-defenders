@@ -1,6 +1,20 @@
+from typing import Protocol
+
 import pygame
 
 from src.core.utils import angle_to_point
+
+
+# protocols are used to describe how a subclass should be
+# this also serves for type hinting, like in Turret, where
+# type hinting the projectile as BallisticProjectile will cause
+# an error because it requires an image, but its subclasses
+# dont take an image because they provide it
+class BallisticProjectileType(Protocol):
+    def __call__(
+        self, x_position: float, y_position: float, target_x: float, target_y: float
+    ):
+        pass
 
 
 class BallisticProjectile(pygame.sprite.Sprite):

@@ -5,15 +5,14 @@ from pygame.typing import ColorLike
 import src.core.config as Config
 from src.core.utils import angle_to_point, load_asset
 from src.entities.enemies.enemy import Enemy
-from src.entities.projectiles.arrow import Arrow
-from src.entities.projectiles.ballistic_projectile import BallisticProjectile
+from src.entities.projectiles.ballistic_projectile import \
+    BallisticProjectileType
 
 
 class Turret(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    # type[BallisticProjectile] allows passing any CLASS that is a subclass of BallisticProjectile
     def __init__(
         self,
         display_name: str,
@@ -21,7 +20,7 @@ class Turret(pygame.sprite.Sprite):
         x_position: int,
         y_position: int,
         turret_image: pygame.Surface,
-        projectile: type[BallisticProjectile],
+        projectile: BallisticProjectileType,
         shooting_speed: float,
         area_radius: float,
     ):
@@ -59,7 +58,7 @@ class Turret(pygame.sprite.Sprite):
         projectile_offset = self.turret_tip.rotate(-self.turret_angle)
         projectile_position = self.position + projectile_offset
 
-        projectile = Arrow(
+        projectile = self.projectile(
             x_position=projectile_position[0],
             y_position=projectile_position[1],
             target_x=enemy_position[0],
