@@ -19,6 +19,6 @@ class Arrow(BallisticProjectile):
             target_x=target_x,
             target_y=target_y,
             image=image,
-            movement_speed=10,
+            movement_speed=300,
             damage=5,
         )
