@@ -32,7 +32,8 @@ DARK_BG: ColorLike = "#15191e"
 TEXT_NORMAL: ColorLike = "black"
 
 FONT_NORMAL: str = "Oleaguid"
-FONT_SIZE_NORMAL = 8
+FONT_SIZE_NORMAL: int = 36
+FONT_SIZE_HEADER: int = 48
 
 
 ASSET_PATH: Path = Path("src", "assets")

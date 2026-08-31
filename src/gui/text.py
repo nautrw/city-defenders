@@ -22,8 +22,8 @@ class Text(Element):
         text: str,
         x: float,
         y: float,
-        size: int = 36,
-        placement_mode: TextPlacementModes = TextPlacementModes.TOPLEFT,
+        size: int = Config.FONT_SIZE_NORMAL,
+        placement_mode: TextPlacementModes = TextPlacementModes.TOP_LEFT,
         antialias: bool = True,
         fg_color: ColorLike = Config.TEXT_NORMAL,
         font_name: str = Config.FONT_NORMAL
