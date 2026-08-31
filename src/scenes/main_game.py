@@ -12,6 +12,7 @@ from src.entities.turrets.crossbow import CrossbowTurret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
+from src.gui.icon import Icon
 from src.gui.text import Text, TextPlacementModes
 
 # Solves the circular import error as a result of src.app being uninitialized
@@ -46,6 +47,24 @@ class MainGameSceneGUIManager(GUIManager):
 
     def refresh(self) -> None:
         self.elements = []
+
+        coin_img = load_scaled_asset("coin", (48, 48))
+        coins_display_container = ElementContainer(
+            "coins_display_container",
+            self.button_external_padding,
+            self.button_external_padding,
+            Config.FONT_SIZE_HEADER * 5,
+            48 + (self.button_external_padding * 2),
+        )
+        coin_icon = Icon(
+            "coin_icon",
+            self.button_external_padding,
+            self.button_external_padding,
+            coin_img,
+        )
+        coins_display_container.elements.append(coin_icon)
+
+        self.elements.append(coins_display_container)
 
         if self.state == UIStates.COLLAPSED:
             build_icon = load_scaled_asset("build_icon")
@@ -128,11 +147,11 @@ class MainGameSceneGUIManager(GUIManager):
                 container_width // 2,
                 self.button_external_padding,
                 placement_mode=TextPlacementModes.TOP_CENTER,
-                size=Config.FONT_SIZE_HEADER
+                size=Config.FONT_SIZE_HEADER,
             )
 
             tower_description = Text(
-                self.scene.selected_turret.description, # ty:ignore[unresolved-attribute]
+                self.scene.selected_turret.description,  # ty:ignore[unresolved-attribute]
                 self.button_external_padding,
                 tower_name.rect.bottom + self.button_external_padding,
             )
