@@ -72,5 +72,5 @@ class GameMap(pygame.sprite.Sprite):
         pass
 
     def draw(self, surface: pygame.Surface) -> None:
-        surface.blit(self.image, self.rect)
         self._redraw_map()
+        surface.blit(self.image, self.rect)
