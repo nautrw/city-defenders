@@ -7,13 +7,14 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import load_scaled_asset
+from src.core.utils import load_asset
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
 from src.gui.icon import Icon
+from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text, TextPlacementModes
 
 # Solves the circular import error as a result of src.app being uninitialized
@@ -41,139 +42,52 @@ class MainGameSceneGUIManager(GUIManager):
 
         super().__init__(scene, default_state)
 
-        self.button_external_padding = 8
-        self.button_side_length = 70
-
         self.refresh()
 
     def refresh(self) -> None:
         self.elements = []
 
-        coin_img = load_scaled_asset("coin", (48, 48))
-        coins_display_container = ElementContainer(
-            "coins_display_container",
-            self.button_external_padding,
-            self.button_external_padding,
-            Config.FONT_SIZE_HEADER * 5,
-            48 + (self.button_external_padding * 2),
+        coin_icon_size = 48
+
+        coins_text = Text(
+            "coins_text",
+            str(7829578902878),  # test
+            Config.ELEMENT_OUTER_PADDING
+            + coin_icon_size
+            + Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING,
+            Config.FONT_SIZE_HEADER,
         )
+
+        coin_display_container_width = (
+            (Config.ELEMENT_OUTER_PADDING * 3) + coin_icon_size + coins_text.rect.width
+        )
+        coins_display_container_height = (
+            Config.ELEMENT_OUTER_PADDING * 2
+        ) + coin_icon_size
+
         coin_icon = Icon(
             "coin_icon",
-            self.button_external_padding,
-            self.button_external_padding,
-            coin_img,
+            Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING,
+            coin_icon_size,
+            coin_icon_size,
+            load_asset("coin"),
+            RectAnchorMode.TOPLEFT,
         )
-        coins_display_container.elements.append(coin_icon)
 
-        self.elements.append(coins_display_container)
+        coin_display_container = ElementContainer(
+            "coin_display_container",
+            Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING,
+            coin_display_container_width,
+            coins_display_container_height,
+        )
 
-        if self.state == UIStates.COLLAPSED:
-            build_icon = load_scaled_asset("build_icon")
-            build_button = Button(
-                "build_towers",
-                (self.scene.game.screen.width - self.button_side_length)
-                - self.button_external_padding,
-                self.button_external_padding,
-                self.button_side_length,
-                self.button_side_length,
-                image=build_icon,
-            )
+        coin_display_container.add_element(coin_icon)
+        coin_display_container.add_element(coins_text)
 
-            self.elements.append(build_button)
-        elif self.state == UIStates.TOWER_MENU:
-            container_width = 500
-            container_height = self.scene.game.screen.height
-
-            tower_menu_container = ElementContainer(
-                "tower_menu",
-                self.scene.game.screen.width - container_width,
-                0,
-                container_width,
-                container_height,
-            )
-
-            crossbow_turret_icon = pygame.transform.scale(
-                load_scaled_asset("crossbow"), (64, 64)
-            )
-            tower_menu_container.elements.append(
-                Button(
-                    "crossbow_turret_button",
-                    self.button_external_padding,
-                    self.button_external_padding,
-                    self.button_side_length,
-                    self.button_side_length,
-                    image=crossbow_turret_icon,
-                )
-            )
-
-            self.elements.append(tower_menu_container)
-
-            close_icon = load_scaled_asset("close_icon")
-            self.elements.append(
-                Button(
-                    "tower_menu_close_button",
-                    (self.scene.game.screen.width - container_width)
-                    - (self.button_side_length + self.button_external_padding),
-                    self.button_external_padding,
-                    self.button_side_length,
-                    self.button_side_length,
-                    image=close_icon,
-                )
-            )
-        elif self.state == UIStates.PLACING_TURRET:
-            close_icon = load_scaled_asset("close_icon")
-            discard_button = Button(
-                "discard_turret_button",
-                (self.scene.game.screen.width - self.button_side_length)
-                - self.button_external_padding,
-                self.button_external_padding,
-                self.button_side_length,
-                self.button_side_length,
-                image=close_icon,
-            )
-            self.elements.append(discard_button)
-        elif self.state == UIStates.TURRET_SELECTED:
-            container_width = 500
-            container_height = self.scene.game.screen.height
-            selected_tower_menu = ElementContainer(
-                "selected_tower_menu",
-                self.scene.game.screen.width - container_width,
-                0,
-                container_width,
-                container_height,
-            )
-
-            tower_name = Text(
-                self.scene.selected_turret.display_name,  # ty:ignore[unresolved-attribute]
-                container_width // 2,
-                self.button_external_padding,
-                placement_mode=TextPlacementModes.TOP_CENTER,
-                size=Config.FONT_SIZE_HEADER,
-            )
-
-            tower_description = Text(
-                self.scene.selected_turret.description,  # ty:ignore[unresolved-attribute]
-                self.button_external_padding,
-                tower_name.rect.bottom + self.button_external_padding,
-            )
-
-            selected_tower_menu.elements.append(tower_name)
-            selected_tower_menu.elements.append(tower_description)
-
-            self.elements.append(selected_tower_menu)
-
-            close_icon = load_scaled_asset("close_icon")
-            self.elements.append(
-                Button(
-                    "selected_tower_menu_close_button",
-                    (self.scene.game.screen.width - container_width)
-                    - (self.button_side_length + self.button_external_padding),
-                    self.button_external_padding,
-                    self.button_side_length,
-                    self.button_side_length,
-                    image=close_icon,
-                )
-            )
+        self.elements.append(coin_display_container)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
