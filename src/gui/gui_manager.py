@@ -4,6 +4,7 @@ from enum import Enum
 import pygame
 
 from src.core.scenes_manager import Scene
+from src.gui.container import ElementContainer
 from src.gui.element import Element
 
 
@@ -32,3 +33,15 @@ class GUIManager(ABC):
     def switch_state(self, state: Enum) -> None:
         self.state = state
         self.refresh()
+
+    def get_element_by_id(self, id: str) -> Element:
+        for element in self.elements:
+            if isinstance(element, ElementContainer):
+                for container_element in element.elements:
+                    if container_element.id == id:
+                        return container_element
+            else:
+                if element.id == id:
+                    return element
+
+        raise ValueError("invalid element")
