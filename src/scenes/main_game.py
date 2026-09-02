@@ -304,8 +304,9 @@ class MainGameScene(Scene):
                         )
                 elif event.type == ENEMY_KILLED:
                     self.coins += event.entity.coins_drop
-                    self.gui_manager.get_element_by_id("coins_text").update_text(self.coins)
-                    print(self.coins)
+                    self.gui_manager.get_element_by_id("coins_text").update_text(  # ty:ignore[unresolved-attribute]
+                        self.coins
+                    )
                     self.gui_manager.refresh()
 
             if event.type == pygame.KEYDOWN:

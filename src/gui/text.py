@@ -1,3 +1,5 @@
+from typing import Any
+
 import pygame
 from pygame.typing import ColorLike
 
@@ -55,8 +57,8 @@ class Text(Element):
     def draw(self, surface: pygame.Surface) -> None:
         surface.blit(self.image, self.rect)
 
-    def update_text(self, new_text: str) -> None:
-        self.text = new_text
+    def update_text(self, new_text: Any) -> None:
+        self.text = str(new_text)
         self.render_text()
 
     def render_text(self) -> None:

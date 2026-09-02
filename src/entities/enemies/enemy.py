@@ -40,13 +40,6 @@ class Enemy(pygame.sprite.Sprite):
         self.health_bar.draw(surface)
 
     def update(self, delta_time: float) -> None:
-        if self.waypoint_index >= len(self.path_waypoints):
-            event = pygame.Event(ENEMY_KILLED, {"entity": self})
-            pygame.event.post(event)
-            print("a")
-            self.kill()
-            return
-
         movement_target = pygame.Vector2(self.path_waypoints[self.waypoint_index])
         movement = movement_target - pygame.Vector2(self.rect.center)
         distance_to_target = movement.length()
@@ -63,5 +56,8 @@ class Enemy(pygame.sprite.Sprite):
 
         self.health_bar.update(self.health, self.max_health, self.rect.midtop)
 
-        if self.health <= 0:
+        if self.health <= 0 or self.waypoint_index >= len(self.path_waypoints):
+            event = pygame.Event(ENEMY_KILLED, {"entity": self})
+            pygame.event.post(event)
             self.kill()
+            return
