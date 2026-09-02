@@ -3,6 +3,7 @@ from pygame.typing import ColorLike
 
 import src.core.config as Config
 from src.gui.element import Element
+from src.gui.placement_system import RectAnchorMode
 
 
 class ElementContainer(Element):
@@ -13,6 +14,7 @@ class ElementContainer(Element):
         y: float,
         width: float,
         height: float,
+        anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
         inner_padding: int = 2,
         bg_color: ColorLike = Config.BUTTON_NORMAL_BG,
     ) -> None:
@@ -20,15 +22,18 @@ class ElementContainer(Element):
         self.y = y
         self.width = width
         self.height = height
+        self.anchor = anchor
+
         self.inner_padding = inner_padding
         self.bg_color = bg_color
 
         self.surface = pygame.Surface((self.width, self.height))
-        self.rect = self.surface.get_frect(topleft=(self.x, self.y))
 
         self.elements = []
 
-        super().__init__(id, self.surface, self.rect)
+        super().__init__(
+            id, self.surface, self.x, self.y, self.width, self.height, self.anchor
+        )
 
     def draw(self, surface: pygame.Surface) -> None:
         self.surface.fill(self.bg_color)
