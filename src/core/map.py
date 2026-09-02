@@ -11,7 +11,7 @@ class MapTile(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = tile_img.copy()
-        self.rect = self.image.get_rect(
+        self.rect = self.image.get_frect(
             topleft=(map_x * Config.TILE_WIDTH, map_y * Config.TILE_HEIGHT)
         )
 
