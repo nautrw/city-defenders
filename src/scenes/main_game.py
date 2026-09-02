@@ -93,7 +93,7 @@ class MainGameSceneGUIManager(GUIManager):
         if self.state == UIStates.COLLAPSED:
             build_icon = load_scaled_asset("build_icon")
             build_button = Button(
-                "tower_building_menu_button",
+                "tower_picker_menu_button",
                 (
                     Config.SCREEN_WIDTH
                     - Config.BUTTON_SIZE
@@ -161,8 +161,10 @@ class MainGameSceneGUIManager(GUIManager):
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
-            if event.button.id == "tower_building_menu_button":
+            if event.button.id == "tower_picker_menu_button":
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
+            elif event.button.id == "tower_picker_close_button":
+                self.switch_state(UIStates.COLLAPSED)
             elif event.button.id == "build_crossbow_turret_button":
                 self.switch_state(UIStates.PLACING_TURRET)
 
