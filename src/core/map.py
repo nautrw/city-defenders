@@ -7,7 +7,7 @@ class MapTile(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    def __init__(self, map_x: int, map_y: int, tile_img: pygame.Surface):
+    def __init__(self, map_x: float, map_y: float, tile_img: pygame.Surface):
         super().__init__()
 
         self.image = tile_img.copy()
@@ -40,7 +40,7 @@ class GameMap(pygame.sprite.Sprite):
         self._load_layer(Config.PATH_TILES_LAYER_NAME, self.path_tiles)
 
         self.image = pygame.Surface((self.map_width, self.map_height))
-        self.rect = self.image.get_rect(topleft=(0, 0))
+        self.rect = self.image.get_frect(topleft=(0.0, 0.0))
         self._draw_map()
 
     def _load_layer(self, layer_name: str, group: pygame.sprite.Group) -> None:
