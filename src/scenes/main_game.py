@@ -52,7 +52,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         coins_text = Text(
             "coins_text",
-            str(7829578902878),  # test
+            str(self.scene.coins), # ty:ignore[unresolved-attribute]
             Config.ELEMENT_OUTER_PADDING
             + coin_icon_size
             + Config.ELEMENT_OUTER_PADDING,
@@ -212,7 +212,7 @@ class MainGameSceneGUIManager(GUIManager):
 
 
 class MainGameScene(Scene):
-    def __init__(self, game: GameApp, map: GameMap):
+    def __init__(self, game: GameApp, map: GameMap, initial_coins_balance: int):
         super().__init__(game)
 
         self.map = map
@@ -240,6 +240,8 @@ class MainGameScene(Scene):
 
         self.paused = False
         self.draw_turret_radiuses = False
+
+        self.coins = initial_coins_balance
 
         self.state: MainGameSceneStates = MainGameSceneStates.NORMAL
         self.turret_to_place = None

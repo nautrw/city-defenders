@@ -27,7 +27,7 @@ class GameApp:
         map_data = load_map("Test")
 
         self.scene_manager = SceneManager()
-        self.scene_manager.push(MainGameScene(self, GameMap(tileset, map_data)))
+        self.scene_manager.push(MainGameScene(self, GameMap(tileset, map_data), 1000))
 
     def run(self) -> None:
         try:
