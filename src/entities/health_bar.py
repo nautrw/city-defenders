@@ -9,10 +9,10 @@ class HealthBar(pygame.sprite.Sprite):
 
     def __init__(
         self,
-        width: int = 28,
-        height: int = 5,
-        border_width: int = 1,
-        position_offset: int = -4,
+        width: float = 28.0,
+        height: float = 5.0,
+        border_width: float = 1.0,
+        position_offset: float = -4.0,
     ):
         super().__init__()
 
@@ -23,7 +23,7 @@ class HealthBar(pygame.sprite.Sprite):
         self.position_offset = position_offset
 
         self.image = pygame.Surface((self.width, self.height))
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_frect()
 
         self.health_percent = 1.0
 
