@@ -21,7 +21,9 @@ FONTS_DICT = {
 
 
 def split_tileset(
-    image: pygame.Surface, tile_width: int, tile_height: int
+    image: pygame.Surface,
+    tile_width: int = Config.TILE_WIDTH,
+    tile_height: int = Config.TILE_WIDTH,
 ) -> dict[int, pygame.Surface]:
     image_dimensions = image.get_rect().size
 
