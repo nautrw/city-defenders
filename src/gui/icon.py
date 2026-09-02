@@ -1,15 +1,32 @@
 import pygame
 
 from src.gui.element import Element
+from src.gui.placement_system import RectAnchorMode
 
 
 class Icon(Element):
-    def __init__(self, id: str, x: float, y: float, image: pygame.Surface):
+    def __init__(
+        self,
+        id: str,
+        x: float,
+        y: float,
+        width: int,
+        height: int,
+        image: pygame.Surface,
+        anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
+    ):
         self.id = id
-        self.image = image
-        self.rect = self.image.get_frect(topleft=(x, y))
+        self.surface = pygame.transform.scale(image, (width, height))
+        self.width = width
+        self.height = height
+        self.anchor = anchor
 
-        super().__init__(self.id, self.image, self.rect)
+        self.x = x
+        self.y = y
+
+        super().__init__(
+            self.id, self.surface, self.x, self.y, self.width, self.height, self.anchor
+        )
 
     def draw(self, surface: pygame.Surface) -> None:
         surface.blit(self.image, self.rect)
