@@ -30,7 +30,7 @@ class Button(Element):
         hover_bg: ColorLike = Config.BUTTON_HOVERED_BG,
         pressed_bg: ColorLike = Config.BUTTON_PRESSED_BG,
         text: str = "",
-        text_color: ColorLike = Config.TEXT_NORMAL,
+        text_color: ColorLike = Config.TEXT_COLOR_NORMAL,
         image: pygame.Surface | None = None,
         once_per_click: bool = True,
     ) -> None:
