@@ -50,7 +50,7 @@ class Button(Element):
 
         self.image = image
         if self.image:
-            self.image_rect = self.image.get_rect(
+            self.image_rect = self.image.get_frect(
                 centerx=self.width // 2, top=inner_padding
             )
 
@@ -58,9 +58,9 @@ class Button(Element):
         if self.text:
             self.font = pygame.font.Font(Config.FONT_NORMAL, Config.FONT_SIZE_NORMAL)
             self.text_surface = self.font.render(self.text, False, text_color)
-            self.text_rect = self.text_surface.get_rect(
+            self.text_rect = self.text_surface.get_frect(
                 centerx=self.width // 2,
-                top=(self.image.get_rect().height + inner_padding if self.image else 0)
+                top=(self.image.get_frect().height + inner_padding if self.image else 0)
                 + inner_padding,
             )
 
