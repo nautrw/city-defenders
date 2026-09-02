@@ -23,17 +23,21 @@ LOW_HEALTH_COLOR: ColorLike = (255, 0, 0)
 MAX_HEALTH_COLOR: ColorLike = (0, 255, 0)
 TURRET_RADIUS_COLOR: ColorLike = (0, 0, 0, 75)
 
-BUTTON_NORMAL_BG: ColorLike = "darkgray"
-BUTTON_HOVERED_BG: ColorLike = "lightgray"
-BUTTON_PRESSED_BG: ColorLike = "lightcoral"
+BUTTON_NORMAL_BG: ColorLike = "#807b7a"
+BUTTON_HOVERED_BG: ColorLike = "#595757"
+BUTTON_PRESSED_BG: ColorLike = "#323232"
 
-DARK_BG: ColorLike = "#15191e"
+DARK_BG: ColorLike = "#171516"
 
-TEXT_NORMAL: ColorLike = "black"
+TEXT_COLOR_NORMAL: ColorLike = "white"
 
 FONT_NORMAL: str = "Oleaguid"
 FONT_SIZE_NORMAL: int = 36
 FONT_SIZE_HEADER: int = 48
+
+
+ELEMENT_OUTER_PADDING: int = 8
+BUTTON_SIZE: int = 70
 
 
 ASSET_PATH: Path = Path("src", "assets")
