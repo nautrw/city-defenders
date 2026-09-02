@@ -35,7 +35,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
         self.original_image = image
         self.image = self.original_image.copy()
-        self.rect = image.get_rect(centerx=x_position, bottom=y_position)
+        self.rect = image.get_frect(centerx=x_position, bottom=y_position)
 
         self.position = pygame.Vector2(x_position, y_position)
         self.velocity = pygame.Vector2()
