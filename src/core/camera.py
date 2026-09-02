@@ -4,10 +4,10 @@ import pygame
 class Camera:
     def __init__(
         self,
-        viewport_width: int,
-        viewport_height: int,
-        world_width: int,
-        world_height: int,
+        viewport_width: float,
+        viewport_height: float,
+        world_width: float,
+        world_height: float,
         world_scale_factor: int = 1,
     ) -> None:
         self.offset = pygame.Vector2()
@@ -17,13 +17,13 @@ class Camera:
         self.world_height = world_height
         self.world_scale_factor = world_scale_factor
 
-    def viewport_to_world(self, viewport_x: int, viewport_y: int) -> tuple[int, int]:
+    def viewport_to_world(self, viewport_x: float, viewport_y: float) -> tuple[float, float]:
         viewport_pos = pygame.Vector2(viewport_x, viewport_y)
 
         world_coord = (viewport_pos / self.world_scale_factor) + self.offset
-        return (int(world_coord.x), int(world_coord.y))
+        return (world_coord.x, world_coord.y)
 
-    def move(self, delta_x: int, delta_y: int, clamp: bool = True) -> tuple[int, int]:
+    def move(self, delta_x: float, delta_y: float, clamp: bool = True) -> tuple[float, float]:
         movement = pygame.Vector2(delta_x, delta_y)
         new_offset = self.offset - movement
 

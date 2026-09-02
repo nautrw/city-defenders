@@ -205,7 +205,7 @@ class MainGameScene(Scene):
 
         self.map = map
         self.game_surface = pygame.Surface(self.map.image.size)
-        self.game_surface_rect = self.game_surface.get_rect()
+        self.game_surface_rect = self.game_surface.get_frect()
         self.scaled_game_surface_size = (
             self.game_surface_rect.width * Config.MAP_SCALE_FACTOR,
             self.game_surface_rect.height * Config.MAP_SCALE_FACTOR,
