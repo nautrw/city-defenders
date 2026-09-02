@@ -100,6 +100,7 @@ def load_asset(name: str):
     return pygame.image.load(SPRITES_DICT[name]).convert_alpha()
 
 
+# fractional scaling isn't supported so size should stay an int
 def load_scaled_asset(
     asset_name: str, new_size: tuple[int, int] = Config.GUI_ICON_SIZE
 ):
