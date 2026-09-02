@@ -8,6 +8,7 @@ from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.core.utils import load_asset, load_scaled_asset
+from src.entities.enemies.enemy import ENEMY_KILLED
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
@@ -52,7 +53,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         coins_text = Text(
             "coins_text",
-            str(self.scene.coins), # ty:ignore[unresolved-attribute]
+            str(self.scene.coins),  # ty:ignore[unresolved-attribute]
             Config.ELEMENT_OUTER_PADDING
             + coin_icon_size
             + Config.ELEMENT_OUTER_PADDING,
@@ -184,12 +185,12 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.selected_tower.description,  # ty:ignore[unresolved-attribute]
                 Config.ELEMENT_OUTER_PADDING,
                 Config.ELEMENT_OUTER_PADDING + tower_name.rect.height,
-                wrap_length=container_width
+                wrap_length=container_width,
             )
 
             selected_tower_menu.add_element(tower_name)
             selected_tower_menu.add_element(tower_description)
-            
+
             self.elements.append(selected_tower_menu)
 
     def handle_event(self, event: pygame.Event) -> None:
@@ -301,6 +302,11 @@ class MainGameScene(Scene):
                         ) and not pygame.sprite.spritecollide(
                             self.turret_to_place, self.turrets_group, False
                         )
+                elif event.type == ENEMY_KILLED:
+                    self.coins += event.entity.coins_drop
+                    self.gui_manager.get_element_by_id("coins_text").update_text(self.coins)
+                    print(self.coins)
+                    self.gui_manager.refresh()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:

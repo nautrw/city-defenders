@@ -2,6 +2,8 @@ import pygame
 
 from src.entities.health_bar import HealthBar
 
+ENEMY_KILLED = pygame.event.custom_type()
+
 
 class Enemy(pygame.sprite.Sprite):
     image: pygame.Surface
@@ -13,6 +15,7 @@ class Enemy(pygame.sprite.Sprite):
         movement_speed: int,
         max_health: int,
         path_waypoints: list[tuple[float, float]],
+        coins_drop: int
     ):
         super().__init__()
 
@@ -28,6 +31,8 @@ class Enemy(pygame.sprite.Sprite):
         self.max_health = max_health
         self.health = max_health
 
+        self.coins_drop = coins_drop
+
         self.health_bar = HealthBar()
 
     def draw(self, surface: pygame.Surface):
@@ -36,6 +41,9 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self, delta_time: float) -> None:
         if self.waypoint_index >= len(self.path_waypoints):
+            event = pygame.Event(ENEMY_KILLED, {"entity": self})
+            pygame.event.post(event)
+            print("a")
             self.kill()
             return
 

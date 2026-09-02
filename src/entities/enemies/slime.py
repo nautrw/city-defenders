@@ -12,5 +12,5 @@ class Slime(Enemy):
         image = load_asset("slime")
 
         super().__init__(
-            image=image, movement_speed=50, max_health=10, path_waypoints=path_waypoints
+            image=image, movement_speed=50, max_health=10, path_waypoints=path_waypoints, coins_drop=10
         )
