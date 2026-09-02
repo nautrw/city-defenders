@@ -1,5 +1,3 @@
-from enum import Enum, auto
-
 import pygame
 from pygame.typing import ColorLike
 
@@ -7,12 +5,6 @@ import src.core.config as Config
 from src.core.utils import get_font
 from src.gui.element import Element
 from src.gui.placement_system import RectAnchorMode
-
-
-class TextPlacementModes(Enum):
-    TOP_LEFT = auto()
-    CENTER_CENTER = auto()
-    TOP_CENTER = auto()
 
 
 class Text(Element):

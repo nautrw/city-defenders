@@ -15,7 +15,7 @@ from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
-from src.gui.text import Text, TextPlacementModes
+from src.gui.text import Text
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
