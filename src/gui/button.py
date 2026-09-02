@@ -19,10 +19,10 @@ class Button(Element):
     def __init__(
         self,
         id: str,
-        x: int,
-        y: int,
-        width: int,
-        height: int,
+        x: float,
+        y: float,
+        width: float,
+        height: float,
         inner_padding: int = 2,
         normal_bg: ColorLike = Config.BUTTON_NORMAL_BG,
         hover_bg: ColorLike = Config.BUTTON_HOVERED_BG,
@@ -40,7 +40,7 @@ class Button(Element):
         self.state: ButtonStates = ButtonStates.NORMAL
 
         self.surface = pygame.Surface((self.width, self.height))
-        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
+        self.rect = self.surface.get_frect(topleft=(self.x, self.y))
 
         super().__init__(id, self.surface, self.rect)
 
@@ -83,7 +83,7 @@ class Button(Element):
 
         surface.blit(self.surface, self.rect)
 
-    def update(self, delta_time: float, mouse_position: tuple[int, int]) -> None:
+    def update(self, delta_time: float, mouse_position: tuple[float, float]) -> None:
         pressed_buttons = pygame.mouse.get_pressed()
         pressed = pressed_buttons[0]  # left click
 

@@ -9,10 +9,10 @@ class ElementContainer(Element):
     def __init__(
         self,
         id: str,
-        x: int,
-        y: int,
-        width: int,
-        height: int,
+        x: float,
+        y: float,
+        width: float,
+        height: float,
         inner_padding: int = 2,
         bg_color: ColorLike = Config.BUTTON_NORMAL_BG,
     ) -> None:
@@ -24,7 +24,7 @@ class ElementContainer(Element):
         self.bg_color = bg_color
 
         self.surface = pygame.Surface((self.width, self.height))
-        self.rect = self.surface.get_rect(topleft=(self.x, self.y))
+        self.rect = self.surface.get_frect(topleft=(self.x, self.y))
 
         self.elements = []
 
@@ -38,7 +38,7 @@ class ElementContainer(Element):
 
         surface.blit(self.surface, self.rect)
 
-    def update(self, delta_time: float, mouse_position: tuple[int, int]) -> None:
+    def update(self, delta_time: float, mouse_position: tuple[float, float]) -> None:
         # relative_mouse_position = (self.x - mouse_position[0], self.y - mouse_position[1])
         relative_mouse_position = (
             mouse_position[0] - self.x,

@@ -7,7 +7,7 @@ class Icon(Element):
     def __init__(self, id: str, x: float, y: float, image: pygame.Surface):
         self.id = id
         self.image = image
-        self.rect = self.image.get_rect(topleft=(x, y))
+        self.rect = self.image.get_frect(topleft=(x, y))
 
         super().__init__(self.id, self.image, self.rect)
 

@@ -59,8 +59,8 @@ class Text(Element):
         )
 
         if self.placement_mode == TextPlacementModes.TOP_LEFT:
-            self.rect = self.image.get_rect(topleft=(self.x, self.y))
+            self.rect = self.image.get_frect(topleft=(self.x, self.y))
         elif self.placement_mode == TextPlacementModes.CENTER_CENTER:
-            self.rect = self.image.get_rect(center=(self.x, self.y))
+            self.rect = self.image.get_frect(center=(self.x, self.y))
         elif self.placement_mode == TextPlacementModes.TOP_CENTER:
-            self.rect = self.image.get_rect(centerx=self.x, top=self.y)
+            self.rect = self.image.get_frect(centerx=self.x, top=self.y)
