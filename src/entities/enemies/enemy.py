@@ -17,7 +17,7 @@ class Enemy(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = image
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_frect()
 
         self.path_waypoints = path_waypoints
         self.waypoint_index = 1
