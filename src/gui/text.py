@@ -6,6 +6,7 @@ from pygame.typing import ColorLike
 import src.core.config as Config
 from src.core.utils import get_font
 from src.gui.element import Element
+from src.gui.placement_system import RectAnchorMode
 
 
 class TextPlacementModes(Enum):
@@ -20,26 +21,39 @@ class Text(Element):
 
     def __init__(
         self,
+        id: str,
         text: str,
         x: float,
         y: float,
         size: int = Config.FONT_SIZE_NORMAL,
-        placement_mode: TextPlacementModes = TextPlacementModes.TOP_LEFT,
+        anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
         antialias: bool = True,
         fg_color: ColorLike = Config.TEXT_COLOR_NORMAL,
         font_name: str = Config.FONT_NORMAL,
         wrap_length: int = 500,
     ):
         self.font = pygame.font.Font(get_font(font_name), size)
+        self.image = pygame.Surface((0, 0))  # placeholder
+        self.rect = self.image.get_frect()
 
         self.x = x
         self.y = y
-        self.placement_mode = placement_mode
+        self.anchor = anchor
 
         self.text = text
         self.antialias = antialias
         self.fg_color = fg_color
         self.wrap_length = wrap_length
+
+        super().__init__(
+            id,
+            self.image,
+            self.x,
+            self.y,
+            self.rect.width,
+            self.rect.height,
+            self.anchor,
+        )
 
         self.render_text()
 
@@ -58,9 +72,5 @@ class Text(Element):
             self.text, self.antialias, self.fg_color, wraplength=self.wrap_length
         )
 
-        if self.placement_mode == TextPlacementModes.TOP_LEFT:
-            self.rect = self.image.get_frect(topleft=(self.x, self.y))
-        elif self.placement_mode == TextPlacementModes.CENTER_CENTER:
-            self.rect = self.image.get_frect(center=(self.x, self.y))
-        elif self.placement_mode == TextPlacementModes.TOP_CENTER:
-            self.rect = self.image.get_frect(centerx=self.x, top=self.y)
+        self.rect = self.image.get_frect()
+        self.move(self.x, self.y, self.anchor)
