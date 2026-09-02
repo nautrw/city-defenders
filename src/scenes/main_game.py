@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 
 class UIStates(Enum):
     COLLAPSED = auto()
-    TOWER_MENU = auto()
+    TOWER_PICKER_MENU = auto()
     PLACING_TURRET = auto()
     TURRET_SELECTED = auto()
 
@@ -90,42 +90,75 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.elements.append(coin_display_container)
 
-        # COLLAPSED MENU
         if self.state == UIStates.COLLAPSED:
             build_icon = load_scaled_asset("build_icon")
             build_button = Button(
                 "tower_building_menu_button",
-                (Config.SCREEN_WIDTH - Config.BUTTON_SIZE - Config.ELEMENT_OUTER_PADDING),
+                (
+                    Config.SCREEN_WIDTH
+                    - Config.BUTTON_SIZE
+                    - Config.ELEMENT_OUTER_PADDING
+                ),
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
                 image=build_icon,
-                anchor=RectAnchorMode.TOPRIGHT
+                anchor=RectAnchorMode.TOPRIGHT,
             )
             self.elements.append(build_button)
+        elif self.state == UIStates.TOWER_PICKER_MENU:
+            container_width = 500
+            tower_button_icon_size = 64
+
+            tower_picker_container = ElementContainer(
+                "tower_picker_menu",
+                (Config.SCREEN_WIDTH - container_width),
+                0,
+                container_width,
+                Config.SCREEN_HEIGHT,
+            )
+
+            close_icon = load_scaled_asset("close_icon")
+            tower_picker_close_button = Button(
+                "tower_picker_close_button",
+                ((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE) - Config.ELEMENT_OUTER_PADDING,
+                Config.ELEMENT_OUTER_PADDING,
+                Config.BUTTON_SIZE,
+                Config.BUTTON_SIZE,
+                image=close_icon
+            )
+
+            crossbow_turret_icon = load_scaled_asset("crossbow")
+            tower_picker_container.add_element(
+                Button(
+                    "build_crossbow_turret_button",
+                    Config.ELEMENT_OUTER_PADDING,
+                    Config.ELEMENT_OUTER_PADDING,
+                    Config.BUTTON_SIZE,
+                    Config.BUTTON_SIZE,
+                    image=crossbow_turret_icon,
+                )
+            )
+
+            self.elements.append(tower_picker_close_button)
+            self.elements.append(tower_picker_container)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
             if event.button.id == "tower_building_menu_button":
-                self.switch_state(UIStates.TOWER_MENU)
-            elif event.button.id.endswith("_close_button"):
-                # elif event.button.id == "tower_menu_close_button":
-                # elif event.button.id == "selected_tower_menu_close_button":
-                self.switch_state(UIStates.COLLAPSED)
-            elif event.button.id == "discard_turret_button":
-                self.switch_state(UIStates.TOWER_MENU)
-                self.scene.turret_to_place = None  # ty: ignore[unresolved-attribute]
-            elif event.button.id == "crossbow_turret_button":
+                self.switch_state(UIStates.TOWER_PICKER_MENU)
+            elif event.button.id == "build_crossbow_turret_button":
                 self.switch_state(UIStates.PLACING_TURRET)
 
-                self.scene.state = (  # ty:ignore[unresolved-attribute]
-                    MainGameSceneStates.PLACING_TURRET
-                )
+                self.scene.state = MainGameSceneStates.PLACING_TURRET  # ty:ignore[unresolved-attribute]
                 self.scene.turret_to_place = CrossbowTurret(  # ty:ignore[unresolved-attribute]
-                    *self.scene.camera.viewport_to_world(  # ty:ignore[unresolved-attribute]
-                        *pygame.mouse.get_pos()
-                    )
+                    *self.scene.camera.viewport_to_world(*pygame.mouse.get_pos())  # ty:ignore[unresolved-attribute]
                 )
+            elif event.button.id == "tower_picker_close_button":
+                self.switch_state(UIStates.TOWER_PICKER_MENU)
+                self.scene.state = MainGameSceneStates.NORMAL # ty:ignore[unresolved-attribute]
+                self.scene.turret_to_place = None # ty:ignore[unresolved-attribute]
+
 
 
 class MainGameScene(Scene):
@@ -183,7 +216,7 @@ class MainGameScene(Scene):
                             if self.turret_to_place and self.can_place_turret:
                                 self.turrets_group.add(self.turret_to_place)
                                 self.state = MainGameSceneStates.NORMAL
-                                self.gui_manager.switch_state(UIStates.TOWER_MENU)
+                                self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
                                 self.turret_to_place = None
                                 self.can_place_turret = False  # reset
                         elif self.state == MainGameSceneStates.NORMAL:
