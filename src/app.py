@@ -23,7 +23,7 @@ class GameApp:
         self.delta_time = 0.0
 
         tileset_img = load_asset("tileset")
-        tileset = split_tileset(tileset_img, Config.TILE_HEIGHT, Config.TILE_HEIGHT)
+        tileset = split_tileset(tileset_img)
         map_data = load_map("Test")
 
         self.scene_manager = SceneManager()
