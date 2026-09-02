@@ -37,8 +37,8 @@ class Turret(pygame.sprite.Sprite):
 
         # turret needs to have a separate rect because of rotation, so i use
         # the base as the rect
-        self.rect = self.base.get_rect(center=self.position)
-        self.turret_rect = self.turret_image.get_rect(center=self.position)
+        self.rect = self.base.get_frect(center=self.position)
+        self.turret_rect = self.turret_image.get_frect(center=self.position)
 
         self.projectile = projectile
         self.shooting_speed = shooting_speed
@@ -80,7 +80,7 @@ class Turret(pygame.sprite.Sprite):
         self.base = self.original_base_image.copy()
 
         if draw_radiuses:
-            circle_surf = pygame.Surface(self.area.as_rect().size, pygame.SRCALPHA)
+            circle_surf = pygame.Surface(self.area.as_frect().size, pygame.SRCALPHA)
             radius = self.area.radius
             pygame.draw.circle(
                 circle_surf,
@@ -88,12 +88,12 @@ class Turret(pygame.sprite.Sprite):
                 (radius, radius),
                 radius,
             )
-            surface.blit(circle_surf, self.area.as_rect())
+            surface.blit(circle_surf, self.area.as_frect())
 
         self.turret_image = pygame.transform.rotate(
             self.original_turret_image, self.turret_angle
         )
-        self.turret_rect = self.turret_image.get_rect(center=self.rect.center)
+        self.turret_rect = self.turret_image.get_frect(center=self.rect.center)
 
         if overlay_color:
             self.base.fill(overlay_color, special_flags=pygame.BLEND_RGBA_MIN)
