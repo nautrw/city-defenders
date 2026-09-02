@@ -108,7 +108,6 @@ class MainGameSceneGUIManager(GUIManager):
             self.elements.append(build_button)
         elif self.state == UIStates.TOWER_PICKER_MENU:
             container_width = 500
-            tower_button_icon_size = 64
 
             tower_picker_container = ElementContainer(
                 "tower_picker_menu",
@@ -142,6 +141,23 @@ class MainGameSceneGUIManager(GUIManager):
 
             self.elements.append(tower_picker_close_button)
             self.elements.append(tower_picker_container)
+        elif self.state == UIStates.PLACING_TURRET:
+            close_icon = load_scaled_asset("close_icon")
+            tower_discard_button = Button(
+                "tower_discard_button",
+                (
+                    Config.SCREEN_WIDTH
+                    - Config.BUTTON_SIZE
+                    - Config.ELEMENT_OUTER_PADDING
+                ),
+                Config.ELEMENT_OUTER_PADDING,
+                Config.BUTTON_SIZE,
+                Config.BUTTON_SIZE,
+                image=close_icon,
+                anchor=RectAnchorMode.TOPRIGHT,
+            )
+
+            self.elements.append(tower_discard_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
@@ -154,7 +170,7 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.turret_to_place = CrossbowTurret(  # ty:ignore[unresolved-attribute]
                     *self.scene.camera.viewport_to_world(*pygame.mouse.get_pos())  # ty:ignore[unresolved-attribute]
                 )
-            elif event.button.id == "tower_picker_close_button":
+            elif event.button.id == "tower_discard_button":
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
                 self.scene.state = MainGameSceneStates.NORMAL # ty:ignore[unresolved-attribute]
                 self.scene.turret_to_place = None # ty:ignore[unresolved-attribute]
