@@ -5,6 +5,7 @@ from pygame.typing import ColorLike
 
 import src.core.config as Config
 from src.gui.element import Element
+from src.gui.placement_system import RectAnchorMode
 
 CUSTOM_BUTTON_CLICKED = pygame.event.custom_type()
 
@@ -23,6 +24,7 @@ class Button(Element):
         y: float,
         width: float,
         height: float,
+        anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
         inner_padding: int = 2,
         normal_bg: ColorLike = Config.BUTTON_NORMAL_BG,
         hover_bg: ColorLike = Config.BUTTON_HOVERED_BG,
@@ -36,13 +38,15 @@ class Button(Element):
         self.y = y
         self.width = width
         self.height = height
+        self.anchor = anchor
 
         self.state: ButtonStates = ButtonStates.NORMAL
 
         self.surface = pygame.Surface((self.width, self.height))
-        self.rect = self.surface.get_frect(topleft=(self.x, self.y))
 
-        super().__init__(id, self.surface, self.rect)
+        super().__init__(
+            id, self.surface, self.x, self.y, self.width, self.height, self.anchor
+        )
 
         self.normal_bg = normal_bg
         self.hover_bg = hover_bg
