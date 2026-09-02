@@ -333,7 +333,6 @@ class MainGameScene(Scene):
         scaled_game_surface = pygame.transform.scale(
             self.game_surface, self.scaled_game_surface_size
         )
-        # surface.blit(scaled_game_surface, scaled_game_surface.get_rect())
 
         camera_view = pygame.Rect(
             self.camera.offset.x * Config.MAP_SCALE_FACTOR,
