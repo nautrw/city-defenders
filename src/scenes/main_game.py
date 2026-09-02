@@ -7,7 +7,7 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import load_asset
+from src.core.utils import load_asset, load_scaled_asset
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
@@ -47,6 +47,7 @@ class MainGameSceneGUIManager(GUIManager):
     def refresh(self) -> None:
         self.elements = []
 
+        # COINS DISPLAY ALWAYS SHOWN
         coin_icon_size = 48
 
         coins_text = Text(
@@ -89,9 +90,23 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.elements.append(coin_display_container)
 
+        # COLLAPSED MENU
+        if self.state == UIStates.COLLAPSED:
+            build_icon = load_scaled_asset("build_icon")
+            build_button = Button(
+                "tower_building_menu_button",
+                (Config.SCREEN_WIDTH - Config.BUTTON_SIZE - Config.ELEMENT_OUTER_PADDING),
+                Config.ELEMENT_OUTER_PADDING,
+                Config.BUTTON_SIZE,
+                Config.BUTTON_SIZE,
+                image=build_icon,
+                anchor=RectAnchorMode.TOPRIGHT
+            )
+            self.elements.append(build_button)
+
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
-            if event.button.id == "build_towers":
+            if event.button.id == "tower_building_menu_button":
                 self.switch_state(UIStates.TOWER_MENU)
             elif event.button.id.endswith("_close_button"):
                 # elif event.button.id == "tower_menu_close_button":
