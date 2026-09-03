@@ -16,6 +16,7 @@ class Turret(pygame.sprite.Sprite):
         self,
         display_name: str,
         description: str,
+        cost: int,
         x_position: int,
         y_position: int,
         turret_image: pygame.Surface,
