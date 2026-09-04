@@ -238,10 +238,7 @@ class MainGameSceneGUIManager(GUIManager):
             close_icon = load_scaled_asset("close_icon")
             tower_discard_button = Button(
                 "tower_discard_button",
-                (
-                    Config.SCREEN_WIDTH
-                    - Config.ELEMENT_OUTER_PADDING
-                ),
+                (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
@@ -281,11 +278,7 @@ class MainGameSceneGUIManager(GUIManager):
             close_icon = load_scaled_asset("close_icon")
             close_selected_tower_menu_button = Button(
                 "close_selected_tower_menu_button",
-                (
-                    Config.SCREEN_WIDTH
-                    - container_width
-                    - Config.ELEMENT_OUTER_PADDING
-                ),
+                (Config.SCREEN_WIDTH - container_width - Config.ELEMENT_OUTER_PADDING),
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
@@ -313,19 +306,16 @@ class MainGameSceneGUIManager(GUIManager):
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
             elif event.button.id == "close_selected_tower_menu_button":
                 self.switch_state(UIStates.COLLAPSED)
-                self.scene.selected_tower = None # ty:ignore[unresolved-attribute]
+                self.scene.selected_tower = None  # ty:ignore[unresolved-attribute]
             elif event.button.id == "tower_discard_button":
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
-                self.scene.state = MainGameSceneStates.NORMAL # ty:ignore[unresolved-attribute]
-                self.scene.turret_to_place = None # ty:ignore[unresolved-attribute]
-                self.scene.can_place_turret = False # ty:ignore[unresolved-attribute]
+                self.scene.state = MainGameSceneStates.NORMAL  # ty:ignore[unresolved-attribute]
+                self.scene.turret_to_place = None  # ty:ignore[unresolved-attribute]
+                self.scene.can_place_turret = False  # ty:ignore[unresolved-attribute]
             elif event.button.id == "buy_selected_tower_button":  # noqa: SIM102
                 # here comes ty:ignore hell...
                 if self.selected_tower_to_buy:  # noqa: SIM102
                     if self.scene.coins >= self.selected_tower_to_buy.cost:  # ty:ignore[unresolved-attribute]
-                        self.scene.coins -= self.selected_tower_to_buy.cost  # ty:ignore[unresolved-attribute]
-                        self.refresh()
-
                         self.scene.state = MainGameSceneStates.PLACING_TURRET  # ty:ignore[unresolved-attribute]
                         self.scene.turret_to_place = self.selected_tower_to_buy(  # ty:ignore[unresolved-attribute]
                             *self.scene.camera.viewport_to_world(  # ty:ignore[unresolved-attribute]
@@ -375,6 +365,18 @@ class MainGameScene(Scene):
 
         self.gui_manager = MainGameSceneGUIManager(self)
 
+    def place_selected_tower(self):
+        self.turrets_group.add(self.turret_to_place)
+        self.state = MainGameSceneStates.NORMAL
+        self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
+        self.coins -= self.turret_to_place.cost # ty:ignore[unresolved-attribute]
+
+        # reset everything
+        self.can_place_turret = False
+        self.turret_to_place = None
+        self.gui_manager.switch_state(UIStates.COLLAPSED)
+        self.gui_manager.refresh()
+
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -391,13 +393,7 @@ class MainGameScene(Scene):
                     if event.button == pygame.BUTTON_LEFT:
                         if self.state == MainGameSceneStates.PLACING_TURRET:
                             if self.turret_to_place and self.can_place_turret:
-                                self.turrets_group.add(self.turret_to_place)
-                                self.state = MainGameSceneStates.NORMAL
-                                self.gui_manager.switch_state(
-                                    UIStates.TOWER_PICKER_MENU
-                                )
-                                self.turret_to_place = None
-                                self.can_place_turret = False  # reset
+                                self.place_selected_tower()
                         elif self.state == MainGameSceneStates.NORMAL:
                             for turret in self.turrets_group:
                                 if turret.rect.collidepoint(mouse_world_coord):
