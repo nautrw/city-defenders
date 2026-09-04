@@ -37,12 +37,14 @@ class Button(Element):
         text: Text | None = None,
         icon: pygame.Surface | None = None,
         once_per_click: bool = True,
+        enabled: bool = True,
     ) -> None:
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.anchor = anchor
+        self.enaled = enabled
 
         self.state: ButtonStates = ButtonStates.NORMAL
 
@@ -71,11 +73,14 @@ class Button(Element):
         self.once_per_click = once_per_click
 
     def draw(self, surface: pygame.Surface) -> None:
-        if self.state == ButtonStates.NORMAL:
-            self.image.fill(self.normal_bg)
-        elif self.state == ButtonStates.HOVERED:
-            self.image.fill(self.hover_bg)
-        elif self.state == ButtonStates.PRESSED:
+        if self.enabled:
+            if self.state == ButtonStates.NORMAL:
+                self.image.fill(self.normal_bg)
+            elif self.state == ButtonStates.HOVERED:
+                self.image.fill(self.hover_bg)
+            elif self.state == ButtonStates.PRESSED:
+                self.image.fill(self.pressed_bg)
+        else:
             self.image.fill(self.pressed_bg)
 
         if self.text:
@@ -94,7 +99,7 @@ class Button(Element):
         if self.rect.collidepoint(mouse_position):
             self.state = ButtonStates.PRESSED if pressed else ButtonStates.HOVERED
 
-            if pressed and (not self.once_per_click or not self.pressed_last_frame):
+            if pressed and (not self.once_per_click or not self.pressed_last_frame) and self.enabled:
                 event = pygame.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
                 pygame.event.post(event)
 
@@ -103,3 +108,6 @@ class Button(Element):
             self.state = ButtonStates.NORMAL
 
         self.pressed_last_frame = pressed
+
+    def toggle(self) -> None:
+        self.enabled = not self.enabled
