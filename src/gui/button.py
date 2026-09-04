@@ -6,6 +6,7 @@ from pygame.typing import ColorLike
 import src.core.config as Config
 from src.gui.element import Element
 from src.gui.placement_system import RectAnchorMode
+from src.gui.text import Text
 
 CUSTOM_BUTTON_CLICKED = pygame.event.custom_type()
 
@@ -17,6 +18,9 @@ class ButtonStates(Enum):
 
 
 class Button(Element):
+    image: pygame.Surface
+    rect: pygame.Rect | pygame.FRect
+
     def __init__(
         self,
         id: str,
@@ -29,63 +33,62 @@ class Button(Element):
         normal_bg: ColorLike = Config.BUTTON_NORMAL_BG,
         hover_bg: ColorLike = Config.BUTTON_HOVERED_BG,
         pressed_bg: ColorLike = Config.BUTTON_PRESSED_BG,
-        text: str = "",
-        text_color: ColorLike = Config.TEXT_COLOR_NORMAL,
-        image: pygame.Surface | None = None,
+        text: Text | None = None,
+        icon: pygame.Surface | None = None,
         once_per_click: bool = True,
+        enabled: bool = True,
     ) -> None:
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.anchor = anchor
+        self.enabled = enabled
 
         self.state: ButtonStates = ButtonStates.NORMAL
 
-        self.surface = pygame.Surface((self.width, self.height))
+        self.image = pygame.Surface((self.width, self.height))
 
         super().__init__(
-            id, self.surface, self.x, self.y, self.width, self.height, self.anchor
+            id, self.image, self.x, self.y, self.width, self.height, self.anchor
         )
 
         self.normal_bg = normal_bg
         self.hover_bg = hover_bg
         self.pressed_bg = pressed_bg
 
-        self.image = image
-        if self.image:
-            self.image_rect = self.image.get_frect(
-                centerx=self.width // 2, top=inner_padding
+        self.icon = icon
+        if self.icon:
+            self.icon_rect = self.icon.get_frect(
+                centerx=self.width / 2, top=inner_padding
             )
 
         self.text = text
+
         if self.text:
-            self.font = pygame.font.Font(Config.FONT_NORMAL, Config.FONT_SIZE_NORMAL)
-            self.text_surface = self.font.render(self.text, False, text_color)
-            self.text_rect = self.text_surface.get_frect(
-                centerx=self.width // 2,
-                top=(self.image.get_frect().height + inner_padding if self.image else 0)
-                + inner_padding,
-            )
+            self.text.render_text()
 
         self.pressed_last_frame = False
         self.once_per_click = once_per_click
 
     def draw(self, surface: pygame.Surface) -> None:
-        if self.state == ButtonStates.NORMAL:
-            self.surface.fill(self.normal_bg)
-        elif self.state == ButtonStates.HOVERED:
-            self.surface.fill(self.hover_bg)
-        elif self.state == ButtonStates.PRESSED:
-            self.surface.fill(self.pressed_bg)
-
-        if self.image:
-            self.surface.blit(self.image, self.image_rect)
+        if self.enabled:
+            if self.state == ButtonStates.NORMAL:
+                self.image.fill(self.normal_bg)
+            elif self.state == ButtonStates.HOVERED:
+                self.image.fill(self.hover_bg)
+            elif self.state == ButtonStates.PRESSED:
+                self.image.fill(self.pressed_bg)
+        else:
+            self.image.fill(self.pressed_bg)
 
         if self.text:
-            self.surface.blit(self.text_surface, self.text_rect)
+            self.text.draw(self.image)
 
-        surface.blit(self.surface, self.rect)
+        if self.icon:
+            self.image.blit(self.icon, self.icon_rect)
+
+        surface.blit(self.image, self.rect)
 
     def update(self, delta_time: float, mouse_position: tuple[float, float]) -> None:
         pressed_buttons = pygame.mouse.get_pressed()
@@ -94,7 +97,11 @@ class Button(Element):
         if self.rect.collidepoint(mouse_position):
             self.state = ButtonStates.PRESSED if pressed else ButtonStates.HOVERED
 
-            if pressed and (not self.once_per_click or not self.pressed_last_frame):
+            if (
+                pressed
+                and (not self.once_per_click or not self.pressed_last_frame)
+                and self.enabled
+            ):
                 event = pygame.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
                 pygame.event.post(event)
 
@@ -103,3 +110,6 @@ class Button(Element):
             self.state = ButtonStates.NORMAL
 
         self.pressed_last_frame = pressed
+
+    def toggle(self) -> None:
+        self.enabled = not self.enabled

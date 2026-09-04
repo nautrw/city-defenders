@@ -27,6 +27,10 @@ BUTTON_NORMAL_BG: ColorLike = "#807b7a"
 BUTTON_HOVERED_BG: ColorLike = "#595757"
 BUTTON_PRESSED_BG: ColorLike = "#323232"
 
+BUY_BUTTON_NORMAL_BG: ColorLike = "#477238"
+BUY_BUTTON_HOVERED_BG: ColorLike = "#293f21"
+BUY_BUTTON_PRESSED_BG: ColorLike = "#181c19"
+
 DARK_BG: ColorLike = "#171516"
 
 TEXT_COLOR_NORMAL: ColorLike = "white"
@@ -34,6 +38,7 @@ TEXT_COLOR_NORMAL: ColorLike = "white"
 FONT_NORMAL: str = "Oleaguid"
 FONT_SIZE_NORMAL: int = 36
 FONT_SIZE_HEADER: int = 48
+FONT_SIZE_VERYBIG: int = 72
 
 
 ELEMENT_OUTER_PADDING: int = 8

@@ -25,7 +25,7 @@ class Element(ABC):
         self.anchor = anchor
 
         self.rect = pygame.FRect(self.x, self.y, self.width, self.height)
-        self.move(self.x, self.y)  # just to set the anchor
+        self.move(self.x, self.y, self.anchor)  # just to set the anchor
 
     def move(
         self,

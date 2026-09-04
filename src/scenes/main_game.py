@@ -7,10 +7,11 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import load_asset, load_scaled_asset
+from src.core.utils import load_scaled_asset
 from src.entities.enemies.enemy import ENEMY_KILLED
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
+from src.entities.turrets.turret import Turret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
@@ -28,6 +29,7 @@ if TYPE_CHECKING:
 class UIStates(Enum):
     COLLAPSED = auto()
     TOWER_PICKER_MENU = auto()
+    TOWER_PICKER_TOWER_SELECTED = auto()
     PLACING_TURRET = auto()
     TOWER_SELECTED = auto()
 
@@ -42,6 +44,8 @@ class MainGameSceneGUIManager(GUIManager):
         default_state = UIStates.COLLAPSED
 
         super().__init__(scene, default_state)
+
+        self.selected_tower_to_buy: type[Turret] | None = None
 
         self.refresh()
 
@@ -74,7 +78,7 @@ class MainGameSceneGUIManager(GUIManager):
             Config.ELEMENT_OUTER_PADDING,
             coin_icon_size,
             coin_icon_size,
-            load_asset("coin"),
+            load_scaled_asset("coin", (coin_icon_size, coin_icon_size)),
             RectAnchorMode.TOPLEFT,
         )
 
@@ -95,15 +99,11 @@ class MainGameSceneGUIManager(GUIManager):
             build_icon = load_scaled_asset("build_icon")
             build_button = Button(
                 "tower_picker_menu_button",
-                (
-                    Config.SCREEN_WIDTH
-                    - Config.BUTTON_SIZE
-                    - Config.ELEMENT_OUTER_PADDING
-                ),
+                (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
-                image=build_icon,
+                icon=build_icon,
                 anchor=RectAnchorMode.TOPRIGHT,
             )
             self.elements.append(build_button)
@@ -126,7 +126,7 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
-                image=close_icon,
+                icon=close_icon,
             )
 
             crossbow_turret_icon = load_scaled_asset("crossbow")
@@ -137,25 +137,112 @@ class MainGameSceneGUIManager(GUIManager):
                     Config.ELEMENT_OUTER_PADDING,
                     Config.BUTTON_SIZE,
                     Config.BUTTON_SIZE,
-                    image=crossbow_turret_icon,
+                    icon=crossbow_turret_icon,
                 )
             )
 
             self.elements.append(tower_picker_close_button)
             self.elements.append(tower_picker_container)
+        elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
+            container_width = 500
+
+            container = ElementContainer(
+                "tower_picker_tower_selected_menu",
+                (Config.SCREEN_WIDTH - container_width),
+                0,
+                container_width,
+                Config.SCREEN_HEIGHT,
+            )
+
+            close_icon = load_scaled_asset("close_icon")
+            close_container_button = Button(
+                "close_tower_picker_tower_selected_menu_button",
+                ((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
+                - Config.ELEMENT_OUTER_PADDING,
+                Config.ELEMENT_OUTER_PADDING,
+                Config.BUTTON_SIZE,
+                Config.BUTTON_SIZE,
+                icon=close_icon,
+            )
+
+            tower_name = Text(
+                "selected_tower_display_name",
+                self.selected_tower_to_buy.display_name,  # ty:ignore[unresolved-attribute]
+                container_width // 2,
+                Config.ELEMENT_OUTER_PADDING,
+                anchor=RectAnchorMode.MIDTOP,
+                size=Config.FONT_SIZE_HEADER,
+            )
+
+            tower_description = Text(
+                "selected_tower_description",
+                self.selected_tower_to_buy.description,  # ty:ignore[unresolved-attribute]
+                Config.ELEMENT_OUTER_PADDING,
+                Config.ELEMENT_OUTER_PADDING + tower_name.rect.height,
+                wrap_length=container_width,
+            )
+
+            cost_text = Text(
+                "cost_text",
+                "Cost: ",
+                Config.ELEMENT_OUTER_PADDING,
+                tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            )
+            coin_img = load_scaled_asset("coin", (36, 36))
+            coin_icon = Icon(
+                "coin_icon",
+                cost_text.rect.right,
+                cost_text.rect.top,
+                Config.FONT_SIZE_NORMAL,
+                Config.FONT_SIZE_NORMAL,
+                coin_img,
+            )
+            tower_cost = Text(
+                "tower_cost",
+                str(self.selected_tower_to_buy.cost),  # ty:ignore[unresolved-attribute]
+                coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+                coin_icon.rect.top,
+            )
+
+            build_button = Button(
+                "buy_selected_tower_button",
+                container_width // 2,
+                Config.SCREEN_HEIGHT * 0.75,
+                208,
+                104,
+                anchor=RectAnchorMode.CENTER,
+                text=Text(
+                    "buy_text",
+                    "Buy",
+                    208 // 2,
+                    104 // 2,
+                    size=Config.FONT_SIZE_VERYBIG,
+                    anchor=RectAnchorMode.CENTER,
+                ),
+                normal_bg=Config.BUY_BUTTON_NORMAL_BG,
+                hover_bg=Config.BUY_BUTTON_HOVERED_BG,
+                pressed_bg=Config.BUY_BUTTON_PRESSED_BG,
+                enabled=(self.scene.coins >= self.selected_tower_to_buy.cost),  # ty:ignore[unresolved-attribute]
+            )
+
+            container.add_element(tower_name)
+            container.add_element(tower_description)
+            container.add_element(cost_text)
+            container.add_element(coin_icon)
+            container.add_element(tower_cost)
+            container.add_element(build_button)
+
+            self.elements.append(container)
+            self.elements.append(close_container_button)
         elif self.state == UIStates.PLACING_TURRET:
             close_icon = load_scaled_asset("close_icon")
             tower_discard_button = Button(
                 "tower_discard_button",
-                (
-                    Config.SCREEN_WIDTH
-                    - Config.BUTTON_SIZE
-                    - Config.ELEMENT_OUTER_PADDING
-                ),
+                (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
-                image=close_icon,
+                icon=close_icon,
                 anchor=RectAnchorMode.TOPRIGHT,
             )
 
@@ -188,10 +275,22 @@ class MainGameSceneGUIManager(GUIManager):
                 wrap_length=container_width,
             )
 
+            close_icon = load_scaled_asset("close_icon")
+            close_selected_tower_menu_button = Button(
+                "close_selected_tower_menu_button",
+                (Config.SCREEN_WIDTH - container_width - Config.ELEMENT_OUTER_PADDING),
+                Config.ELEMENT_OUTER_PADDING,
+                Config.BUTTON_SIZE,
+                Config.BUTTON_SIZE,
+                icon=close_icon,
+                anchor=RectAnchorMode.TOPRIGHT,
+            )
+
             selected_tower_menu.add_element(tower_name)
             selected_tower_menu.add_element(tower_description)
 
             self.elements.append(selected_tower_menu)
+            self.elements.append(close_selected_tower_menu_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
@@ -200,16 +299,31 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "tower_picker_close_button":
                 self.switch_state(UIStates.COLLAPSED)
             elif event.button.id == "build_crossbow_turret_button":
-                self.switch_state(UIStates.PLACING_TURRET)
-
-                self.scene.state = MainGameSceneStates.PLACING_TURRET  # ty:ignore[unresolved-attribute]
-                self.scene.turret_to_place = CrossbowTurret(  # ty:ignore[unresolved-attribute]
-                    *self.scene.camera.viewport_to_world(*pygame.mouse.get_pos())  # ty:ignore[unresolved-attribute]
-                )
+                self.selected_tower_to_buy = CrossbowTurret
+                self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
+            elif event.button.id == "close_tower_picker_tower_selected_menu_button":
+                self.selected_tower_to_buy = None
+                self.switch_state(UIStates.TOWER_PICKER_MENU)
+            elif event.button.id == "close_selected_tower_menu_button":
+                self.switch_state(UIStates.COLLAPSED)
+                self.scene.selected_tower = None  # ty:ignore[unresolved-attribute]
             elif event.button.id == "tower_discard_button":
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
                 self.scene.state = MainGameSceneStates.NORMAL  # ty:ignore[unresolved-attribute]
                 self.scene.turret_to_place = None  # ty:ignore[unresolved-attribute]
+                self.scene.can_place_turret = False  # ty:ignore[unresolved-attribute]
+            elif event.button.id == "buy_selected_tower_button":  # noqa: SIM102
+                # here comes ty:ignore hell...
+                if self.selected_tower_to_buy:  # noqa: SIM102
+                    if self.scene.coins >= self.selected_tower_to_buy.cost:  # ty:ignore[unresolved-attribute]
+                        self.scene.state = MainGameSceneStates.PLACING_TURRET  # ty:ignore[unresolved-attribute]
+                        self.scene.turret_to_place = self.selected_tower_to_buy(  # ty:ignore[unresolved-attribute]
+                            *self.scene.camera.viewport_to_world(  # ty:ignore[unresolved-attribute]
+                                *pygame.mouse.get_pos()
+                            )
+                        )
+
+                        self.switch_state(UIStates.PLACING_TURRET)
 
 
 class MainGameScene(Scene):
@@ -251,6 +365,18 @@ class MainGameScene(Scene):
 
         self.gui_manager = MainGameSceneGUIManager(self)
 
+    def place_selected_tower(self):
+        self.turrets_group.add(self.turret_to_place)
+        self.state = MainGameSceneStates.NORMAL
+        self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
+        self.coins -= self.turret_to_place.cost # ty:ignore[unresolved-attribute]
+
+        # reset everything
+        self.can_place_turret = False
+        self.turret_to_place = None
+        self.gui_manager.switch_state(UIStates.COLLAPSED)
+        self.gui_manager.refresh()
+
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             mouse_x, mouse_y = pygame.mouse.get_pos()
@@ -267,13 +393,7 @@ class MainGameScene(Scene):
                     if event.button == pygame.BUTTON_LEFT:
                         if self.state == MainGameSceneStates.PLACING_TURRET:
                             if self.turret_to_place and self.can_place_turret:
-                                self.turrets_group.add(self.turret_to_place)
-                                self.state = MainGameSceneStates.NORMAL
-                                self.gui_manager.switch_state(
-                                    UIStates.TOWER_PICKER_MENU
-                                )
-                                self.turret_to_place = None
-                                self.can_place_turret = False  # reset
+                                self.place_selected_tower()
                         elif self.state == MainGameSceneStates.NORMAL:
                             for turret in self.turrets_group:
                                 if turret.rect.collidepoint(mouse_world_coord):
