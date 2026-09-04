@@ -240,7 +240,6 @@ class MainGameSceneGUIManager(GUIManager):
                 "tower_discard_button",
                 (
                     Config.SCREEN_WIDTH
-                    - Config.BUTTON_SIZE
                     - Config.ELEMENT_OUTER_PADDING
                 ),
                 Config.ELEMENT_OUTER_PADDING,
