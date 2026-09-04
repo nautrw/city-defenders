@@ -107,7 +107,7 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
-                image=build_icon,
+                icon=build_icon,
                 anchor=RectAnchorMode.TOPRIGHT,
             )
             self.elements.append(build_button)
@@ -130,7 +130,7 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
-                image=close_icon,
+                icon=close_icon,
             )
 
             crossbow_turret_icon = load_scaled_asset("crossbow")
@@ -141,7 +141,7 @@ class MainGameSceneGUIManager(GUIManager):
                     Config.ELEMENT_OUTER_PADDING,
                     Config.BUTTON_SIZE,
                     Config.BUTTON_SIZE,
-                    image=crossbow_turret_icon,
+                    icon=crossbow_turret_icon,
                 )
             )
 
@@ -166,7 +166,7 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
-                image=close_icon,
+                icon=close_icon,
             )
 
             tower_name = Text(
@@ -208,11 +208,32 @@ class MainGameSceneGUIManager(GUIManager):
                 coin_icon.rect.top,
             )
 
+            build_button = Button(
+                "build_selected_turret_button",
+                container_width // 2,
+                Config.SCREEN_HEIGHT * .75,
+                208,
+                104,
+                anchor=RectAnchorMode.CENTER,
+                text=Text(
+                    "buy_text",
+                    "Buy",
+                    208 // 2,
+                    104 // 2,
+                    size=Config.FONT_SIZE_VERYBIG,
+                    anchor=RectAnchorMode.CENTER,
+                ),
+                normal_bg=Config.BUY_BUTTON_NORMAL_BG,
+                hover_bg=Config.BUY_BUTTON_HOVERED_BG,
+                pressed_bg=Config.BUY_BUTTON_PRESSED_BG
+            )
+
             container.add_element(tower_name)
             container.add_element(tower_description)
             container.add_element(cost_text)
             container.add_element(coin_icon)
             container.add_element(tower_cost)
+            container.add_element(build_button)
 
             self.elements.append(container)
             self.elements.append(close_container_button)
@@ -228,7 +249,7 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
-                image=close_icon,
+                icon=close_icon,
                 anchor=RectAnchorMode.TOPRIGHT,
             )
 
