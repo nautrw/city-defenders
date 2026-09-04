@@ -279,10 +279,26 @@ class MainGameSceneGUIManager(GUIManager):
                 wrap_length=container_width,
             )
 
+            close_icon = load_scaled_asset("close_icon")
+            close_selected_tower_menu_button = Button(
+                "close_selected_tower_menu_button",
+                (
+                    Config.SCREEN_WIDTH
+                    - container_width
+                    - Config.ELEMENT_OUTER_PADDING
+                ),
+                Config.ELEMENT_OUTER_PADDING,
+                Config.BUTTON_SIZE,
+                Config.BUTTON_SIZE,
+                icon=close_icon,
+                anchor=RectAnchorMode.TOPRIGHT,
+            )
+
             selected_tower_menu.add_element(tower_name)
             selected_tower_menu.add_element(tower_description)
 
             self.elements.append(selected_tower_menu)
+            self.elements.append(close_selected_tower_menu_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
@@ -296,6 +312,9 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "close_tower_picker_tower_selected_menu_button":
                 self.selected_tower_to_buy = None
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
+            elif event.button.id == "close_selected_tower_menu_button":
+                self.switch_state(UIStates.COLLAPSED)
+                self.scene.selected_tower = None # ty:ignore[unresolved-attribute]
             elif event.button.id == "buy_selected_tower_button":  # noqa: SIM102
                 # here comes ty:ignore hell...
                 if self.selected_tower_to_buy:  # noqa: SIM102
