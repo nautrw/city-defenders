@@ -369,7 +369,7 @@ class MainGameScene(Scene):
         self.turrets_group.add(self.turret_to_place)
         self.state = MainGameSceneStates.NORMAL
         self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
-        self.coins -= self.turret_to_place.cost # ty:ignore[unresolved-attribute]
+        self.coins -= self.turret_to_place.cost  # ty:ignore[unresolved-attribute]
 
         # reset everything
         self.can_place_turret = False
@@ -381,16 +381,20 @@ class MainGameScene(Scene):
         for event in events:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             mouse_world_coord = self.camera.viewport_to_world(mouse_x, mouse_y)
+            meta_pressed = pygame.key.get_mods() == pygame.KMOD_LCTRL
 
             if not any(
                 element.rect.collidepoint(mouse_x, mouse_y)
                 for element in self.gui_manager.elements
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == pygame.BUTTON_MIDDLE:  # noqa: SIM102
+                    if event.button == pygame.BUTTON_MIDDLE or (  # noqa: SIM102
+                        event.button == pygame.BUTTON_LEFT and meta_pressed
+                    ):
                         if self.game_surface_rect.collidepoint(mouse_world_coord):
                             self.dragging_camera = True
-                    if event.button == pygame.BUTTON_LEFT:
+
+                    if event.button == pygame.BUTTON_LEFT and not meta_pressed:
                         if self.state == MainGameSceneStates.PLACING_TURRET:
                             if self.turret_to_place and self.can_place_turret:
                                 self.place_selected_tower()
@@ -402,7 +406,9 @@ class MainGameScene(Scene):
                                         UIStates.TOWER_SELECTED
                                     )
                 elif event.type == pygame.MOUSEBUTTONUP:
-                    if event.button == pygame.BUTTON_MIDDLE:
+                    if event.button == pygame.BUTTON_MIDDLE or (
+                        event.button == pygame.BUTTON_LEFT and meta_pressed
+                    ):
                         self.dragging_camera = False
                 elif event.type == pygame.MOUSEMOTION:
                     if self.dragging_camera:
