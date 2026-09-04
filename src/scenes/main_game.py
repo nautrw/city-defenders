@@ -213,7 +213,7 @@ class MainGameSceneGUIManager(GUIManager):
 
 
 class MainGameScene(Scene):
-    def __init__(self, game: GameApp, map: GameMap, initial_coins_balance: int):
+    def __init__(self, game: "GameApp", map: GameMap, initial_coins_balance: int):
         super().__init__(game)
 
         self.map = map

@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class Scene(ABC):
-    def __init__(self, game: GameApp) -> None:
+    def __init__(self, game: "GameApp") -> None:
         self.game = game
 
     # Abstractmethods make it so that its required for any other classes that
