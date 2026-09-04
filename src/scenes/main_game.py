@@ -23,7 +23,7 @@ from src.gui.text import Text
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
 # actually imported
 if TYPE_CHECKING:
-    from src.app import GameApp  # noqa: TC004
+    from src.app import GameApp
 
 
 class UIStates(Enum):
