@@ -35,7 +35,7 @@ class Button(Element):
         hover_bg: ColorLike = Config.BUTTON_HOVERED_BG,
         pressed_bg: ColorLike = Config.BUTTON_PRESSED_BG,
         text: Text | None = None,
-        image: pygame.Surface | None = None,
+        icon: pygame.Surface | None = None,
         once_per_click: bool = True,
     ) -> None:
         self.x = x
@@ -46,18 +46,18 @@ class Button(Element):
 
         self.state: ButtonStates = ButtonStates.NORMAL
 
-        self.surface = pygame.Surface((self.width, self.height))
+        self.image = pygame.Surface((self.width, self.height))
 
         super().__init__(
-            id, self.surface, self.x, self.y, self.width, self.height, self.anchor
+            id, self.image, self.x, self.y, self.width, self.height, self.anchor
         )
 
         self.normal_bg = normal_bg
         self.hover_bg = hover_bg
         self.pressed_bg = pressed_bg
 
-        self.image = image
-        if self.image:
+        self.icon = icon
+        if self.icon:
             self.image_rect = self.image.get_frect(
                 centerx=self.width // 2, top=inner_padding
             )
@@ -72,20 +72,20 @@ class Button(Element):
 
     def draw(self, surface: pygame.Surface) -> None:
         if self.state == ButtonStates.NORMAL:
-            self.surface.fill(self.normal_bg)
+            self.image.fill(self.normal_bg)
         elif self.state == ButtonStates.HOVERED:
-            self.surface.fill(self.hover_bg)
+            self.image.fill(self.hover_bg)
         elif self.state == ButtonStates.PRESSED:
-            self.surface.fill(self.pressed_bg)
+            self.image.fill(self.pressed_bg)
 
         if self.text:
             self.text.draw(self.image)
 
-        if self.image:
-            self.surface.blit(self.image, self.image_rect)
+        if self.icon:
+            self.image.blit(self.icon, self.image_rect)
 
 
-        surface.blit(self.surface, self.rect)
+        surface.blit(self.image, self.rect)
 
     def update(self, delta_time: float, mouse_position: tuple[float, float]) -> None:
         pressed_buttons = pygame.mouse.get_pressed()
