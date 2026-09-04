@@ -59,8 +59,8 @@ class Button(Element):
 
         self.icon = icon
         if self.icon:
-            self.image_rect = self.image.get_frect(
-                centerx=self.width // 2, top=inner_padding
+            self.icon_rect = self.icon.get_frect(
+                centerx=self.width / 2, top=inner_padding
             )
 
         self.text = text
@@ -86,7 +86,7 @@ class Button(Element):
             self.text.draw(self.image)
 
         if self.icon:
-            self.image.blit(self.icon, self.image_rect)
+            self.image.blit(self.icon, self.icon_rect)
 
         surface.blit(self.image, self.rect)
 
