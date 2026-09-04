@@ -99,10 +99,7 @@ class MainGameSceneGUIManager(GUIManager):
             build_icon = load_scaled_asset("build_icon")
             build_button = Button(
                 "tower_picker_menu_button",
-                (
-                    Config.SCREEN_WIDTH
-                    - Config.ELEMENT_OUTER_PADDING
-                ),
+                (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
                 Config.ELEMENT_OUTER_PADDING,
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
@@ -208,9 +205,9 @@ class MainGameSceneGUIManager(GUIManager):
             )
 
             build_button = Button(
-                "build_selected_turret_button",
+                "buy_selected_tower_button",
                 container_width // 2,
-                Config.SCREEN_HEIGHT * .75,
+                Config.SCREEN_HEIGHT * 0.75,
                 208,
                 104,
                 anchor=RectAnchorMode.CENTER,
@@ -224,7 +221,8 @@ class MainGameSceneGUIManager(GUIManager):
                 ),
                 normal_bg=Config.BUY_BUTTON_NORMAL_BG,
                 hover_bg=Config.BUY_BUTTON_HOVERED_BG,
-                pressed_bg=Config.BUY_BUTTON_PRESSED_BG
+                pressed_bg=Config.BUY_BUTTON_PRESSED_BG,
+                enabled=(self.scene.coins >= self.selected_tower_to_buy.cost),  # ty:ignore[unresolved-attribute]
             )
 
             container.add_element(tower_name)
@@ -298,6 +296,21 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "close_tower_picker_tower_selected_menu_button":
                 self.selected_tower_to_buy = None
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
+            elif event.button.id == "buy_selected_tower_button":  # noqa: SIM102
+                # here comes ty:ignore hell...
+                if self.selected_tower_to_buy:  # noqa: SIM102
+                    if self.scene.coins >= self.selected_tower_to_buy.cost:  # ty:ignore[unresolved-attribute]
+                        self.scene.coins -= self.selected_tower_to_buy.cost  # ty:ignore[unresolved-attribute]
+                        self.refresh()
+
+                        self.scene.state = MainGameSceneStates.PLACING_TURRET  # ty:ignore[unresolved-attribute]
+                        self.scene.turret_to_place = self.selected_tower_to_buy(  # ty:ignore[unresolved-attribute]
+                            *self.scene.camera.viewport_to_world(  # ty:ignore[unresolved-attribute]
+                                *pygame.mouse.get_pos()
+                            )
+                        )
+
+                        self.switch_state(UIStates.PLACING_TURRET)
 
 
 class MainGameScene(Scene):
