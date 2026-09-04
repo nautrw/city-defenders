@@ -19,6 +19,9 @@ class ButtonStates(Enum):
 
 
 class Button(Element):
+    image: pygame.Surface
+    rect: pygame.Rect | pygame.FRect
+
     def __init__(
         self,
         id: str,
@@ -75,11 +78,12 @@ class Button(Element):
         elif self.state == ButtonStates.PRESSED:
             self.surface.fill(self.pressed_bg)
 
+        if self.text:
+            self.text.draw(self.image)
+
         if self.image:
             self.surface.blit(self.image, self.image_rect)
 
-        if self.text:
-            self.text.draw(surface)
 
         surface.blit(self.surface, self.rect)
 
