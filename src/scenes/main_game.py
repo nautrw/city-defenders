@@ -315,6 +315,11 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "close_selected_tower_menu_button":
                 self.switch_state(UIStates.COLLAPSED)
                 self.scene.selected_tower = None # ty:ignore[unresolved-attribute]
+            elif event.button.id == "tower_discard_button":
+                self.switch_state(UIStates.TOWER_PICKER_MENU)
+                self.scene.state = MainGameSceneStates.NORMAL # ty:ignore[unresolved-attribute]
+                self.scene.turret_to_place = None # ty:ignore[unresolved-attribute]
+                self.scene.can_place_turret = False # ty:ignore[unresolved-attribute]
             elif event.button.id == "buy_selected_tower_button":  # noqa: SIM102
                 # here comes ty:ignore hell...
                 if self.selected_tower_to_buy:  # noqa: SIM102
