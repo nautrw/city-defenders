@@ -28,6 +28,7 @@ class Turret(pygame.sprite.Sprite):
 
         self.display_name = display_name
         self.description = description
+        self.cost = cost
 
         self.position = pygame.Vector2(x_position, y_position)
 
