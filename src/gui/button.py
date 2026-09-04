@@ -44,7 +44,7 @@ class Button(Element):
         self.width = width
         self.height = height
         self.anchor = anchor
-        self.enaled = enabled
+        self.enabled = enabled
 
         self.state: ButtonStates = ButtonStates.NORMAL
 
