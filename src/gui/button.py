@@ -1,13 +1,12 @@
-from src.gui.text import Text
 from enum import Enum, auto
 
 import pygame
 from pygame.typing import ColorLike
 
 import src.core.config as Config
-from src.core.utils import get_font
 from src.gui.element import Element
 from src.gui.placement_system import RectAnchorMode
+from src.gui.text import Text
 
 CUSTOM_BUTTON_CLICKED = pygame.event.custom_type()
 
@@ -89,7 +88,6 @@ class Button(Element):
         if self.icon:
             self.image.blit(self.icon, self.image_rect)
 
-
         surface.blit(self.image, self.rect)
 
     def update(self, delta_time: float, mouse_position: tuple[float, float]) -> None:
@@ -99,7 +97,11 @@ class Button(Element):
         if self.rect.collidepoint(mouse_position):
             self.state = ButtonStates.PRESSED if pressed else ButtonStates.HOVERED
 
-            if pressed and (not self.once_per_click or not self.pressed_last_frame) and self.enabled:
+            if (
+                pressed
+                and (not self.once_per_click or not self.pressed_last_frame)
+                and self.enabled
+            ):
                 event = pygame.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
                 pygame.event.post(event)
 
