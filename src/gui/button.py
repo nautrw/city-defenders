@@ -1,9 +1,11 @@
+from src.gui.text import Text
 from enum import Enum, auto
 
 import pygame
 from pygame.typing import ColorLike
 
 import src.core.config as Config
+from src.core.utils import get_font
 from src.gui.element import Element
 from src.gui.placement_system import RectAnchorMode
 
@@ -29,8 +31,7 @@ class Button(Element):
         normal_bg: ColorLike = Config.BUTTON_NORMAL_BG,
         hover_bg: ColorLike = Config.BUTTON_HOVERED_BG,
         pressed_bg: ColorLike = Config.BUTTON_PRESSED_BG,
-        text: str = "",
-        text_color: ColorLike = Config.TEXT_COLOR_NORMAL,
+        text: Text | None = None,
         image: pygame.Surface | None = None,
         once_per_click: bool = True,
     ) -> None:
@@ -59,14 +60,9 @@ class Button(Element):
             )
 
         self.text = text
+
         if self.text:
-            self.font = pygame.font.Font(Config.FONT_NORMAL, Config.FONT_SIZE_NORMAL)
-            self.text_surface = self.font.render(self.text, False, text_color)
-            self.text_rect = self.text_surface.get_frect(
-                centerx=self.width // 2,
-                top=(self.image.get_frect().height + inner_padding if self.image else 0)
-                + inner_padding,
-            )
+            self.text.render_text()
 
         self.pressed_last_frame = False
         self.once_per_click = once_per_click
@@ -83,7 +79,7 @@ class Button(Element):
             self.surface.blit(self.image, self.image_rect)
 
         if self.text:
-            self.surface.blit(self.text_surface, self.text_rect)
+            self.text.draw(surface)
 
         surface.blit(self.surface, self.rect)
 
