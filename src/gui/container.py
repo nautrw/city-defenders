@@ -40,9 +40,9 @@ class ElementContainer(Element):
 
     def draw(self, surface: pygame.Surface) -> None:
         if self.bg_image:
-            surface.blit(self.bg_image, self.rect)
+            self.surface.blit(self.bg_image, self.rect)
         else:
-            surface.fill(self.bg_color)
+            self.surface.fill(self.bg_color)
 
         for element in self.elements:
             element.draw(self.surface)
