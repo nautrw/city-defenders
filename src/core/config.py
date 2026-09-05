@@ -38,6 +38,7 @@ TEXT_COLOR_NORMAL: ColorLike = "white"
 FONT_NORMAL: str = "Oleaguid"
 FONT_SIZE_NORMAL: int = 36
 FONT_SIZE_HEADER: int = 48
+FONT_SIZE_BIGGER: int = 60
 FONT_SIZE_VERYBIG: int = 72
 
 
