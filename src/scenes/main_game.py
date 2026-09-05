@@ -7,7 +7,7 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import load_scaled_asset
+from src.core.utils import load_asset, load_scaled_asset
 from src.entities.enemies.enemy import ENEMY_KILLED
 from src.entities.enemies.slime import Slime
 from src.entities.turrets.crossbow import CrossbowTurret
@@ -58,24 +58,20 @@ class MainGameSceneGUIManager(GUIManager):
         coins_text = Text(
             "coins_text",
             str(self.scene.coins),  # ty:ignore[unresolved-attribute]
-            Config.ELEMENT_OUTER_PADDING
+            (Config.ELEMENT_OUTER_PADDING * 2)
             + coin_icon_size
             + Config.ELEMENT_OUTER_PADDING,
             Config.ELEMENT_OUTER_PADDING,
-            Config.FONT_SIZE_HEADER,
+            Config.FONT_SIZE_BIGGER,
         )
 
-        coin_display_container_width = (
-            (Config.ELEMENT_OUTER_PADDING * 3) + coin_icon_size + coins_text.rect.width
-        )
-        coins_display_container_height = (
-            Config.ELEMENT_OUTER_PADDING * 2
-        ) + coin_icon_size
+        coin_display_container_width = 192
+        coins_display_container_height = 80
 
         coin_icon = Icon(
             "coin_icon",
-            Config.ELEMENT_OUTER_PADDING,
-            Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING * 2,
+            Config.ELEMENT_OUTER_PADDING * 2,
             coin_icon_size,
             coin_icon_size,
             load_scaled_asset("coin", (coin_icon_size, coin_icon_size)),
@@ -88,6 +84,7 @@ class MainGameSceneGUIManager(GUIManager):
             Config.ELEMENT_OUTER_PADDING,
             coin_display_container_width,
             coins_display_container_height,
+            bg_image=load_asset("card_container")
         )
 
         coin_display_container.add_element(coin_icon)
