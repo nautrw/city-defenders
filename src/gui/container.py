@@ -17,6 +17,7 @@ class ElementContainer(Element):
         anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
         inner_padding: int = 2,
         bg_color: ColorLike = Config.BUTTON_NORMAL_BG,
+        bg_image: pygame.Surface | None = None,
     ) -> None:
         self.x = x
         self.y = y
@@ -27,7 +28,9 @@ class ElementContainer(Element):
         self.inner_padding = inner_padding
         self.bg_color = bg_color
 
-        self.surface = pygame.Surface((self.width, self.height))
+        self.bg_image = bg_image or None
+
+        self.surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
         self.elements = []
 
@@ -36,7 +39,10 @@ class ElementContainer(Element):
         )
 
     def draw(self, surface: pygame.Surface) -> None:
-        self.surface.fill(self.bg_color)
+        if self.bg_image:
+            surface.blit(self.bg_image, self.rect)
+        else:
+            surface.fill(self.bg_color)
 
         for element in self.elements:
             element.draw(self.surface)
