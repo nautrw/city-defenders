@@ -11,15 +11,21 @@ class Enemy(pygame.sprite.Sprite):
 
     def __init__(
         self,
-        image: pygame.Surface,
+        animation: list[pygame.Surface],
         movement_speed: int,
         max_health: int,
         path_waypoints: list[tuple[float, float]],
-        coins_drop: int
+        coins_drop: int,
+        animation_duration: float = 0.25,
     ):
         super().__init__()
 
-        self.image = image
+        self.animation = animation
+        self.animation_index = 0
+        self.animation_duration = animation_duration
+        self.animation_dt_counter = 0
+        
+        self.image = animation[self.animation_index]
         self.rect = self.image.get_frect()
 
         self.path_waypoints = path_waypoints
@@ -55,6 +61,14 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.center = self.position
 
         self.health_bar.update(self.health, self.max_health, self.rect.midtop)
+
+        self.animation_dt_counter += delta_time
+
+        if self.animation_dt_counter >= self.animation_duration:
+            self.animation_index += 1
+            self.animation_index %= len(self.animation)
+            self.image = self.animation[self.animation_index]
+            self.animation_dt_counter = 0
 
         if self.health <= 0 or self.waypoint_index >= len(self.path_waypoints):
             event = pygame.Event(ENEMY_KILLED, {"entity": self})
