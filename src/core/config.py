@@ -19,8 +19,8 @@ BLOCKED_TILES_LAYER_NAME: str = "blocked"
 ENEMY_PATH_LAYER_NAME: str = "path"
 
 
-LOW_HEALTH_COLOR: ColorLike = (255, 0, 0)
-MAX_HEALTH_COLOR: ColorLike = (0, 255, 0)
+LOW_HEALTH_COLOR: ColorLike = "#771a10"
+FULL_HEALTH_COLOR: ColorLike = "#61a53f"
 TURRET_RADIUS_COLOR: ColorLike = (0, 0, 0, 75)
 
 BUTTON_NORMAL_BG: ColorLike = "#807b7a"

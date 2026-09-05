@@ -50,7 +50,7 @@ class HealthBar(pygame.sprite.Sprite):
         # the health decreases
         color = pygame.Color.lerp(
             pygame.Color(Config.LOW_HEALTH_COLOR),
-            pygame.Color(Config.MAX_HEALTH_COLOR),
+            pygame.Color(Config.FULL_HEALTH_COLOR),
             self.health_percent,
         )
 
