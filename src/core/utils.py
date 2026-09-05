@@ -52,7 +52,7 @@ def clean_map_json(map_json: dict) -> dict:
 
     for wanted_layer_name in (
         Config.GROUND_TILES_LAYER_NAME,
-        Config.PATH_TILES_LAYER_NAME,
+        Config.BLOCKED_TILES_LAYER_NAME,
         Config.ENEMY_PATH_LAYER_NAME,
     ):
         new_layer = next(

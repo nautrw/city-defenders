@@ -15,8 +15,8 @@ MAP_SCALE_FACTOR: int = 3
 GUI_ICON_SIZE: tuple[int, int] = (64, 64)
 
 GROUND_TILES_LAYER_NAME: str = "ground"
-PATH_TILES_LAYER_NAME: str = "path_tiles"
-ENEMY_PATH_LAYER_NAME: str = "path_polygon"
+BLOCKED_TILES_LAYER_NAME: str = "blocked"
+ENEMY_PATH_LAYER_NAME: str = "path"
 
 
 LOW_HEALTH_COLOR: ColorLike = (255, 0, 0)

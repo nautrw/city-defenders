@@ -346,7 +346,7 @@ class MainGameScene(Scene):
         self.dragging_camera = False
 
         self.enemies_group = pygame.sprite.Group()
-        slime = Slime(self.map.enemies_path)
+        slime = Slime(self.map.path)
         self.enemies_group.add(slime)
 
         self.turrets_group = pygame.sprite.Group()
@@ -424,7 +424,7 @@ class MainGameScene(Scene):
                         new_coord = pygame.Vector2(mouse_world_coord)
                         self.turret_to_place.move_center(*new_coord)
                         self.can_place_turret = not pygame.sprite.spritecollide(
-                            self.turret_to_place, self.map.path_tiles, False
+                            self.turret_to_place, self.map.blocked_tiles, False
                         ) and not pygame.sprite.spritecollide(
                             self.turret_to_place, self.turrets_group, False
                         )

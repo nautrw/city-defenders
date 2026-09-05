@@ -33,11 +33,11 @@ class GameMap(pygame.sprite.Sprite):
         self.map_height = self.tiles_height * Config.TILE_HEIGHT
 
         self.ground_tiles = pygame.sprite.Group()
-        self.path_tiles = pygame.sprite.Group()
-        self.enemies_path = map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"]
+        self.blocked_tiles = pygame.sprite.Group()
+        self.path = map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"]
 
         self._load_layer(Config.GROUND_TILES_LAYER_NAME, self.ground_tiles)
-        self._load_layer(Config.PATH_TILES_LAYER_NAME, self.path_tiles)
+        self._load_layer(Config.BLOCKED_TILES_LAYER_NAME, self.blocked_tiles)
 
         self.image = pygame.Surface((self.map_width, self.map_height))
         self.rect = self.image.get_frect(topleft=(0.0, 0.0))
@@ -58,7 +58,7 @@ class GameMap(pygame.sprite.Sprite):
         self.image.fill((0, 0, 0, 0))
 
         self.ground_tiles.draw(self.image)
-        self.path_tiles.draw(self.image)
+        self.blocked_tiles.draw(self.image)
 
         # pygame.draw.lines(
         #     self.image,
