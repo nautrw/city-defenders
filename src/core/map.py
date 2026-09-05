@@ -60,13 +60,13 @@ class GameMap(pygame.sprite.Sprite):
         self.ground_tiles.draw(self.image)
         self.path_tiles.draw(self.image)
 
-        pygame.draw.lines(
-            self.image,
-            "black",
-            False,
-            self.map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"],
-            width=2,
-        )
+        # pygame.draw.lines(
+        #     self.image,
+        #     "black",
+        #     False,
+        #     self.map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"],
+        #     width=2,
+        # )
 
     def update(self, delta_time: float) -> None:
         pass
