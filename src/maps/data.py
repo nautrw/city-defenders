@@ -1,11 +1,11 @@
 MAPS_DATA = {
     "Test": {
         "waves": {
-            1: ("slime", 1),
-            2: ("slime", 2),
-            3: ("slime", 3)
+            0: ("slime",),
+            1: ("slime", "slime"),
+            2: ("slime", "slime", "slime")
         },
-        "waves_interval": 30,
+        "waves_interval": 15,
         "initial_balance": 190
     }
 }
