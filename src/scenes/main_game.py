@@ -8,7 +8,7 @@ from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.entities.enemies.enemy import ENEMY_KILLED
-from src.entities.enemies.slime import Slime
+from src.entities.entity_data import ENEMIES
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
 
 # Solves the circular import error as a result of src.app being uninitialized
@@ -43,8 +43,6 @@ class MainGameScene(Scene):
         self.dragging_camera = False
 
         self.enemies_group = pygame.sprite.Group()
-        slime = Slime(self.map.path)
-        self.enemies_group.add(slime)
 
         self.turrets_group = pygame.sprite.Group()
 
@@ -53,18 +51,26 @@ class MainGameScene(Scene):
         self.paused = False
         self.draw_turret_radiuses = False
 
-        self.coins = initial_coins_balance
+        self.coins = map_data["initial_balance"]
 
         self.state: MainGameSceneStates = MainGameSceneStates.NORMAL
         self.turret_to_place = None
         self.can_place_turret = False
         self.selected_tower = None
 
+        self.waves = map_data["waves"]
+        self.wave = 0
+        self.waves_interval = map_data["waves_interval"]
+        self.wave_interval_dt_count = 0
+
+        self.wave_enemy_spawn_index = 0
+        self.enemy_spawn_interval = 0.5
+        self.enemy_spawn_interval_dt_count = 0
+
         self.gui_manager = MainGameSceneGUIManager(self)
 
     def place_selected_tower(self):
         self.turrets_group.add(self.turret_to_place)
-        self.state = MainGameSceneStates.NORMAL
         self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
         self.coins -= self.turret_to_place.cost  # ty:ignore[unresolved-attribute]
 
@@ -141,6 +147,25 @@ class MainGameScene(Scene):
 
     def update(self, delta_time: float) -> None:
         if not self.paused:
+            self.wave_interval_dt_count += delta_time
+            self.enemy_spawn_interval_dt_count += delta_time
+
+            if self.wave_interval_dt_count >= self.waves_interval:
+                self.wave += 1
+                self.wave_interval_dt_count = 0
+                self.wave_enemy_spawn_index = 0
+
+            if (
+                self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval and
+                self.wave_enemy_spawn_index < len(self.waves[self.wave])
+            ):
+
+                enemy_id = self.waves[self.wave][self.wave_enemy_spawn_index]
+                enemy = ENEMIES[enemy_id](self.map.path)
+                self.enemies_group.add(enemy)
+                self.enemy_spawn_interval_dt_count = 0
+                self.wave_enemy_spawn_index += 1
+
             self.enemies_group.update(delta_time)
             self.turrets_group.update(
                 delta_time, self.enemies_group, self.projectiles_group

@@ -4,6 +4,7 @@ import src.core.config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import SceneManager
 from src.core.utils import load_asset, load_map, split_tileset
+from src.maps.data import MAPS_DATA
 from src.scenes.main_game import MainGameScene
 
 
@@ -27,7 +28,12 @@ class GameApp:
         map_data = load_map("Test")
 
         self.scene_manager = SceneManager()
-        self.scene_manager.push(MainGameScene(self, GameMap(tileset, map_data), 190))
+        self.scene_manager.push(
+            MainGameScene(
+                self,
+                GameMap(tileset, map_data), MAPS_DATA["Test"],
+            )
+        )
 
     def run(self) -> None:
         try:
