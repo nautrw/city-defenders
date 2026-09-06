@@ -92,10 +92,9 @@ class MainGameScene(Scene):
                             self.dragging_camera = True
 
                     if event.button == pygame.BUTTON_LEFT and not meta_pressed:
-                        if self.state == MainGameSceneStates.PLACING_TURRET:
-                            if self.turret_to_place and self.can_place_turret:
-                                self.place_selected_tower()
-                        elif self.state == MainGameSceneStates.NORMAL:
+                        if self.turret_to_place and self.can_place_turret:
+                            self.place_selected_tower()
+                        else:
                             for turret in self.turrets_group:
                                 if turret.rect.collidepoint(mouse_world_coord):
                                     self.selected_tower = turret
