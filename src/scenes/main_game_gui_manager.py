@@ -1,3 +1,4 @@
+from json import load
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -52,9 +53,6 @@ class MainGameSceneGUIManager(GUIManager):
             Config.FONT_SIZE_BIGGER,
         )
 
-        coin_display_container_width = 208
-        coins_display_container_height = 96
-
         coin_icon = Icon(
             "coin_icon",
             Config.ELEMENT_OUTER_PADDING * 3,
@@ -65,19 +63,40 @@ class MainGameSceneGUIManager(GUIManager):
             RectAnchorMode.TOPLEFT,
         )
 
+        card_container_img = load_asset("card_container")
         coin_display_container = ElementContainer(
             "coin_display_container",
             Config.ELEMENT_OUTER_PADDING,
             Config.ELEMENT_OUTER_PADDING,
-            coin_display_container_width,
-            coins_display_container_height,
-            bg_image=load_asset("card_container"),
+            *card_container_img.size,
+            bg_image=card_container_img,
         )
 
         coin_display_container.add_element(coin_icon)
         coin_display_container.add_element(coins_text)
 
         self.elements.append(coin_display_container)
+
+        wave_display_container = ElementContainer(
+            "wave_display_container",
+            Config.ELEMENT_OUTER_PADDING,
+            coin_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            *card_container_img.size,
+            bg_image=card_container_img,
+        )
+
+        wave_text = Text(
+            "wave_text",
+            f"Wave {self.scene.wave + 1}",  # ty:ignore[unresolved-attribute]
+            Config.ELEMENT_OUTER_PADDING * 2,
+            card_container_img.height // 2,
+            Config.FONT_SIZE_HEADER,
+            anchor=RectAnchorMode.MIDLEFT
+        )
+
+        wave_display_container.add_element(wave_text)
+
+        self.elements.append(wave_display_container)
 
         if self.state == UIStates.COLLAPSED:
             build_icon = load_scaled_asset("build_icon")
