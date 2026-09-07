@@ -40,7 +40,6 @@ class MainGameScene(Scene):
             *self.game_surface_rect.size,
             Config.MAP_SCALE_FACTOR,
         )
-        self.dragging_camera = False
 
         self.enemies_group = pygame.sprite.Group()
 
@@ -84,6 +83,8 @@ class MainGameScene(Scene):
         for event in events:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             mouse_world_coord = self.camera.viewport_to_world(mouse_x, mouse_y)
+
+            # left ctrl key
             meta_pressed = pygame.key.get_mods() == pygame.KMOD_LCTRL
 
             if not any(
@@ -91,12 +92,6 @@ class MainGameScene(Scene):
                 for element in self.gui_manager.elements
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == pygame.BUTTON_MIDDLE or (  # noqa: SIM102
-                        event.button == pygame.BUTTON_LEFT and meta_pressed
-                    ):
-                        if self.game_surface_rect.collidepoint(mouse_world_coord):
-                            self.dragging_camera = True
-
                     if event.button == pygame.BUTTON_LEFT and not meta_pressed:
                         if self.turret_to_place and self.can_place_turret:
                             self.place_selected_tower()
@@ -107,13 +102,8 @@ class MainGameScene(Scene):
                                     self.gui_manager.switch_state(
                                         UIStates.TOWER_SELECTED
                                     )
-                elif event.type == pygame.MOUSEBUTTONUP:
-                    if event.button == pygame.BUTTON_MIDDLE or (
-                        event.button == pygame.BUTTON_LEFT and meta_pressed
-                    ):
-                        self.dragging_camera = False
                 elif event.type == pygame.MOUSEMOTION:
-                    if self.dragging_camera:
+                    if (event.buttons[1]) or (meta_pressed and event.buttons[0]):
                         # event.rel is the amount of mouse movement
                         mouse_movement = (
                             pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
@@ -156,10 +146,9 @@ class MainGameScene(Scene):
                 self.wave_enemy_spawn_index = 0
 
             if (
-                self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval and
-                self.wave_enemy_spawn_index < len(self.waves[self.wave])
+                self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
+                and self.wave_enemy_spawn_index < len(self.waves[self.wave])
             ):
-
                 enemy_id = self.waves[self.wave][self.wave_enemy_spawn_index]
                 enemy = ENEMIES[enemy_id](self.map.path)
                 self.enemies_group.add(enemy)
