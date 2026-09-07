@@ -36,6 +36,16 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.refresh()
 
+    def update_wave_text(self):
+        self.get_element_by_id("wave_text").update_text(  # ty:ignore[unresolved-attribute]
+            f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}"  # ty:ignore[unresolved-attribute]
+        )
+
+    def update_wave_time_left_text(self):
+        self.get_element_by_id("time_left_text").update_text(  # ty:ignore[unresolved-attribute]
+            f"{int(self.scene.waves_interval - self.scene.wave_interval_dt_count)}s left"  # ty:ignore[unresolved-attribute]
+        )
+
     def refresh(self) -> None:
         self.elements = []
 
@@ -86,7 +96,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         wave_text = Text(
             "wave_text",
-            f"Wave {self.scene.wave + 1}",  # ty:ignore[unresolved-attribute]
+            f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}",  # ty:ignore[unresolved-attribute]
             Config.ELEMENT_OUTER_PADDING * 2,
             Config.ELEMENT_OUTER_PADDING,
         )

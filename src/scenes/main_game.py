@@ -140,9 +140,7 @@ class MainGameScene(Scene):
             self.wave_interval_dt_count += delta_time
             self.enemy_spawn_interval_dt_count += delta_time
 
-            self.gui_manager.get_element_by_id("time_left_text").update_text( # ty:ignore[unresolved-attribute]
-                f"{int(self.waves_interval - self.wave_interval_dt_count)}s left"
-            )
+            self.gui_manager.update_wave_time_left_text()
 
             if self.wave_interval_dt_count >= self.waves_interval:
                 self.wave += 1
@@ -154,9 +152,7 @@ class MainGameScene(Scene):
                 enemies_num = len(self.waves[self.wave])
                 self.enemy_spawn_interval = (self.waves_interval / 2) / enemies_num
 
-                self.gui_manager.get_element_by_id("wave_text").update_text(  # ty:ignore[unresolved-attribute]
-                    f"Wave {self.wave + 1}"
-                )
+                self.gui_manager.update_wave_text()
 
             if (
                 self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
