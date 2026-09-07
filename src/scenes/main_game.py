@@ -144,6 +144,9 @@ class MainGameScene(Scene):
                 self.wave += 1
                 self.wave_interval_dt_count = 0
                 self.wave_enemy_spawn_index = 0
+                self.gui_manager.get_element_by_id("wave_text").update_text(  # ty:ignore[unresolved-attribute]
+                    f"Wave {self.wave + 1}"
+                )
 
             if (
                 self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
