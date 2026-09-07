@@ -43,27 +43,27 @@ class MainGameSceneGUIManager(GUIManager):
         # COINS DISPLAY ALWAYS SHOWN
         coin_icon_size = 48
 
-        coins_text = Text(
-            "coins_text",
-            str(self.scene.coins),  # ty:ignore[unresolved-attribute]
-            (Config.ELEMENT_OUTER_PADDING * 3)
-            + coin_icon_size
-            + Config.ELEMENT_OUTER_PADDING,
-            Config.ELEMENT_OUTER_PADDING * 2,
-            Config.FONT_SIZE_BIGGER,
-        )
+        card_container_img = load_asset("card_container")
 
         coin_icon = Icon(
             "coin_icon",
-            Config.ELEMENT_OUTER_PADDING * 3,
-            Config.ELEMENT_OUTER_PADDING * 3,
+            Config.ELEMENT_OUTER_PADDING * 2,
+            card_container_img.height // 2,
             coin_icon_size,
             coin_icon_size,
             load_scaled_asset("coin", (coin_icon_size, coin_icon_size)),
-            RectAnchorMode.TOPLEFT,
+            RectAnchorMode.MIDLEFT,
         )
 
-        card_container_img = load_asset("card_container")
+        coins_text = Text(
+            "coins_text",
+            str(self.scene.coins),  # ty:ignore[unresolved-attribute]
+            coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            card_container_img.height // 2,
+            Config.FONT_SIZE_BIGGER,
+            anchor=RectAnchorMode.MIDLEFT
+        )
+
         coin_display_container = ElementContainer(
             "coin_display_container",
             Config.ELEMENT_OUTER_PADDING,
