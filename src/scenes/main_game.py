@@ -63,7 +63,7 @@ class MainGameScene(Scene):
         self.wave_interval_dt_count = 0
 
         self.wave_enemy_spawn_index = 0
-        self.enemy_spawn_interval = 0.5
+        self.enemy_spawn_interval = 0 # placeholder
         self.enemy_spawn_interval_dt_count = 0
 
         self.gui_manager = MainGameSceneGUIManager(self)
@@ -144,6 +144,12 @@ class MainGameScene(Scene):
                 self.wave += 1
                 self.wave_interval_dt_count = 0
                 self.wave_enemy_spawn_index = 0
+
+                # enemies will spawn at an equal interval over the first half
+                # of the wave duration, instead of making then spawn all at once
+                enemies_num = len(self.waves[self.wave])
+                self.enemy_spawn_interval = (self.waves_interval / 2) / enemies_num
+
                 self.gui_manager.get_element_by_id("wave_text").update_text(  # ty:ignore[unresolved-attribute]
                     f"Wave {self.wave + 1}"
                 )
