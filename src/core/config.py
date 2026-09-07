@@ -36,6 +36,7 @@ DARK_BG: ColorLike = "#171516"
 TEXT_COLOR_NORMAL: ColorLike = "white"
 
 FONT_NORMAL: str = "Oleaguid"
+FONT_SIZE_SMALL: int = 24
 FONT_SIZE_NORMAL: int = 36
 FONT_SIZE_HEADER: int = 48
 FONT_SIZE_BIGGER: int = 60

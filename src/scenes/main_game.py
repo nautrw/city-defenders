@@ -140,6 +140,10 @@ class MainGameScene(Scene):
             self.wave_interval_dt_count += delta_time
             self.enemy_spawn_interval_dt_count += delta_time
 
+            self.gui_manager.get_element_by_id("time_left_text").update_text( # ty:ignore[unresolved-attribute]
+                f"{int(self.waves_interval - self.wave_interval_dt_count)}s left"
+            )
+
             if self.wave_interval_dt_count >= self.waves_interval:
                 self.wave += 1
                 self.wave_interval_dt_count = 0

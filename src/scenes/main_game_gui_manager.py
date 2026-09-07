@@ -1,4 +1,3 @@
-from json import load
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -61,7 +60,7 @@ class MainGameSceneGUIManager(GUIManager):
             coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             card_container_img.height // 2,
             Config.FONT_SIZE_BIGGER,
-            anchor=RectAnchorMode.MIDLEFT
+            anchor=RectAnchorMode.MIDLEFT,
         )
 
         coin_display_container = ElementContainer(
@@ -89,12 +88,18 @@ class MainGameSceneGUIManager(GUIManager):
             "wave_text",
             f"Wave {self.scene.wave + 1}",  # ty:ignore[unresolved-attribute]
             Config.ELEMENT_OUTER_PADDING * 2,
-            card_container_img.height // 2,
-            Config.FONT_SIZE_HEADER,
-            anchor=RectAnchorMode.MIDLEFT
+            Config.ELEMENT_OUTER_PADDING,
+        )
+
+        time_left_text = Text(
+            "time_left_text",
+            f"{int(self.scene.waves_interval - self.scene.wave_interval_dt_count)}s left",  # ty:ignore[unresolved-attribute]
+            Config.ELEMENT_OUTER_PADDING * 2,
+            wave_text.rect.bottom - 5,
         )
 
         wave_display_container.add_element(wave_text)
+        wave_display_container.add_element(time_left_text)
 
         self.elements.append(wave_display_container)
 
