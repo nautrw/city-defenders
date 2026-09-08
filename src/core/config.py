@@ -31,7 +31,7 @@ BUY_BUTTON_NORMAL_BG: ColorLike = "#477238"
 BUY_BUTTON_HOVERED_BG: ColorLike = "#293f21"
 BUY_BUTTON_PRESSED_BG: ColorLike = "#181c19"
 
-DARK_BG: ColorLike = "#171516"
+DARK_BG: ColorLike = "#17151650"
 
 TEXT_COLOR_NORMAL: ColorLike = "white"
 
