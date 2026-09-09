@@ -88,7 +88,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         coin_icon = Icon(
             "coin_icon",
-            Config.ELEMENT_OUTER_PADDING * 2,
+            Config.ELEMENT_OUTER_PADDING,
             card_height // 2,
             coin_icon_size,
             coin_icon_size,
