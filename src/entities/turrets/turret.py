@@ -92,8 +92,8 @@ class Turret(pygame.sprite.Sprite):
             )
             surface.blit(circle_surf, self.area.as_frect())
 
-        self.turret_image = pygame.transform.rotate(
-            self.original_turret_image, self.turret_angle
+        self.turret_image = pygame.transform.rotozoom(
+            self.original_turret_image, self.turret_angle, 1
         )
         self.turret_rect = self.turret_image.get_frect(center=self.rect.center)
 
