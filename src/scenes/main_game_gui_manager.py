@@ -71,7 +71,7 @@ class MainGameSceneGUIManager(GUIManager):
             heart_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             card_height // 2,
             Config.FONT_SIZE_BIGGER,
-            anchor=RectAnchorMode.MIDLEFT
+            anchor=RectAnchorMode.MIDLEFT,
         )
 
         health_display_container = ElementContainer(
@@ -79,7 +79,7 @@ class MainGameSceneGUIManager(GUIManager):
             Config.ELEMENT_OUTER_PADDING,
             Config.ELEMENT_OUTER_PADDING,
             card_width,
-            card_height
+            card_height,
         )
 
         health_display_container.add_element(heart_icon)
@@ -325,6 +325,26 @@ class MainGameSceneGUIManager(GUIManager):
                 wrap_length=container_width,
             )
 
+            sell_button = Button(
+                "sell_selected_tower_button",
+                container_width // 2,
+                Config.SCREEN_HEIGHT * 0.75,
+                208,
+                104,
+                anchor=RectAnchorMode.CENTER,
+                text=Text(
+                    "sell_text",
+                    "Sell",
+                    208 // 2,
+                    104 // 2,
+                    size=Config.FONT_SIZE_VERYBIG,
+                    anchor=RectAnchorMode.CENTER,
+                ),
+                normal_bg=Config.BUY_BUTTON_NORMAL_BG,
+                hover_bg=Config.BUY_BUTTON_HOVERED_BG,
+                pressed_bg=Config.BUY_BUTTON_PRESSED_BG,
+            )
+
             close_icon = load_scaled_asset("close_icon")
             close_selected_tower_menu_button = Button(
                 "close_selected_tower_menu_button",
@@ -338,6 +358,7 @@ class MainGameSceneGUIManager(GUIManager):
 
             selected_tower_menu.add_element(tower_name)
             selected_tower_menu.add_element(tower_description)
+            selected_tower_menu.add_element(sell_button)
 
             self.elements.append(selected_tower_menu)
             self.elements.append(close_selected_tower_menu_button)
@@ -354,6 +375,9 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "close_tower_picker_tower_selected_menu_button":
                 self.selected_tower_to_buy = None
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
+            elif event.button.id == "sell_selected_tower_button":
+                self.scene.sell_selected_tower() #ty:ignore[unresolved-attribute]
+                self.switch_state(UIStates.COLLAPSED)
             elif event.button.id == "close_selected_tower_menu_button":
                 self.switch_state(UIStates.COLLAPSED)
                 self.scene.selected_tower = None  # ty:ignore[unresolved-attribute]

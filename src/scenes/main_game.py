@@ -78,6 +78,13 @@ class MainGameScene(Scene):
         self.gui_manager.switch_state(UIStates.COLLAPSED)
         self.gui_manager.refresh()
 
+    def sell_selected_tower(self):
+        if self.selected_tower:
+            refund = round(self.selected_tower.cost * .75)
+            self.coins += refund
+            self.selected_tower.kill()
+            self.selected_tower = None
+
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             mouse_x, mouse_y = pygame.mouse.get_pos()
