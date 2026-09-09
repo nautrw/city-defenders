@@ -12,5 +12,5 @@ class FastSlime(Enemy):
         animation = [load_asset("fastslime1"), load_asset("fastslime2")]
 
         super().__init__(
-            animation=animation, movement_speed=100, max_health=5, path_waypoints=path_waypoints, coins_drop=30
+            animation=animation, movement_speed=150, animation_duration=0.1, max_health=10, path_waypoints=path_waypoints, coins_drop=30
         )
