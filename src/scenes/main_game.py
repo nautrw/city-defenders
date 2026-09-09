@@ -7,7 +7,7 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.entities.enemies.enemy import ENEMY_KILLED, DEFENSE_BREACHED
+from src.entities.enemies.enemy import DEFENSE_BREACHED, ENEMY_KILLED
 from src.entities.entity_data import ENEMIES
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
 
@@ -63,7 +63,7 @@ class MainGameScene(Scene):
         self.wave_interval_dt_count = 0
 
         self.wave_enemy_spawn_index = 0
-        self.enemy_spawn_interval = 0 # placeholder
+        self.enemy_spawn_interval = 0  # placeholder
         self.enemy_spawn_interval_dt_count = 0
 
         self.max_health = map_data["health"]
@@ -131,6 +131,9 @@ class MainGameScene(Scene):
                     self.gui_manager.refresh()
                 elif event.type == DEFENSE_BREACHED:
                     self.health -= event.entity.health
+                    self.gui_manager.get_element_by_id("health_text").update_text(  # ty:ignore[unresolved-attribute]
+                        f"{self.health}/{self.max_health}"
+                    )
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
