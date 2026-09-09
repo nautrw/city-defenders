@@ -52,12 +52,44 @@ class MainGameSceneGUIManager(GUIManager):
         # COINS DISPLAY ALWAYS SHOWN
         coin_icon_size = 48
 
-        card_container_img = load_asset("card_container")
+        card_width = 192
+        card_height = 80
+
+        heart_icon = Icon(
+            "heart_icon",
+            Config.ELEMENT_OUTER_PADDING,
+            card_height // 2,
+            coin_icon_size,
+            coin_icon_size,
+            load_scaled_asset("health_icon", (coin_icon_size, coin_icon_size)),
+            anchor=RectAnchorMode.MIDLEFT,
+        )
+
+        health_text = Text(
+            "health_text",
+            f"{self.scene.health}/{self.scene.max_health}",  # ty:ignore[unresolved-attribute]
+            heart_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            card_height // 2,
+            Config.FONT_SIZE_BIGGER,
+            anchor=RectAnchorMode.MIDLEFT
+        )
+
+        health_display_container = ElementContainer(
+            "health_display_container",
+            Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING,
+            card_width,
+            card_height
+        )
+
+        health_display_container.add_element(heart_icon)
+        health_display_container.add_element(health_text)
+        self.elements.append(health_display_container)
 
         coin_icon = Icon(
             "coin_icon",
             Config.ELEMENT_OUTER_PADDING * 2,
-            card_container_img.height // 2,
+            card_height // 2,
             coin_icon_size,
             coin_icon_size,
             load_scaled_asset("coin", (coin_icon_size, coin_icon_size)),
@@ -68,7 +100,7 @@ class MainGameSceneGUIManager(GUIManager):
             "coins_text",
             str(self.scene.coins),  # ty:ignore[unresolved-attribute]
             coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-            card_container_img.height // 2,
+            card_height // 2,
             Config.FONT_SIZE_BIGGER,
             anchor=RectAnchorMode.MIDLEFT,
         )
@@ -76,8 +108,9 @@ class MainGameSceneGUIManager(GUIManager):
         coin_display_container = ElementContainer(
             "coin_display_container",
             Config.ELEMENT_OUTER_PADDING,
-            Config.ELEMENT_OUTER_PADDING,
-            *card_container_img.size,
+            health_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            card_width,
+            card_height,
         )
 
         coin_display_container.add_element(coin_icon)
@@ -89,7 +122,8 @@ class MainGameSceneGUIManager(GUIManager):
             "wave_display_container",
             Config.ELEMENT_OUTER_PADDING,
             coin_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-            *card_container_img.size,
+            card_width,
+            card_height,
         )
 
         wave_text = Text(

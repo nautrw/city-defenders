@@ -66,7 +66,8 @@ class MainGameScene(Scene):
         self.enemy_spawn_interval = 0 # placeholder
         self.enemy_spawn_interval_dt_count = 0
 
-        self.health = map_data["health"]
+        self.max_health = map_data["health"]
+        self.health = self.max_health
 
         self.gui_manager = MainGameSceneGUIManager(self)
 
