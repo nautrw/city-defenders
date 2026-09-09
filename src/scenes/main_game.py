@@ -19,10 +19,6 @@ if TYPE_CHECKING:
     from src.app import GameApp
 
 
-class MainGameSceneStates(Enum):
-    NORMAL = auto()
-    SPAWNING_ENEMIES = auto()
-
 
 class MainGameScene(Scene):
     def __init__(self, game: "GameApp", map: GameMap, map_data: dict):
@@ -53,7 +49,6 @@ class MainGameScene(Scene):
 
         self.coins = map_data["initial_balance"]
 
-        self.state: MainGameSceneStates = MainGameSceneStates.NORMAL
         self.turret_to_place = None
         self.can_place_turret = False
         self.selected_tower = None
