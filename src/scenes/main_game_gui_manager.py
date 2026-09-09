@@ -78,7 +78,6 @@ class MainGameSceneGUIManager(GUIManager):
             Config.ELEMENT_OUTER_PADDING,
             Config.ELEMENT_OUTER_PADDING,
             *card_container_img.size,
-            bg_image=card_container_img,
         )
 
         coin_display_container.add_element(coin_icon)
@@ -91,7 +90,6 @@ class MainGameSceneGUIManager(GUIManager):
             Config.ELEMENT_OUTER_PADDING,
             coin_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
             *card_container_img.size,
-            bg_image=card_container_img,
         )
 
         wave_text = Text(
