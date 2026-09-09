@@ -21,6 +21,7 @@ class GameWonScene(Scene):
         pass
 
     def render(self, surface: pygame.Surface) -> None:
+        surface.fill(Config.FULL_HEALTH_COLOR)
         font = pygame.font.Font(get_font(Config.FONT_NORMAL), Config.FONT_SIZE_VERYBIG)
         text = font.render("Game Over", True, Config.TEXT_COLOR_NORMAL)
         text_rect = text.get_frect(
