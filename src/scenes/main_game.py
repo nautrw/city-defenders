@@ -7,7 +7,7 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.entities.enemies.enemy import ENEMY_KILLED
+from src.entities.enemies.enemy import ENEMY_KILLED, ENEMY_BREACHED
 from src.entities.entity_data import ENEMIES
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
 
@@ -65,6 +65,8 @@ class MainGameScene(Scene):
         self.wave_enemy_spawn_index = 0
         self.enemy_spawn_interval = 0 # placeholder
         self.enemy_spawn_interval_dt_count = 0
+
+        self.health = map_data["health"]
 
         self.gui_manager = MainGameSceneGUIManager(self)
 
@@ -126,6 +128,8 @@ class MainGameScene(Scene):
                         self.coins
                     )
                     self.gui_manager.refresh()
+                elif event.type == ENEMY_BREACHED:
+                    self.health -= event.entity.health
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
