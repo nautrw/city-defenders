@@ -7,7 +7,7 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.entities.enemies.enemy import ENEMY_KILLED, ENEMY_BREACHED
+from src.entities.enemies.enemy import ENEMY_KILLED, DEFENSE_BREACHED
 from src.entities.entity_data import ENEMIES
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
 
@@ -129,7 +129,7 @@ class MainGameScene(Scene):
                         self.coins
                     )
                     self.gui_manager.refresh()
-                elif event.type == ENEMY_BREACHED:
+                elif event.type == DEFENSE_BREACHED:
                     self.health -= event.entity.health
 
             if event.type == pygame.KEYDOWN:

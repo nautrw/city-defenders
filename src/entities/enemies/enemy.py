@@ -3,7 +3,7 @@ import pygame
 from src.entities.health_bar import HealthBar
 
 ENEMY_KILLED = pygame.event.custom_type()
-ENEMY_BREACHED = pygame.event.custom_type()
+DEFENSE_BREACHED = pygame.event.custom_type()
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -77,7 +77,7 @@ class Enemy(pygame.sprite.Sprite):
             self.kill()
             return
         elif self.waypoint_index >= len(self.path_waypoints):
-            event = pygame.Event(ENEMY_BREACHED, {"entity": self})
+            event = pygame.Event(DEFENSE_BREACHED, {"entity": self})
             pygame.event.post(event)
             self.kill()
             return
