@@ -24,6 +24,6 @@ class CrossbowTurret(Turret):
             y_position=y_position,
             turret_image=image,
             projectile=Arrow,
-            shooting_speed=1.25,
-            area_radius=50,
+            shooting_speed=1.5,
+            area_radius=75,
         )
