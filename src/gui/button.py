@@ -47,7 +47,7 @@ class Button(Element):
 
         self.state: ButtonStates = ButtonStates.NORMAL
 
-        self.image = pygame.Surface((self.width, self.height))
+        self.image = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
         super().__init__(
             id, self.image, self.x, self.y, self.width, self.height, self.anchor
