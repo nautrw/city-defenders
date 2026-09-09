@@ -9,6 +9,7 @@ from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.entities.enemies.enemy import DEFENSE_BREACHED, ENEMY_KILLED
 from src.entities.entity_data import ENEMIES
+from src.scenes.game_won import GameWonScene
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
 
 # Solves the circular import error as a result of src.app being uninitialized
@@ -103,7 +104,7 @@ class MainGameScene(Scene):
                                         UIStates.TOWER_SELECTED
                                     )
                 elif event.type == pygame.MOUSEMOTION:
-                    if event.buttons[2]: # right click
+                    if event.buttons[2]:  # right click
                         # event.rel is the amount of mouse movement
                         mouse_movement = (
                             pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
@@ -149,6 +150,11 @@ class MainGameScene(Scene):
 
             if self.wave_interval_dt_count >= self.waves_interval:
                 self.wave += 1
+
+                if self.wave >= len(self.waves):
+                    self.game.scene_manager.switch(GameWonScene(self.game))
+                    return
+
                 self.wave_interval_dt_count = 0
                 self.wave_enemy_spawn_index = 0
 
@@ -158,6 +164,7 @@ class MainGameScene(Scene):
                 self.enemy_spawn_interval = (self.waves_interval / 2) / enemies_num
 
                 self.gui_manager.update_wave_text()
+                
 
             if (
                 self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
