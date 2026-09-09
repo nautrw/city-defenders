@@ -87,15 +87,12 @@ class MainGameScene(Scene):
             mouse_x, mouse_y = pygame.mouse.get_pos()
             mouse_world_coord = self.camera.viewport_to_world(mouse_x, mouse_y)
 
-            # left ctrl key
-            meta_pressed = pygame.key.get_mods() == pygame.KMOD_LCTRL
-
             if not any(
                 element.rect.collidepoint(mouse_x, mouse_y)
                 for element in self.gui_manager.elements
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == pygame.BUTTON_LEFT and not meta_pressed:
+                    if event.button == pygame.BUTTON_LEFT:
                         if self.turret_to_place and self.can_place_turret:
                             self.place_selected_tower()
                         else:
@@ -106,7 +103,7 @@ class MainGameScene(Scene):
                                         UIStates.TOWER_SELECTED
                                     )
                 elif event.type == pygame.MOUSEMOTION:
-                    if (event.buttons[1]) or (meta_pressed and event.buttons[0]):
+                    if event.buttons[2]: # right click
                         # event.rel is the amount of mouse movement
                         mouse_movement = (
                             pygame.Vector2(event.rel) / Config.MAP_SCALE_FACTOR
