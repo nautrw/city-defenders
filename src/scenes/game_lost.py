@@ -1,8 +1,10 @@
 from typing import TYPE_CHECKING
+
 import pygame
+
+import src.core.config as Config
 from src.core.scenes_manager import Scene
 from src.core.utils import get_font
-import src.core.config as Config
 
 if TYPE_CHECKING:
     from src.app import GameApp
