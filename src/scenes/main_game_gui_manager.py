@@ -5,6 +5,7 @@ import pygame
 
 import src.core.config as Config
 from src.core.utils import load_asset, load_scaled_asset
+from src.entities.entity_data import TURRETS
 from src.entities.turrets.crossbow import CrossbowTurret
 from src.entities.turrets.turret import Turret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
@@ -169,6 +170,7 @@ class MainGameSceneGUIManager(GUIManager):
             )
 
             close_icon = load_scaled_asset("close_icon")
+
             tower_picker_close_button = Button(
                 "tower_picker_close_button",
                 ((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
@@ -179,17 +181,26 @@ class MainGameSceneGUIManager(GUIManager):
                 icon=close_icon,
             )
 
-            crossbow_turret_icon = load_scaled_asset("crossbow")
-            tower_picker_container.add_element(
-                Button(
-                    "build_crossbow_turret_button",
-                    Config.ELEMENT_OUTER_PADDING,
-                    Config.ELEMENT_OUTER_PADDING,
+            columns = max(1, int((container_width + Config.ELEMENT_OUTER_PADDING) / (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)))
+
+            for i, tower in enumerate(TURRETS):
+                column = i % columns
+                row = i // columns
+
+                button_x = Config.ELEMENT_OUTER_PADDING + column * (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)
+                button_y = Config.ELEMENT_OUTER_PADDING + row * (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)
+                
+                icon = load_asset(tower)
+                element = Button(
+                    f"build_{tower}_turret_button",
+                    button_x, # placeholders
+                    button_y,
                     Config.BUTTON_SIZE,
                     Config.BUTTON_SIZE,
-                    icon=crossbow_turret_icon,
+                    icon=icon,
                 )
-            )
+
+                tower_picker_container.add_element(element)
 
             self.elements.append(tower_picker_close_button)
             self.elements.append(tower_picker_container)
@@ -376,7 +387,7 @@ class MainGameSceneGUIManager(GUIManager):
                 self.selected_tower_to_buy = None
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
             elif event.button.id == "sell_selected_tower_button":
-                self.scene.sell_selected_tower() #ty:ignore[unresolved-attribute]
+                self.scene.sell_selected_tower()  # ty:ignore[unresolved-attribute]
                 self.switch_state(UIStates.COLLAPSED)
             elif event.button.id == "close_selected_tower_menu_button":
                 self.switch_state(UIStates.COLLAPSED)
