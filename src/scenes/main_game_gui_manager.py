@@ -47,6 +47,16 @@ class MainGameSceneGUIManager(GUIManager):
             f"{int(self.scene.waves_interval - self.scene.wave_interval_dt_count)}s left"  # ty:ignore[unresolved-attribute]
         )
 
+    def update_coins_text(self):
+        self.get_element_by_id("coins_text").update_text(  # ty:ignore[unresolved-attribute]
+            str(self.scene.coins)  # ty:ignore[unresolved-attribute]
+        )
+
+    def update_health_text(self):
+        self.get_element_by_id("health_text").update_text(  # ty:ignore[unresolved-attribute]
+            f"{self.scene.health}/{self.scene.max_health}",  # ty:ignore[unresolved-attribute]
+        )
+
     def refresh(self) -> None:
         self.elements = []
 
@@ -181,19 +191,29 @@ class MainGameSceneGUIManager(GUIManager):
                 icon=close_icon,
             )
 
-            columns = max(1, int((container_width + Config.ELEMENT_OUTER_PADDING) / (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)))
+            columns = max(
+                1,
+                int(
+                    (container_width + Config.ELEMENT_OUTER_PADDING)
+                    / (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)
+                ),
+            )
 
             for i, tower in enumerate(TURRETS):
                 column = i % columns
                 row = i // columns
 
-                button_x = Config.ELEMENT_OUTER_PADDING + column * (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)
-                button_y = Config.ELEMENT_OUTER_PADDING + row * (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)
-                
+                button_x = Config.ELEMENT_OUTER_PADDING + column * (
+                    Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING
+                )
+                button_y = Config.ELEMENT_OUTER_PADDING + row * (
+                    Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING
+                )
+
                 icon = load_asset(tower)
                 element = Button(
                     f"build_{tower}_turret_button",
-                    button_x, # placeholders
+                    button_x,  # placeholders
                     button_y,
                     Config.BUTTON_SIZE,
                     Config.BUTTON_SIZE,
@@ -380,7 +400,11 @@ class MainGameSceneGUIManager(GUIManager):
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
             elif event.button.id == "tower_picker_close_button":
                 self.switch_state(UIStates.COLLAPSED)
-            elif event.button.id.startswith("build_") and event.button.id.endswith("_turret_button") and event.button.id.split("_")[1] in TURRETS:
+            elif (
+                event.button.id.startswith("build_")
+                and event.button.id.endswith("_turret_button")
+                and event.button.id.split("_")[1] in TURRETS
+            ):
                 id = event.button.id.split("_")[1]
                 self.selected_tower_to_buy = TURRETS[id]
                 self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)

@@ -125,15 +125,10 @@ class MainGameScene(Scene):
                         )
                 elif event.type == ENEMY_KILLED:
                     self.coins += event.entity.coins_drop
-                    self.gui_manager.get_element_by_id("coins_text").update_text(  # ty:ignore[unresolved-attribute]
-                        self.coins
-                    )
-                    self.gui_manager.refresh()
+                    self.gui_manager.update_coins_text()
                 elif event.type == DEFENSE_BREACHED:
                     self.health -= event.entity.health
-                    self.gui_manager.get_element_by_id("health_text").update_text(  # ty:ignore[unresolved-attribute]
-                        f"{self.health}/{self.max_health}"
-                    )
+                    self.gui_manager.update_health_text()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
@@ -153,7 +148,7 @@ class MainGameScene(Scene):
             if self.wave_interval_dt_count >= self.waves_interval:
                 self.wave += 1
 
-                if self.wave >= len(self.waves):
+                if self.wave >= len(self.waves) and len(self.enemies_group.sprites()) == 0:
                     self.game.scene_manager.switch(GameWonScene(self.game))
                     return
 
