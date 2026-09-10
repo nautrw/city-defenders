@@ -16,7 +16,7 @@ class GameOverScene(Scene):
         pass
 
     def render(self, surface: pygame.Surface) -> None:
-        surface.fill(Config.LOW_HEALTH_COLOR)
+        surface.fill(Config.DARK_RED)
 
         font = pygame.font.Font(get_font(Config.FONT_NORMAL), Config.FONT_SIZE_VERYBIG)
         text = font.render("Game Over", True, "black")

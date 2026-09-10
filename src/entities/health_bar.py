@@ -49,8 +49,8 @@ class HealthBar(pygame.sprite.Sprite):
         # color linear interpolation allows for the gradient shifting as
         # the health decreases
         color = pygame.Color.lerp(
-            pygame.Color(Config.LOW_HEALTH_COLOR),
-            pygame.Color(Config.FULL_HEALTH_COLOR),
+            pygame.Color(Config.DARK_RED),
+            pygame.Color(Config.BRIGHT_GREEN),
             self.health_percent,
         )
 
