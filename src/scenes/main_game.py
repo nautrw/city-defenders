@@ -148,7 +148,7 @@ class MainGameScene(Scene):
             if self.wave_interval_dt_count >= self.waves_interval:
                 self.wave += 1
 
-                if self.wave >= len(self.waves) and len(self.enemies_group.sprites()) == 0:
+                if self.wave >= len(self.waves):
                     self.game.scene_manager.switch(GameWonScene(self.game))
                     return
 
