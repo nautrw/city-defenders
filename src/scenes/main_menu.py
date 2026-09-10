@@ -1,4 +1,3 @@
-from textwrap import wrap
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
 from src.scenes.main_game_gui_manager import UIStates
@@ -24,7 +23,7 @@ class MainMenuSceneGUIManager(GUIManager):
         default_state = MainMenuGUIState.NORMAL
 
         super().__init__(scene, default_state)
-        
+
         self.refresh()
 
     def refresh(self):
@@ -50,7 +49,7 @@ class MainMenuScene(Scene):
         super().__init__(game)
 
         self.gui_manager = MainMenuSceneGUIManager(self)
-    
+
     def render(self, surface: pygame.Surface) -> None:
         surface.fill(Config.BRIGHT_GREEN)
 
@@ -59,6 +58,6 @@ class MainMenuScene(Scene):
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             self.gui_manager.handle_event(event)
-    
+
     def update(self, delta_time: float) -> None:
         pass
