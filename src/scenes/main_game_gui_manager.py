@@ -6,7 +6,6 @@ import pygame
 import src.core.config as Config
 from src.core.utils import load_asset, load_scaled_asset
 from src.entities.entity_data import TURRETS
-from src.entities.turrets.crossbow import CrossbowTurret
 from src.entities.turrets.turret import Turret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
