@@ -1,11 +1,7 @@
 import pygame
 
 import src.core.config as Config
-from src.core.map import GameMap
 from src.core.scenes_manager import SceneManager
-from src.core.utils import load_asset, load_map, split_tileset
-from src.maps.data import MAPS_DATA
-from src.scenes.main_game import MainGameScene
 from src.scenes.main_menu import MainMenuScene
 
 

@@ -5,11 +5,9 @@ import pygame
 
 import src.core.config as Config
 from src.core.scenes_manager import Scene
-from src.core.utils import get_font
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
-from src.scenes.main_game_gui_manager import UIStates
 
 if TYPE_CHECKING:
     from src.app import GameApp
