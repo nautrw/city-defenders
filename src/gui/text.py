@@ -24,7 +24,7 @@ class Text(Element):
         antialias: bool = True,
         fg_color: ColorLike = Config.TEXT_COLOR_NORMAL,
         font_name: str = Config.FONT_NORMAL,
-        wrap_length: int = 500,
+        wrap_length: int = 0,
     ):
         self.font = pygame.font.Font(get_font(font_name), size)
         self.image = pygame.Surface((0, 0))  # placeholder
