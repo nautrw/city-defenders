@@ -1,3 +1,4 @@
+from src.scenes.main_menu import MainMenuScene
 import pygame
 
 import src.core.config as Config
@@ -23,16 +24,9 @@ class GameApp:
         self.clock = pygame.time.Clock()
         self.delta_time = 0.0
 
-        tileset_img = load_asset("tileset")
-        tileset = split_tileset(tileset_img)
-        map_data = load_map("Test")
-
         self.scene_manager = SceneManager()
         self.scene_manager.push(
-            MainGameScene(
-                self,
-                GameMap(tileset, map_data), MAPS_DATA["Test"],
-            )
+            MainMenuScene(self)
         )
 
     def run(self) -> None:
