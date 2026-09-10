@@ -4,6 +4,7 @@ import pygame
 from enum import Enum, auto
 import src.core.config as Config
 from src.core.scenes_manager import Scene
+from src.gui.button import Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
 

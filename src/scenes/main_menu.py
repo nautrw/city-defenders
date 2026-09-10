@@ -1,3 +1,8 @@
+from src.maps.data import MAPS_DATA
+from src.core.map import GameMap
+from src.scenes.main_game import MainGameScene
+from src.core.utils import load_asset, split_tileset, clean_map_json, load_map
+from src.gui.button import Button, CUSTOM_BUTTON_CLICKED
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -37,10 +42,37 @@ class MainMenuSceneGUIManager(GUIManager):
                 wrap_length=0,
             )
 
+            play_button = Button(
+                "play_button",
+                Config.SCREEN_WIDTH / 2,
+                Config.SCREEN_HEIGHT * 0.5,
+                Config.BUTTON_SIZE * 2,
+                Config.BUTTON_SIZE,
+                text=Text(
+                    "play_button_play_text",
+                    "Play",
+                    Config.BUTTON_SIZE,
+                    Config.BUTTON_SIZE / 2,
+                    Config.FONT_SIZE_HEADER,
+                    anchor=RectAnchorMode.CENTER,
+                ),
+                anchor=RectAnchorMode.CENTER,
+            )
+
             self.elements.append(title_text)
+            self.elements.append(play_button)
 
     def handle_event(self, event: pygame.Event) -> None:
-        pass
+        if event.type == CUSTOM_BUTTON_CLICKED:  # noqa: SIM102
+            if event.button.id == "play_button":
+                tileset_img = load_asset("tileset")
+                tileset = split_tileset(
+                    tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT
+                )
+                map_data = load_map("Test")
+                self.scene.game.scene_manager.switch(
+                    MainGameScene(self.scene.game, GameMap(tileset, map_data), MAPS_DATA["Test"])
+                )
 
 
 class MainMenuScene(Scene):
@@ -59,4 +91,4 @@ class MainMenuScene(Scene):
             self.gui_manager.handle_event(event)
 
     def update(self, delta_time: float) -> None:
-        pass
+        self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
