@@ -380,8 +380,9 @@ class MainGameSceneGUIManager(GUIManager):
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
             elif event.button.id == "tower_picker_close_button":
                 self.switch_state(UIStates.COLLAPSED)
-            elif event.button.id == "build_crossbow_turret_button":
-                self.selected_tower_to_buy = CrossbowTurret
+            elif event.button.id.startswith("build_") and event.button.id.endswith("_turret_button") and event.button.id.split("_")[1] in TURRETS:
+                id = event.button.id.split("_")[1]
+                self.selected_tower_to_buy = TURRETS[id]
                 self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
             elif event.button.id == "close_tower_picker_tower_selected_menu_button":
                 self.selected_tower_to_buy = None
