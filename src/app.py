@@ -25,9 +25,7 @@ class GameApp:
         self.delta_time = 0.0
 
         self.scene_manager = SceneManager()
-        self.scene_manager.push(
-            MainMenuScene(self)
-        )
+        self.scene_manager.push(MainMenuScene(self))
 
     def run(self) -> None:
         try:

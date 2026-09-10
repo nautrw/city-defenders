@@ -18,7 +18,6 @@ if TYPE_CHECKING:
     from src.app import GameApp
 
 
-
 class MainGameScene(Scene):
     def __init__(self, game: "GameApp", map: GameMap, map_data: dict):
         super().__init__(game)
@@ -79,7 +78,7 @@ class MainGameScene(Scene):
 
     def sell_selected_tower(self):
         if self.selected_tower:
-            refund = round(self.selected_tower.cost * .75)
+            refund = round(self.selected_tower.cost * 0.75)
             self.coins += refund
             self.selected_tower.kill()
             self.selected_tower = None
@@ -160,7 +159,6 @@ class MainGameScene(Scene):
                 self.enemy_spawn_interval = (self.waves_interval / 2) / enemies_num
 
                 self.gui_manager.update_wave_text()
-                
 
             if (
                 self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval

@@ -12,5 +12,9 @@ class Slime(Enemy):
         animation = [load_asset("slime1"), load_asset("slime2")]
 
         super().__init__(
-            animation=animation, movement_speed=50, max_health=10, path_waypoints=path_waypoints, coins_drop=25
+            animation=animation,
+            movement_speed=50,
+            max_health=10,
+            path_waypoints=path_waypoints,
+            coins_drop=25,
         )
