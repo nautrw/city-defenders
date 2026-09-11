@@ -31,6 +31,8 @@ class MapSelectorSceneGUIManager(GUIManager):
 
     def refresh(self):
         self.elements = []
+         
+        padding = Config.ELEMENT_OUTER_PADDING * 3
         
         if self.state == MapSelectorSceneGUIState.NORMAL:
             map_name = Text(
@@ -63,7 +65,7 @@ class MapSelectorSceneGUIManager(GUIManager):
 
             go_right_button = Button(
                 "go_right_button",
-                map_name.rect.right + Config.ELEMENT_OUTER_PADDING,
+                map_name.rect.right + padding,
                 Config.SCREEN_HEIGHT / 2,
                 *new_size,
                 anchor=RectAnchorMode.MIDLEFT,
@@ -77,8 +79,8 @@ class MapSelectorSceneGUIManager(GUIManager):
 
             go_left_button = Button(
                 "go_left_button",
-                map_name.rect.left + Config.ELEMENT_OUTER_PADDING,
-                Config.SCREEN_HEIGHT / 2,
+                map_name.rect.left + padding,
+                map_name.rect.midleft.y ,
                 *new_size,
                 anchor=RectAnchorMode.MIDRIGHT,
                 normal_icon=left_button_icon,
@@ -91,8 +93,8 @@ class MapSelectorSceneGUIManager(GUIManager):
             
             play_button = Button(
                 "play_button",
-                map_name.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-                Config.SCREEN_WIDTH // 2,
+                Config.SCREEN_WIDTH / 2,
+                map_name.rect.bottom + padding,
                 Config.BUTTON_SIZE * 2,
                 Config.BUTTON_SIZE,
                 text=Text(
@@ -103,7 +105,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                     Config.FONT_SIZE_HEADER,
                     anchor=RectAnchorMode.CENTER,
                 ),
-                anchor=RectAnchorMode.CENTER,
+                anchor=RectAnchorMode.MIDTOP,
             )
 
             self.elements.append(map_name)
