@@ -1,3 +1,4 @@
+from src.core.utils import load_asset
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -73,6 +74,10 @@ class MainMenuScene(Scene):
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill(Config.BRIGHT_GREEN)
+
+        game_icon = load_asset("game_icon")
+        game_icon_rect = game_icon.get_rect(center=(Config.SCREEN_WIDTH / 2, Config.SCREEN_HEIGHT * .25))
+        surface.blit(game_icon, game_icon_rect)
 
         self.gui_manager.render_elements(surface)
 
