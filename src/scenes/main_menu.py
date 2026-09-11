@@ -1,3 +1,4 @@
+from src.scenes.map_selector import MapSelectorScene
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -65,15 +66,8 @@ class MainMenuSceneGUIManager(GUIManager):
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:  # noqa: SIM102
             if event.button.id == "play_button":
-                tileset_img = load_asset("tileset")
-                tileset = split_tileset(
-                    tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT
-                )
-                map_data = load_map("Test")
                 self.scene.game.scene_manager.switch(
-                    MainGameScene(
-                        self.scene.game, GameMap(tileset, map_data), MAPS_DATA["Test"]
-                    )
+                    MapSelectorScene(self.scene.game)
                 )
 
 
