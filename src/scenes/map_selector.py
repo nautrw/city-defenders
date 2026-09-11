@@ -143,7 +143,7 @@ class MapSelectorScene(Scene):
         )
 
     def render(self, surface: pygame.Surface) -> None:
-        surface.fill(Config.DARK_BG)
+        surface.fill(Config.BRIGHT_GREEN)
 
         self.gui_manager.render_elements(surface)
 
