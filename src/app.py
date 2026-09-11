@@ -1,3 +1,4 @@
+from src.core.utils import load_asset
 import pygame
 
 import src.core.config as Config
@@ -16,6 +17,9 @@ class GameApp:
             (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT),
             Config.FLAGS,
         )
+
+        pygame.display.set_icon(load_asset("game_icon"))
+        pygame.display.set_caption("City Defenders TD")
 
         self.clock = pygame.time.Clock()
         self.delta_time = 0.0
