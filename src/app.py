@@ -1,8 +1,8 @@
-from src.core.utils import load_asset
 import pygame
 
 import src.core.config as Config
 from src.core.scenes_manager import SceneManager
+from src.core.utils import load_asset
 from src.scenes.main_menu import MainMenuScene
 
 

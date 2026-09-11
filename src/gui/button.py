@@ -68,7 +68,6 @@ class Button(Element):
                 centerx=self.width / 2, top=inner_padding
             )
 
-
         self.text = text
 
         if self.text:
@@ -94,7 +93,7 @@ class Button(Element):
             elif self.state == ButtonStates.PRESSED:
                 if self.pressed_bg:
                     self.image.fill(self.pressed_bg)
-                
+
                 if self.pressed_icon:
                     self.image.blit(self.pressed_icon, self.icon_rect)
         else:

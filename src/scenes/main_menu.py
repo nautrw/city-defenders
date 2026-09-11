@@ -1,19 +1,15 @@
-from src.scenes.map_selector import MapSelectorScene
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
 
 import src.core.config as Config
-from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import clean_map_json, load_asset, load_map, split_tileset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
-from src.maps.data import MAPS_DATA
-from src.scenes.main_game import MainGameScene
+from src.scenes.map_selector import MapSelectorScene
 
 if TYPE_CHECKING:
     from src.app import GameApp
@@ -66,9 +62,7 @@ class MainMenuSceneGUIManager(GUIManager):
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:  # noqa: SIM102
             if event.button.id == "play_button":
-                self.scene.game.scene_manager.switch(
-                    MapSelectorScene(self.scene.game)
-                )
+                self.scene.game.scene_manager.switch(MapSelectorScene(self.scene.game))
 
 
 class MainMenuScene(Scene):

@@ -1,18 +1,18 @@
-from src.scenes.main_game import MainGameScene
-from src.gui.text import Text
 from enum import Enum, auto
-from src.core.map import GameMap
 from typing import TYPE_CHECKING
 
 import pygame
 
 import src.core.config as Config
+from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.gui.button import Button, CUSTOM_BUTTON_CLICKED
-from src.core.utils import load_asset, load_scaled_asset, split_tileset, load_map
+from src.core.utils import load_asset, load_map, load_scaled_asset, split_tileset
+from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
+from src.gui.text import Text
 from src.maps.data import MAPS_DATA
+from src.scenes.main_game import MainGameScene
 
 if TYPE_CHECKING:
     from src.app import GameApp
@@ -31,9 +31,9 @@ class MapSelectorSceneGUIManager(GUIManager):
 
     def refresh(self):
         self.elements = []
-         
+
         padding = Config.ELEMENT_OUTER_PADDING * 3
-        
+
         if self.state == MapSelectorSceneGUIState.NORMAL:
             map_name = Text(
                 "map_name",
@@ -90,7 +90,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 hover_bg=None,
                 pressed_bg=None,
             )
-            
+
             play_button = Button(
                 "play_button",
                 Config.SCREEN_WIDTH / 2,
@@ -123,7 +123,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 self.scene.selected_map_index %= len(self.scene.all_maps)  # ty:ignore[unresolved-attribute]
             elif event.button.id == "play_button":
                 map_name = self.scene.all_maps[self.scene.selected_map_index]  # ty:ignore[unresolved-attribute]
-                self.scene.enter_map(map_name) # ty:ignore[unresolved-attribute]
+                self.scene.enter_map(map_name)  # ty:ignore[unresolved-attribute]
 
 
 class MapSelectorScene(Scene):

@@ -222,7 +222,7 @@ class MainGameSceneGUIManager(GUIManager):
                     Config.BUTTON_SIZE,
                     normal_icon=icon,
                     hover_icon=icon,
-                    pressed_icon=icon
+                    pressed_icon=icon,
                 )
 
                 tower_picker_container.add_element(element)
