@@ -1,18 +1,18 @@
-from src.maps.data import MAPS_DATA
-from src.core.map import GameMap
-from src.scenes.main_game import MainGameScene
-from src.core.utils import load_asset, split_tileset, clean_map_json, load_map
-from src.gui.button import Button, CUSTOM_BUTTON_CLICKED
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
 
 import src.core.config as Config
+from src.core.map import GameMap
 from src.core.scenes_manager import Scene
+from src.core.utils import clean_map_json, load_asset, load_map, split_tileset
+from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
+from src.maps.data import MAPS_DATA
+from src.scenes.main_game import MainGameScene
 
 if TYPE_CHECKING:
     from src.app import GameApp
@@ -71,7 +71,9 @@ class MainMenuSceneGUIManager(GUIManager):
                 )
                 map_data = load_map("Test")
                 self.scene.game.scene_manager.switch(
-                    MainGameScene(self.scene.game, GameMap(tileset, map_data), MAPS_DATA["Test"])
+                    MainGameScene(
+                        self.scene.game, GameMap(tileset, map_data), MAPS_DATA["Test"]
+                    )
                 )
 
 

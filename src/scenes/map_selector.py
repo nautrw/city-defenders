@@ -12,27 +12,30 @@ from src.gui.placement_system import RectAnchorMode
 if TYPE_CHECKING:
     from src.app import GameApp
 
+
 class MapSelectorSceneGUIState(Enum):
     NORMAL = auto()
-    
+
+
 class MapSelectorSceneGUIManager(GUIManager):
     def __init__(self, scene: "MapSelectorScene") -> None:
         default_state = MapSelectorSceneGUIState.NORMAL
-        
+
         super().__init__(scene, default_state)
         self.refresh()
-    
+
     def refresh(self):
         if self.state == MapSelectorSceneGUIState.NORMAL:
             pass
-    
+
     def handle_event(self, event: pygame.Event) -> None:
         pass
+
 
 class MapSelectorScene(Scene):
     def __init__(self, game: "GameApp"):
         super().__init__(game)
-        
+
         self.gui_manager = MapSelectorSceneGUIManager(self)
 
         self.all_maps = MAPS_DATA.keys()
@@ -41,10 +44,10 @@ class MapSelectorScene(Scene):
         surface.fill(Config.DARK_BG)
 
         self.gui_manager.render_elements(surface)
-    
+
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             self.gui_manager.handle_event(event)
-    
+
     def update(self, delta_time: float) -> None:
         pass
