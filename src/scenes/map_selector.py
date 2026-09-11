@@ -79,8 +79,8 @@ class MapSelectorSceneGUIManager(GUIManager):
 
             go_left_button = Button(
                 "go_left_button",
-                map_name.rect.left + padding,
-                map_name.rect.midleft.y ,
+                map_name.rect.left - padding,
+                map_name.rect.midleft[1],
                 *new_size,
                 anchor=RectAnchorMode.MIDRIGHT,
                 normal_icon=left_button_icon,
