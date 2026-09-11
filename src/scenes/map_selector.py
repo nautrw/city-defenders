@@ -7,7 +7,7 @@ import pygame
 import src.core.config as Config
 from src.core.scenes_manager import Scene
 from src.gui.button import Button
-from src.core.utils import load_asset
+from src.core.utils import load_asset, load_scaled_asset
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
 from src.maps.data import MAPS_DATA
@@ -41,27 +41,34 @@ class MapSelectorSceneGUIManager(GUIManager):
             new_size = (Config.BUTTON_SIZE, Config.BUTTON_SIZE)
 
             # it's kind of confusing, i'm aware
-            right_button_icon = load_asset("left_button")
-            right_button_scaled = pygame.transform.scale(right_button_icon, new_size)
+            right_button_icon = load_scaled_asset("left_button", new_size)
+            right_button_hovered_icon = load_scaled_asset("left_arrow_button_hovered", new_size)
+            right_button_pressed_icon = load_scaled_asset("left_arrow_button_pressed", new_size)
 
-            left_button_icon = pygame.transform.flip(right_button_scaled, True, False)
+            left_button_icon = pygame.transform.flip(right_button_icon, True, False)
+            left_button_hovered_icon = pygame.transform.flip(right_button_hovered_icon, True, False)
+            left_button_pressed_icon = pygame.transform.flip(right_button_pressed_icon, True, False)
 
             go_right_button = Button(
                 "go_right_button",
                 map_name.rect.right + Config.ELEMENT_OUTER_PADDING,
                 Config.SCREEN_HEIGHT / 2,
-                *right_button_scaled.size,
+                *new_size,
                 anchor=RectAnchorMode.MIDLEFT,
-                icon=right_button_scaled
+                normal_icon=right_button_icon,
+                hover_icon=right_button_hovered_icon,
+                pressed_icon=right_button_pressed_icon
             )
 
             go_left_button = Button(
                 "go_left_button", 
                 map_name.rect.left + Config.ELEMENT_OUTER_PADDING,
                 Config.SCREEN_HEIGHT / 2,
-                *left_button_icon.size,
+                *new_size,
                 anchor=RectAnchorMode.MIDRIGHT,
-                icon=left_button_icon
+                normal_icon=left_button_icon,
+                hover_icon=left_button_hovered_icon,
+                pressed_icon=left_button_pressed_icon
             )
 
             self.elements.append(map_name)
@@ -91,4 +98,4 @@ class MapSelectorScene(Scene):
             self.gui_manager.handle_event(event)
 
     def update(self, delta_time: float) -> None:
-        pass
+        self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
