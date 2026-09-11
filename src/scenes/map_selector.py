@@ -1,13 +1,15 @@
+from src.scenes.main_game import MainGameScene
 from src.gui.text import Text
 from enum import Enum, auto
+from src.core.map import GameMap
 from typing import TYPE_CHECKING
 
 import pygame
 
 import src.core.config as Config
 from src.core.scenes_manager import Scene
-from src.gui.button import Button
-from src.core.utils import load_asset, load_scaled_asset
+from src.gui.button import Button, CUSTOM_BUTTON_CLICKED
+from src.core.utils import load_asset, load_scaled_asset, split_tileset, load_map
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
 from src.maps.data import MAPS_DATA
@@ -28,26 +30,36 @@ class MapSelectorSceneGUIManager(GUIManager):
         self.refresh()
 
     def refresh(self):
+        self.elements = []
+        
         if self.state == MapSelectorSceneGUIState.NORMAL:
             map_name = Text(
                 "map_name",
-                self.scene.all_maps[self.scene.selected_map_index], # ty:ignore[unresolved-attribute]
+                self.scene.all_maps[self.scene.selected_map_index],  # ty:ignore[unresolved-attribute]
                 Config.SCREEN_WIDTH / 2,
                 Config.SCREEN_HEIGHT / 2,
                 size=Config.FONT_SIZE_HUGE,
-                anchor=RectAnchorMode.CENTER
+                anchor=RectAnchorMode.CENTER,
             )
 
             new_size = (Config.BUTTON_SIZE, Config.BUTTON_SIZE)
 
             # it's kind of confusing, i'm aware
             right_button_icon = load_scaled_asset("left_button", new_size)
-            right_button_hovered_icon = load_scaled_asset("left_arrow_button_hovered", new_size)
-            right_button_pressed_icon = load_scaled_asset("left_arrow_button_pressed", new_size)
+            right_button_hovered_icon = load_scaled_asset(
+                "left_arrow_button_hovered", new_size
+            )
+            right_button_pressed_icon = load_scaled_asset(
+                "left_arrow_button_pressed", new_size
+            )
 
             left_button_icon = pygame.transform.flip(right_button_icon, True, False)
-            left_button_hovered_icon = pygame.transform.flip(right_button_hovered_icon, True, False)
-            left_button_pressed_icon = pygame.transform.flip(right_button_pressed_icon, True, False)
+            left_button_hovered_icon = pygame.transform.flip(
+                right_button_hovered_icon, True, False
+            )
+            left_button_pressed_icon = pygame.transform.flip(
+                right_button_pressed_icon, True, False
+            )
 
             go_right_button = Button(
                 "go_right_button",
@@ -60,11 +72,11 @@ class MapSelectorSceneGUIManager(GUIManager):
                 pressed_icon=right_button_pressed_icon,
                 normal_bg=None,
                 hover_bg=None,
-                pressed_bg=None
+                pressed_bg=None,
             )
 
             go_left_button = Button(
-                "go_left_button", 
+                "go_left_button",
                 map_name.rect.left + Config.ELEMENT_OUTER_PADDING,
                 Config.SCREEN_HEIGHT / 2,
                 *new_size,
@@ -74,15 +86,42 @@ class MapSelectorSceneGUIManager(GUIManager):
                 pressed_icon=left_button_pressed_icon,
                 normal_bg=None,
                 hover_bg=None,
-                pressed_bg=None
+                pressed_bg=None,
+            )
+            
+            play_button = Button(
+                "play_button",
+                map_name.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                Config.SCREEN_WIDTH // 2,
+                Config.BUTTON_SIZE * 2,
+                Config.BUTTON_SIZE,
+                text=Text(
+                    "play_button_play_text",
+                    "Play",
+                    Config.BUTTON_SIZE,
+                    Config.BUTTON_SIZE / 2,
+                    Config.FONT_SIZE_HEADER,
+                    anchor=RectAnchorMode.CENTER,
+                ),
+                anchor=RectAnchorMode.CENTER,
             )
 
             self.elements.append(map_name)
             self.elements.append(go_right_button)
             self.elements.append(go_left_button)
+            self.elements.append(play_button)
 
     def handle_event(self, event: pygame.Event) -> None:
-        pass
+        if event.type == CUSTOM_BUTTON_CLICKED:
+            if event.button.id == "go_right_button":
+                self.scene.selected_map_index += 1  # ty:ignore[unresolved-attribute]
+                self.scene.selected_map_index %= len(self.scene.all_maps)  # ty:ignore[unresolved-attribute]
+            elif event.button.id == "go_left_button":
+                self.scene.selected_map_index -= 1  # ty:ignore[unresolved-attribute]
+                self.scene.selected_map_index %= len(self.scene.all_maps)  # ty:ignore[unresolved-attribute]
+            elif event.button.id == "play_button":
+                map_name = self.scene.all_maps[self.scene.selected_map_index]  # ty:ignore[unresolved-attribute]
+                self.scene.enter_map(map_name) # ty:ignore[unresolved-attribute]
 
 
 class MapSelectorScene(Scene):
@@ -93,6 +132,15 @@ class MapSelectorScene(Scene):
         self.selected_map_index = 0
 
         self.gui_manager = MapSelectorSceneGUIManager(self)
+
+    def enter_map(self, map_name: str):
+        tileset_img = load_asset("tileset")
+        tileset = split_tileset(tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT)
+        map_data = load_map(map_name)
+
+        self.game.scene_manager.switch(
+            MainGameScene(self.game, GameMap(tileset, map_data), MAPS_DATA[map_name])
+        )
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill(Config.DARK_BG)
