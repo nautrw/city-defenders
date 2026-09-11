@@ -57,7 +57,10 @@ class MapSelectorSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.MIDLEFT,
                 normal_icon=right_button_icon,
                 hover_icon=right_button_hovered_icon,
-                pressed_icon=right_button_pressed_icon
+                pressed_icon=right_button_pressed_icon,
+                normal_bg=None,
+                hover_bg=None,
+                pressed_bg=None
             )
 
             go_left_button = Button(
@@ -68,7 +71,10 @@ class MapSelectorSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.MIDRIGHT,
                 normal_icon=left_button_icon,
                 hover_icon=left_button_hovered_icon,
-                pressed_icon=left_button_pressed_icon
+                pressed_icon=left_button_pressed_icon,
+                normal_bg=None,
+                hover_bg=None,
+                pressed_bg=None
             )
 
             self.elements.append(map_name)
