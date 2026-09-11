@@ -30,11 +30,13 @@ class Button(Element):
         height: float,
         anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
         inner_padding: int = 2,
-        normal_bg: ColorLike = Config.BUTTON_NORMAL_BG,
-        hover_bg: ColorLike = Config.BUTTON_HOVERED_BG,
-        pressed_bg: ColorLike = Config.BUTTON_PRESSED_BG,
+        normal_bg: ColorLike | None = Config.BUTTON_NORMAL_BG,
+        hover_bg: ColorLike | None = Config.BUTTON_HOVERED_BG,
+        pressed_bg: ColorLike | None = Config.BUTTON_PRESSED_BG,
+        normal_icon: pygame.Surface | None = None,
+        hover_icon: pygame.Surface | None = None,
+        pressed_icon: pygame.Surface | None = None,
         text: Text | None = None,
-        icon: pygame.Surface | None = None,
         once_per_click: bool = True,
         enabled: bool = True,
     ) -> None:
@@ -57,11 +59,15 @@ class Button(Element):
         self.hover_bg = hover_bg
         self.pressed_bg = pressed_bg
 
-        self.icon = icon
-        if self.icon:
-            self.icon_rect = self.icon.get_frect(
+        self.normal_icon = normal_icon
+        self.hover_icon = hover_icon
+        self.pressed_icon = pressed_icon
+
+        if self.normal_icon:
+            self.icon_rect = self.normal_icon.get_frect(
                 centerx=self.width / 2, top=inner_padding
             )
+
 
         self.text = text
 
@@ -74,19 +80,32 @@ class Button(Element):
     def draw(self, surface: pygame.Surface) -> None:
         if self.enabled:
             if self.state == ButtonStates.NORMAL:
-                self.image.fill(self.normal_bg)
+                if self.normal_bg:
+                    self.image.fill(self.normal_bg)
+
+                if self.normal_icon:
+                    self.image.blit(self.normal_icon, self.icon_rect)
             elif self.state == ButtonStates.HOVERED:
-                self.image.fill(self.hover_bg)
+                if self.hover_bg:
+                    self.image.fill(self.hover_bg)
+
+                if self.hover_icon:
+                    self.image.blit(self.hover_icon, self.icon_rect)
             elif self.state == ButtonStates.PRESSED:
-                self.image.fill(self.pressed_bg)
+                if self.pressed_bg:
+                    self.image.fill(self.pressed_bg)
+                
+                if self.pressed_icon:
+                    self.image.blit(self.pressed_icon, self.icon_rect)
         else:
-            self.image.fill(self.pressed_bg)
+            if self.pressed_bg:
+                self.image.fill(self.pressed_bg)
+
+            if self.pressed_icon:
+                self.image.blit(self.pressed_icon, self.icon_rect)
 
         if self.text:
             self.text.draw(self.image)
-
-        if self.icon:
-            self.image.blit(self.icon, self.icon_rect)
 
         surface.blit(self.image, self.rect)
 
