@@ -9,6 +9,7 @@ from src.core.scenes_manager import Scene
 from src.core.utils import load_asset, load_map, load_scaled_asset, split_tileset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
+from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
 from src.maps.data import MAPS_DATA
@@ -32,27 +33,40 @@ class MapSelectorSceneGUIManager(GUIManager):
     def refresh(self):
         self.elements = []
 
-        padding = Config.ELEMENT_OUTER_PADDING * 3
+        padding = Config.ELEMENT_OUTER_PADDING * 9
 
         if self.state == MapSelectorSceneGUIState.NORMAL:
+            map_name = self.scene.all_maps[self.scene.selected_map_index]  # ty:ignore[unresolved-attribute]
+            map_icon_surf = load_scaled_asset(f"{map_name}_globe", (288, 288))
+
+            map_icon = Icon(
+                "map_icon",
+                Config.SCREEN_WIDTH / 2,
+                Config.SCREEN_HEIGHT / 2,
+                map_icon_surf.width,
+                map_icon_surf.height,
+                map_icon_surf,
+                anchor=RectAnchorMode.CENTER
+            )
+
             map_name = Text(
                 "map_name",
                 self.scene.all_maps[self.scene.selected_map_index],  # ty:ignore[unresolved-attribute]
                 Config.SCREEN_WIDTH / 2,
-                Config.SCREEN_HEIGHT / 2,
+                map_icon.rect.top - padding,
                 size=Config.FONT_SIZE_HUGE,
                 anchor=RectAnchorMode.CENTER,
             )
 
-            new_size = (Config.BUTTON_SIZE, Config.BUTTON_SIZE)
+            arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
 
             # it's kind of confusing, i'm aware
-            right_button_icon = load_scaled_asset("left_button", new_size)
+            right_button_icon = load_scaled_asset("left_button", arrow_new_size)
             right_button_hovered_icon = load_scaled_asset(
-                "left_arrow_button_hovered", new_size
+                "left_arrow_button_hovered", arrow_new_size
             )
             right_button_pressed_icon = load_scaled_asset(
-                "left_arrow_button_pressed", new_size
+                "left_arrow_button_pressed", arrow_new_size
             )
 
             left_button_icon = pygame.transform.flip(right_button_icon, True, False)
@@ -65,9 +79,9 @@ class MapSelectorSceneGUIManager(GUIManager):
 
             go_right_button = Button(
                 "go_right_button",
-                map_name.rect.right + padding,
-                Config.SCREEN_HEIGHT / 2,
-                *new_size,
+                map_icon.rect.right + padding,
+                map_icon.rect.centery,
+                *arrow_new_size,
                 anchor=RectAnchorMode.MIDLEFT,
                 normal_icon=right_button_icon,
                 hover_icon=right_button_hovered_icon,
@@ -79,9 +93,9 @@ class MapSelectorSceneGUIManager(GUIManager):
 
             go_left_button = Button(
                 "go_left_button",
-                map_name.rect.left - padding,
-                map_name.rect.midleft[1],
-                *new_size,
+                map_icon.rect.left - padding,
+                map_icon.rect.centery,
+                *arrow_new_size,
                 anchor=RectAnchorMode.MIDRIGHT,
                 normal_icon=left_button_icon,
                 hover_icon=left_button_hovered_icon,
@@ -93,8 +107,8 @@ class MapSelectorSceneGUIManager(GUIManager):
 
             play_button = Button(
                 "play_button",
-                Config.SCREEN_WIDTH / 2,
-                map_name.rect.bottom + padding,
+                map_icon.rect.centerx,
+                map_icon.rect.bottom + padding,
                 Config.BUTTON_SIZE * 2,
                 Config.BUTTON_SIZE,
                 text=Text(
@@ -108,6 +122,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.MIDTOP,
             )
 
+            self.elements.append(map_icon)
             self.elements.append(map_name)
             self.elements.append(go_right_button)
             self.elements.append(go_left_button)
