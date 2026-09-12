@@ -1,5 +1,5 @@
 MAPS_DATA = {
-    "Test": {
+    "Ground Zero": {
         "waves": {
             0: ("slime",),
             1: ("slime", "slime"),
