@@ -23,7 +23,7 @@ class GameWonScene(Scene):
     def render(self, surface: pygame.Surface) -> None:
         surface.fill(Config.BRIGHT_GREEN)
         font = pygame.font.Font(get_font(Config.FONT_NORMAL), Config.FONT_SIZE_VERYBIG)
-        text = font.render("Game Over", True, Config.TEXT_COLOR_NORMAL)
+        text = font.render("Victory", True, Config.TEXT_COLOR_NORMAL)
         text_rect = text.get_frect(
             center=(Config.SCREEN_WIDTH // 2, Config.SCREEN_HEIGHT // 2)
         )
