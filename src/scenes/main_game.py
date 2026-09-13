@@ -58,8 +58,9 @@ class MainGameScene(Scene):
         self.selected_tower = None
 
         self.waves = map_data["waves"]
-        self.wave = 0
-        self.wave_state = WaveState.SPAWNING
+        # -1 so that when the player starts the first wave it'll go to index 0
+        self.wave = -1
+        self.wave_state = WaveState.CLEARING
 
         self.wave_enemy_spawn_index = 0
         self.enemy_spawn_interval = 1
@@ -96,6 +97,33 @@ class MainGameScene(Scene):
         self.wave_state = WaveState.SPAWNING
 
         self.gui_manager.update_wave_text()
+
+    def update(self, delta_time: float) -> None:
+        if not self.paused:
+            if self.wave_state == WaveState.SPAWNING:
+                self.enemy_spawn_interval_dt_count += delta_time
+
+                if (
+                    self.wave != -1
+                    and self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
+                    and self.wave_enemy_spawn_index < len(self.waves[self.wave])
+                ):
+                    enemy_id = self.waves[self.wave][self.wave_enemy_spawn_index]
+                    enemy = ENEMIES[enemy_id](self.map.path)
+                    self.enemies_group.add(enemy)
+                    self.wave_enemy_spawn_index += 1
+                    self.enemy_spawn_interval_dt_count = 0
+
+                if self.wave_enemy_spawn_index >= len(self.waves[self.wave]):
+                    self.wave_state = WaveState.CLEARING
+
+            self.enemies_group.update(delta_time)
+            self.turrets_group.update(
+                delta_time, self.enemies_group, self.projectiles_group
+            )
+            self.projectiles_group.update(delta_time, self.enemies_group)
+
+            self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
@@ -149,32 +177,6 @@ class MainGameScene(Scene):
                     self.draw_turret_radiuses = not self.draw_turret_radiuses
 
             self.gui_manager.handle_event(event)
-
-    def update(self, delta_time: float) -> None:
-        if not self.paused:
-            if self.wave_state == WaveState.SPAWNING:
-                self.enemy_spawn_interval_dt_count += delta_time
-
-                if (
-                    self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
-                    and self.wave_enemy_spawn_index < len(self.waves[self.wave])
-                ):
-                    enemy_id = self.waves[self.wave][self.wave_enemy_spawn_index]
-                    enemy = ENEMIES[enemy_id](self.map.path)
-                    self.enemies_group.add(enemy)
-                    self.wave_enemy_spawn_index += 1
-                    self.enemy_spawn_interval_dt_count = 0
-            
-            if self.wave_enemy_spawn_index >= len(self.waves[self.wave]):
-                self.wave_state = WaveState.CLEARING
-
-            self.enemies_group.update(delta_time)
-            self.turrets_group.update(
-                delta_time, self.enemies_group, self.projectiles_group
-            )
-            self.projectiles_group.update(delta_time, self.enemies_group)
-
-            self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
 
     def render(self, surface: pygame.Surface) -> None:
         surface.fill("black")
