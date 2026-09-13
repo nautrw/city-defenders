@@ -26,3 +26,6 @@ class GameLostScene(Scene):
             center=(Config.SCREEN_WIDTH // 2, Config.SCREEN_HEIGHT // 2)
         )
         surface.blit(text, text_rect)
+
+    def update(self, delta_time: float) -> None:
+        pass
