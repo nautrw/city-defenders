@@ -56,8 +56,6 @@ class Turret(pygame.sprite.Sprite):
         self.turret_tip = pygame.Vector2(0, -self.turret_image.get_height() / 2)
 
     def _shoot_at(self, enemy: Enemy):
-        enemy_position = pygame.Vector2(enemy.rect.center)
-
         # this is so it shoots from the tip of the turret
         projectile_offset = self.turret_tip.rotate(-self.turret_angle)
         projectile_position = self.position + projectile_offset
@@ -66,8 +64,7 @@ class Turret(pygame.sprite.Sprite):
             damage=self.damage,
             x_position=projectile_position[0],
             y_position=projectile_position[1],
-            target_x=enemy_position[0],
-            target_y=enemy_position[1],
+            target=enemy
         )
         return projectile
 

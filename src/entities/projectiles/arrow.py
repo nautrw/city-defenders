@@ -1,3 +1,4 @@
+from src.entities.enemies.enemy import Enemy
 import pygame
 
 from src.core.utils import load_asset
@@ -9,15 +10,14 @@ class Arrow(BallisticProjectile):
     rect: pygame.Rect | pygame.FRect
 
     def __init__(
-        self, damage: int, x_position: float, y_position: float, target_x: float, target_y: float
+        self, damage: int, x_position: float, y_position: float, target: Enemy
     ):
         image = load_asset("arrow")
 
         super().__init__(
             x_position=x_position,
             y_position=y_position,
-            target_x=target_x,
-            target_y=target_y,
+            target=target,
             image=image,
             damage=damage
         )

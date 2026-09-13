@@ -3,6 +3,7 @@ from typing import Protocol
 import pygame
 
 from src.core.utils import angle_to_point
+from src.entities.enemies.enemy import Enemy
 
 
 # protocols are used to describe how a subclass should be
@@ -12,7 +13,7 @@ from src.core.utils import angle_to_point
 # dont take an image because they provide it
 class BallisticProjectileType(Protocol):
     def __call__(
-        self, damage: int, x_position: float, y_position: float, target_x: float, target_y: float
+        self, damage: int, x_position: float, y_position: float, target: Enemy
     ):
         pass
 
@@ -26,8 +27,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         damage: int,
         x_position: float,
         y_position: float,
-        target_x: float,
-        target_y: float,
+        target: Enemy,
         image: pygame.Surface,
     ):
         super().__init__()
@@ -38,14 +38,15 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
         self.position = pygame.Vector2(x_position, y_position)
         self.velocity = pygame.Vector2()
-        self.target = pygame.Vector2(target_x, target_y)
+
+        self.target = target
 
         self.damage = damage
 
         self.angle = 0
 
     def update(self, delta_time: float, enemies_group: pygame.sprite.Group) -> None:
-        movement = self.target - pygame.Vector2(self.rect.center)
+        movement = self.target.position - pygame.Vector2(self.rect.center)
 
         if movement.length_squared() != 0:
             movement.normalize_ip()
@@ -56,7 +57,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         self.rect.center = self.position
 
         self.angle = angle_to_point(
-            self.position.x, self.position.y, self.target.x, self.target.y
+            self.position.x, self.position.y, self.target.position.x, self.target.position.y
         )
 
         if collisions := pygame.sprite.spritecollide(self, enemies_group, False):
