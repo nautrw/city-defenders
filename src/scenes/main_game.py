@@ -1,4 +1,3 @@
-from src.scenes.game_lost import GameLostScene
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -10,6 +9,7 @@ from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.entities.enemies.enemy import DEFENSE_BREACHED, ENEMY_KILLED
 from src.entities.entity_data import ENEMIES
+from src.scenes.game_lost import GameLostScene
 from src.scenes.game_won import GameWonScene
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
 
@@ -117,7 +117,7 @@ class MainGameScene(Scene):
 
                 if self.wave_enemy_spawn_index >= len(self.waves[self.wave]):
                     self.wave_state = WaveState.CLEARING
-            
+
             # gui wave count is 1 higher, eg. when it says wave 5 it's actually
             # index 4, so len(self.waves) must be decreased by 1
             if (

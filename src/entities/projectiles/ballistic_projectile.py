@@ -57,7 +57,10 @@ class BallisticProjectile(pygame.sprite.Sprite):
         self.rect.center = self.position
 
         self.angle = angle_to_point(
-            self.position.x, self.position.y, self.target.position.x, self.target.position.y
+            self.position.x,
+            self.position.y,
+            self.target.position.x,
+            self.target.position.y,
         )
 
         if collisions := pygame.sprite.spritecollide(self, enemies_group, False):

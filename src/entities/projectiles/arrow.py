@@ -1,7 +1,7 @@
-from src.entities.enemies.enemy import Enemy
 import pygame
 
 from src.core.utils import load_asset
+from src.entities.enemies.enemy import Enemy
 from src.entities.projectiles.ballistic_projectile import BallisticProjectile
 
 
@@ -19,5 +19,5 @@ class Arrow(BallisticProjectile):
             y_position=y_position,
             target=target,
             image=image,
-            damage=damage
+            damage=damage,
         )

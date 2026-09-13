@@ -32,7 +32,7 @@ class Turret(pygame.sprite.Sprite):
         self.cost = cost
 
         self.damage = damage
-        
+
         self.position = pygame.Vector2(x_position, y_position)
 
         self.original_base_image = load_asset("turret_base")
@@ -64,7 +64,7 @@ class Turret(pygame.sprite.Sprite):
             damage=self.damage,
             x_position=projectile_position[0],
             y_position=projectile_position[1],
-            target=enemy
+            target=enemy,
         )
         return projectile
 

@@ -137,10 +137,12 @@ class MainGameSceneGUIManager(GUIManager):
 
         wave_text = Text(
             "wave_text",
-            f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}" if self.scene.wave != -1 else "Press Start",  # ty:ignore[unresolved-attribute]
+            f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}"
+            if self.scene.wave != -1
+            else "Press Start",  # ty:ignore[unresolved-attribute]
             Config.ELEMENT_OUTER_PADDING,
             wave_display_container.rect.height / 2,
-            anchor=RectAnchorMode.MIDLEFT
+            anchor=RectAnchorMode.MIDLEFT,
         )
 
         wave_display_container.add_element(wave_text)
@@ -167,7 +169,9 @@ class MainGameSceneGUIManager(GUIManager):
                 (Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING),
                 Config.BUTTON_SIZE * 2,
                 Config.BUTTON_SIZE * 2,
-                **load_button_state_triplet_assets("next_wave", (Config.GUI_ICON_SIZE * 2, Config.GUI_ICON_SIZE * 2)),
+                **load_button_state_triplet_assets(
+                    "next_wave", (Config.GUI_ICON_SIZE * 2, Config.GUI_ICON_SIZE * 2)
+                ),
                 anchor=RectAnchorMode.BOTTOMRIGHT,
             )
 
@@ -448,4 +452,4 @@ class MainGameSceneGUIManager(GUIManager):
 
                         self.switch_state(UIStates.PLACING_TURRET)
             elif event.button.id == "next_wave_button":
-                self.scene.next_wave() # ty:ignore[unresolved-attribute]
+                self.scene.next_wave()  # ty:ignore[unresolved-attribute]

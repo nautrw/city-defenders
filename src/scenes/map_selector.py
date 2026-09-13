@@ -38,7 +38,7 @@ class MapSelectorSceneGUIManager(GUIManager):
         if self.state == MapSelectorSceneGUIState.NORMAL:
             map_name = self.scene.all_maps[self.scene.selected_map_index]  # ty:ignore[unresolved-attribute]
             map_icon_surf = load_scaled_asset(f"{map_name}_globe", (288, 288))
-            waves_num = len(MAPS_DATA[map_name]["waves"].keys()) # ty:ignore[unresolved-attribute]
+            waves_num = len(MAPS_DATA[map_name]["waves"].keys())  # ty:ignore[unresolved-attribute]
 
             map_icon = Icon(
                 "map_icon",
@@ -47,7 +47,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 map_icon_surf.width,
                 map_icon_surf.height,
                 map_icon_surf,
-                anchor=RectAnchorMode.CENTER
+                anchor=RectAnchorMode.CENTER,
             )
 
             waves_number = Text(
@@ -56,7 +56,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 Config.SCREEN_WIDTH / 2,
                 map_icon.rect.top - (padding / 3),
                 size=Config.FONT_SIZE_HEADER,
-                anchor=RectAnchorMode.MIDBOTTOM
+                anchor=RectAnchorMode.MIDBOTTOM,
             )
 
             map_name = Text(

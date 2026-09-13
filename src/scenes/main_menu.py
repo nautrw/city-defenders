@@ -1,4 +1,3 @@
-from src.core.utils import load_asset
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -6,6 +5,7 @@ import pygame
 
 import src.core.config as Config
 from src.core.scenes_manager import Scene
+from src.core.utils import load_asset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
@@ -76,7 +76,9 @@ class MainMenuScene(Scene):
         surface.fill(Config.BRIGHT_GREEN)
 
         game_icon = load_asset("game_icon")
-        game_icon_rect = game_icon.get_rect(center=(Config.SCREEN_WIDTH / 2, Config.SCREEN_HEIGHT * .25))
+        game_icon_rect = game_icon.get_rect(
+            center=(Config.SCREEN_WIDTH / 2, Config.SCREEN_HEIGHT * 0.25)
+        )
         surface.blit(game_icon, game_icon_rect)
 
         self.gui_manager.render_elements(surface)
