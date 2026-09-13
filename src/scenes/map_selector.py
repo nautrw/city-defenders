@@ -38,6 +38,7 @@ class MapSelectorSceneGUIManager(GUIManager):
         if self.state == MapSelectorSceneGUIState.NORMAL:
             map_name = self.scene.all_maps[self.scene.selected_map_index]  # ty:ignore[unresolved-attribute]
             map_icon_surf = load_scaled_asset(f"{map_name}_globe", (288, 288))
+            waves_num = len(MAPS_DATA[map_name]["waves"].keys()) # ty:ignore[unresolved-attribute]
 
             map_icon = Icon(
                 "map_icon",
@@ -49,13 +50,22 @@ class MapSelectorSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.CENTER
             )
 
+            waves_number = Text(
+                "waves_number",
+                f"{waves_num} Waves",
+                Config.SCREEN_WIDTH / 2,
+                map_icon.rect.top - (padding / 3),
+                size=Config.FONT_SIZE_HEADER,
+                anchor=RectAnchorMode.MIDBOTTOM
+            )
+
             map_name = Text(
                 "map_name",
                 self.scene.all_maps[self.scene.selected_map_index],  # ty:ignore[unresolved-attribute]
                 Config.SCREEN_WIDTH / 2,
-                map_icon.rect.top - padding,
+                waves_number.rect.top - (padding / 2),
                 size=Config.FONT_SIZE_HUGE,
-                anchor=RectAnchorMode.CENTER,
+                anchor=RectAnchorMode.MIDBOTTOM,
             )
 
             arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
@@ -122,8 +132,9 @@ class MapSelectorSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.MIDTOP,
             )
 
-            self.elements.append(map_icon)
             self.elements.append(map_name)
+            self.elements.append(waves_number)
+            self.elements.append(map_icon)
             self.elements.append(go_right_button)
             self.elements.append(go_left_button)
             self.elements.append(play_button)
