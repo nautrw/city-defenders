@@ -59,10 +59,10 @@ class MainGameScene(Scene):
 
         self.waves = map_data["waves"]
         self.wave = 0
-        self.wave_state = WaveState.CLEARING  # placeholder
+        self.wave_state = WaveState.SPAWNING
 
         self.wave_enemy_spawn_index = 0
-        self.enemy_spawn_interval = 0.5
+        self.enemy_spawn_interval = 1
         self.enemy_spawn_interval_dt_count = 0
 
         self.max_health = map_data["health"]
@@ -91,6 +91,7 @@ class MainGameScene(Scene):
     def next_wave(self):
         self.wave += 1
         self.wave_enemy_spawn_index = 0
+        self.enemy_spawn_interval_dt_count = 0
 
         self.wave_state = WaveState.SPAWNING
 
@@ -151,18 +152,20 @@ class MainGameScene(Scene):
 
     def update(self, delta_time: float) -> None:
         if not self.paused:
-            self.enemy_spawn_interval_dt_count += delta_time
+            if self.wave_state == WaveState.SPAWNING:
+                self.enemy_spawn_interval_dt_count += delta_time
 
-            if (
-                self.wave_state == WaveState.SPAWNING
-                and self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
-                and self.wave_enemy_spawn_index < len(self.waves[self.wave])
-            ):
-                enemy_id = self.waves[self.wave][self.wave_enemy_spawn_index]
-                enemy = ENEMIES[enemy_id](self.map.path)
-                self.enemies_group.add(enemy)
-                self.wave_enemy_spawn_index += 1
-            else:
+                if (
+                    self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
+                    and self.wave_enemy_spawn_index < len(self.waves[self.wave])
+                ):
+                    enemy_id = self.waves[self.wave][self.wave_enemy_spawn_index]
+                    enemy = ENEMIES[enemy_id](self.map.path)
+                    self.enemies_group.add(enemy)
+                    self.wave_enemy_spawn_index += 1
+                    self.enemy_spawn_interval_dt_count = 0
+            
+            if self.wave_enemy_spawn_index >= len(self.waves[self.wave]):
                 self.wave_state = WaveState.CLEARING
 
             self.enemies_group.update(delta_time)
