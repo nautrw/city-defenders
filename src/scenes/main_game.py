@@ -1,3 +1,4 @@
+from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
@@ -16,6 +17,11 @@ from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
 # actually imported
 if TYPE_CHECKING:
     from src.app import GameApp
+
+
+class WaveState(Enum):
+    SPAWNING = auto()
+    CLEARING = auto()
 
 
 class MainGameScene(Scene):
@@ -53,11 +59,10 @@ class MainGameScene(Scene):
 
         self.waves = map_data["waves"]
         self.wave = 0
-        self.waves_interval = map_data["waves_interval"]
-        self.wave_interval_dt_count = 0
+        self.wave_state = WaveState.CLEARING  # placeholder
 
         self.wave_enemy_spawn_index = 0
-        self.enemy_spawn_interval = 0  # placeholder
+        self.enemy_spawn_interval = 0.5
         self.enemy_spawn_interval_dt_count = 0
 
         self.max_health = map_data["health"]
@@ -82,6 +87,14 @@ class MainGameScene(Scene):
             self.coins += refund
             self.selected_tower.kill()
             self.selected_tower = None
+
+    def next_wave(self):
+        self.wave += 1
+        self.wave_enemy_spawn_index = 0
+
+        self.wave_state = WaveState.SPAWNING
+
+        self.gui_manager.update_wave_text()
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
@@ -138,37 +151,19 @@ class MainGameScene(Scene):
 
     def update(self, delta_time: float) -> None:
         if not self.paused:
-            self.wave_interval_dt_count += delta_time
             self.enemy_spawn_interval_dt_count += delta_time
 
-            self.gui_manager.update_wave_time_left_text()
-
-            if self.wave_interval_dt_count >= self.waves_interval:
-                self.wave += 1
-
-                if self.wave >= len(self.waves):
-                    self.game.scene_manager.switch(GameWonScene(self.game))
-                    return
-
-                self.wave_interval_dt_count = 0
-                self.wave_enemy_spawn_index = 0
-
-                # enemies will spawn at an equal interval over the first half
-                # of the wave duration, instead of making then spawn all at once
-                enemies_num = len(self.waves[self.wave])
-                self.enemy_spawn_interval = (self.waves_interval / 2) / enemies_num
-
-                self.gui_manager.update_wave_text()
-
             if (
-                self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
+                self.wave_state == WaveState.SPAWNING
+                and self.enemy_spawn_interval_dt_count >= self.enemy_spawn_interval
                 and self.wave_enemy_spawn_index < len(self.waves[self.wave])
             ):
                 enemy_id = self.waves[self.wave][self.wave_enemy_spawn_index]
                 enemy = ENEMIES[enemy_id](self.map.path)
                 self.enemies_group.add(enemy)
-                self.enemy_spawn_interval_dt_count = 0
                 self.wave_enemy_spawn_index += 1
+            else:
+                self.wave_state = WaveState.CLEARING
 
             self.enemies_group.update(delta_time)
             self.turrets_group.update(

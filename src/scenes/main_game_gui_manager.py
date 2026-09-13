@@ -45,11 +45,6 @@ class MainGameSceneGUIManager(GUIManager):
             f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}"  # ty:ignore[unresolved-attribute]
         )
 
-    def update_wave_time_left_text(self):
-        self.get_element_by_id("time_left_text").update_text(  # ty:ignore[unresolved-attribute]
-            f"{int(self.scene.waves_interval - self.scene.wave_interval_dt_count)}s left"  # ty:ignore[unresolved-attribute]
-        )
-
     def update_coins_text(self):
         self.get_element_by_id("coins_text").update_text(  # ty:ignore[unresolved-attribute]
             str(self.scene.coins)  # ty:ignore[unresolved-attribute]
@@ -143,19 +138,12 @@ class MainGameSceneGUIManager(GUIManager):
         wave_text = Text(
             "wave_text",
             f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}",  # ty:ignore[unresolved-attribute]
-            Config.ELEMENT_OUTER_PADDING * 2,
             Config.ELEMENT_OUTER_PADDING,
-        )
-
-        time_left_text = Text(
-            "time_left_text",
-            f"{int(self.scene.waves_interval - self.scene.wave_interval_dt_count)}s left",  # ty:ignore[unresolved-attribute]
-            Config.ELEMENT_OUTER_PADDING * 2,
-            wave_text.rect.bottom - 5,
+            wave_display_container.rect.height / 2,
+            anchor=RectAnchorMode.MIDLEFT
         )
 
         wave_display_container.add_element(wave_text)
-        wave_display_container.add_element(time_left_text)
 
         self.elements.append(wave_display_container)
 
@@ -448,7 +436,7 @@ class MainGameSceneGUIManager(GUIManager):
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
                 self.scene.turret_to_place = None  # ty:ignore[unresolved-attribute]
                 self.scene.can_place_turret = False  # ty:ignore[unresolved-attribute]
-            elif event.button.id == "buy_selected_tower_button":  # noqa: SIM102
+            elif event.button.id == "buy_selected_tower_button":
                 # here comes ty:ignore hell...
                 if self.selected_tower_to_buy:  # noqa: SIM102
                     if self.scene.coins >= self.selected_tower_to_buy.cost:  # ty:ignore[unresolved-attribute]
@@ -459,3 +447,5 @@ class MainGameSceneGUIManager(GUIManager):
                         )
 
                         self.switch_state(UIStates.PLACING_TURRET)
+            elif event.button.id == "next_wave_button":
+                self.scene.next_wave() # ty:ignore[unresolved-attribute]
