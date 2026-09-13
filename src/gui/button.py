@@ -63,15 +63,20 @@ class Button(Element):
         self.hover_icon = hover_icon
         self.pressed_icon = pressed_icon
 
-        if self.normal_icon:
-            self.icon_rect = self.normal_icon.get_frect(
-                centerx=self.width / 2, top=inner_padding
-            )
-
         self.text = text
 
         if self.text:
             self.text.render_text()
+
+        if self.normal_icon:
+            self.icon_rect = self.normal_icon.get_frect(
+                center=(self.width / 2, self.height / 2)
+            )
+
+            if self.text:
+                self.icon_rect = self.normal_icon.get_frect(
+                    centerx=self.width / 2, top=inner_padding
+                )
 
         self.pressed_last_frame = False
         self.once_per_click = once_per_click
