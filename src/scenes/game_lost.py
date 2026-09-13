@@ -10,7 +10,7 @@ if TYPE_CHECKING:
     from src.app import GameApp
 
 
-class GameOverScene(Scene):
+class GameLostScene(Scene):
     def __init__(self, game: "GameApp"):
         super().__init__(game)
 
@@ -21,7 +21,7 @@ class GameOverScene(Scene):
         surface.fill(Config.DARK_RED)
 
         font = pygame.font.Font(get_font(Config.FONT_NORMAL), Config.FONT_SIZE_VERYBIG)
-        text = font.render("Game Over", True, "black")
+        text = font.render("Defeated", True, "black")
         text_rect = text.get_rect(
             center=(Config.SCREEN_WIDTH // 2, Config.SCREEN_HEIGHT // 2)
         )
