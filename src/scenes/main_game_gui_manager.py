@@ -4,7 +4,11 @@ from typing import TYPE_CHECKING
 import pygame
 
 import src.core.config as Config
-from src.core.utils import load_asset, load_scaled_asset, load_button_state_triplet_assets
+from src.core.utils import (
+    load_asset,
+    load_button_state_triplet_assets,
+    load_scaled_asset,
+)
 from src.entities.entity_data import TURRETS
 from src.entities.turrets.turret import Turret
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
@@ -173,10 +177,10 @@ class MainGameSceneGUIManager(GUIManager):
                 "next_wave_button",
                 (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
                 (Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING),
-                Config.BUTTON_SIZE,
-                Config.BUTTON_SIZE,
-                **load_button_state_triplet_assets("next_wave"),
-                anchor=RectAnchorMode.BOTTOMRIGHT
+                Config.BUTTON_SIZE * 2,
+                Config.BUTTON_SIZE * 2,
+                **load_button_state_triplet_assets("next_wave", (Config.GUI_ICON_SIZE * 2, Config.GUI_ICON_SIZE * 2)),
+                anchor=RectAnchorMode.BOTTOMRIGHT,
             )
 
             self.elements.append(build_button)
