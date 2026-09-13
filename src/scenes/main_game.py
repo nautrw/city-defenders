@@ -122,6 +122,7 @@ class MainGameScene(Scene):
             # index 4, so len(self.waves) must be decreased by 1
             if (
                 self.wave > -1
+                and self.wave_state == WaveState.CLEARING
                 and len(self.enemies_group) <= 0
                 and self.wave >= len(self.waves) - 1
             ):
