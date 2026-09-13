@@ -116,7 +116,9 @@ class MainGameScene(Scene):
 
                 if self.wave_enemy_spawn_index >= len(self.waves[self.wave]):
                     self.wave_state = WaveState.CLEARING
-
+            
+            # gui wave count is 1 higher, eg. when it says wave 5 it's actually
+            # index 4, so len(self.waves) must be decreased by 1
             if (
                 self.wave > -1
                 and len(self.enemies_group) <= 0
