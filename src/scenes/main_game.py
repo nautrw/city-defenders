@@ -117,6 +117,13 @@ class MainGameScene(Scene):
                 if self.wave_enemy_spawn_index >= len(self.waves[self.wave]):
                     self.wave_state = WaveState.CLEARING
 
+            if (
+                self.wave > -1
+                and len(self.enemies_group) <= 0
+                and self.wave >= len(self.waves) - 1
+            ):
+                self.game.scene_manager.switch(GameWonScene(self.game))
+
             self.enemies_group.update(delta_time)
             self.turrets_group.update(
                 delta_time, self.enemies_group, self.projectiles_group
