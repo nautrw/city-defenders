@@ -1,7 +1,7 @@
 import pygame
 
 from src.core.utils import load_asset
-from src.entities.projectiles.arrow import Arrow
+from src.entities.projectiles.bolt import Bolt
 from src.entities.turrets.turret import Turret
 
 
@@ -24,7 +24,7 @@ class BallistaTurret(Turret):
             x_position=x_position,
             y_position=y_position,
             turret_image=image,
-            projectile=Arrow,
+            projectile=Bolt,
             shooting_speed=2.5,
             area_radius=75,
         )
