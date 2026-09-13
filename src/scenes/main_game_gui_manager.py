@@ -137,7 +137,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         wave_text = Text(
             "wave_text",
-            f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}" if self.scene.wave > 0 else "Press Start",  # ty:ignore[unresolved-attribute]
+            f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}" if self.scene.wave != -1 else "Press Start",  # ty:ignore[unresolved-attribute]
             Config.ELEMENT_OUTER_PADDING,
             wave_display_container.rect.height / 2,
             anchor=RectAnchorMode.MIDLEFT
