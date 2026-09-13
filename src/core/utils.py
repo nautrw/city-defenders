@@ -108,6 +108,15 @@ def load_scaled_asset(
 ):
     return pygame.transform.scale(load_asset(asset_name), new_size)
 
+def load_button_state_triplet_assets(
+    base_name: str, new_size: tuple[int, int] = Config.GUI_ICON_SIZE
+):
+    return {
+        "normal_icon": load_scaled_asset(f"{base_name}_button_normal", new_size),
+        "hover_icon": load_scaled_asset(f"{base_name}_button_hovered", new_size),
+        "pressed_icon": load_scaled_asset(f"{base_name}_button_pressed", new_size)
+    }
+
 
 def get_font(font_name: str):
     return FONTS_DICT[font_name]
