@@ -1,3 +1,4 @@
+from src.scenes.game_lost import GameLostScene
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -125,6 +126,9 @@ class MainGameScene(Scene):
                 and self.wave >= len(self.waves) - 1
             ):
                 self.game.scene_manager.switch(GameWonScene(self.game))
+
+            if self.health <= 0:
+                self.game.scene_manager.switch(GameLostScene(self.game))
 
             self.enemies_group.update(delta_time)
             self.turrets_group.update(
