@@ -17,6 +17,7 @@ class Turret(pygame.sprite.Sprite):
         display_name: str,
         description: str,
         cost: int,
+        damage: int,
         x_position: int,
         y_position: int,
         turret_image: pygame.Surface,
@@ -30,6 +31,8 @@ class Turret(pygame.sprite.Sprite):
         self.description = description
         self.cost = cost
 
+        self.damage = damage
+        
         self.position = pygame.Vector2(x_position, y_position)
 
         self.original_base_image = load_asset("turret_base")
@@ -60,6 +63,7 @@ class Turret(pygame.sprite.Sprite):
         projectile_position = self.position + projectile_offset
 
         projectile = self.projectile(
+            damage=self.damage,
             x_position=projectile_position[0],
             y_position=projectile_position[1],
             target_x=enemy_position[0],

@@ -12,7 +12,7 @@ from src.core.utils import angle_to_point
 # dont take an image because they provide it
 class BallisticProjectileType(Protocol):
     def __call__(
-        self, x_position: float, y_position: float, target_x: float, target_y: float
+        self, damage: int, x_position: float, y_position: float, target_x: float, target_y: float
     ):
         pass
 
@@ -23,13 +23,12 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
     def __init__(
         self,
+        damage: int,
         x_position: float,
         y_position: float,
         target_x: float,
         target_y: float,
         image: pygame.Surface,
-        movement_speed: int,
-        damage: int,
     ):
         super().__init__()
 
@@ -39,7 +38,6 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
         self.position = pygame.Vector2(x_position, y_position)
         self.velocity = pygame.Vector2()
-        self.movement_speed = movement_speed
         self.target = pygame.Vector2(target_x, target_y)
 
         self.damage = damage
@@ -52,7 +50,8 @@ class BallisticProjectile(pygame.sprite.Sprite):
         if movement.length_squared() != 0:
             movement.normalize_ip()
 
-        self.velocity = movement * self.movement_speed
+        move_speed = 200
+        self.velocity = movement * move_speed
         self.position += self.velocity * delta_time
         self.rect.center = self.position
 

@@ -9,7 +9,7 @@ class Arrow(BallisticProjectile):
     rect: pygame.Rect | pygame.FRect
 
     def __init__(
-        self, x_position: float, y_position: float, target_x: float, target_y: float
+        self, damage: int, x_position: float, y_position: float, target_x: float, target_y: float
     ):
         image = load_asset("arrow")
 
@@ -19,6 +19,5 @@ class Arrow(BallisticProjectile):
             target_x=target_x,
             target_y=target_y,
             image=image,
-            movement_speed=200,
-            damage=5,
+            damage=damage
         )

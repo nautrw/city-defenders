@@ -20,6 +20,7 @@ class CrossbowTurret(Turret):
             display_name=self.display_name,
             description=self.description,
             cost=self.cost,
+            damage=5,
             x_position=x_position,
             y_position=y_position,
             turret_image=image,
