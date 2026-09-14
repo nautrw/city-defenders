@@ -46,7 +46,13 @@ class BallisticProjectile(pygame.sprite.Sprite):
         self.angle = 0
 
     def update(self, delta_time: float, enemies_group: pygame.sprite.Group) -> None:
-        movement = self.target.position - pygame.Vector2(self.rect.center)
+        # makes the arrow dissapear if the target is killed by another turret
+        if not self.target.alive():
+            self.kill()
+            return
+
+        target_pos = pygame.Vector2(self.target.rect.center)
+        movement = target_pos - self.position
 
         if movement.length_squared() != 0:
             movement.normalize_ip()
