@@ -44,10 +44,9 @@ class MainGameScene(Scene):
         )
 
         self.enemies_group = pygame.sprite.Group()
-
         self.turrets_group = pygame.sprite.Group()
-
         self.projectiles_group = pygame.sprite.Group()
+        self.explosions_group = pygame.sprite.Group()
 
         self.paused = False
         self.draw_turret_radiuses = False
@@ -135,7 +134,8 @@ class MainGameScene(Scene):
             self.turrets_group.update(
                 delta_time, self.enemies_group, self.projectiles_group
             )
-            self.projectiles_group.update(delta_time, self.enemies_group)
+            self.explosions_group.update(delta_time, self.enemies_group)
+            self.projectiles_group.update(delta_time, self.enemies_group, self.explosions_group)
 
             self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
 
@@ -209,6 +209,9 @@ class MainGameScene(Scene):
 
         for projectile in self.projectiles_group:
             projectile.draw(self.game_surface)
+
+        for explosion in self.explosions_group:
+            explosion.draw(self.game_surface)
 
         if self.turret_to_place:
             overlay_color = (

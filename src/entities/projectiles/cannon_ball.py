@@ -20,4 +20,5 @@ class CannonBall(BallisticProjectile):
             target=target,
             image=image,
             damage=damage,
+            explode_on_target_collision=True
         )

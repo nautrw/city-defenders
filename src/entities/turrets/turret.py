@@ -24,6 +24,7 @@ class Turret(pygame.sprite.Sprite):
         projectile: BallisticProjectileType,
         shooting_speed: float,
         area_radius: float,
+
     ):
         super().__init__()
 

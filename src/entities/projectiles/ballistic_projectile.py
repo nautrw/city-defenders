@@ -1,9 +1,11 @@
+from cmath import e
 from typing import Protocol
 
 import pygame
 
 from src.core.utils import angle_to_point
 from src.entities.enemies.enemy import Enemy
+from src.entities.projectiles.explosion import Explosion
 
 
 # protocols are used to describe how a subclass should be
@@ -29,6 +31,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         y_position: float,
         target: Enemy,
         image: pygame.Surface,
+        explode_on_target_collision: bool = False,
     ):
         super().__init__()
 
@@ -43,9 +46,16 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
         self.damage = damage
 
+        self.explode_on_target_collision = explode_on_target_collision
+
         self.angle = 0
 
-    def update(self, delta_time: float, enemies_group: pygame.sprite.Group) -> None:
+    def update(
+        self,
+        delta_time: float,
+        enemies_group: pygame.sprite.Group,
+        explosions_group: pygame.sprite.Group,
+    ) -> None:
         # makes the arrow dissapear if the target is killed by another turret
         if not self.target.alive():
             self.kill()
@@ -73,7 +83,14 @@ class BallisticProjectile(pygame.sprite.Sprite):
             for collision in collisions:
                 collision.health -= self.damage
 
+            if self.explode_on_target_collision:
+                explosion = Explosion(
+                    self.damage, self.target.rect.centerx, self.target.rect.centery
+                )
+                explosions_group.add(explosion)
+
             self.kill()
+            return
 
     def draw(self, surface: pygame.Surface):
         self.image = pygame.transform.rotate(self.original_image, self.angle)
