@@ -55,6 +55,11 @@ class MainGameSceneGUIManager(GUIManager):
             f"{self.scene.health}/{self.scene.max_health}",  # ty:ignore[unresolved-attribute]
         )
 
+    def update_next_wave_button(self):
+        self.get_element_by_id("next_wave_button").enabled = ( # ty:ignore[unresolved-attribute]
+            not (self.scene.wave + 1) >= len(self.scene.waves) # ty:ignore[unresolved-attribute]
+        )
+
     def refresh(self) -> None:
         self.elements = []
 
@@ -173,6 +178,7 @@ class MainGameSceneGUIManager(GUIManager):
                     "next_wave", (Config.GUI_ICON_SIZE * 2, Config.GUI_ICON_SIZE * 2)
                 ),
                 anchor=RectAnchorMode.BOTTOMRIGHT,
+                enabled=not (self.scene.wave + 1) >= len(self.scene.waves) # ty:ignore[unresolved-attribute]
             )
 
             self.elements.append(build_button)
@@ -451,5 +457,7 @@ class MainGameSceneGUIManager(GUIManager):
                         )
 
                         self.switch_state(UIStates.PLACING_TURRET)
-            elif event.button.id == "next_wave_button":
-                self.scene.next_wave()  # ty:ignore[unresolved-attribute]
+            elif event.button.id == "next_wave_button": # noqa: SIM102
+                if not (self.scene.wave + 1) >= len(self.scene.waves): # ty:ignore[unresolved-attribute]
+                    self.scene.next_wave()  # ty:ignore[unresolved-attribute]
+                    self.update_next_wave_button()
