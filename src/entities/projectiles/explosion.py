@@ -12,7 +12,7 @@ class Explosion(pygame.sprite.Sprite):
         damage: int,
         x_position: float,
         y_position: float,
-        duration: float = 0.5,
+        duration: float = 0.25,
     ):
         super().__init__()
 
