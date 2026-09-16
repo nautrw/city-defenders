@@ -10,9 +10,7 @@ class CannonTurret(Turret):
     rect: pygame.Rect | pygame.FRect
 
     display_name = "Cannon"
-    description = (
-        "Shoots cannon balls at turrets. Does massive amounts of damage. Very slow."
-    )
+    description = "Shoots cannon balls at turrets. Explosion does massive amounts of damage to multiple enemies."
     cost = 100
 
     def __init__(self, x_position: int, y_position: int):
