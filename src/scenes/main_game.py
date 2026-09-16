@@ -69,6 +69,8 @@ class MainGameScene(Scene):
         self.max_health = map_data["health"]
         self.health = self.max_health
 
+        self.game_speed_multiplier = 1
+
         self.gui_manager = MainGameSceneGUIManager(self)
 
     def place_selected_tower(self):

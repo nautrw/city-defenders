@@ -154,6 +154,38 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.elements.append(wave_display_container)
 
+        game_speed_button_width = 72
+        game_speed_button_height = 32
+        
+        game_speed_buttons_container = ElementContainer(
+            "game_speed_buttons_container",
+            Config.ELEMENT_OUTER_PADDING,
+            Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING,
+            (game_speed_button_width * 3) + (Config.ELEMENT_OUTER_PADDING  * 2),
+            game_speed_button_height + ( Config.ELEMENT_OUTER_PADDING * 2 ),
+            anchor=RectAnchorMode.BOTTOMLEFT
+        )
+
+        game_speed_half_button = Button(
+            "game_speed_half",
+            Config.ELEMENT_OUTER_PADDING,
+            game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
+            game_speed_button_width,
+            game_speed_button_height,
+            text=Text(
+                "game_speed_half_text",
+                "1/2",
+                game_speed_button_width / 2,
+                game_speed_button_height / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            anchor=RectAnchorMode.BOTTOMLEFT
+        )
+
+        game_speed_buttons_container.add_element(game_speed_half_button)
+        
+        self.elements.append(game_speed_buttons_container)
+
         if self.state == UIStates.COLLAPSED:
             build_icon = load_scaled_asset("build_icon")
             build_button = Button(
@@ -461,3 +493,5 @@ class MainGameSceneGUIManager(GUIManager):
                 if not (self.scene.wave + 1) >= len(self.scene.waves): # ty:ignore[unresolved-attribute]
                     self.scene.next_wave()  # ty:ignore[unresolved-attribute]
                     self.update_next_wave_button()
+            elif event.button.id == "game_speed_half":
+                self.scene.game_speed_multiplier = 0.5
