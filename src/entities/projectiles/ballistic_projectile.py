@@ -45,6 +45,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         self.target = target
 
         self.damage = damage
+        self.hit_target = False
 
         self.explode_on_target_collision = explode_on_target_collision
 
@@ -79,9 +80,10 @@ class BallisticProjectile(pygame.sprite.Sprite):
             self.target.position.y,
         )
 
-        if collisions := pygame.sprite.spritecollide(self, enemies_group, False):
-            for collision in collisions:
-                collision.health -= self.damage
+        if not self.hit_target and self.target in pygame.sprite.spritecollide(
+            self, enemies_group, False
+        ):
+            self.target.health -= self.damage
 
             if self.explode_on_target_collision:
                 explosion = Explosion(
