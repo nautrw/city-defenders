@@ -527,5 +527,9 @@ class MainGameSceneGUIManager(GUIManager):
                 if not (self.scene.wave + 1) >= len(self.scene.waves): # ty:ignore[unresolved-attribute]
                     self.scene.next_wave()  # ty:ignore[unresolved-attribute]
                     self.update_next_wave_button()
-            elif event.button.id == "game_speed_half":
+            elif event.button.id == "game_speed_half_button":
                 self.scene.game_speed_multiplier = 0.5 # ty:ignore[unresolved-attribute]
+            elif event.button.id == "game_speed_normal_button":
+                self.scene.game_speed_multiplier = 1 # ty:ignore[unresolved-attribute]
+            elif event.button.id == "game_speed_double_button":
+                self.scene.game_speed_multiplier = 2 # ty:ignore[unresolved-attribute]
