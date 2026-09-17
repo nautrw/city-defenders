@@ -52,8 +52,8 @@ class ElementContainer(Element):
     def update(self, delta_time: float, mouse_position: tuple[float, float]) -> None:
         # relative_mouse_position = (self.x - mouse_position[0], self.y - mouse_position[1])
         relative_mouse_position = (
-            mouse_position[0] - self.x,
-            mouse_position[1] - self.y,
+            mouse_position[0] - self.rect.x,
+            mouse_position[1] - self.rect.y,
         )
 
         for element in self.elements:
