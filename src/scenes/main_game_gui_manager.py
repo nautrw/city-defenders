@@ -59,6 +59,17 @@ class MainGameSceneGUIManager(GUIManager):
         self.get_element_by_id("next_wave_button").enabled = ( # ty:ignore[unresolved-attribute]
             not (self.scene.wave + 1) >= len(self.scene.waves) # ty:ignore[unresolved-attribute]
         )
+    
+    def update_game_speed_buttons(self):
+        self.get_element_by_id("game_speed_half_button").enabled = ( # ty:ignore[unresolved-attribute]
+            self.scene.game_speed_multiplier != 0.5 # ty:ignore[unresolved-attribute]
+        )
+        self.get_element_by_id("game_speed_normal_button").enabled = ( # ty:ignore[unresolved-attribute]
+            self.scene.game_speed_multiplier != 1 # ty:ignore[unresolved-attribute]
+        )
+        self.get_element_by_id("game_speed_double_button").enabled = ( # ty:ignore[unresolved-attribute]
+            self.scene.game_speed_multiplier != 2 # ty:ignore[unresolved-attribute]
+        )
 
     def refresh(self) -> None:
         self.elements = []
@@ -179,7 +190,8 @@ class MainGameSceneGUIManager(GUIManager):
                 game_speed_button_height / 2,
                 anchor=RectAnchorMode.CENTER,
             ),
-            anchor=RectAnchorMode.BOTTOMLEFT
+            anchor=RectAnchorMode.BOTTOMLEFT,
+            enabled=self.scene.game_speed_multiplier != 0.5 # ty:ignore[unresolved-attribute]
         )
 
         game_speed_normal_button = Button(
@@ -189,13 +201,14 @@ class MainGameSceneGUIManager(GUIManager):
             game_speed_button_width,
             game_speed_button_height,
             text=Text(
-                "game_speed_double_text",
+                "game_speed_normal_text",
                 "1x",
                 game_speed_button_width / 2,
                 game_speed_button_height / 2,
                 anchor=RectAnchorMode.CENTER,
             ),
-            anchor=RectAnchorMode.BOTTOMLEFT
+            anchor=RectAnchorMode.BOTTOMLEFT,
+            enabled=self.scene.game_speed_multiplier != 1 # ty:ignore[unresolved-attribute]
         )
 
         game_speed_double_button = Button(
@@ -211,7 +224,8 @@ class MainGameSceneGUIManager(GUIManager):
                 game_speed_button_height / 2,
                 anchor=RectAnchorMode.CENTER,
             ),
-            anchor=RectAnchorMode.BOTTOMLEFT
+            anchor=RectAnchorMode.BOTTOMLEFT,
+            enabled=self.scene.game_speed_multiplier != 2 # ty:ignore[unresolved-attribute]
         )
 
         game_speed_buttons_container.add_element(game_speed_half_button)
@@ -529,7 +543,10 @@ class MainGameSceneGUIManager(GUIManager):
                     self.update_next_wave_button()
             elif event.button.id == "game_speed_half_button":
                 self.scene.game_speed_multiplier = 0.5 # ty:ignore[unresolved-attribute]
+                self.update_game_speed_buttons()
             elif event.button.id == "game_speed_normal_button":
                 self.scene.game_speed_multiplier = 1 # ty:ignore[unresolved-attribute]
+                self.update_game_speed_buttons()
             elif event.button.id == "game_speed_double_button":
                 self.scene.game_speed_multiplier = 2 # ty:ignore[unresolved-attribute]
+                self.update_game_speed_buttons()
