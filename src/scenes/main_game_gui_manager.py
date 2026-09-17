@@ -537,7 +537,7 @@ class MainGameSceneGUIManager(GUIManager):
                         )
 
                         self.switch_state(UIStates.PLACING_TURRET)
-            elif event.button.id == "next_wave_button": # noqa: SIM102
+            elif event.button.id == "next_wave_button":
                 if not (self.scene.wave + 1) >= len(self.scene.waves): # ty:ignore[unresolved-attribute]
                     self.scene.next_wave()  # ty:ignore[unresolved-attribute]
                     self.update_next_wave_button()
