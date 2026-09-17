@@ -132,12 +132,12 @@ class MainGameScene(Scene):
             if self.health <= 0:
                 self.game.scene_manager.switch(GameLostScene(self.game))
 
-            self.enemies_group.update(delta_time)
+            self.enemies_group.update(delta_time, self.game_speed_multiplier)
             self.turrets_group.update(
-                delta_time, self.enemies_group, self.projectiles_group
+                delta_time, self.enemies_group, self.projectiles_group, self.game_speed_multiplier
             )
-            self.explosions_group.update(delta_time, self.enemies_group)
-            self.projectiles_group.update(delta_time, self.enemies_group, self.explosions_group)
+            self.explosions_group.update(delta_time, self.enemies_group, self.game_speed_multiplier)
+            self.projectiles_group.update(delta_time, self.enemies_group, self.explosions_group, self.game_speed_multiplier)
 
             self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
 

@@ -111,6 +111,7 @@ class Turret(pygame.sprite.Sprite):
         delta_time: float,
         enemies_group: pygame.sprite.Group,
         projectiles_group: pygame.sprite.Group,
+        game_speed_multiplier: int,
     ):
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
@@ -126,4 +127,4 @@ class Turret(pygame.sprite.Sprite):
                     projectiles_group.add(projectile)
                     self.shoot_cooldown_delta_time = 0
 
-        self.shoot_cooldown_delta_time += delta_time
+        self.shoot_cooldown_delta_time += delta_time * game_speed_multiplier

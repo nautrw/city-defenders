@@ -27,7 +27,7 @@ class Explosion(pygame.sprite.Sprite):
 
         self.hit_enemies = False
 
-    def update(self, delta_time: float, enemies_group: pygame.sprite.Group) -> None:
+    def update(self, delta_time: float, enemies_group: pygame.sprite.Group, game_speed_multiplier: int) -> None:
         if not self.hit_enemies:
             collisions = pygame.sprite.spritecollide(self, enemies_group, False)
 
@@ -36,7 +36,7 @@ class Explosion(pygame.sprite.Sprite):
 
             self.hit_enemies = True
 
-        self.duration_counter_dt += delta_time
+        self.duration_counter_dt += delta_time * game_speed_multiplier
         self.opacity = int((self.duration / self.duration_counter_dt) * 255)
 
     def draw(self, surface: pygame.Surface):

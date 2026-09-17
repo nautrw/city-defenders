@@ -56,6 +56,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         delta_time: float,
         enemies_group: pygame.sprite.Group,
         explosions_group: pygame.sprite.Group,
+        game_speed_multiplier: int
     ) -> None:
         # makes the arrow dissapear if the target is killed by another turret
         if not self.target.alive():
@@ -70,7 +71,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
         move_speed = 200
         self.velocity = movement * move_speed
-        self.position += self.velocity * delta_time
+        self.position += self.velocity * (delta_time * game_speed_multiplier)
         self.rect.center = self.position
 
         self.angle = angle_to_point(
