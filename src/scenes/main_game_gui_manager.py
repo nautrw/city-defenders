@@ -161,20 +161,52 @@ class MainGameSceneGUIManager(GUIManager):
             "game_speed_buttons_container",
             Config.ELEMENT_OUTER_PADDING,
             Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING,
-            (game_speed_button_width * 3) + (Config.ELEMENT_OUTER_PADDING  * 2),
+            (game_speed_button_width * 3) + (Config.ELEMENT_OUTER_PADDING  * 4),
             game_speed_button_height + ( Config.ELEMENT_OUTER_PADDING * 2 ),
             anchor=RectAnchorMode.BOTTOMLEFT
         )
 
         game_speed_half_button = Button(
-            "game_speed_half",
+            "game_speed_half_button",
             Config.ELEMENT_OUTER_PADDING,
             game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
             game_speed_button_width,
             game_speed_button_height,
             text=Text(
                 "game_speed_half_text",
-                "1/2",
+                "1/2x",
+                game_speed_button_width / 2,
+                game_speed_button_height / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            anchor=RectAnchorMode.BOTTOMLEFT
+        )
+
+        game_speed_normal_button = Button(
+            'game_speed_normal_button',
+            game_speed_half_button.rect.right + Config.ELEMENT_OUTER_PADDING,
+            game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
+            game_speed_button_width,
+            game_speed_button_height,
+            text=Text(
+                "game_speed_double_text",
+                "1x",
+                game_speed_button_width / 2,
+                game_speed_button_height / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            anchor=RectAnchorMode.BOTTOMLEFT
+        )
+
+        game_speed_double_button = Button(
+            'game_speed_double_button',
+            game_speed_normal_button.rect.right + Config.ELEMENT_OUTER_PADDING,
+            game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
+            game_speed_button_width,
+            game_speed_button_height,
+            text=Text(
+                "game_speed_double_text",
+                "2x",
                 game_speed_button_width / 2,
                 game_speed_button_height / 2,
                 anchor=RectAnchorMode.CENTER,
@@ -183,6 +215,8 @@ class MainGameSceneGUIManager(GUIManager):
         )
 
         game_speed_buttons_container.add_element(game_speed_half_button)
+        game_speed_buttons_container.add_element(game_speed_normal_button)
+        game_speed_buttons_container.add_element(game_speed_double_button)
         
         self.elements.append(game_speed_buttons_container)
 
@@ -494,4 +528,4 @@ class MainGameSceneGUIManager(GUIManager):
                     self.scene.next_wave()  # ty:ignore[unresolved-attribute]
                     self.update_next_wave_button()
             elif event.button.id == "game_speed_half":
-                self.scene.game_speed_multiplier = 0.5
+                self.scene.game_speed_multiplier = 0.5 # ty:ignore[unresolved-attribute]
