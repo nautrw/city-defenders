@@ -78,7 +78,7 @@ class Button(Element):
                     centerx=self.width / 2, top=inner_padding
                 )
 
-        self.pressed_last_frame = False
+        self.pressed_last_frame = pygame.mouse.get_pressed()[0]
         self.once_per_click = once_per_click
 
     def draw(self, surface: pygame.Surface) -> None:
@@ -120,18 +120,19 @@ class Button(Element):
         if hovered:
             if pressed:
                 self.state = ButtonStates.PRESSED
+
                 if (
                     self.once_per_click and not self.pressed_last_frame
                 ) or not self.once_per_click:
-                    self.pressed_last_frame = True
                     pygame.event.post(
                         pygame.event.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
                     )
             else:
                 self.state = ButtonStates.HOVERED
-                self.pressed_last_frame = False
         else:
             self.state = ButtonStates.NORMAL
+
+        self.pressed_last_frame = pressed
 
     def toggle(self) -> None:
         self.enabled = not self.enabled
