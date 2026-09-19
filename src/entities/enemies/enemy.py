@@ -1,5 +1,6 @@
 import pygame
 
+from src.entities.effects import EnemyEffect
 from src.entities.health_bar import HealthBar
 
 ENEMY_KILLED = pygame.event.custom_type()
@@ -38,6 +39,8 @@ class Enemy(pygame.sprite.Sprite):
         self.max_health = max_health
         self.health = max_health
 
+        self.effects = []
+
         self.coins_drop = coins_drop
 
         self.health_bar = HealthBar()
@@ -45,6 +48,25 @@ class Enemy(pygame.sprite.Sprite):
     def draw(self, surface: pygame.Surface):
         surface.blit(self.image, self.rect)
         self.health_bar.draw(surface)
+
+    def add_effect(self, effect: EnemyEffect):
+        if effect.stackable or not effect in self.effects:
+            self.effects.append(effect)
+
+    def update_effects(self):
+        for effect in self.effects:
+            effect.update()
+
+            if effect.duration_counter >= effect.duration:
+                self.effects.remove(effect)
+
+    def get_speed_multiplied(self):
+        cumulative_speed_multiplier = 1
+
+        for effect in self.effects:
+            cumulative_speed_multiplier *= effect.speed_multiplier
+
+        return self.velocity * cumulative_speed_multiplier
 
     def update(self, delta_time: float, game_speed_multiplier: int) -> None:
         movement_target = pygame.Vector2(self.path_waypoints[self.waypoint_index])
@@ -59,7 +81,7 @@ class Enemy(pygame.sprite.Sprite):
         else:
             movement.normalize_ip()
             self.velocity = movement * self.movement_speed
-            self.position += self.velocity * multiplied_dt
+            self.position += self.get_speed_multiplied() * multiplied_dt
 
         self.rect.center = self.position
 
