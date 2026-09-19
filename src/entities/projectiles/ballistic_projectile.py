@@ -95,7 +95,8 @@ class BallisticProjectile(pygame.sprite.Sprite):
                 explosions_group.add(explosion)
 
             if self.effect_on_collide:
-                self.target.add_effect(self.effect_on_collide)
+                effect = self.effect_on_collide() # ty:ignore[missing-argument]
+                self.target.add_effect(effect)
 
             self.kill()
             return

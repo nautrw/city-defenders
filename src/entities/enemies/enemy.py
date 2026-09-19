@@ -46,6 +46,9 @@ class Enemy(pygame.sprite.Sprite):
         self.health_bar = HealthBar()
 
     def draw(self, surface: pygame.Surface):
+        for effect in self.effects:
+            effect.draw(self.image)
+
         surface.blit(self.image, self.rect)
         self.health_bar.draw(surface)
 
@@ -53,9 +56,9 @@ class Enemy(pygame.sprite.Sprite):
         if effect.stackable or not effect in self.effects:
             self.effects.append(effect)
 
-    def update_effects(self):
+    def update_effects(self, delta_time: float):
         for effect in self.effects:
-            effect.update()
+            effect.update(delta_time)
 
             if effect.duration_counter >= effect.duration:
                 self.effects.remove(effect)
@@ -74,6 +77,8 @@ class Enemy(pygame.sprite.Sprite):
         distance_to_target = movement.length()
 
         multiplied_dt = delta_time * game_speed_multiplier
+
+        self.update_effects(multiplied_dt)
 
         if distance_to_target <= (self.movement_speed * multiplied_dt):
             self.position = movement_target
