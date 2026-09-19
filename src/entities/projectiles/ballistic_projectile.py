@@ -3,6 +3,7 @@ from typing import Protocol
 import pygame
 
 from src.core.utils import angle_to_point
+from src.entities.effects import EnemyEffect
 from src.entities.enemies.enemy import Enemy
 from src.entities.projectiles.explosion import Explosion
 
@@ -31,6 +32,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         target: Enemy,
         image: pygame.Surface,
         explode_on_target_collision: bool = False,
+        effect_on_collide: type[EnemyEffect] | None = None,
     ):
         super().__init__()
 
@@ -47,6 +49,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         self.hit_target = False
 
         self.explode_on_target_collision = explode_on_target_collision
+        self.effect_on_collide = effect_on_collide
 
         self.angle = 0
 
@@ -55,7 +58,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         delta_time: float,
         enemies_group: pygame.sprite.Group,
         explosions_group: pygame.sprite.Group,
-        game_speed_multiplier: int
+        game_speed_multiplier: int,
     ) -> None:
         # makes the arrow dissapear if the target is killed by another turret
         if not self.target.alive():
@@ -90,6 +93,9 @@ class BallisticProjectile(pygame.sprite.Sprite):
                     self.damage, self.target.rect.centerx, self.target.rect.centery
                 )
                 explosions_group.add(explosion)
+
+            if self.effect_on_collide:
+                self.target.add_effect(self.effect_on_collide)
 
             self.kill()
             return
