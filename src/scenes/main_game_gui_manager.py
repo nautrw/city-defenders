@@ -474,9 +474,9 @@ class MainGameSceneGUIManager(GUIManager):
                     size=Config.FONT_SIZE_VERYBIG,
                     anchor=RectAnchorMode.CENTER,
                 ),
-                normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
-                hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
-                pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
+                normal_bg=Config.RED_BUTTON_NORMAL_BG,
+                hover_bg=Config.RED_BUTTON_HOVERED_BG,
+                pressed_bg=Config.RED_BUTTON_PRESSED_BG,
             )
 
             close_icon = load_scaled_asset("close_icon")
