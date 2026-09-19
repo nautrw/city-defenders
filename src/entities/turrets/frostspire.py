@@ -25,6 +25,6 @@ class Frostspire(Turret):
             y_position=y_position,
             turret_image=image,
             projectile=IceShard,
-            shooting_speed=1.5,
+            shooting_speed=5,
             area_radius=75,
         )
