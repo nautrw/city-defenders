@@ -1,4 +1,3 @@
-from pygame.locals import MOUSEBUTTONDOWN
 from enum import Enum, auto
 
 import pygame
@@ -121,7 +120,9 @@ class Button(Element):
         if hovered:
             if pressed:
                 self.state = ButtonStates.PRESSED
-                if (self.once_per_click and not self.pressed_last_frame) or not self.once_per_click:
+                if (
+                    self.once_per_click and not self.pressed_last_frame
+                ) or not self.once_per_click:
                     self.pressed_last_frame = True
                     pygame.event.post(
                         pygame.event.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
