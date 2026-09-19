@@ -19,12 +19,12 @@ class CrossbowTurret(Turret):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=self.cost,
-            damage=5,
+            cost=[100, 150, 200],
+            damage=[5, 10, 15],
             x_position=x_position,
             y_position=y_position,
             turret_image=image,
             projectile=Arrow,
-            shooting_speed=1.5,
-            area_radius=75,
+            shooting_speed=[1.5, 1, 0.5],
+            area_radius=[75, 150, 225],
         )

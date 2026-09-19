@@ -21,12 +21,12 @@ class Frostspire(Turret):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=self.cost,
-            damage=0,
+            cost=[150, 300, 450],
+            damage=[0, 0, 0],
             x_position=x_position,
             y_position=y_position,
             turret_image=image,
             projectile=IceShard,
-            shooting_speed=5,
-            area_radius=75,
+            shooting_speed=[5, 3, 2],
+            area_radius=[75, 150, 200],
         )

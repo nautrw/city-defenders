@@ -16,14 +16,14 @@ class Turret(pygame.sprite.Sprite):
         self,
         display_name: str,
         description: str,
-        cost: int,
-        damage: int,
-        x_position: int,
-        y_position: int,
+        cost: list[int],
+        damage: list[int],
+        x_position: float,
+        y_position: float,
         turret_image: pygame.Surface,
         projectile: BallisticProjectileType,
-        shooting_speed: float,
-        area_radius: float,
+        shooting_speed: list[float],
+        area_radius: list[float],
 
     ):
         super().__init__()
@@ -35,6 +35,8 @@ class Turret(pygame.sprite.Sprite):
         self.damage = damage
 
         self.position = pygame.Vector2(x_position, y_position)
+
+        self.upgrade_index = 0
 
         self.original_base_image = load_asset("turret_base")
         self.base = self.original_base_image.copy()
@@ -50,7 +52,8 @@ class Turret(pygame.sprite.Sprite):
         self.shooting_speed = shooting_speed
         self.shoot_cooldown_delta_time = 0
 
-        self.area = Circle(self.rect.center, area_radius)
+        self.area_radius = area_radius
+        self.area = Circle(self.rect.center, self.area_radius[self.upgrade_index])
 
         self.turret_angle = 0
 
@@ -62,7 +65,7 @@ class Turret(pygame.sprite.Sprite):
         projectile_position = self.position + projectile_offset
 
         projectile = self.projectile(
-            damage=self.damage,
+            damage=self.damage[self.upgrade_index],
             x_position=projectile_position[0],
             y_position=projectile_position[1],
             target=enemy,
@@ -106,6 +109,10 @@ class Turret(pygame.sprite.Sprite):
         surface.blit(self.base, self.rect)
         surface.blit(self.turret_image, self.turret_rect)
 
+    def upgrade(self):
+        self.upgrade_index += 1
+        self.area = Circle(self.rect.center, self.area_radius[self.upgrade_index])
+
     def update(
         self,
         delta_time: float,
@@ -122,7 +129,7 @@ class Turret(pygame.sprite.Sprite):
                     enemy.rect.centery,
                 )
 
-                if self.shoot_cooldown_delta_time >= self.shooting_speed:
+                if self.shoot_cooldown_delta_time >= self.shooting_speed[self.upgrade_index]:
                     projectile = self._shoot_at(enemy)
                     projectiles_group.add(projectile)
                     self.shoot_cooldown_delta_time = 0

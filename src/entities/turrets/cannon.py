@@ -19,12 +19,12 @@ class CannonTurret(Turret):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=self.cost,
-            damage=25,
+            cost=[250, 500, 700],
+            damage=[15, 25, 40],
             x_position=x_position,
             y_position=y_position,
             turret_image=image,
             projectile=CannonBall,
-            shooting_speed=3,
-            area_radius=75,
+            shooting_speed=[3, 2, 1],
+            area_radius=[75, 150, 200],
         )

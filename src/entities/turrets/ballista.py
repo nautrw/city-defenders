@@ -19,12 +19,12 @@ class BallistaTurret(Turret):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=self.cost,
-            damage=10,
+            cost=[150, 200, 250],
+            damage=[10, 15, 25],
             x_position=x_position,
             y_position=y_position,
             turret_image=image,
             projectile=Bolt,
-            shooting_speed=2.5,
-            area_radius=75,
+            shooting_speed=[2.5, 2, 1.5],
+            area_radius=[75, 150, 200],
         )
