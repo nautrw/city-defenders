@@ -462,10 +462,10 @@ class MainGameSceneGUIManager(GUIManager):
             sell_button = Button(
                 "sell_selected_tower_button",
                 container_width // 2,
-                Config.SCREEN_HEIGHT * 0.75,
+                Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING,
                 208,
                 104,
-                anchor=RectAnchorMode.CENTER,
+                anchor=RectAnchorMode.MIDBOTTOM,
                 text=Text(
                     "sell_text",
                     "Sell",
@@ -539,12 +539,34 @@ class MainGameSceneGUIManager(GUIManager):
                     anchor=RectAnchorMode.MIDLEFT
                 )
 
+                upgrade_button = Button(
+                    "upgrade_selected_tower_button",
+                    container_width // 2,
+                    sell_button.rect.top - Config.ELEMENT_OUTER_PADDING,
+                    208,
+                    104,
+                    anchor=RectAnchorMode.MIDBOTTOM,
+                    text=Text(
+                        "upgrade_button_text",
+                        "Upgrade",
+                        208 // 2,
+                        104 // 2,
+                        size=Config.FONT_SIZE_BIGGER,
+                        anchor=RectAnchorMode.CENTER,
+                    ),
+                    normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
+                    hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
+                    pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
+                )
+
+
                 selected_tower_menu.add_element(attack_icon)
                 selected_tower_menu.add_element(attack_text)
                 selected_tower_menu.add_element(attack_speed_icon)
                 selected_tower_menu.add_element(attack_speed_text)
                 selected_tower_menu.add_element(range_icon)
                 selected_tower_menu.add_element(range_text)
+                selected_tower_menu.add_element(upgrade_button)
 
             close_icon = load_scaled_asset("close_icon")
             close_selected_tower_menu_button = Button(
@@ -617,3 +639,6 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "game_speed_double_button":
                 self.scene.game_speed_multiplier = 2  # ty:ignore[unresolved-attribute]
                 self.update_game_speed_buttons()
+            elif event.button.id == "upgrade_selected_tower_button":
+                self.scene.selected_tower.upgrade() # ty:ignore[unresolved-attribute]
+                self.refresh()
