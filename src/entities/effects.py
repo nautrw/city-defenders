@@ -27,7 +27,7 @@ class EnemyEffect:
 
 
 class FrozenEffect(EnemyEffect):
-    duration = 5
+    duration = 3
     speed_multiplier = 0.5
     stackable = True
     overlay_color = (162, 235, 255)  # rgb(162,235,255)
