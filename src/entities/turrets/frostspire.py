@@ -10,7 +10,9 @@ class Frostspire(Turret):
     rect: pygame.Rect | pygame.FRect
 
     display_name = "Frostspire"
-    description = "Slows down enemies by making them cold."
+    description = (
+        "Slows down enemies by making them cold. Does not damage enemies by itself."
+    )
     cost = 250
 
     def __init__(self, x_position: int, y_position: int):
