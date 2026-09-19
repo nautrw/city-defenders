@@ -1,3 +1,4 @@
+from pygame.locals import MOUSEBUTTONDOWN
 from enum import Enum, auto
 
 import pygame
@@ -114,25 +115,22 @@ class Button(Element):
         surface.blit(self.image, self.rect)
 
     def update(self, delta_time: float, mouse_position: tuple[float, float]) -> None:
-        pressed_buttons = pygame.mouse.get_pressed()
-        pressed = pressed_buttons[0]  # left click
+        pressed = pygame.mouse.get_pressed()[0]
+        hovered = self.rect.collidepoint(mouse_position)
 
-        if self.rect.collidepoint(mouse_position):
-            self.state = ButtonStates.PRESSED if pressed else ButtonStates.HOVERED
-
-            if (
-                pressed
-                and (not self.once_per_click or not self.pressed_last_frame)
-                and self.enabled
-            ):
-                event = pygame.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
-                pygame.event.post(event)
-
-                self.pressed_last_frame = True
+        if hovered:
+            if pressed:
+                self.state = ButtonStates.PRESSED
+                if (self.once_per_click and not self.pressed_last_frame) or not self.once_per_click:
+                    self.pressed_last_frame = True
+                    pygame.event.post(
+                        pygame.event.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
+                    )
+            else:
+                self.state = ButtonStates.HOVERED
+                self.pressed_last_frame = False
         else:
             self.state = ButtonStates.NORMAL
-
-        self.pressed_last_frame = pressed
 
     def toggle(self) -> None:
         self.enabled = not self.enabled
