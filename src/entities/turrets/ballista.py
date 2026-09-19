@@ -11,7 +11,7 @@ class BallistaTurret(Turret):
 
     display_name = "Ballista"
     description = "Shoots bolts at a slow rate but with great force."
-    cost = 250
+    initial_cost = 150
 
     def __init__(self, x_position: int, y_position: int):
         image = load_asset("ballista")
@@ -19,7 +19,7 @@ class BallistaTurret(Turret):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=[150, 200, 250],
+            cost=[self.initial_cost, 200, 250],
             damage=[10, 15, 25],
             x_position=x_position,
             y_position=y_position,

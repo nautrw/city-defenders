@@ -13,7 +13,7 @@ class Frostspire(Turret):
     description = (
         "Slows down enemies by making them cold. Does not damage enemies by itself."
     )
-    cost = 250
+    initial_cost = 250
 
     def __init__(self, x_position: int, y_position: int):
         image = load_asset("frostspire")
@@ -21,7 +21,7 @@ class Frostspire(Turret):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=[150, 300, 450],
+            cost=[self.initial_cost, 300, 450],
             damage=[0, 0, 0],
             x_position=x_position,
             y_position=y_position,

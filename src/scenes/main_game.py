@@ -76,7 +76,7 @@ class MainGameScene(Scene):
     def place_selected_tower(self):
         self.turrets_group.add(self.turret_to_place)
         self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
-        self.coins -= self.turret_to_place.cost  # ty:ignore[unresolved-attribute]
+        self.coins -= self.turret_to_place.cost[self.turret_to_place.upgrade_index]  # ty:ignore[unresolved-attribute]
 
         # reset everything
         self.can_place_turret = False
@@ -86,7 +86,8 @@ class MainGameScene(Scene):
 
     def sell_selected_tower(self):
         if self.selected_tower:
-            refund = round(self.selected_tower.cost * 0.75)
+            tower_cost = self.selected_tower.cost[self.selected_tower.upgrade_index]
+            refund = round(tower_cost * 0.75)
             self.coins += refund
             self.selected_tower.kill()
             self.selected_tower = None
@@ -134,10 +135,20 @@ class MainGameScene(Scene):
 
             self.enemies_group.update(delta_time, self.game_speed_multiplier)
             self.turrets_group.update(
-                delta_time, self.enemies_group, self.projectiles_group, self.game_speed_multiplier
+                delta_time,
+                self.enemies_group,
+                self.projectiles_group,
+                self.game_speed_multiplier,
             )
-            self.explosions_group.update(delta_time, self.enemies_group, self.game_speed_multiplier)
-            self.projectiles_group.update(delta_time, self.enemies_group, self.explosions_group, self.game_speed_multiplier)
+            self.explosions_group.update(
+                delta_time, self.enemies_group, self.game_speed_multiplier
+            )
+            self.projectiles_group.update(
+                delta_time,
+                self.enemies_group,
+                self.explosions_group,
+                self.game_speed_multiplier,
+            )
 
             self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
 

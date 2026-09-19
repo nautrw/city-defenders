@@ -381,7 +381,7 @@ class MainGameSceneGUIManager(GUIManager):
             )
             tower_cost = Text(
                 "tower_cost",
-                str(self.selected_tower_to_buy.cost),  # ty:ignore[unresolved-attribute]
+                str(self.selected_tower_to_buy.initial_cost),  # ty:ignore[unresolved-attribute]
                 coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
                 coin_icon.rect.top,
             )
@@ -404,7 +404,7 @@ class MainGameSceneGUIManager(GUIManager):
                 normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
                 hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
                 pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
-                enabled=(self.scene.coins >= self.selected_tower_to_buy.cost),  # ty:ignore[unresolved-attribute]
+                enabled=(self.scene.coins >= self.selected_tower_to_buy.initial_cost),  # ty:ignore[unresolved-attribute]
             )
 
             container.add_element(tower_name)
@@ -529,7 +529,7 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "buy_selected_tower_button":
                 # here comes ty:ignore hell...
                 if self.selected_tower_to_buy:  # noqa: SIM102
-                    if self.scene.coins >= self.selected_tower_to_buy.cost:  # ty:ignore[unresolved-attribute]
+                    if self.scene.coins >= self.selected_tower_to_buy.initial_cost:  # ty:ignore[unresolved-attribute]
                         self.scene.turret_to_place = self.selected_tower_to_buy(  # ty:ignore[unresolved-attribute]
                             *self.scene.camera.viewport_to_world(  # ty:ignore[unresolved-attribute]
                                 *pygame.mouse.get_pos()

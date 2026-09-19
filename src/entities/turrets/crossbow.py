@@ -11,7 +11,7 @@ class CrossbowTurret(Turret):
 
     display_name = "Crossbow"
     description = "An automatic crossbow. Slowly shoots arrows at enemies."
-    cost = 100
+    initial_cost = 100
 
     def __init__(self, x_position: int, y_position: int):
         image = load_asset("crossbow")
@@ -19,7 +19,7 @@ class CrossbowTurret(Turret):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=[100, 150, 200],
+            cost=[self.initial_cost, 150, 200],
             damage=[5, 10, 15],
             x_position=x_position,
             y_position=y_position,

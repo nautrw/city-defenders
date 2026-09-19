@@ -11,7 +11,7 @@ class CannonTurret(Turret):
 
     display_name = "Cannon"
     description = "Shoots cannon balls at turrets. Explosion does massive amounts of damage to multiple enemies."
-    cost = 100
+    initial_cost = 100
 
     def __init__(self, x_position: int, y_position: int):
         image = load_asset("cannon")
@@ -19,7 +19,7 @@ class CannonTurret(Turret):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=[250, 500, 700],
+            cost=[self.initial_cost, 500, 700],
             damage=[15, 25, 40],
             x_position=x_position,
             y_position=y_position,
