@@ -27,7 +27,12 @@ class Explosion(pygame.sprite.Sprite):
 
         self.hit_enemies = False
 
-    def update(self, delta_time: float, enemies_group: pygame.sprite.Group, game_speed_multiplier: int) -> None:
+    def update(
+        self,
+        delta_time: float,
+        enemies_group: pygame.sprite.Group,
+        game_speed_multiplier: int,
+    ) -> None:
         if not self.hit_enemies:
             collisions = pygame.sprite.spritecollide(self, enemies_group, False)
 

@@ -480,14 +480,14 @@ class MainGameSceneGUIManager(GUIManager):
             )
 
             if (
-                self.scene.selected_tower.upgrade_index # ty:ignore[unresolved-attribute]
+                self.scene.selected_tower.upgrade_index  # ty:ignore[unresolved-attribute]
                 < len(
                     self.scene.selected_tower.cost  # ty:ignore[unresolved-attribute]
                 )
                 - 1
             ):
                 selected_tower = self.scene.selected_tower  # ty:ignore[unresolved-attribute]
-                
+
                 attack_icon_surf = load_scaled_asset(
                     "attack_icon", (coin_icon_size, coin_icon_size)
                 )
@@ -504,39 +504,43 @@ class MainGameSceneGUIManager(GUIManager):
                     f"{selected_tower.damage[selected_tower.upgrade_index]} -> {selected_tower.damage[selected_tower.upgrade_index + 1]}",
                     attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
                     attack_icon.rect.centery,
-                    anchor=RectAnchorMode.MIDLEFT
+                    anchor=RectAnchorMode.MIDLEFT,
                 )
 
-                attack_speed_icon_surf = load_scaled_asset("clock_icon", (coin_icon_size, coin_icon_size))
+                attack_speed_icon_surf = load_scaled_asset(
+                    "clock_icon", (coin_icon_size, coin_icon_size)
+                )
                 attack_speed_icon = Icon(
                     "attack_speed_icon",
                     Config.ELEMENT_OUTER_PADDING,
                     attack_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
                     *attack_speed_icon_surf.size,
-                    image=attack_speed_icon_surf
+                    image=attack_speed_icon_surf,
                 )
                 attack_speed_text = Text(
                     "selected_tower_attack_speed_stat_text",
                     f"{selected_tower.shooting_speed[selected_tower.upgrade_index]} -> {selected_tower.shooting_speed[selected_tower.upgrade_index + 1]}",
                     attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
                     attack_speed_icon.rect.centery,
-                    anchor=RectAnchorMode.MIDLEFT
+                    anchor=RectAnchorMode.MIDLEFT,
                 )
 
-                range_icon_surf = load_scaled_asset("range_icon", (coin_icon_size, coin_icon_size))
+                range_icon_surf = load_scaled_asset(
+                    "range_icon", (coin_icon_size, coin_icon_size)
+                )
                 range_icon = Icon(
                     "range_icon",
                     Config.ELEMENT_OUTER_PADDING,
                     attack_speed_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
                     *range_icon_surf.size,
-                    image=range_icon_surf
+                    image=range_icon_surf,
                 )
                 range_text = Text(
                     "selected_tower_range_stat_text",
                     f"{selected_tower.area_radius[selected_tower.upgrade_index]} -> {selected_tower.area_radius[selected_tower.upgrade_index + 1]}",
                     range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
                     range_icon.rect.centery,
-                    anchor=RectAnchorMode.MIDLEFT
+                    anchor=RectAnchorMode.MIDLEFT,
                 )
 
                 upgrade_button = Button(
@@ -558,7 +562,6 @@ class MainGameSceneGUIManager(GUIManager):
                     hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
                     pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
                 )
-
 
                 selected_tower_menu.add_element(attack_icon)
                 selected_tower_menu.add_element(attack_text)
@@ -640,5 +643,5 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.game_speed_multiplier = 2  # ty:ignore[unresolved-attribute]
                 self.update_game_speed_buttons()
             elif event.button.id == "upgrade_selected_tower_button":
-                self.scene.selected_tower.upgrade() # ty:ignore[unresolved-attribute]
+                self.scene.selected_tower.upgrade()  # ty:ignore[unresolved-attribute]
                 self.refresh()

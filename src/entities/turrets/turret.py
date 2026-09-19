@@ -24,7 +24,6 @@ class Turret(pygame.sprite.Sprite):
         projectile: BallisticProjectileType,
         shooting_speed: list[float],
         area_radius: list[float],
-
     ):
         super().__init__()
 
@@ -129,7 +128,10 @@ class Turret(pygame.sprite.Sprite):
                     enemy.rect.centery,
                 )
 
-                if self.shoot_cooldown_delta_time >= self.shooting_speed[self.upgrade_index]:
+                if (
+                    self.shoot_cooldown_delta_time
+                    >= self.shooting_speed[self.upgrade_index]
+                ):
                     projectile = self._shoot_at(enemy)
                     projectiles_group.add(projectile)
                     self.shoot_cooldown_delta_time = 0
