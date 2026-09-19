@@ -1,3 +1,4 @@
+import select
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -56,19 +57,19 @@ class MainGameSceneGUIManager(GUIManager):
         )
 
     def update_next_wave_button(self):
-        self.get_element_by_id("next_wave_button").enabled = ( # ty:ignore[unresolved-attribute]
-            not (self.scene.wave + 1) >= len(self.scene.waves) # ty:ignore[unresolved-attribute]
+        self.get_element_by_id("next_wave_button").enabled = (  # ty:ignore[unresolved-attribute]
+            not (self.scene.wave + 1) >= len(self.scene.waves)  # ty:ignore[unresolved-attribute]
         )
-    
+
     def update_game_speed_buttons(self):
-        self.get_element_by_id("game_speed_half_button").enabled = ( # ty:ignore[unresolved-attribute]
-            self.scene.game_speed_multiplier != 0.5 # ty:ignore[unresolved-attribute]
+        self.get_element_by_id("game_speed_half_button").enabled = (  # ty:ignore[unresolved-attribute]
+            self.scene.game_speed_multiplier != 0.5  # ty:ignore[unresolved-attribute]
         )
-        self.get_element_by_id("game_speed_normal_button").enabled = ( # ty:ignore[unresolved-attribute]
-            self.scene.game_speed_multiplier != 1 # ty:ignore[unresolved-attribute]
+        self.get_element_by_id("game_speed_normal_button").enabled = (  # ty:ignore[unresolved-attribute]
+            self.scene.game_speed_multiplier != 1  # ty:ignore[unresolved-attribute]
         )
-        self.get_element_by_id("game_speed_double_button").enabled = ( # ty:ignore[unresolved-attribute]
-            self.scene.game_speed_multiplier != 2 # ty:ignore[unresolved-attribute]
+        self.get_element_by_id("game_speed_double_button").enabled = (  # ty:ignore[unresolved-attribute]
+            self.scene.game_speed_multiplier != 2  # ty:ignore[unresolved-attribute]
         )
 
     def refresh(self) -> None:
@@ -167,14 +168,14 @@ class MainGameSceneGUIManager(GUIManager):
 
         game_speed_button_width = 72
         game_speed_button_height = 32
-        
+
         game_speed_buttons_container = ElementContainer(
             "game_speed_buttons_container",
             Config.ELEMENT_OUTER_PADDING,
             Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING,
-            (game_speed_button_width * 3) + (Config.ELEMENT_OUTER_PADDING  * 4),
-            game_speed_button_height + ( Config.ELEMENT_OUTER_PADDING * 2 ),
-            anchor=RectAnchorMode.BOTTOMLEFT
+            (game_speed_button_width * 3) + (Config.ELEMENT_OUTER_PADDING * 4),
+            game_speed_button_height + (Config.ELEMENT_OUTER_PADDING * 2),
+            anchor=RectAnchorMode.BOTTOMLEFT,
         )
 
         game_speed_half_button = Button(
@@ -191,11 +192,11 @@ class MainGameSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.CENTER,
             ),
             anchor=RectAnchorMode.BOTTOMLEFT,
-            enabled=self.scene.game_speed_multiplier != 0.5 # ty:ignore[unresolved-attribute]
+            enabled=self.scene.game_speed_multiplier != 0.5,  # ty:ignore[unresolved-attribute]
         )
 
         game_speed_normal_button = Button(
-            'game_speed_normal_button',
+            "game_speed_normal_button",
             game_speed_half_button.rect.right + Config.ELEMENT_OUTER_PADDING,
             game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
             game_speed_button_width,
@@ -208,11 +209,11 @@ class MainGameSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.CENTER,
             ),
             anchor=RectAnchorMode.BOTTOMLEFT,
-            enabled=self.scene.game_speed_multiplier != 1 # ty:ignore[unresolved-attribute]
+            enabled=self.scene.game_speed_multiplier != 1,  # ty:ignore[unresolved-attribute]
         )
 
         game_speed_double_button = Button(
-            'game_speed_double_button',
+            "game_speed_double_button",
             game_speed_normal_button.rect.right + Config.ELEMENT_OUTER_PADDING,
             game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
             game_speed_button_width,
@@ -225,13 +226,13 @@ class MainGameSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.CENTER,
             ),
             anchor=RectAnchorMode.BOTTOMLEFT,
-            enabled=self.scene.game_speed_multiplier != 2 # ty:ignore[unresolved-attribute]
+            enabled=self.scene.game_speed_multiplier != 2,  # ty:ignore[unresolved-attribute]
         )
 
         game_speed_buttons_container.add_element(game_speed_half_button)
         game_speed_buttons_container.add_element(game_speed_normal_button)
         game_speed_buttons_container.add_element(game_speed_double_button)
-        
+
         self.elements.append(game_speed_buttons_container)
 
         if self.state == UIStates.COLLAPSED:
@@ -258,7 +259,7 @@ class MainGameSceneGUIManager(GUIManager):
                     "next_wave", (Config.GUI_ICON_SIZE * 2, Config.GUI_ICON_SIZE * 2)
                 ),
                 anchor=RectAnchorMode.BOTTOMRIGHT,
-                enabled=not (self.scene.wave + 1) >= len(self.scene.waves) # ty:ignore[unresolved-attribute]
+                enabled=not (self.scene.wave + 1) >= len(self.scene.waves),  # ty:ignore[unresolved-attribute]
             )
 
             self.elements.append(build_button)
@@ -479,6 +480,73 @@ class MainGameSceneGUIManager(GUIManager):
                 pressed_bg=Config.RED_BUTTON_PRESSED_BG,
             )
 
+            if (
+                self.scene.selected_tower.upgrade_index # ty:ignore[unresolved-attribute]
+                < len(
+                    self.scene.selected_tower.cost  # ty:ignore[unresolved-attribute]
+                )
+                - 1
+            ):
+                selected_tower = self.scene.selected_tower  # ty:ignore[unresolved-attribute]
+                
+                attack_icon_surf = load_scaled_asset(
+                    "attack_icon", (coin_icon_size, coin_icon_size)
+                )
+                attack_icon = Icon(
+                    "attack_icon",
+                    Config.ELEMENT_OUTER_PADDING,
+                    tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                    *attack_icon_surf.size,
+                    image=attack_icon_surf,
+                )
+
+                attack_text = Text(
+                    "selected_tower_attack_stat_upgrade_text",
+                    f"{selected_tower.damage[selected_tower.upgrade_index]} -> {selected_tower.damage[selected_tower.upgrade_index + 1]}",
+                    attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+                    attack_icon.rect.centery,
+                    anchor=RectAnchorMode.MIDLEFT
+                )
+
+                attack_speed_icon_surf = load_scaled_asset("clock_icon", (coin_icon_size, coin_icon_size))
+                attack_speed_icon = Icon(
+                    "attack_speed_icon",
+                    Config.ELEMENT_OUTER_PADDING,
+                    attack_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                    *attack_speed_icon_surf.size,
+                    image=attack_speed_icon_surf
+                )
+                attack_speed_text = Text(
+                    "selected_tower_attack_speed_stat_text",
+                    f"{selected_tower.shooting_speed[selected_tower.upgrade_index]} -> {selected_tower.shooting_speed[selected_tower.upgrade_index + 1]}",
+                    attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+                    attack_speed_icon.rect.centery,
+                    anchor=RectAnchorMode.MIDLEFT
+                )
+
+                range_icon_surf = load_scaled_asset("range_icon", (coin_icon_size, coin_icon_size))
+                range_icon = Icon(
+                    "range_icon",
+                    Config.ELEMENT_OUTER_PADDING,
+                    attack_speed_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                    *range_icon_surf.size,
+                    image=range_icon_surf
+                )
+                range_text = Text(
+                    "selected_tower_range_stat_text",
+                    f"{selected_tower.area_radius[selected_tower.upgrade_index]} -> {selected_tower.area_radius[selected_tower.upgrade_index + 1]}",
+                    range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+                    range_icon.rect.centery,
+                    anchor=RectAnchorMode.MIDLEFT
+                )
+
+                selected_tower_menu.add_element(attack_icon)
+                selected_tower_menu.add_element(attack_text)
+                selected_tower_menu.add_element(attack_speed_icon)
+                selected_tower_menu.add_element(attack_speed_text)
+                selected_tower_menu.add_element(range_icon)
+                selected_tower_menu.add_element(range_text)
+
             close_icon = load_scaled_asset("close_icon")
             close_selected_tower_menu_button = Button(
                 "close_selected_tower_menu_button",
@@ -538,15 +606,15 @@ class MainGameSceneGUIManager(GUIManager):
 
                         self.switch_state(UIStates.PLACING_TURRET)
             elif event.button.id == "next_wave_button":
-                if not (self.scene.wave + 1) >= len(self.scene.waves): # ty:ignore[unresolved-attribute]
+                if not (self.scene.wave + 1) >= len(self.scene.waves):  # ty:ignore[unresolved-attribute]
                     self.scene.next_wave()  # ty:ignore[unresolved-attribute]
                     self.update_next_wave_button()
             elif event.button.id == "game_speed_half_button":
-                self.scene.game_speed_multiplier = 0.5 # ty:ignore[unresolved-attribute]
+                self.scene.game_speed_multiplier = 0.5  # ty:ignore[unresolved-attribute]
                 self.update_game_speed_buttons()
             elif event.button.id == "game_speed_normal_button":
-                self.scene.game_speed_multiplier = 1 # ty:ignore[unresolved-attribute]
+                self.scene.game_speed_multiplier = 1  # ty:ignore[unresolved-attribute]
                 self.update_game_speed_buttons()
             elif event.button.id == "game_speed_double_button":
-                self.scene.game_speed_multiplier = 2 # ty:ignore[unresolved-attribute]
+                self.scene.game_speed_multiplier = 2  # ty:ignore[unresolved-attribute]
                 self.update_game_speed_buttons()
