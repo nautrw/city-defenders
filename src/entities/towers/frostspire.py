@@ -2,10 +2,10 @@ import pygame
 
 from src.core.utils import load_asset
 from src.entities.projectiles.ice_shard import IceShard
-from src.entities.turrets.turret import Turret
+from src.entities.towers.tower import Tower
 
 
-class Frostspire(Turret):
+class FrostspireTower(Tower):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
@@ -25,7 +25,7 @@ class Frostspire(Turret):
             damage=[0, 0, 0],
             x_position=x_position,
             y_position=y_position,
-            turret_image=image,
+            tower_image=image,
             projectile=IceShard,
             shooting_speed=[5, 3, 2],
             area_radius=[75, 150, 200],

@@ -8,7 +8,7 @@ from src.entities.enemies.enemy import Enemy
 from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 
 
-class Turret(pygame.sprite.Sprite):
+class Tower(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
@@ -20,7 +20,7 @@ class Turret(pygame.sprite.Sprite):
         damage: list[int],
         x_position: float,
         y_position: float,
-        turret_image: pygame.Surface,
+        tower_image: pygame.Surface,
         projectile: BallisticProjectileType,
         shooting_speed: list[float],
         area_radius: list[float],
@@ -37,15 +37,15 @@ class Turret(pygame.sprite.Sprite):
 
         self.upgrade_index = 0
 
-        self.original_base_image = load_asset("turret_base")
+        self.original_base_image = load_asset("tower_base")
         self.base = self.original_base_image.copy()
-        self.original_turret_image = turret_image
-        self.turret_image = turret_image.copy()
+        self.original_tower_image = tower_image
+        self.tower_image = tower_image.copy()
 
-        # turret needs to have a separate rect because of rotation, so i use
+        # tower needs to have a separate rect because of rotation, so i use
         # the base as the rect
         self.rect = self.base.get_frect(center=self.position)
-        self.turret_rect = self.turret_image.get_frect(center=self.position)
+        self.tower_rect = self.tower_image.get_frect(center=self.position)
 
         self.projectile = projectile
         self.shooting_speed = shooting_speed
@@ -54,13 +54,13 @@ class Turret(pygame.sprite.Sprite):
         self.area_radius = area_radius
         self.area = Circle(self.rect.center, self.area_radius[self.upgrade_index])
 
-        self.turret_angle = 0
+        self.tower_angle = 0
 
-        self.turret_tip = pygame.Vector2(0, -self.turret_image.get_height() / 2)
+        self.tower_tip = pygame.Vector2(0, -self.tower_image.get_height() / 2)
 
     def _shoot_at(self, enemy: Enemy):
-        # this is so it shoots from the tip of the turret
-        projectile_offset = self.turret_tip.rotate(-self.turret_angle)
+        # this is so it shoots from the tip of the tower
+        projectile_offset = self.tower_tip.rotate(-self.tower_angle)
         projectile_position = self.position + projectile_offset
 
         projectile = self.projectile(
@@ -74,7 +74,7 @@ class Turret(pygame.sprite.Sprite):
     def move_center(self, new_x: float, new_y: float) -> None:
         self.position = (new_x, new_y)
         self.rect.center = self.position
-        self.turret_rect.center = self.position
+        self.tower_rect.center = self.position
         self.area.center = self.position
 
     def draw(
@@ -90,23 +90,23 @@ class Turret(pygame.sprite.Sprite):
             radius = self.area.radius
             pygame.draw.circle(
                 circle_surf,
-                Config.TURRET_RADIUS_COLOR,
+                Config.TOWER_RADIUS_COLOR,
                 (radius, radius),
                 radius,
             )
             surface.blit(circle_surf, self.area.as_frect())
 
-        self.turret_image = pygame.transform.rotozoom(
-            self.original_turret_image, self.turret_angle, 1
+        self.tower_image = pygame.transform.rotozoom(
+            self.original_tower_image, self.tower_angle, 1
         )
-        self.turret_rect = self.turret_image.get_frect(center=self.rect.center)
+        self.tower_rect = self.tower_image.get_frect(center=self.rect.center)
 
         if overlay_color:
             self.base.fill(overlay_color, special_flags=pygame.BLEND_RGBA_MIN)
-            self.turret_image.fill(overlay_color, special_flags=pygame.BLEND_RGBA_MIN)
+            self.tower_image.fill(overlay_color, special_flags=pygame.BLEND_RGBA_MIN)
 
         surface.blit(self.base, self.rect)
-        surface.blit(self.turret_image, self.turret_rect)
+        surface.blit(self.tower_image, self.tower_rect)
 
     def upgrade(self):
         self.upgrade_index += 1
@@ -121,7 +121,7 @@ class Turret(pygame.sprite.Sprite):
     ):
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
-                self.turret_angle = angle_to_point(
+                self.tower_angle = angle_to_point(
                     self.rect.centerx,
                     self.rect.centery,
                     enemy.rect.centerx,

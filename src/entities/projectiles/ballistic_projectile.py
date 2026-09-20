@@ -9,7 +9,7 @@ from src.entities.projectiles.explosion import Explosion
 
 
 # protocols are used to describe how a subclass should be
-# this also serves for type hinting, like in Turret, where
+# this also serves for type hinting, like in Tower, where
 # type hinting the projectile as BallisticProjectile will cause
 # an error because it requires an image, but its subclasses
 # dont take an image because they provide it
@@ -60,7 +60,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         explosions_group: pygame.sprite.Group,
         game_speed_multiplier: int,
     ) -> None:
-        # makes the arrow dissapear if the target is killed by another turret
+        # makes the arrow dissapear if the target is killed by another tower
         if not self.target.alive():
             self.kill()
             return

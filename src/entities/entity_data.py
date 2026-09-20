@@ -1,15 +1,15 @@
 from src.entities.enemies.fast_slime import FastSlime
 from src.entities.enemies.slime import Slime
 from src.entities.enemies.tank_slime import TankSlime
-from src.entities.turrets.ballista import BallistaTurret
-from src.entities.turrets.cannon import CannonTurret
-from src.entities.turrets.crossbow import CrossbowTurret
-from src.entities.turrets.frostspire import Frostspire
+from src.entities.towers.ballista import BallistaTower
+from src.entities.towers.cannon import CannonTower
+from src.entities.towers.crossbow import CrossbowTower
+from src.entities.towers.frostspire import FrostspireTower
 
 ENEMIES = {"slime": Slime, "fast_slime": FastSlime, "tank_slime": TankSlime}
-TURRETS = {
-    "crossbow": CrossbowTurret,
-    "ballista": BallistaTurret,
-    "cannon": CannonTurret,
-    "frostspire": Frostspire,
+TOWERS = {
+    "crossbow": CrossbowTower,
+    "ballista": BallistaTower,
+    "cannon": CannonTower,
+    "frostspire": FrostspireTower,
 }

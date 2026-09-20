@@ -2,10 +2,10 @@ import pygame
 
 from src.core.utils import load_asset
 from src.entities.projectiles.bolt import Bolt
-from src.entities.turrets.turret import Turret
+from src.entities.towers.tower import Tower
 
 
-class BallistaTurret(Turret):
+class BallistaTower(Tower):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
@@ -23,7 +23,7 @@ class BallistaTurret(Turret):
             damage=[10, 15, 25],
             x_position=x_position,
             y_position=y_position,
-            turret_image=image,
+            tower_image=image,
             projectile=Bolt,
             shooting_speed=[2.5, 2, 1.5],
             area_radius=[75, 150, 200],

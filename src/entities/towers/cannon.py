@@ -2,10 +2,10 @@ import pygame
 
 from src.core.utils import load_asset
 from src.entities.projectiles.cannon_ball import CannonBall
-from src.entities.turrets.turret import Turret
+from src.entities.towers.tower import Tower
 
 
-class CannonTurret(Turret):
+class CannonTower(Tower):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
@@ -23,7 +23,7 @@ class CannonTurret(Turret):
             damage=[15, 25, 40],
             x_position=x_position,
             y_position=y_position,
-            turret_image=image,
+            tower_image=image,
             projectile=CannonBall,
             shooting_speed=[3, 2, 1],
             area_radius=[75, 150, 200],

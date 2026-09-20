@@ -44,17 +44,17 @@ class MainGameScene(Scene):
         )
 
         self.enemies_group = pygame.sprite.Group()
-        self.turrets_group = pygame.sprite.Group()
+        self.towers_group = pygame.sprite.Group()
         self.projectiles_group = pygame.sprite.Group()
         self.explosions_group = pygame.sprite.Group()
 
         self.paused = False
-        self.draw_turret_radiuses = False
+        self.draw_tower_radiuses = False
 
         self.coins = map_data["initial_balance"]
 
-        self.turret_to_place = None
-        self.can_place_turret = False
+        self.tower_to_place = None
+        self.can_place_tower = False
         self.selected_tower = None
 
         self.waves = map_data["waves"]
@@ -74,13 +74,13 @@ class MainGameScene(Scene):
         self.gui_manager = MainGameSceneGUIManager(self)
 
     def place_selected_tower(self):
-        self.turrets_group.add(self.turret_to_place)
+        self.towers_group.add(self.tower_to_place)
         self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
-        self.coins -= self.turret_to_place.cost[self.turret_to_place.upgrade_index]  # ty:ignore[unresolved-attribute]
+        self.coins -= self.tower_to_place.cost[self.tower_to_place.upgrade_index]  # ty:ignore[unresolved-attribute]
 
         # reset everything
-        self.can_place_turret = False
-        self.turret_to_place = None
+        self.can_place_tower = False
+        self.tower_to_place = None
         self.gui_manager.switch_state(UIStates.COLLAPSED)
         self.gui_manager.refresh()
 
@@ -134,7 +134,7 @@ class MainGameScene(Scene):
                 self.game.scene_manager.switch(GameLostScene(self.game))
 
             self.enemies_group.update(delta_time, self.game_speed_multiplier)
-            self.turrets_group.update(
+            self.towers_group.update(
                 delta_time,
                 self.enemies_group,
                 self.projectiles_group,
@@ -163,12 +163,12 @@ class MainGameScene(Scene):
             ):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == pygame.BUTTON_LEFT:
-                        if self.turret_to_place and self.can_place_turret:
+                        if self.tower_to_place and self.can_place_tower:
                             self.place_selected_tower()
                         else:
-                            for turret in self.turrets_group:
-                                if turret.rect.collidepoint(mouse_world_coord):
-                                    self.selected_tower = turret
+                            for tower in self.towers_group:
+                                if tower.rect.collidepoint(mouse_world_coord):
+                                    self.selected_tower = tower
                                     self.gui_manager.switch_state(
                                         UIStates.TOWER_SELECTED
                                     )
@@ -181,14 +181,14 @@ class MainGameScene(Scene):
 
                         self.camera.move(int(mouse_movement.x), int(mouse_movement.y))
 
-                    # turret must be moved alongside the map
-                    if self.turret_to_place:
+                    # tower must be moved alongside the map
+                    if self.tower_to_place:
                         new_coord = pygame.Vector2(mouse_world_coord)
-                        self.turret_to_place.move_center(*new_coord)
-                        self.can_place_turret = not pygame.sprite.spritecollide(
-                            self.turret_to_place, self.map.blocked_tiles, False
+                        self.tower_to_place.move_center(*new_coord)
+                        self.can_place_tower = not pygame.sprite.spritecollide(
+                            self.tower_to_place, self.map.blocked_tiles, False
                         ) and not pygame.sprite.spritecollide(
-                            self.turret_to_place, self.turrets_group, False
+                            self.tower_to_place, self.towers_group, False
                         )
                 elif event.type == ENEMY_KILLED:
                     self.coins += event.entity.coins_drop
@@ -201,7 +201,7 @@ class MainGameScene(Scene):
                 if event.key == pygame.K_ESCAPE:
                     self.paused = not self.paused
                 elif event.key == pygame.K_r:
-                    self.draw_turret_radiuses = not self.draw_turret_radiuses
+                    self.draw_tower_radiuses = not self.draw_tower_radiuses
 
             self.gui_manager.handle_event(event)
 
@@ -217,8 +217,8 @@ class MainGameScene(Scene):
         for enemy in self.enemies_group:
             enemy.draw(self.game_surface)
 
-        for turret in self.turrets_group:
-            turret.draw(self.game_surface, self.draw_turret_radiuses)
+        for tower in self.towers_group:
+            tower.draw(self.game_surface, self.draw_tower_radiuses)
 
         for projectile in self.projectiles_group:
             projectile.draw(self.game_surface)
@@ -226,11 +226,11 @@ class MainGameScene(Scene):
         for explosion in self.explosions_group:
             explosion.draw(self.game_surface)
 
-        if self.turret_to_place:
+        if self.tower_to_place:
             overlay_color = (
-                (0, 255, 0, 255) if self.can_place_turret else (255, 0, 0, 255)
+                (0, 255, 0, 255) if self.can_place_tower else (255, 0, 0, 255)
             )
-            self.turret_to_place.draw(
+            self.tower_to_place.draw(
                 self.game_surface, True, overlay_color=overlay_color
             )
 

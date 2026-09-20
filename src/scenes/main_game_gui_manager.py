@@ -9,8 +9,8 @@ from src.core.utils import (
     load_button_state_triplet_assets,
     load_scaled_asset,
 )
-from src.entities.entity_data import TURRETS
-from src.entities.turrets.turret import Turret
+from src.entities.entity_data import TOWERS
+from src.entities.towers.tower import Tower
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
@@ -26,7 +26,7 @@ class UIStates(Enum):
     COLLAPSED = auto()
     TOWER_PICKER_MENU = auto()
     TOWER_PICKER_TOWER_SELECTED = auto()
-    PLACING_TURRET = auto()
+    PLACING_TOWER = auto()
     TOWER_SELECTED = auto()
 
 
@@ -36,7 +36,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         super().__init__(scene, default_state)
 
-        self.selected_tower_to_buy: type[Turret] | None = None
+        self.selected_tower_to_buy: type[Tower] | None = None
 
         self.refresh()
 
@@ -296,7 +296,7 @@ class MainGameSceneGUIManager(GUIManager):
                 ),
             )
 
-            for i, tower in enumerate(TURRETS):
+            for i, tower in enumerate(TOWERS):
                 column = i % columns
                 row = i // columns
 
@@ -309,7 +309,7 @@ class MainGameSceneGUIManager(GUIManager):
 
                 icon = load_asset(tower)
                 element = Button(
-                    f"build_{tower}_turret_button",
+                    f"build_{tower}_tower_button",
                     button_x,  # placeholders
                     button_y,
                     Config.BUTTON_SIZE,
@@ -416,7 +416,7 @@ class MainGameSceneGUIManager(GUIManager):
 
             self.elements.append(container)
             self.elements.append(close_container_button)
-        elif self.state == UIStates.PLACING_TURRET:
+        elif self.state == UIStates.PLACING_TOWER:
             close_icon = load_scaled_asset("close_icon")
             tower_discard_button = Button(
                 "tower_discard_button",
@@ -599,11 +599,11 @@ class MainGameSceneGUIManager(GUIManager):
                 self.switch_state(UIStates.COLLAPSED)
             elif (
                 event.button.id.startswith("build_")
-                and event.button.id.endswith("_turret_button")
-                and event.button.id.split("_")[1] in TURRETS
+                and event.button.id.endswith("_tower_button")
+                and event.button.id.split("_")[1] in TOWERS
             ):
                 id = event.button.id.split("_")[1]
-                self.selected_tower_to_buy = TURRETS[id]
+                self.selected_tower_to_buy = TOWERS[id]
                 self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
             elif event.button.id == "close_tower_picker_tower_selected_menu_button":
                 self.selected_tower_to_buy = None
@@ -616,19 +616,19 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.selected_tower = None  # ty:ignore[unresolved-attribute]
             elif event.button.id == "tower_discard_button":
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
-                self.scene.turret_to_place = None  # ty:ignore[unresolved-attribute]
-                self.scene.can_place_turret = False  # ty:ignore[unresolved-attribute]
+                self.scene.tower_to_place = None  # ty:ignore[unresolved-attribute]
+                self.scene.can_place_tower = False  # ty:ignore[unresolved-attribute]
             elif event.button.id == "buy_selected_tower_button":
                 # here comes ty:ignore hell...
                 if self.selected_tower_to_buy:  # noqa: SIM102
                     if self.scene.coins >= self.selected_tower_to_buy.initial_cost:  # ty:ignore[unresolved-attribute]
-                        self.scene.turret_to_place = self.selected_tower_to_buy(  # ty:ignore[unresolved-attribute]
+                        self.scene.tower_to_place = self.selected_tower_to_buy(  # ty:ignore[unresolved-attribute]
                             *self.scene.camera.viewport_to_world(  # ty:ignore[unresolved-attribute]
                                 *pygame.mouse.get_pos()
                             )
                         )
 
-                        self.switch_state(UIStates.PLACING_TURRET)
+                        self.switch_state(UIStates.PLACING_TOWER)
             elif event.button.id == "next_wave_button":
                 if not (self.scene.wave + 1) >= len(self.scene.waves):  # ty:ignore[unresolved-attribute]
                     self.scene.next_wave()  # ty:ignore[unresolved-attribute]

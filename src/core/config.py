@@ -21,7 +21,7 @@ ENEMY_PATH_LAYER_NAME: str = "path"
 
 DARK_RED: ColorLike = "#771a10"
 BRIGHT_GREEN: ColorLike = "#61a53f"
-TURRET_RADIUS_COLOR: ColorLike = (0, 0, 0, 75)
+TOWER_RADIUS_COLOR: ColorLike = (0, 0, 0, 75)
 
 BUTTON_NORMAL_BG: ColorLike = "#17151640"
 BUTTON_HOVERED_BG: ColorLike = "#171516BF"

@@ -2,10 +2,10 @@ import pygame
 
 from src.core.utils import load_asset
 from src.entities.projectiles.arrow import Arrow
-from src.entities.turrets.turret import Turret
+from src.entities.towers.tower import Tower
 
 
-class CrossbowTurret(Turret):
+class CrossbowTower(Tower):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
@@ -23,7 +23,7 @@ class CrossbowTurret(Turret):
             damage=[5, 10, 15],
             x_position=x_position,
             y_position=y_position,
-            turret_image=image,
+            tower_image=image,
             projectile=Arrow,
             shooting_speed=[1.5, 1, 0.5],
             area_radius=[75, 150, 225],
