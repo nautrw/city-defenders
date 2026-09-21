@@ -71,6 +71,21 @@ class MainGameSceneGUIManager(GUIManager):
             self.scene.game_speed_multiplier != 2
         )
 
+    def _build_close_button(self, x: float, y: float, element_id: str, anchor_mode: RectAnchorMode = RectAnchorMode.TOPLEFT) -> Button:
+        icon = load_scaled_asset("close_icon")
+
+        close_button = Button(
+            element_id,
+            x,
+            y,
+            Config.BUTTON_SIZE,
+            Config.BUTTON_SIZE,
+            anchor=anchor_mode,
+            normal_icon=icon
+        )
+
+        return close_button
+
     def _build_stats_displays(self) -> None:
         card_width = 192
         card_height = 80
@@ -271,16 +286,10 @@ class MainGameSceneGUIManager(GUIManager):
             Config.SCREEN_HEIGHT,
         )
 
-        close_icon = load_scaled_asset("close_icon")
-
-        tower_picker_close_button = Button(
-            "tower_picker_close_button",
-            ((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
-            - Config.ELEMENT_OUTER_PADDING,
-            Config.ELEMENT_OUTER_PADDING,
-            Config.BUTTON_SIZE,
-            Config.BUTTON_SIZE,
-            normal_icon=close_icon,
+        tower_picker_close_button = self._build_close_button(
+            x=((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE) - Config.ELEMENT_OUTER_PADDING,
+            y=Config.ELEMENT_OUTER_PADDING,
+            element_id="tower_picker_close_button"
         )
 
         columns = max(
@@ -328,15 +337,11 @@ class MainGameSceneGUIManager(GUIManager):
             Config.SCREEN_HEIGHT,
         )
 
-        close_icon = load_scaled_asset("close_icon")
-        close_container_button = Button(
-            "close_tower_picker_tower_selected_menu_button",
-            ((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
+        close_container_button = self._build_close_button(
+            x=((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
             - Config.ELEMENT_OUTER_PADDING,
-            Config.ELEMENT_OUTER_PADDING,
-            Config.BUTTON_SIZE,
-            Config.BUTTON_SIZE,
-            normal_icon=close_icon,
+            y=Config.ELEMENT_OUTER_PADDING,
+            element_id="close_tower_picker_tower_selected_menu_button",
         )
 
         tower_name = Text(
@@ -410,15 +415,11 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(close_container_button)
 
     def _build_placing_tower_ui(self) -> None:
-        close_icon = load_scaled_asset("close_icon")
-        tower_discard_button = Button(
-            "tower_discard_button",
-            (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
-            Config.ELEMENT_OUTER_PADDING,
-            Config.BUTTON_SIZE,
-            Config.BUTTON_SIZE,
-            normal_icon=close_icon,
-            anchor=RectAnchorMode.TOPRIGHT,
+        tower_discard_button = self._build_close_button(
+            x=(Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
+            y=Config.ELEMENT_OUTER_PADDING,
+            element_id="tower_discard_button",
+            anchor_mode=RectAnchorMode.TOPRIGHT
         )
 
         self.elements.append(tower_discard_button)
@@ -565,15 +566,11 @@ class MainGameSceneGUIManager(GUIManager):
             selected_tower_menu.add_element(range_text)
             selected_tower_menu.add_element(upgrade_button)
 
-        close_icon = load_scaled_asset("close_icon")
-        close_selected_tower_menu_button = Button(
-            "close_selected_tower_menu_button",
-            (Config.SCREEN_WIDTH - container_width - Config.ELEMENT_OUTER_PADDING),
-            Config.ELEMENT_OUTER_PADDING,
-            Config.BUTTON_SIZE,
-            Config.BUTTON_SIZE,
-            normal_icon=close_icon,
-            anchor=RectAnchorMode.TOPRIGHT,
+        close_selected_tower_menu_button = self._build_close_button(
+            x=(Config.SCREEN_WIDTH - container_width - Config.ELEMENT_OUTER_PADDING),
+            y=Config.ELEMENT_OUTER_PADDING,
+            element_id="close_selected_tower_menu_button",
+            anchor_mode=RectAnchorMode.TOPRIGHT
         )
 
         selected_tower_menu.add_element(tower_name)
@@ -582,8 +579,6 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.elements.append(selected_tower_menu)
         self.elements.append(close_selected_tower_menu_button)
-
-
 
     def refresh(self) -> None:
         self.elements = []
