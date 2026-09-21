@@ -633,6 +633,10 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "game_speed_double_button":
                 self.scene.game_speed_multiplier = 2
                 self.update_game_speed_buttons()
-            elif event.button.id == "upgrade_selected_tower_button":
-                self.scene.selected_tower.upgrade()  # ty:ignore[unresolved-attribute]
-                self.refresh()
+            elif event.button.id == "upgrade_selected_tower_button" and self.scene.selected_tower:
+                upgrade_cost = self.scene.selected_tower.cost[self.scene.selected_tower.upgrade_index]
+                
+                if self.scene.coins >= upgrade_cost:
+                    self.scene.coins -= self.scene.selected_tower.cost[self.scene.selected_tower.upgrade_index]
+                    self.scene.selected_tower.upgrade()
+                    self.refresh()
