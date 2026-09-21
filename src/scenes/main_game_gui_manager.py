@@ -409,6 +409,19 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(container)
         self.elements.append(close_container_button)
 
+    def _build_placing_tower_ui(self) -> None:
+        close_icon = load_scaled_asset("close_icon")
+        tower_discard_button = Button(
+            "tower_discard_button",
+            (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
+            Config.ELEMENT_OUTER_PADDING,
+            Config.BUTTON_SIZE,
+            Config.BUTTON_SIZE,
+            normal_icon=close_icon,
+            anchor=RectAnchorMode.TOPRIGHT,
+        )
+
+        self.elements.append(tower_discard_button)
 
     def refresh(self) -> None:
         self.elements = []
@@ -423,18 +436,7 @@ class MainGameSceneGUIManager(GUIManager):
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
             self._build_tower_picker_selected_menu()
         elif self.state == UIStates.PLACING_TOWER:
-            close_icon = load_scaled_asset("close_icon")
-            tower_discard_button = Button(
-                "tower_discard_button",
-                (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
-                Config.ELEMENT_OUTER_PADDING,
-                Config.BUTTON_SIZE,
-                Config.BUTTON_SIZE,
-                normal_icon=close_icon,
-                anchor=RectAnchorMode.TOPRIGHT,
-            )
-
-            self.elements.append(tower_discard_button)
+            self._build_placing_tower_ui()
         elif self.state == UIStates.TOWER_SELECTED:
             container_width = 500
 
