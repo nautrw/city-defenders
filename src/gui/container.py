@@ -59,5 +59,5 @@ class ElementContainer(Element):
         for element in self.elements:
             element.update(delta_time, relative_mouse_position)
 
-    def add_element(self, element: Element):
+    def add_element(self, element: Element) -> None:
         self.elements.append(element)

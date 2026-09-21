@@ -24,7 +24,7 @@ class Tower(pygame.sprite.Sprite):
         projectile: BallisticProjectileType,
         shooting_speed: list[float],
         area_radius: list[float],
-    ):
+    ) -> None:
         super().__init__()
 
         self.display_name = display_name
@@ -58,7 +58,7 @@ class Tower(pygame.sprite.Sprite):
 
         self.tower_tip = pygame.Vector2(0, -self.tower_image.get_height() / 2)
 
-    def _shoot_at(self, enemy: Enemy):
+    def _shoot_at(self, enemy: Enemy) -> None:
         # this is so it shoots from the tip of the tower
         projectile_offset = self.tower_tip.rotate(-self.tower_angle)
         projectile_position = self.position + projectile_offset
@@ -82,7 +82,7 @@ class Tower(pygame.sprite.Sprite):
         surface: pygame.Surface,
         draw_radiuses: bool,
         overlay_color: ColorLike | None = None,
-    ):
+    ) -> None:
         self.base = self.original_base_image.copy()
 
         if draw_radiuses:
@@ -108,7 +108,7 @@ class Tower(pygame.sprite.Sprite):
         surface.blit(self.base, self.rect)
         surface.blit(self.tower_image, self.tower_rect)
 
-    def upgrade(self):
+    def upgrade(self) -> None:
         self.upgrade_index += 1
         self.area = Circle(self.rect.center, self.area_radius[self.upgrade_index])
 
@@ -118,7 +118,7 @@ class Tower(pygame.sprite.Sprite):
         enemies_group: pygame.sprite.Group,
         projectiles_group: pygame.sprite.Group,
         game_speed_multiplier: int,
-    ):
+    ) -> None:
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
                 self.tower_angle = angle_to_point(

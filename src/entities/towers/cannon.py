@@ -13,7 +13,7 @@ class CannonTower(Tower):
     description = "Shoots cannon balls at turrets. Explosion does massive amounts of damage to multiple enemies."
     initial_cost = 100
 
-    def __init__(self, x_position: int, y_position: int):
+    def __init__(self, x_position: int, y_position: int) -> None:
         image = load_asset("cannon")
 
         super().__init__(

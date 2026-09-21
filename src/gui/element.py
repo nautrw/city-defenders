@@ -32,7 +32,7 @@ class Element(ABC):
         new_x: float,
         new_y: float,
         anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
-    ):
+    ) -> None:
         if anchor == RectAnchorMode.TOPLEFT:
             self.rect.topleft = (new_x, new_y)
         elif anchor == RectAnchorMode.MIDTOP:

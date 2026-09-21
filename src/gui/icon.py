@@ -14,7 +14,7 @@ class Icon(Element):
         height: int,
         image: pygame.Surface,
         anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
-    ):
+    ) -> None:
         self.id = id
         self.surface = pygame.transform.scale(image, (width, height))
         self.width = width

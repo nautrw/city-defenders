@@ -28,7 +28,7 @@ class MainMenuSceneGUIManager(GUIManager):
 
         self.refresh()
 
-    def refresh(self):
+    def refresh(self) -> None:
         if self.state == MainMenuGUIState.NORMAL:
             title_text = Text(
                 "title_text",

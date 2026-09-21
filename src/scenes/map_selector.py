@@ -33,7 +33,7 @@ class MapSelectorSceneGUIManager(GUIManager):
 
         self.refresh()
 
-    def refresh(self):
+    def refresh(self) -> None:
         self.elements = []
 
         padding = Config.ELEMENT_OUTER_PADDING * 9

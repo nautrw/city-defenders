@@ -11,7 +11,7 @@ class Bolt(BallisticProjectile):
 
     def __init__(
         self, damage: int, x_position: float, y_position: float, target: Enemy
-    ):
+    ) -> None:
         image = load_asset("bolt")
 
         super().__init__(

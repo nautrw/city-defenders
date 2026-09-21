@@ -19,7 +19,7 @@ class Enemy(pygame.sprite.Sprite):
         path_waypoints: list[tuple[float, float]],
         coins_drop: int,
         animation_duration: float = 0.25,
-    ):
+    ) -> None:
         super().__init__()
 
         self.animation = animation
@@ -45,25 +45,25 @@ class Enemy(pygame.sprite.Sprite):
 
         self.health_bar = HealthBar()
 
-    def draw(self, surface: pygame.Surface):
+    def draw(self, surface: pygame.Surface) -> None:
         for effect in self.effects:
             effect.draw(self.image)
 
         surface.blit(self.image, self.rect)
         self.health_bar.draw(surface)
 
-    def add_effect(self, effect: EnemyEffect):
+    def add_effect(self, effect: EnemyEffect) -> None:
         if effect.stackable or not effect in self.effects:
             self.effects.append(effect)
 
-    def update_effects(self, delta_time: float):
+    def update_effects(self, delta_time: float) -> None:
         for effect in self.effects:
             effect.update(delta_time)
 
             if effect.duration_counter >= effect.duration:
                 self.effects.remove(effect)
 
-    def get_speed_multiplied(self):
+    def get_speed_multiplied(self) -> pygame.Vector2:
         cumulative_speed_multiplier = 1
 
         for effect in self.effects:

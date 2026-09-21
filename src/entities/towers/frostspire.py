@@ -15,7 +15,7 @@ class FrostspireTower(Tower):
     )
     initial_cost = 250
 
-    def __init__(self, x_position: int, y_position: int):
+    def __init__(self, x_position: int, y_position: int) -> None:
         image = load_asset("frostspire")
 
         super().__init__(

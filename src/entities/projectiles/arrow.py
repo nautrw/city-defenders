@@ -11,7 +11,7 @@ class Arrow(BallisticProjectile):
 
     def __init__(
         self, damage: int, x_position: float, y_position: float, target: Enemy
-    ):
+    ) -> None:
         image = load_asset("arrow")
 
         super().__init__(

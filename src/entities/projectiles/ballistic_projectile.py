@@ -16,7 +16,7 @@ from src.entities.projectiles.explosion import Explosion
 class BallisticProjectileType(Protocol):
     def __call__(
         self, damage: int, x_position: float, y_position: float, target: Enemy
-    ):
+    ) -> None:
         pass
 
 
@@ -33,7 +33,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
         image: pygame.Surface,
         explode_on_target_collision: bool = False,
         effect_on_collide: type[EnemyEffect] | None = None,
-    ):
+    ) -> None:
         super().__init__()
 
         self.original_image = image
@@ -101,6 +101,6 @@ class BallisticProjectile(pygame.sprite.Sprite):
             self.kill()
             return
 
-    def draw(self, surface: pygame.Surface):
+    def draw(self, surface: pygame.Surface) -> None:
         self.image = pygame.transform.rotate(self.original_image, self.angle)
         surface.blit(self.image, self.rect)

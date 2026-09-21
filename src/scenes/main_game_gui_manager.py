@@ -42,25 +42,25 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.refresh()
 
-    def update_wave_text(self):
+    def update_wave_text(self) -> None:
         self.get_element_by_id("wave_text", Text).update_text(
             f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}"
         )
 
-    def update_coins_text(self):
+    def update_coins_text(self) -> None:
         self.get_element_by_id("coins_text", Text).update_text(str(self.scene.coins))
 
-    def update_health_text(self):
+    def update_health_text(self) -> None:
         self.get_element_by_id("health_text", Text).update_text(
             f"{self.scene.health}/{self.scene.max_health}",
         )
 
-    def update_next_wave_button(self):
+    def update_next_wave_button(self) -> None:
         self.get_element_by_id("next_wave_button", Button).enabled = not (
             self.scene.wave + 1
         ) >= len(self.scene.waves)
 
-    def update_game_speed_buttons(self):
+    def update_game_speed_buttons(self) -> None:
         self.get_element_by_id("game_speed_half_button", Button).enabled = (
             self.scene.game_speed_multiplier != 0.5
         )

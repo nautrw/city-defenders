@@ -27,7 +27,7 @@ class WaveState(Enum):
 
 
 class MainGameScene(Scene):
-    def __init__(self, game: "GameApp", map: GameMap, map_data: dict):
+    def __init__(self, game: "GameApp", map: GameMap, map_data: dict) -> None:
         super().__init__(game)
 
         self.map = map
@@ -74,7 +74,7 @@ class MainGameScene(Scene):
 
         self.gui_manager = MainGameSceneGUIManager(self)
 
-    def place_selected_tower(self):
+    def place_selected_tower(self) -> None:
         self.towers_group.add(self.tower_to_place)
         self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
         self.coins -= self.tower_to_place.cost[self.tower_to_place.upgrade_index]  # ty:ignore[unresolved-attribute]
@@ -85,7 +85,7 @@ class MainGameScene(Scene):
         self.gui_manager.switch_state(UIStates.COLLAPSED)
         self.gui_manager.refresh()
 
-    def sell_selected_tower(self):
+    def sell_selected_tower(self) -> None:
         if self.selected_tower:
             tower_cost = self.selected_tower.cost[self.selected_tower.upgrade_index]
             refund = round(tower_cost * 0.75)
@@ -93,7 +93,7 @@ class MainGameScene(Scene):
             self.selected_tower.kill()
             self.selected_tower = None
 
-    def next_wave(self):
+    def next_wave(self) -> None:
         self.wave += 1
         self.wave_enemy_spawn_index = 0
         self.enemy_spawn_interval_dt_count = 0

@@ -13,7 +13,7 @@ class CrossbowTower(Tower):
     description = "An automatic crossbow. Slowly shoots arrows at enemies."
     initial_cost = 100
 
-    def __init__(self, x_position: int, y_position: int):
+    def __init__(self, x_position: int, y_position: int) -> None:
         image = load_asset("crossbow")
 
         super().__init__(

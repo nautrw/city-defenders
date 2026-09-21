@@ -9,7 +9,7 @@ class EnemyEffect:
         stackable: bool = False,
         speed_multiplier: float = 1,
         overlay_color: ColorLike | None = None,
-    ):
+    ) -> None:
         self.duration = duration
         self.duration_counter = 0
 
@@ -32,7 +32,7 @@ class FrozenEffect(EnemyEffect):
     stackable = True
     overlay_color = (162, 235, 255)  # rgb(162,235,255)
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__(
             duration=self.duration,
             stackable=self.stackable,

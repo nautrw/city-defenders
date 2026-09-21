@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 class GameWonScene(Scene):
-    def __init__(self, game: "GameApp"):
+    def __init__(self, game: "GameApp") -> None:
         super().__init__(game)
 
     def handle_events(self, events: list[pygame.Event]) -> None:

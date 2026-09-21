@@ -8,7 +8,7 @@ class TankSlime(Enemy):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    def __init__(self, path_waypoints: list[tuple[float, float]]):
+    def __init__(self, path_waypoints: list[tuple[float, float]]) -> None:
         animation = [load_asset("tankslime1"), load_asset("tankslime2")]
 
         super().__init__(

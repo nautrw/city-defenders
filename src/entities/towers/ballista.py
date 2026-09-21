@@ -13,7 +13,7 @@ class BallistaTower(Tower):
     description = "Shoots bolts at a slow rate but with great force."
     initial_cost = 150
 
-    def __init__(self, x_position: int, y_position: int):
+    def __init__(self, x_position: int, y_position: int) -> None:
         image = load_asset("ballista")
 
         super().__init__(

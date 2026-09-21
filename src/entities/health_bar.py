@@ -13,7 +13,7 @@ class HealthBar(pygame.sprite.Sprite):
         height: float = 5.0,
         border_width: float = 1.0,
         position_offset: float = -4.0,
-    ):
+    ) -> None:
         super().__init__()
 
         self.width = width
@@ -29,13 +29,13 @@ class HealthBar(pygame.sprite.Sprite):
 
     def update(
         self, current_health: int, max_health: int, position: tuple[float, float]
-    ):
+    ) -> None:
         self.rect.centerx = int(position[0])
         self.rect.centery = int(position[1] + self.position_offset)
 
         self.health_percent = current_health / max_health
 
-    def draw(self, surface: pygame.Surface):
+    def draw(self, surface: pygame.Surface) -> None:
         surface.blit(self.image, self.rect)
 
         # multiplied by 2 to account for all sides of the bar having the border

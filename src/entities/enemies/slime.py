@@ -8,7 +8,7 @@ class Slime(Enemy):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
-    def __init__(self, path_waypoints: list[tuple[float, float]]):
+    def __init__(self, path_waypoints: list[tuple[float, float]]) -> None:
         animation = [load_asset("slime1"), load_asset("slime2")]
 
         super().__init__(

@@ -13,7 +13,7 @@ class Explosion(pygame.sprite.Sprite):
         x_position: float,
         y_position: float,
         duration: float = 0.25,
-    ):
+    ) -> None:
         super().__init__()
 
         self.image = load_asset("explosion")
@@ -44,6 +44,6 @@ class Explosion(pygame.sprite.Sprite):
         self.duration_counter_dt += delta_time * game_speed_multiplier
         self.opacity = int((self.duration / self.duration_counter_dt) * 255)
 
-    def draw(self, surface: pygame.Surface):
+    def draw(self, surface: pygame.Surface) -> None:
         self.image.set_alpha(self.opacity)
         surface.blit(self.image, self.rect)
