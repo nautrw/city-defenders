@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
 import pygame
 
@@ -28,6 +28,11 @@ class UIStates(Enum):
     TOWER_PICKER_TOWER_SELECTED = auto()
     PLACING_TOWER = auto()
     TOWER_SELECTED = auto()
+
+
+class ContainerCloseButtonPair(TypedDict):
+    container: ElementContainer
+    close_button: Button
 
 
 class MainGameSceneGUIManager(GUIManager):
@@ -93,6 +98,24 @@ class MainGameSceneGUIManager(GUIManager):
         )
 
         return close_button
+
+    def _build_side_menu(self, container_id: str) -> ContainerCloseButtonPair:
+        container = ElementContainer(
+            container_id,
+            Config.SCREEN_WIDTH - self.container_width,
+            0,
+            self.container_width,
+            Config.SCREEN_HEIGHT,
+        )
+
+        close_button = self._build_close_button(
+            x=((Config.SCREEN_WIDTH - self.container_width) - Config.BUTTON_SIZE)
+            - Config.ELEMENT_OUTER_PADDING,
+            y=Config.ELEMENT_OUTER_PADDING,
+            element_id=f"{container_id}_close_button",
+        )
+
+        return {"container": container, "close_button": close_button}
 
     def _build_stats_displays(self) -> None:
         card_width = 192
@@ -287,23 +310,11 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(next_wave_button)
 
     def _build_tower_picker_menu(self) -> None:
-        tower_picker_container = ElementContainer(
-            "tower_picker_menu",
-            (Config.SCREEN_WIDTH - self.container_width),
-            0,
-            self.container_width,
-            Config.SCREEN_HEIGHT,
+        pair = self._build_side_menu(
+            "tower_picker_menu"
         )
-
-        tower_picker_close_button = self._build_close_button(
-            x=(
-                (Config.SCREEN_WIDTH - self.container_width)
-                - Config.BUTTON_SIZE
-            )
-            - Config.ELEMENT_OUTER_PADDING,
-            y=Config.ELEMENT_OUTER_PADDING,
-            element_id="tower_picker_close_button",
-        )
+        container = pair["container"]
+        close_button = pair["close_button"]
 
         columns = max(
             1,
@@ -334,29 +345,17 @@ class MainGameSceneGUIManager(GUIManager):
                 normal_icon=icon,
             )
 
-            tower_picker_container.add_element(element)
+            container.add_element(element)
 
-        self.elements.append(tower_picker_close_button)
-        self.elements.append(tower_picker_container)
+        self.elements.append(container)
+        self.elements.append(close_button)
 
     def _build_tower_picker_selected_menu(self) -> None:
-        container = ElementContainer(
-            "tower_picker_tower_selected_menu",
-            (Config.SCREEN_WIDTH - self.container_width),
-            0,
-            self.container_width,
-            Config.SCREEN_HEIGHT,
+        pair = self._build_side_menu(
+            "tower_picker_tower_selected_menu"
         )
-
-        close_container_button = self._build_close_button(
-            x=(
-                (Config.SCREEN_WIDTH - self.container_width)
-                - Config.BUTTON_SIZE
-            )
-            - Config.ELEMENT_OUTER_PADDING,
-            y=Config.ELEMENT_OUTER_PADDING,
-            element_id="close_tower_picker_tower_selected_menu_button",
-        )
+        container = pair["container"]
+        close_button = pair["close_button"]
 
         tower_name = Text(
             "selected_tower_display_name",
@@ -426,7 +425,7 @@ class MainGameSceneGUIManager(GUIManager):
         container.add_element(build_button)
 
         self.elements.append(container)
-        self.elements.append(close_container_button)
+        self.elements.append(close_button)
 
     def _build_placing_tower_ui(self) -> None:
         tower_discard_button = self._build_close_button(
@@ -619,7 +618,7 @@ class MainGameSceneGUIManager(GUIManager):
         if event.type == CUSTOM_BUTTON_CLICKED:
             if event.button.id == "tower_picker_menu_button":
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
-            elif event.button.id == "tower_picker_close_button":
+            elif event.button.id == "tower_picker_menu_close_button":
                 self.switch_state(UIStates.COLLAPSED)
             elif (
                 event.button.id.startswith("build_")
@@ -629,7 +628,7 @@ class MainGameSceneGUIManager(GUIManager):
                 id = event.button.id.split("_")[1]
                 self.selected_tower_to_buy = TOWERS[id]
                 self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
-            elif event.button.id == "close_tower_picker_tower_selected_menu_button":
+            elif event.button.id == "tower_picker_tower_selected_menu_close_button":
                 self.selected_tower_to_buy = None
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
             elif event.button.id == "sell_selected_tower_button":
