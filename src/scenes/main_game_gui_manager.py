@@ -243,8 +243,6 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
                 normal_icon=build_icon,
-                hover_icon=build_icon,
-                pressed_icon=build_icon,
                 anchor=RectAnchorMode.TOPRIGHT,
             )
 
@@ -284,8 +282,6 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
                 normal_icon=close_icon,
-                hover_icon=close_icon,
-                pressed_icon=close_icon,
             )
 
             columns = max(
@@ -315,8 +311,6 @@ class MainGameSceneGUIManager(GUIManager):
                     Config.BUTTON_SIZE,
                     Config.BUTTON_SIZE,
                     normal_icon=icon,
-                    hover_icon=icon,
-                    pressed_icon=icon,
                 )
 
                 tower_picker_container.add_element(element)
@@ -343,8 +337,6 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
                 normal_icon=close_icon,
-                hover_icon=close_icon,
-                pressed_icon=close_icon,
             )
 
             tower_name = Text(
@@ -425,8 +417,6 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
                 normal_icon=close_icon,
-                hover_icon=close_icon,
-                pressed_icon=close_icon,
                 anchor=RectAnchorMode.TOPRIGHT,
             )
 
@@ -580,8 +570,6 @@ class MainGameSceneGUIManager(GUIManager):
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
                 normal_icon=close_icon,
-                hover_icon=close_icon,
-                pressed_icon=close_icon,
                 anchor=RectAnchorMode.TOPRIGHT,
             )
 

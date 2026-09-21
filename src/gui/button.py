@@ -60,8 +60,8 @@ class Button(Element):
         self.pressed_bg = pressed_bg
 
         self.normal_icon = normal_icon
-        self.hover_icon = hover_icon
-        self.pressed_icon = pressed_icon
+        self.hover_icon = hover_icon or normal_icon
+        self.pressed_icon = pressed_icon or normal_icon
 
         self.text = text
 
