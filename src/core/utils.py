@@ -1,5 +1,6 @@
 import json
 import math
+from pathlib import Path
 
 import numpy as np
 import pygame
@@ -93,12 +94,14 @@ def load_map(name: str) -> dict:
         return clean_map_json(map_json)
 
 
-def angle_to_point(origin_x: float, origin_y: float, target_x: float, target_y: float):
+def angle_to_point(
+    origin_x: float, origin_y: float, target_x: float, target_y: float
+) -> float:
     direction = pygame.Vector2(target_x, target_y) - pygame.Vector2(origin_x, origin_y)
     return 360 - math.degrees(math.atan2(direction.x, -direction.y))
 
 
-def load_asset(name: str):
+def load_asset(name: str) -> pygame.Surface:
     return pygame.image.load(SPRITES_DICT[name]).convert_alpha()
 
 
@@ -106,14 +109,14 @@ def load_asset(name: str):
 def load_scaled_asset(
     asset_name: str,
     new_size: tuple[int, int] = (Config.GUI_ICON_SIZE, Config.GUI_ICON_SIZE),
-):
+) -> pygame.Surface:
     return pygame.transform.scale(load_asset(asset_name), new_size)
 
 
 def load_button_state_triplet_assets(
     base_name: str,
     new_size: tuple[int, int] = (Config.GUI_ICON_SIZE, Config.GUI_ICON_SIZE),
-):
+) -> dict[str, pygame.Surface]:
     return {
         "normal_icon": load_scaled_asset(f"{base_name}_button_normal", new_size),
         "hover_icon": load_scaled_asset(f"{base_name}_button_hovered", new_size),
@@ -121,5 +124,5 @@ def load_button_state_triplet_assets(
     }
 
 
-def get_font(font_name: str):
+def get_font(font_name: str) -> Path:
     return FONTS_DICT[font_name]
