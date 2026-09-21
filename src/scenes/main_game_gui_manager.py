@@ -43,33 +43,31 @@ class MainGameSceneGUIManager(GUIManager):
         self.refresh()
 
     def update_wave_text(self):
-        self.get_element_by_id("wave_text").update_text(  # ty:ignore[unresolved-attribute]
+        self.get_element_by_id("wave_text", Text).update_text(
             f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}"
         )
 
     def update_coins_text(self):
-        self.get_element_by_id("coins_text").update_text(  # ty:ignore[unresolved-attribute]
-            str(self.scene.coins)
-        )
+        self.get_element_by_id("coins_text", Text).update_text(str(self.scene.coins))
 
     def update_health_text(self):
-        self.get_element_by_id("health_text").update_text(  # ty:ignore[unresolved-attribute]
+        self.get_element_by_id("health_text", Text).update_text(
             f"{self.scene.health}/{self.scene.max_health}",
         )
 
     def update_next_wave_button(self):
-        self.get_element_by_id("next_wave_button").enabled = (  # ty:ignore[unresolved-attribute]
-            not (self.scene.wave + 1) >= len(self.scene.waves)
-        )
+        self.get_element_by_id("next_wave_button", Button).enabled = not (
+            self.scene.wave + 1
+        ) >= len(self.scene.waves)
 
     def update_game_speed_buttons(self):
-        self.get_element_by_id("game_speed_half_button").enabled = (  # ty:ignore[unresolved-attribute]
+        self.get_element_by_id("game_speed_half_button", Button).enabled = (
             self.scene.game_speed_multiplier != 0.5
         )
-        self.get_element_by_id("game_speed_normal_button").enabled = (  # ty:ignore[unresolved-attribute]
+        self.get_element_by_id("game_speed_normal_button", Button).enabled = (
             self.scene.game_speed_multiplier != 1
         )
-        self.get_element_by_id("game_speed_double_button").enabled = (  # ty:ignore[unresolved-attribute]
+        self.get_element_by_id("game_speed_double_button", Button).enabled = (
             self.scene.game_speed_multiplier != 2
         )
 
@@ -625,16 +623,15 @@ class MainGameSceneGUIManager(GUIManager):
                 # here comes ty:ignore hell...
                 if (
                     self.selected_tower_to_buy
-                    and self.scene.coins
-                    >= self.selected_tower_to_buy.initial_cost # ty:ignore[unresolved-attribute]
+                    and self.scene.coins >= self.selected_tower_to_buy.initial_cost  # ty:ignore[unresolved-attribute]
                 ):
-                        self.scene.tower_to_place = self.selected_tower_to_buy(  # ty:ignore[missing-argument]
-                            *self.scene.camera.viewport_to_world(  # ty:ignore[invalid-argument-type]
-                                *pygame.mouse.get_pos()
-                            )
+                    self.scene.tower_to_place = self.selected_tower_to_buy(  # ty:ignore[missing-argument]
+                        *self.scene.camera.viewport_to_world(  # ty:ignore[invalid-argument-type]
+                            *pygame.mouse.get_pos()
                         )
+                    )
 
-                        self.switch_state(UIStates.PLACING_TOWER)
+                    self.switch_state(UIStates.PLACING_TOWER)
             elif event.button.id == "next_wave_button":
                 if not (self.scene.wave + 1) >= len(self.scene.waves):
                     self.scene.next_wave()

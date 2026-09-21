@@ -1,11 +1,14 @@
 from abc import ABC, abstractmethod
 from enum import Enum
+from typing import TypeVar
 
 import pygame
 
 from src.core.scenes_manager import Scene
 from src.gui.container import ElementContainer
 from src.gui.element import Element
+
+T = TypeVar("T", bound=Element | ElementContainer)
 
 
 class GUIManager(ABC):
@@ -34,7 +37,7 @@ class GUIManager(ABC):
         self.state = state
         self.refresh()
 
-    def get_element_by_id(self, id: str) -> Element:
+    def get_element_by_id(self, id: str, type: type[T]) -> T:
         for element in self.elements:
             if isinstance(element, ElementContainer):
                 for container_element in element.elements:
@@ -42,6 +45,6 @@ class GUIManager(ABC):
                         return container_element
             else:
                 if element.id == id:
-                    return element
+                    return element # ty:ignore[invalid-return-type]
 
-        raise ValueError("invalid element")
+        raise ValueError(f"element with id {id} not found")
