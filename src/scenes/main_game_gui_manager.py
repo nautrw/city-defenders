@@ -71,12 +71,7 @@ class MainGameSceneGUIManager(GUIManager):
             self.scene.game_speed_multiplier != 2
         )
 
-    def refresh(self) -> None:
-        self.elements = []
-
-        # COINS DISPLAY ALWAYS SHOWN
-        coin_icon_size = 48
-
+    def _build_stats_displays(self) -> None:
         card_width = 192
         card_height = 80
 
@@ -84,9 +79,9 @@ class MainGameSceneGUIManager(GUIManager):
             "heart_icon",
             Config.ELEMENT_OUTER_PADDING,
             card_height // 2,
-            coin_icon_size,
-            coin_icon_size,
-            load_scaled_asset("health_icon", (coin_icon_size, coin_icon_size)),
+            Config.GUI_MEDIUM_ICON_SIZE,
+            Config.GUI_MEDIUM_ICON_SIZE,
+            load_scaled_asset("health_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)),
             anchor=RectAnchorMode.MIDLEFT,
         )
 
@@ -115,9 +110,9 @@ class MainGameSceneGUIManager(GUIManager):
             "coin_icon",
             Config.ELEMENT_OUTER_PADDING,
             card_height // 2,
-            coin_icon_size,
-            coin_icon_size,
-            load_scaled_asset("coin", (coin_icon_size, coin_icon_size)),
+            Config.GUI_MEDIUM_ICON_SIZE,
+            Config.GUI_MEDIUM_ICON_SIZE,
+            load_scaled_asset("coin", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)),
             RectAnchorMode.MIDLEFT,
         )
 
@@ -164,6 +159,13 @@ class MainGameSceneGUIManager(GUIManager):
         wave_display_container.add_element(wave_text)
 
         self.elements.append(wave_display_container)
+
+
+
+    def refresh(self) -> None:
+        self.elements = []
+
+        self._build_stats_displays()
 
         game_speed_button_width = 72
         game_speed_button_height = 32
@@ -480,7 +482,7 @@ class MainGameSceneGUIManager(GUIManager):
                 selected_tower: Tower = self.scene.selected_tower
 
                 attack_icon_surf = load_scaled_asset(
-                    "attack_icon", (coin_icon_size, coin_icon_size)
+                    "attack_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
                 )
                 attack_icon = Icon(
                     "attack_icon",
@@ -499,7 +501,7 @@ class MainGameSceneGUIManager(GUIManager):
                 )
 
                 attack_speed_icon_surf = load_scaled_asset(
-                    "clock_icon", (coin_icon_size, coin_icon_size)
+                    "clock_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
                 )
                 attack_speed_icon = Icon(
                     "attack_speed_icon",
@@ -517,7 +519,7 @@ class MainGameSceneGUIManager(GUIManager):
                 )
 
                 range_icon_surf = load_scaled_asset(
-                    "range_icon", (coin_icon_size, coin_icon_size)
+                    "range_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
                 )
                 range_icon = Icon(
                     "range_icon",
