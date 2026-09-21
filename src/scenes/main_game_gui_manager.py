@@ -423,6 +423,168 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.elements.append(tower_discard_button)
 
+    def _build_tower_selected_menu(self) -> None:
+        container_width = 500
+
+        selected_tower_menu = ElementContainer(
+            "selected_tower_menu",
+            Config.SCREEN_WIDTH - container_width,
+            0,
+            container_width,
+            Config.SCREEN_HEIGHT,
+        )
+
+        tower_name = Text(
+            "selected_tower_display_name",
+            self.scene.selected_tower.display_name,  # ty:ignore[unresolved-attribute]
+            container_width // 2,
+            Config.ELEMENT_OUTER_PADDING,
+            anchor=RectAnchorMode.MIDTOP,
+            size=Config.FONT_SIZE_HEADER,
+        )
+
+        tower_description = Text(
+            "selected_tower_description",
+            self.scene.selected_tower.description,  # ty:ignore[unresolved-attribute]
+            Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING + tower_name.rect.height,
+            wrap_length=container_width,
+        )
+
+        sell_button = Button(
+            "sell_selected_tower_button",
+            container_width // 2,
+            Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING,
+            208,
+            104,
+            anchor=RectAnchorMode.MIDBOTTOM,
+            text=Text(
+                "sell_text",
+                "Sell",
+                208 // 2,
+                104 // 2,
+                size=Config.FONT_SIZE_VERYBIG,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            normal_bg=Config.RED_BUTTON_NORMAL_BG,
+            hover_bg=Config.RED_BUTTON_HOVERED_BG,
+            pressed_bg=Config.RED_BUTTON_PRESSED_BG,
+        )
+
+        if (
+            self.scene.selected_tower.upgrade_index  # ty:ignore[unresolved-attribute]
+            < len(
+                self.scene.selected_tower.cost  # ty:ignore[unresolved-attribute]
+            )
+            - 1
+            and self.scene.selected_tower
+        ):
+            selected_tower: Tower = self.scene.selected_tower
+
+            attack_icon_surf = load_scaled_asset(
+                "attack_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
+            )
+            attack_icon = Icon(
+                "attack_icon",
+                Config.ELEMENT_OUTER_PADDING,
+                tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                *attack_icon_surf.size,
+                image=attack_icon_surf,
+            )
+
+            attack_text = Text(
+                "selected_tower_attack_stat_upgrade_text",
+                f"{selected_tower.damage[selected_tower.upgrade_index]} -> {selected_tower.damage[selected_tower.upgrade_index + 1]}",
+                attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+                attack_icon.rect.centery,
+                anchor=RectAnchorMode.MIDLEFT,
+            )
+
+            attack_speed_icon_surf = load_scaled_asset(
+                "clock_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
+            )
+            attack_speed_icon = Icon(
+                "attack_speed_icon",
+                Config.ELEMENT_OUTER_PADDING,
+                attack_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                *attack_speed_icon_surf.size,
+                image=attack_speed_icon_surf,
+            )
+            attack_speed_text = Text(
+                "selected_tower_attack_speed_stat_text",
+                f"{selected_tower.shooting_speed[selected_tower.upgrade_index]} -> {selected_tower.shooting_speed[selected_tower.upgrade_index + 1]}",
+                attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+                attack_speed_icon.rect.centery,
+                anchor=RectAnchorMode.MIDLEFT,
+            )
+
+            range_icon_surf = load_scaled_asset(
+                "range_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
+            )
+            range_icon = Icon(
+                "range_icon",
+                Config.ELEMENT_OUTER_PADDING,
+                attack_speed_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                *range_icon_surf.size,
+                image=range_icon_surf,
+            )
+            range_text = Text(
+                "selected_tower_range_stat_text",
+                f"{selected_tower.area_radius[selected_tower.upgrade_index]} -> {selected_tower.area_radius[selected_tower.upgrade_index + 1]}",
+                range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+                range_icon.rect.centery,
+                anchor=RectAnchorMode.MIDLEFT,
+            )
+
+            upgrade_button = Button(
+                "upgrade_selected_tower_button",
+                container_width // 2,
+                sell_button.rect.top - Config.ELEMENT_OUTER_PADDING,
+                208,
+                104,
+                anchor=RectAnchorMode.MIDBOTTOM,
+                text=Text(
+                    "upgrade_button_text",
+                    "Upgrade",
+                    208 // 2,
+                    104 // 2,
+                    size=Config.FONT_SIZE_BIGGER,
+                    anchor=RectAnchorMode.CENTER,
+                ),
+                normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
+                hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
+                pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
+                enabled=self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]
+            )
+
+            selected_tower_menu.add_element(attack_icon)
+            selected_tower_menu.add_element(attack_text)
+            selected_tower_menu.add_element(attack_speed_icon)
+            selected_tower_menu.add_element(attack_speed_text)
+            selected_tower_menu.add_element(range_icon)
+            selected_tower_menu.add_element(range_text)
+            selected_tower_menu.add_element(upgrade_button)
+
+        close_icon = load_scaled_asset("close_icon")
+        close_selected_tower_menu_button = Button(
+            "close_selected_tower_menu_button",
+            (Config.SCREEN_WIDTH - container_width - Config.ELEMENT_OUTER_PADDING),
+            Config.ELEMENT_OUTER_PADDING,
+            Config.BUTTON_SIZE,
+            Config.BUTTON_SIZE,
+            normal_icon=close_icon,
+            anchor=RectAnchorMode.TOPRIGHT,
+        )
+
+        selected_tower_menu.add_element(tower_name)
+        selected_tower_menu.add_element(tower_description)
+        selected_tower_menu.add_element(sell_button)
+
+        self.elements.append(selected_tower_menu)
+        self.elements.append(close_selected_tower_menu_button)
+
+
+
     def refresh(self) -> None:
         self.elements = []
 
@@ -438,164 +600,7 @@ class MainGameSceneGUIManager(GUIManager):
         elif self.state == UIStates.PLACING_TOWER:
             self._build_placing_tower_ui()
         elif self.state == UIStates.TOWER_SELECTED:
-            container_width = 500
-
-            selected_tower_menu = ElementContainer(
-                "selected_tower_menu",
-                Config.SCREEN_WIDTH - container_width,
-                0,
-                container_width,
-                Config.SCREEN_HEIGHT,
-            )
-
-            tower_name = Text(
-                "selected_tower_display_name",
-                self.scene.selected_tower.display_name,  # ty:ignore[unresolved-attribute]
-                container_width // 2,
-                Config.ELEMENT_OUTER_PADDING,
-                anchor=RectAnchorMode.MIDTOP,
-                size=Config.FONT_SIZE_HEADER,
-            )
-
-            tower_description = Text(
-                "selected_tower_description",
-                self.scene.selected_tower.description,  # ty:ignore[unresolved-attribute]
-                Config.ELEMENT_OUTER_PADDING,
-                Config.ELEMENT_OUTER_PADDING + tower_name.rect.height,
-                wrap_length=container_width,
-            )
-
-            sell_button = Button(
-                "sell_selected_tower_button",
-                container_width // 2,
-                Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING,
-                208,
-                104,
-                anchor=RectAnchorMode.MIDBOTTOM,
-                text=Text(
-                    "sell_text",
-                    "Sell",
-                    208 // 2,
-                    104 // 2,
-                    size=Config.FONT_SIZE_VERYBIG,
-                    anchor=RectAnchorMode.CENTER,
-                ),
-                normal_bg=Config.RED_BUTTON_NORMAL_BG,
-                hover_bg=Config.RED_BUTTON_HOVERED_BG,
-                pressed_bg=Config.RED_BUTTON_PRESSED_BG,
-            )
-
-            if (
-                self.scene.selected_tower.upgrade_index  # ty:ignore[unresolved-attribute]
-                < len(
-                    self.scene.selected_tower.cost  # ty:ignore[unresolved-attribute]
-                )
-                - 1
-                and self.scene.selected_tower
-            ):
-                selected_tower: Tower = self.scene.selected_tower
-
-                attack_icon_surf = load_scaled_asset(
-                    "attack_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
-                )
-                attack_icon = Icon(
-                    "attack_icon",
-                    Config.ELEMENT_OUTER_PADDING,
-                    tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-                    *attack_icon_surf.size,
-                    image=attack_icon_surf,
-                )
-
-                attack_text = Text(
-                    "selected_tower_attack_stat_upgrade_text",
-                    f"{selected_tower.damage[selected_tower.upgrade_index]} -> {selected_tower.damage[selected_tower.upgrade_index + 1]}",
-                    attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-                    attack_icon.rect.centery,
-                    anchor=RectAnchorMode.MIDLEFT,
-                )
-
-                attack_speed_icon_surf = load_scaled_asset(
-                    "clock_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
-                )
-                attack_speed_icon = Icon(
-                    "attack_speed_icon",
-                    Config.ELEMENT_OUTER_PADDING,
-                    attack_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-                    *attack_speed_icon_surf.size,
-                    image=attack_speed_icon_surf,
-                )
-                attack_speed_text = Text(
-                    "selected_tower_attack_speed_stat_text",
-                    f"{selected_tower.shooting_speed[selected_tower.upgrade_index]} -> {selected_tower.shooting_speed[selected_tower.upgrade_index + 1]}",
-                    attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-                    attack_speed_icon.rect.centery,
-                    anchor=RectAnchorMode.MIDLEFT,
-                )
-
-                range_icon_surf = load_scaled_asset(
-                    "range_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
-                )
-                range_icon = Icon(
-                    "range_icon",
-                    Config.ELEMENT_OUTER_PADDING,
-                    attack_speed_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-                    *range_icon_surf.size,
-                    image=range_icon_surf,
-                )
-                range_text = Text(
-                    "selected_tower_range_stat_text",
-                    f"{selected_tower.area_radius[selected_tower.upgrade_index]} -> {selected_tower.area_radius[selected_tower.upgrade_index + 1]}",
-                    range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-                    range_icon.rect.centery,
-                    anchor=RectAnchorMode.MIDLEFT,
-                )
-
-                upgrade_button = Button(
-                    "upgrade_selected_tower_button",
-                    container_width // 2,
-                    sell_button.rect.top - Config.ELEMENT_OUTER_PADDING,
-                    208,
-                    104,
-                    anchor=RectAnchorMode.MIDBOTTOM,
-                    text=Text(
-                        "upgrade_button_text",
-                        "Upgrade",
-                        208 // 2,
-                        104 // 2,
-                        size=Config.FONT_SIZE_BIGGER,
-                        anchor=RectAnchorMode.CENTER,
-                    ),
-                    normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
-                    hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
-                    pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
-                    enabled=self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]
-                )
-
-                selected_tower_menu.add_element(attack_icon)
-                selected_tower_menu.add_element(attack_text)
-                selected_tower_menu.add_element(attack_speed_icon)
-                selected_tower_menu.add_element(attack_speed_text)
-                selected_tower_menu.add_element(range_icon)
-                selected_tower_menu.add_element(range_text)
-                selected_tower_menu.add_element(upgrade_button)
-
-            close_icon = load_scaled_asset("close_icon")
-            close_selected_tower_menu_button = Button(
-                "close_selected_tower_menu_button",
-                (Config.SCREEN_WIDTH - container_width - Config.ELEMENT_OUTER_PADDING),
-                Config.ELEMENT_OUTER_PADDING,
-                Config.BUTTON_SIZE,
-                Config.BUTTON_SIZE,
-                normal_icon=close_icon,
-                anchor=RectAnchorMode.TOPRIGHT,
-            )
-
-            selected_tower_menu.add_element(tower_name)
-            selected_tower_menu.add_element(tower_description)
-            selected_tower_menu.add_element(sell_button)
-
-            self.elements.append(selected_tower_menu)
-            self.elements.append(close_selected_tower_menu_button)
+            self._build_tower_selected_menu()
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
