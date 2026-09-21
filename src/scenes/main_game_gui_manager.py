@@ -260,6 +260,63 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(build_button)
         self.elements.append(next_wave_button)
  
+    def _build_tower_picker_menu(self) -> None:
+        container_width = 500
+
+        tower_picker_container = ElementContainer(
+            "tower_picker_menu",
+            (Config.SCREEN_WIDTH - container_width),
+            0,
+            container_width,
+            Config.SCREEN_HEIGHT,
+        )
+
+        close_icon = load_scaled_asset("close_icon")
+
+        tower_picker_close_button = Button(
+            "tower_picker_close_button",
+            ((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
+            - Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING,
+            Config.BUTTON_SIZE,
+            Config.BUTTON_SIZE,
+            normal_icon=close_icon,
+        )
+
+        columns = max(
+            1,
+            int(
+                (container_width + Config.ELEMENT_OUTER_PADDING)
+                / (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)
+            ),
+        )
+
+        for i, tower in enumerate(TOWERS):
+            column = i % columns
+            row = i // columns
+
+            button_x = Config.ELEMENT_OUTER_PADDING + column * (
+                Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING
+            )
+            button_y = Config.ELEMENT_OUTER_PADDING + row * (
+                Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING
+            )
+
+            icon = load_asset(f"{tower}_0")
+            element = Button(
+                f"build_{tower}_tower_button",
+                button_x,  # placeholders
+                button_y,
+                Config.BUTTON_SIZE,
+                Config.BUTTON_SIZE,
+                normal_icon=icon,
+            )
+
+            tower_picker_container.add_element(element)
+
+        self.elements.append(tower_picker_close_button)
+        self.elements.append(tower_picker_container)
+
 
     def refresh(self) -> None:
         self.elements = []
@@ -270,61 +327,7 @@ class MainGameSceneGUIManager(GUIManager):
         if self.state == UIStates.COLLAPSED:
             self._build_collapsed_ui()
         elif self.state == UIStates.TOWER_PICKER_MENU:
-            container_width = 500
-
-            tower_picker_container = ElementContainer(
-                "tower_picker_menu",
-                (Config.SCREEN_WIDTH - container_width),
-                0,
-                container_width,
-                Config.SCREEN_HEIGHT,
-            )
-
-            close_icon = load_scaled_asset("close_icon")
-
-            tower_picker_close_button = Button(
-                "tower_picker_close_button",
-                ((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
-                - Config.ELEMENT_OUTER_PADDING,
-                Config.ELEMENT_OUTER_PADDING,
-                Config.BUTTON_SIZE,
-                Config.BUTTON_SIZE,
-                normal_icon=close_icon,
-            )
-
-            columns = max(
-                1,
-                int(
-                    (container_width + Config.ELEMENT_OUTER_PADDING)
-                    / (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)
-                ),
-            )
-
-            for i, tower in enumerate(TOWERS):
-                column = i % columns
-                row = i // columns
-
-                button_x = Config.ELEMENT_OUTER_PADDING + column * (
-                    Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING
-                )
-                button_y = Config.ELEMENT_OUTER_PADDING + row * (
-                    Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING
-                )
-
-                icon = load_asset(f"{tower}_0")
-                element = Button(
-                    f"build_{tower}_tower_button",
-                    button_x,  # placeholders
-                    button_y,
-                    Config.BUTTON_SIZE,
-                    Config.BUTTON_SIZE,
-                    normal_icon=icon,
-                )
-
-                tower_picker_container.add_element(element)
-
-            self.elements.append(tower_picker_close_button)
-            self.elements.append(tower_picker_container)
+            self._build_tower_picker_menu()
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
             container_width = 500
 
