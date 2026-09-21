@@ -161,12 +161,7 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(wave_display_container)
 
 
-
-    def refresh(self) -> None:
-        self.elements = []
-
-        self._build_stats_displays()
-
+    def _build_game_speed_controller(self) -> None:
         game_speed_button_width = 72
         game_speed_button_height = 32
 
@@ -235,6 +230,14 @@ class MainGameSceneGUIManager(GUIManager):
         game_speed_buttons_container.add_element(game_speed_double_button)
 
         self.elements.append(game_speed_buttons_container)
+
+
+
+    def refresh(self) -> None:
+        self.elements = []
+
+        self._build_stats_displays()
+        self._build_game_speed_controller()
 
         if self.state == UIStates.COLLAPSED:
             build_icon = load_scaled_asset("build_icon")
