@@ -17,9 +17,9 @@ class VenomShooterTower(Tower):
 
     def __init__(self, x_position: int, y_position: int) -> None:
         image = [
-            load_asset("venom_shooter_0"),
-            load_asset("venom_shooter_1"),
-            load_asset("venom_shooter_2"),
+            load_asset("venomshooter_0"),
+            load_asset("venomshooter_1"),
+            load_asset("venomshooter_2"),
         ]
 
         super().__init__(

@@ -13,5 +13,5 @@ TOWERS = {
     "ballista": BallistaTower,
     "cannon": CannonTower,
     "frostspire": FrostspireTower,
-    "venom_shooter": VenomShooterTower,
+    "venomshooter": VenomShooterTower,
 }
