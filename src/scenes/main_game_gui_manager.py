@@ -40,6 +40,8 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.scene: MainGameScene
 
+        self.container_width = 500
+
         self.refresh()
 
     def update_wave_text(self) -> None:
@@ -71,7 +73,13 @@ class MainGameSceneGUIManager(GUIManager):
             self.scene.game_speed_multiplier != 2
         )
 
-    def _build_close_button(self, x: float, y: float, element_id: str, anchor_mode: RectAnchorMode = RectAnchorMode.TOPLEFT) -> Button:
+    def _build_close_button(
+        self,
+        x: float,
+        y: float,
+        element_id: str,
+        anchor_mode: RectAnchorMode = RectAnchorMode.TOPLEFT,
+    ) -> Button:
         icon = load_scaled_asset("close_icon")
 
         close_button = Button(
@@ -81,7 +89,7 @@ class MainGameSceneGUIManager(GUIManager):
             Config.BUTTON_SIZE,
             Config.BUTTON_SIZE,
             anchor=anchor_mode,
-            normal_icon=icon
+            normal_icon=icon,
         )
 
         return close_button
@@ -96,7 +104,10 @@ class MainGameSceneGUIManager(GUIManager):
             card_height // 2,
             Config.GUI_MEDIUM_ICON_SIZE,
             Config.GUI_MEDIUM_ICON_SIZE,
-            load_scaled_asset("health_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)),
+            load_scaled_asset(
+                "health_icon",
+                (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE),
+            ),
             anchor=RectAnchorMode.MIDLEFT,
         )
 
@@ -127,7 +138,9 @@ class MainGameSceneGUIManager(GUIManager):
             card_height // 2,
             Config.GUI_MEDIUM_ICON_SIZE,
             Config.GUI_MEDIUM_ICON_SIZE,
-            load_scaled_asset("coin", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)),
+            load_scaled_asset(
+                "coin", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
+            ),
             RectAnchorMode.MIDLEFT,
         )
 
@@ -174,7 +187,6 @@ class MainGameSceneGUIManager(GUIManager):
         wave_display_container.add_element(wave_text)
 
         self.elements.append(wave_display_container)
-
 
     def _build_game_speed_controller(self) -> None:
         game_speed_button_width = 72
@@ -246,7 +258,6 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.elements.append(game_speed_buttons_container)
 
-
     def _build_collapsed_ui(self) -> None:
         build_icon = load_scaled_asset("build_icon")
         build_button = Button(
@@ -274,28 +285,30 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.elements.append(build_button)
         self.elements.append(next_wave_button)
- 
-    def _build_tower_picker_menu(self) -> None:
-        container_width = 500
 
+    def _build_tower_picker_menu(self) -> None:
         tower_picker_container = ElementContainer(
             "tower_picker_menu",
-            (Config.SCREEN_WIDTH - container_width),
+            (Config.SCREEN_WIDTH - self.container_width),
             0,
-            container_width,
+            self.container_width,
             Config.SCREEN_HEIGHT,
         )
 
         tower_picker_close_button = self._build_close_button(
-            x=((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE) - Config.ELEMENT_OUTER_PADDING,
+            x=(
+                (Config.SCREEN_WIDTH - self.container_width)
+                - Config.BUTTON_SIZE
+            )
+            - Config.ELEMENT_OUTER_PADDING,
             y=Config.ELEMENT_OUTER_PADDING,
-            element_id="tower_picker_close_button"
+            element_id="tower_picker_close_button",
         )
 
         columns = max(
             1,
             int(
-                (container_width + Config.ELEMENT_OUTER_PADDING)
+                (self.container_width + Config.ELEMENT_OUTER_PADDING)
                 / (Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING)
             ),
         )
@@ -327,18 +340,19 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(tower_picker_container)
 
     def _build_tower_picker_selected_menu(self) -> None:
-        container_width = 500
-
         container = ElementContainer(
             "tower_picker_tower_selected_menu",
-            (Config.SCREEN_WIDTH - container_width),
+            (Config.SCREEN_WIDTH - self.container_width),
             0,
-            container_width,
+            self.container_width,
             Config.SCREEN_HEIGHT,
         )
 
         close_container_button = self._build_close_button(
-            x=((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
+            x=(
+                (Config.SCREEN_WIDTH - self.container_width)
+                - Config.BUTTON_SIZE
+            )
             - Config.ELEMENT_OUTER_PADDING,
             y=Config.ELEMENT_OUTER_PADDING,
             element_id="close_tower_picker_tower_selected_menu_button",
@@ -347,7 +361,7 @@ class MainGameSceneGUIManager(GUIManager):
         tower_name = Text(
             "selected_tower_display_name",
             self.selected_tower_to_buy.display_name,  # ty:ignore[unresolved-attribute]
-            container_width // 2,
+            self.container_width // 2,
             Config.ELEMENT_OUTER_PADDING,
             anchor=RectAnchorMode.MIDTOP,
             size=Config.FONT_SIZE_HEADER,
@@ -358,7 +372,7 @@ class MainGameSceneGUIManager(GUIManager):
             self.selected_tower_to_buy.description,  # ty:ignore[unresolved-attribute]
             Config.ELEMENT_OUTER_PADDING,
             Config.ELEMENT_OUTER_PADDING + tower_name.rect.height,
-            wrap_length=container_width,
+            wrap_length=self.container_width,
         )
 
         cost_text = Text(
@@ -385,7 +399,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         build_button = Button(
             "buy_selected_tower_button",
-            container_width // 2,
+            self.container_width // 2,
             Config.SCREEN_HEIGHT * 0.75,
             208,
             104,
@@ -419,26 +433,24 @@ class MainGameSceneGUIManager(GUIManager):
             x=(Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
             y=Config.ELEMENT_OUTER_PADDING,
             element_id="tower_discard_button",
-            anchor_mode=RectAnchorMode.TOPRIGHT
+            anchor_mode=RectAnchorMode.TOPRIGHT,
         )
 
         self.elements.append(tower_discard_button)
 
     def _build_tower_selected_menu(self) -> None:
-        container_width = 500
-
         selected_tower_menu = ElementContainer(
             "selected_tower_menu",
-            Config.SCREEN_WIDTH - container_width,
+            Config.SCREEN_WIDTH - self.container_width,
             0,
-            container_width,
+            self.container_width,
             Config.SCREEN_HEIGHT,
         )
 
         tower_name = Text(
             "selected_tower_display_name",
             self.scene.selected_tower.display_name,  # ty:ignore[unresolved-attribute]
-            container_width // 2,
+            self.container_width // 2,
             Config.ELEMENT_OUTER_PADDING,
             anchor=RectAnchorMode.MIDTOP,
             size=Config.FONT_SIZE_HEADER,
@@ -449,12 +461,12 @@ class MainGameSceneGUIManager(GUIManager):
             self.scene.selected_tower.description,  # ty:ignore[unresolved-attribute]
             Config.ELEMENT_OUTER_PADDING,
             Config.ELEMENT_OUTER_PADDING + tower_name.rect.height,
-            wrap_length=container_width,
+            wrap_length=self.container_width,
         )
 
         sell_button = Button(
             "sell_selected_tower_button",
-            container_width // 2,
+            self.container_width // 2,
             Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING,
             208,
             104,
@@ -483,7 +495,8 @@ class MainGameSceneGUIManager(GUIManager):
             selected_tower: Tower = self.scene.selected_tower
 
             attack_icon_surf = load_scaled_asset(
-                "attack_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
+                "attack_icon",
+                (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE),
             )
             attack_icon = Icon(
                 "attack_icon",
@@ -539,7 +552,7 @@ class MainGameSceneGUIManager(GUIManager):
 
             upgrade_button = Button(
                 "upgrade_selected_tower_button",
-                container_width // 2,
+                self.container_width // 2,
                 sell_button.rect.top - Config.ELEMENT_OUTER_PADDING,
                 208,
                 104,
@@ -555,7 +568,8 @@ class MainGameSceneGUIManager(GUIManager):
                 normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
                 hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
                 pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
-                enabled=self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]
+                enabled=self.scene.coins
+                >= selected_tower.cost[selected_tower.upgrade_index],
             )
 
             selected_tower_menu.add_element(attack_icon)
@@ -567,10 +581,14 @@ class MainGameSceneGUIManager(GUIManager):
             selected_tower_menu.add_element(upgrade_button)
 
         close_selected_tower_menu_button = self._build_close_button(
-            x=(Config.SCREEN_WIDTH - container_width - Config.ELEMENT_OUTER_PADDING),
+            x=(
+                Config.SCREEN_WIDTH
+                - self.container_width
+                - Config.ELEMENT_OUTER_PADDING
+            ),
             y=Config.ELEMENT_OUTER_PADDING,
             element_id="close_selected_tower_menu_button",
-            anchor_mode=RectAnchorMode.TOPRIGHT
+            anchor_mode=RectAnchorMode.TOPRIGHT,
         )
 
         selected_tower_menu.add_element(tower_name)
@@ -650,10 +668,17 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "game_speed_double_button":
                 self.scene.game_speed_multiplier = 2
                 self.update_game_speed_buttons()
-            elif event.button.id == "upgrade_selected_tower_button" and self.scene.selected_tower:
-                upgrade_cost = self.scene.selected_tower.cost[self.scene.selected_tower.upgrade_index]
-                
+            elif (
+                event.button.id == "upgrade_selected_tower_button"
+                and self.scene.selected_tower
+            ):
+                upgrade_cost = self.scene.selected_tower.cost[
+                    self.scene.selected_tower.upgrade_index
+                ]
+
                 if self.scene.coins >= upgrade_cost:
-                    self.scene.coins -= self.scene.selected_tower.cost[self.scene.selected_tower.upgrade_index]
+                    self.scene.coins -= self.scene.selected_tower.cost[
+                        self.scene.selected_tower.upgrade_index
+                    ]
                     self.scene.selected_tower.upgrade()
                     self.refresh()
