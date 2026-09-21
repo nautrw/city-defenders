@@ -21,7 +21,7 @@ class Tower(pygame.sprite.Sprite):
         x_position: float,
         y_position: float,
         tower_image: pygame.Surface,
-        projectile: BallisticProjectileType,
+        projectile: type[BallisticProjectileType],
         shooting_speed: list[float],
         area_radius: list[float],
     ) -> None:
