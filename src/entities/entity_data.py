@@ -5,6 +5,7 @@ from src.entities.towers.ballista import BallistaTower
 from src.entities.towers.cannon import CannonTower
 from src.entities.towers.crossbow import CrossbowTower
 from src.entities.towers.frostspire import FrostspireTower
+from src.entities.towers.venom_shooter import VenomShooterTower
 
 ENEMIES = {"slime": Slime, "fast_slime": FastSlime, "tank_slime": TankSlime}
 TOWERS = {
@@ -12,4 +13,5 @@ TOWERS = {
     "ballista": BallistaTower,
     "cannon": CannonTower,
     "frostspire": FrostspireTower,
+    "venom_shooter": VenomShooterTower,
 }
