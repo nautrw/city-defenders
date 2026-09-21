@@ -232,6 +232,34 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(game_speed_buttons_container)
 
 
+    def _build_collapsed_ui(self) -> None:
+        build_icon = load_scaled_asset("build_icon")
+        build_button = Button(
+            "tower_picker_menu_button",
+            (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
+            Config.ELEMENT_OUTER_PADDING,
+            Config.BUTTON_SIZE,
+            Config.BUTTON_SIZE,
+            normal_icon=build_icon,
+            anchor=RectAnchorMode.TOPRIGHT,
+        )
+
+        next_wave_button = Button(
+            "next_wave_button",
+            (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
+            (Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING),
+            Config.BUTTON_SIZE * 2,
+            Config.BUTTON_SIZE * 2,
+            **load_button_state_triplet_assets(
+                "next_wave", (Config.GUI_ICON_SIZE * 2, Config.GUI_ICON_SIZE * 2)
+            ),
+            anchor=RectAnchorMode.BOTTOMRIGHT,
+            enabled=not (self.scene.wave + 1) >= len(self.scene.waves),
+        )
+
+        self.elements.append(build_button)
+        self.elements.append(next_wave_button)
+ 
 
     def refresh(self) -> None:
         self.elements = []
@@ -240,32 +268,7 @@ class MainGameSceneGUIManager(GUIManager):
         self._build_game_speed_controller()
 
         if self.state == UIStates.COLLAPSED:
-            build_icon = load_scaled_asset("build_icon")
-            build_button = Button(
-                "tower_picker_menu_button",
-                (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
-                Config.ELEMENT_OUTER_PADDING,
-                Config.BUTTON_SIZE,
-                Config.BUTTON_SIZE,
-                normal_icon=build_icon,
-                anchor=RectAnchorMode.TOPRIGHT,
-            )
-
-            next_wave_button = Button(
-                "next_wave_button",
-                (Config.SCREEN_WIDTH - Config.ELEMENT_OUTER_PADDING),
-                (Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING),
-                Config.BUTTON_SIZE * 2,
-                Config.BUTTON_SIZE * 2,
-                **load_button_state_triplet_assets(
-                    "next_wave", (Config.GUI_ICON_SIZE * 2, Config.GUI_ICON_SIZE * 2)
-                ),
-                anchor=RectAnchorMode.BOTTOMRIGHT,
-                enabled=not (self.scene.wave + 1) >= len(self.scene.waves),
-            )
-
-            self.elements.append(build_button)
-            self.elements.append(next_wave_button)
+            self._build_collapsed_ui()
         elif self.state == UIStates.TOWER_PICKER_MENU:
             container_width = 500
 
