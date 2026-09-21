@@ -552,6 +552,7 @@ class MainGameSceneGUIManager(GUIManager):
                     normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
                     hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
                     pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
+                    enabled=self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]
                 )
 
                 selected_tower_menu.add_element(attack_icon)
