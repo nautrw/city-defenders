@@ -1,6 +1,6 @@
 import pygame
 
-from src.entities.effects import EnemyEffect
+from src.entities.effects import EnemyEffect, PoisonedEffect
 from src.entities.health_bar import HealthBar
 
 ENEMY_KILLED = pygame.event.custom_type()
@@ -62,6 +62,9 @@ class Enemy(pygame.sprite.Sprite):
 
             if effect.duration_counter >= effect.duration:
                 self.effects.remove(effect)
+
+            if effect.damage_over_time_dt_counter >= effect.damage_over_time_cooldown:
+                self.health -= effect.damage_over_time
 
     def get_speed_multiplied(self) -> pygame.Vector2:
         cumulative_speed_multiplier = 1
