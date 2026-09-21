@@ -317,6 +317,98 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(tower_picker_close_button)
         self.elements.append(tower_picker_container)
 
+    def _build_tower_picker_selected_menu(self) -> None:
+        container_width = 500
+
+        container = ElementContainer(
+            "tower_picker_tower_selected_menu",
+            (Config.SCREEN_WIDTH - container_width),
+            0,
+            container_width,
+            Config.SCREEN_HEIGHT,
+        )
+
+        close_icon = load_scaled_asset("close_icon")
+        close_container_button = Button(
+            "close_tower_picker_tower_selected_menu_button",
+            ((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
+            - Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING,
+            Config.BUTTON_SIZE,
+            Config.BUTTON_SIZE,
+            normal_icon=close_icon,
+        )
+
+        tower_name = Text(
+            "selected_tower_display_name",
+            self.selected_tower_to_buy.display_name,  # ty:ignore[unresolved-attribute]
+            container_width // 2,
+            Config.ELEMENT_OUTER_PADDING,
+            anchor=RectAnchorMode.MIDTOP,
+            size=Config.FONT_SIZE_HEADER,
+        )
+
+        tower_description = Text(
+            "selected_tower_description",
+            self.selected_tower_to_buy.description,  # ty:ignore[unresolved-attribute]
+            Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING + tower_name.rect.height,
+            wrap_length=container_width,
+        )
+
+        cost_text = Text(
+            "cost_text",
+            "Cost: ",
+            Config.ELEMENT_OUTER_PADDING,
+            tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+        )
+        coin_img = load_scaled_asset("coin", (36, 36))
+        coin_icon = Icon(
+            "coin_icon",
+            cost_text.rect.right,
+            cost_text.rect.top,
+            Config.FONT_SIZE_NORMAL,
+            Config.FONT_SIZE_NORMAL,
+            coin_img,
+        )
+        tower_cost = Text(
+            "tower_cost",
+            str(self.selected_tower_to_buy.initial_cost),  # ty:ignore[unresolved-attribute]
+            coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            coin_icon.rect.top,
+        )
+
+        build_button = Button(
+            "buy_selected_tower_button",
+            container_width // 2,
+            Config.SCREEN_HEIGHT * 0.75,
+            208,
+            104,
+            anchor=RectAnchorMode.CENTER,
+            text=Text(
+                "buy_text",
+                "Buy",
+                208 // 2,
+                104 // 2,
+                size=Config.FONT_SIZE_VERYBIG,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
+            hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
+            pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
+            enabled=(self.scene.coins >= self.selected_tower_to_buy.initial_cost),  # ty:ignore[unresolved-attribute]
+        )
+
+        container.add_element(tower_name)
+        container.add_element(tower_description)
+        container.add_element(cost_text)
+        container.add_element(coin_icon)
+        container.add_element(tower_cost)
+        container.add_element(build_button)
+
+        self.elements.append(container)
+        self.elements.append(close_container_button)
+
 
     def refresh(self) -> None:
         self.elements = []
@@ -329,96 +421,7 @@ class MainGameSceneGUIManager(GUIManager):
         elif self.state == UIStates.TOWER_PICKER_MENU:
             self._build_tower_picker_menu()
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
-            container_width = 500
-
-            container = ElementContainer(
-                "tower_picker_tower_selected_menu",
-                (Config.SCREEN_WIDTH - container_width),
-                0,
-                container_width,
-                Config.SCREEN_HEIGHT,
-            )
-
-            close_icon = load_scaled_asset("close_icon")
-            close_container_button = Button(
-                "close_tower_picker_tower_selected_menu_button",
-                ((Config.SCREEN_WIDTH - container_width) - Config.BUTTON_SIZE)
-                - Config.ELEMENT_OUTER_PADDING,
-                Config.ELEMENT_OUTER_PADDING,
-                Config.BUTTON_SIZE,
-                Config.BUTTON_SIZE,
-                normal_icon=close_icon,
-            )
-
-            tower_name = Text(
-                "selected_tower_display_name",
-                self.selected_tower_to_buy.display_name,  # ty:ignore[unresolved-attribute]
-                container_width // 2,
-                Config.ELEMENT_OUTER_PADDING,
-                anchor=RectAnchorMode.MIDTOP,
-                size=Config.FONT_SIZE_HEADER,
-            )
-
-            tower_description = Text(
-                "selected_tower_description",
-                self.selected_tower_to_buy.description,  # ty:ignore[unresolved-attribute]
-                Config.ELEMENT_OUTER_PADDING,
-                Config.ELEMENT_OUTER_PADDING + tower_name.rect.height,
-                wrap_length=container_width,
-            )
-
-            cost_text = Text(
-                "cost_text",
-                "Cost: ",
-                Config.ELEMENT_OUTER_PADDING,
-                tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-            )
-            coin_img = load_scaled_asset("coin", (36, 36))
-            coin_icon = Icon(
-                "coin_icon",
-                cost_text.rect.right,
-                cost_text.rect.top,
-                Config.FONT_SIZE_NORMAL,
-                Config.FONT_SIZE_NORMAL,
-                coin_img,
-            )
-            tower_cost = Text(
-                "tower_cost",
-                str(self.selected_tower_to_buy.initial_cost),  # ty:ignore[unresolved-attribute]
-                coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-                coin_icon.rect.top,
-            )
-
-            build_button = Button(
-                "buy_selected_tower_button",
-                container_width // 2,
-                Config.SCREEN_HEIGHT * 0.75,
-                208,
-                104,
-                anchor=RectAnchorMode.CENTER,
-                text=Text(
-                    "buy_text",
-                    "Buy",
-                    208 // 2,
-                    104 // 2,
-                    size=Config.FONT_SIZE_VERYBIG,
-                    anchor=RectAnchorMode.CENTER,
-                ),
-                normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
-                hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
-                pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
-                enabled=(self.scene.coins >= self.selected_tower_to_buy.initial_cost),  # ty:ignore[unresolved-attribute]
-            )
-
-            container.add_element(tower_name)
-            container.add_element(tower_description)
-            container.add_element(cost_text)
-            container.add_element(coin_icon)
-            container.add_element(tower_cost)
-            container.add_element(build_button)
-
-            self.elements.append(container)
-            self.elements.append(close_container_button)
+            self._build_tower_picker_selected_menu()
         elif self.state == UIStates.PLACING_TOWER:
             close_icon = load_scaled_asset("close_icon")
             tower_discard_button = Button(
