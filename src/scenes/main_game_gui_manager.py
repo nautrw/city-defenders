@@ -303,7 +303,7 @@ class MainGameSceneGUIManager(GUIManager):
                     Config.BUTTON_SIZE + Config.ELEMENT_OUTER_PADDING
                 )
 
-                icon = load_asset(tower)
+                icon = load_asset(f"{tower}_0")
                 element = Button(
                     f"build_{tower}_tower_button",
                     button_x,  # placeholders

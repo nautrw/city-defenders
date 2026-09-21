@@ -14,7 +14,7 @@ class CrossbowTower(Tower):
     initial_cost = 100
 
     def __init__(self, x_position: int, y_position: int) -> None:
-        image = load_asset("crossbow")
+        images = [load_asset("crossbow_0"), load_asset("crossbow_1"), load_asset("crossbow_2")]
 
         super().__init__(
             display_name=self.display_name,
@@ -23,7 +23,7 @@ class CrossbowTower(Tower):
             damage=[5, 10, 15],
             x_position=x_position,
             y_position=y_position,
-            tower_image=image,
+            tower_image=images,
             projectile=Arrow,
             shooting_speed=[1.5, 1, 0.5],
             area_radius=[75, 150, 225],

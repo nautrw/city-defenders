@@ -20,7 +20,7 @@ class Tower(pygame.sprite.Sprite):
         damage: list[int],
         x_position: float,
         y_position: float,
-        tower_image: pygame.Surface,
+        tower_image: list[pygame.Surface],
         projectile: type[BallisticProjectileType],
         shooting_speed: list[float],
         area_radius: list[float],
@@ -39,8 +39,8 @@ class Tower(pygame.sprite.Sprite):
 
         self.original_base_image = load_asset("tower_base")
         self.base = self.original_base_image.copy()
-        self.original_tower_image = tower_image
-        self.tower_image = tower_image.copy()
+        self.original_tower_images = tower_image
+        self.tower_image = tower_image[self.upgrade_index]
 
         # tower needs to have a separate rect because of rotation, so i use
         # the base as the rect
@@ -97,7 +97,7 @@ class Tower(pygame.sprite.Sprite):
             surface.blit(circle_surf, self.area.as_frect())
 
         self.tower_image = pygame.transform.rotozoom(
-            self.original_tower_image, self.tower_angle, 1
+            self.original_tower_images[self.upgrade_index], self.tower_angle, 1
         )
         self.tower_rect = self.tower_image.get_frect(center=self.rect.center)
 
