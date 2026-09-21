@@ -14,7 +14,7 @@ class BallistaTower(Tower):
     initial_cost = 150
 
     def __init__(self, x_position: int, y_position: int) -> None:
-        image = load_asset("ballista")
+        images = [load_asset("ballista_0"), load_asset("ballista_1"), load_asset("ballista_2")]
 
         super().__init__(
             display_name=self.display_name,
@@ -23,7 +23,7 @@ class BallistaTower(Tower):
             damage=[10, 15, 25],
             x_position=x_position,
             y_position=y_position,
-            tower_image=image,
+            tower_image=images,
             projectile=Bolt,
             shooting_speed=[2.5, 2, 1.5],
             area_radius=[75, 150, 200],

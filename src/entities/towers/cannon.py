@@ -14,7 +14,7 @@ class CannonTower(Tower):
     initial_cost = 100
 
     def __init__(self, x_position: int, y_position: int) -> None:
-        image = load_asset("cannon")
+        images = [load_asset("cannon_0"), load_asset("cannon_1"), load_asset("cannon_2")]
 
         super().__init__(
             display_name=self.display_name,
@@ -23,7 +23,7 @@ class CannonTower(Tower):
             damage=[15, 25, 40],
             x_position=x_position,
             y_position=y_position,
-            tower_image=image,
+            tower_image=images,
             projectile=CannonBall,
             shooting_speed=[3, 2, 1],
             area_radius=[75, 150, 200],
