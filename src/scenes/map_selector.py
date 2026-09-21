@@ -28,6 +28,9 @@ class MapSelectorSceneGUIManager(GUIManager):
         default_state = MapSelectorSceneGUIState.NORMAL
 
         super().__init__(scene, default_state)
+
+        self.scene: MapSelectorScene
+
         self.refresh()
 
     def refresh(self):
@@ -36,7 +39,7 @@ class MapSelectorSceneGUIManager(GUIManager):
         padding = Config.ELEMENT_OUTER_PADDING * 9
 
         if self.state == MapSelectorSceneGUIState.NORMAL:
-            map_name = self.scene.all_maps[self.scene.selected_map_index]  # ty:ignore[unresolved-attribute]
+            map_name = self.scene.all_maps[self.scene.selected_map_index]
             map_icon_surf = load_scaled_asset(f"{map_name}_globe", (288, 288))
             waves_num = len(MAPS_DATA[map_name]["waves"].keys())  # ty:ignore[unresolved-attribute]
 
@@ -61,7 +64,7 @@ class MapSelectorSceneGUIManager(GUIManager):
 
             map_name = Text(
                 "map_name",
-                self.scene.all_maps[self.scene.selected_map_index],  # ty:ignore[unresolved-attribute]
+                self.scene.all_maps[self.scene.selected_map_index],
                 Config.SCREEN_WIDTH / 2,
                 waves_number.rect.top - (padding / 2),
                 size=Config.FONT_SIZE_HUGE,
@@ -142,14 +145,14 @@ class MapSelectorSceneGUIManager(GUIManager):
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
             if event.button.id == "go_right_button":
-                self.scene.selected_map_index += 1  # ty:ignore[unresolved-attribute]
-                self.scene.selected_map_index %= len(self.scene.all_maps)  # ty:ignore[unresolved-attribute]
+                self.scene.selected_map_index += 1
+                self.scene.selected_map_index %= len(self.scene.all_maps)
             elif event.button.id == "go_left_button":
-                self.scene.selected_map_index -= 1  # ty:ignore[unresolved-attribute]
-                self.scene.selected_map_index %= len(self.scene.all_maps)  # ty:ignore[unresolved-attribute]
+                self.scene.selected_map_index -= 1
+                self.scene.selected_map_index %= len(self.scene.all_maps)
             elif event.button.id == "play_button":
-                map_name = self.scene.all_maps[self.scene.selected_map_index]  # ty:ignore[unresolved-attribute]
-                self.scene.enter_map(map_name)  # ty:ignore[unresolved-attribute]
+                map_name = self.scene.all_maps[self.scene.selected_map_index]
+                self.scene.enter_map(map_name)
 
 
 class MapSelectorScene(Scene):
