@@ -9,6 +9,7 @@ from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.entities.enemies.enemy import DEFENSE_BREACHED, ENEMY_KILLED
 from src.entities.entity_data import ENEMIES
+from src.entities.towers.tower import Tower
 from src.scenes.game_lost import GameLostScene
 from src.scenes.game_won import GameWonScene
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
@@ -53,9 +54,9 @@ class MainGameScene(Scene):
 
         self.coins = map_data["initial_balance"]
 
-        self.tower_to_place = None
+        self.tower_to_place: Tower | None = None
         self.can_place_tower = False
-        self.selected_tower = None
+        self.selected_tower: Tower | None = None
 
         self.waves = map_data["waves"]
         # -1 so that when the player starts the first wave it'll go to index 0
@@ -69,7 +70,7 @@ class MainGameScene(Scene):
         self.max_health = map_data["health"]
         self.health = self.max_health
 
-        self.game_speed_multiplier = 1
+        self.game_speed_multiplier = 1.0
 
         self.gui_manager = MainGameSceneGUIManager(self)
 
