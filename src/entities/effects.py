@@ -8,7 +8,7 @@ class EnemyEffect:
         duration: float,
         stackable: bool = False,
         speed_multiplier: float = 1,
-        damage_over_time: int = 0,
+        damage_over_time: float = 0,
         overlay_color: ColorLike | None = None,
     ) -> None:
         self.duration = duration
