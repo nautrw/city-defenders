@@ -1,6 +1,6 @@
 import pygame
 
-from src.entities.effects import EnemyEffect, PoisonedEffect
+from src.entities.effects import EnemyEffect
 from src.entities.health_bar import HealthBar
 
 ENEMY_KILLED = pygame.event.custom_type()
