@@ -33,16 +33,14 @@ class EnemyEffect:
 
 
 class FrozenEffect(EnemyEffect):
-    duration = 3
-    speed_multiplier = 0.5
     stackable = True
     overlay_color = (162, 235, 255)  # rgb(162,235,255)
 
-    def __init__(self) -> None:
+    def __init__(self, duration: float = 3, damage_over_time: float = 0, speed_multiplier: float = 0.5) -> None:
         super().__init__(
-            duration=self.duration,
+            duration=duration,
             stackable=self.stackable,
-            speed_multiplier=self.speed_multiplier,
+            speed_multiplier=speed_multiplier,
             overlay_color=self.overlay_color,
         )
 
@@ -50,13 +48,12 @@ class FrozenEffect(EnemyEffect):
 class PoisonedEffect(EnemyEffect):
     duration = 3
     stackable = True
-    damage_over_time = 0.1
     overlay_color = "#494182"
 
-    def __init__(self) -> None:
+    def __init__(self, duration: float = 3, damage_over_time: float = 0.1) -> None:
         super().__init__(
-            duration=self.duration,
+            duration=duration,
             stackable=self.stackable,
-            damage_over_time=self.damage_over_time,
+            damage_over_time=damage_over_time,
             overlay_color=self.overlay_color,
         )
