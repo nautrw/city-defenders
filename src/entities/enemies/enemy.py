@@ -65,6 +65,7 @@ class Enemy(pygame.sprite.Sprite):
 
             if effect.damage_over_time_dt_counter >= effect.damage_over_time_cooldown:
                 self.health -= effect.damage_over_time
+                effect.damage_over_time_dt_counter = 0
 
     def get_speed_multiplied(self) -> pygame.Vector2:
         cumulative_speed_multiplier = 1
