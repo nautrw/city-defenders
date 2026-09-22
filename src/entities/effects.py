@@ -17,7 +17,7 @@ class EnemyEffect:
         self.stackable = stackable
         self.speed_multiplier = speed_multiplier
 
-        self.damage_over_time_cooldown = 1
+        self.damage_over_time_cooldown = 0.1
         self.damage_over_time_dt_counter = 0
         self.damage_over_time = damage_over_time
 
@@ -50,7 +50,7 @@ class FrozenEffect(EnemyEffect):
 class PoisonedEffect(EnemyEffect):
     duration = 3
     stackable = True
-    damage_over_time = 1
+    damage_over_time = 0.1
     overlay_color = "#494182"
 
     def __init__(self) -> None:
