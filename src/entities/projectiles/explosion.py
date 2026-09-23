@@ -44,6 +44,9 @@ class Explosion(pygame.sprite.Sprite):
         self.duration_counter_dt += delta_time * game_speed_multiplier
         self.opacity = int((self.duration / self.duration_counter_dt) * 255)
 
+        if self.duration_counter_dt >= self.duration:
+            self.kill()
+
     def draw(self, surface: pygame.Surface) -> None:
         self.image.set_alpha(self.opacity)
         surface.blit(self.image, self.rect)
