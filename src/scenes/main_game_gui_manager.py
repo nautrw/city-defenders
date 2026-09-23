@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING
 
 import pygame
 
@@ -28,11 +28,6 @@ class UIStates(Enum):
     TOWER_PICKER_TOWER_SELECTED = auto()
     PLACING_TOWER = auto()
     TOWER_SELECTED = auto()
-
-
-class ContainerCloseButtonPair(TypedDict):
-    container: ElementContainer
-    close_button: Button
 
 
 class MainGameSceneGUIManager(GUIManager):
@@ -99,7 +94,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         return close_button
 
-    def _build_side_menu(self, container_id: str) -> ContainerCloseButtonPair:
+    def _build_side_menu(self, container_id: str) -> tuple[ElementContainer, Button]:
         container = ElementContainer(
             container_id,
             Config.SCREEN_WIDTH - self.container_width,
@@ -115,7 +110,7 @@ class MainGameSceneGUIManager(GUIManager):
             element_id=f"{container_id}_close_button",
         )
 
-        return {"container": container, "close_button": close_button}
+        return (container, close_button)
 
     def _build_stats_displays(self) -> None:
         card_width = 192
@@ -310,11 +305,7 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(next_wave_button)
 
     def _build_tower_picker_menu(self) -> None:
-        pair = self._build_side_menu(
-            "tower_picker_menu"
-        )
-        container = pair["container"]
-        close_button = pair["close_button"]
+        container, close_button = self._build_side_menu("tower_picker_menu")
 
         columns = max(
             1,
@@ -351,11 +342,7 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(close_button)
 
     def _build_tower_picker_selected_menu(self) -> None:
-        pair = self._build_side_menu(
-            "tower_picker_tower_selected_menu"
-        )
-        container = pair["container"]
-        close_button = pair["close_button"]
+        container, close_button = self._build_side_menu("tower_picker_tower_selected_menu")
 
         tower_name = Text(
             "selected_tower_display_name",
