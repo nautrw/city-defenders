@@ -49,7 +49,8 @@ class Tower(pygame.sprite.Sprite):
 
         self.projectile = projectile
         self.shooting_speed = shooting_speed
-        self.shoot_cooldown_delta_time = 0
+        # can shoot immediately after placing
+        self.shoot_cooldown_delta_time = shooting_speed[self.upgrade_index]
 
         self.area_radius = area_radius
         self.area = Circle(self.rect.center, self.area_radius[self.upgrade_index])
