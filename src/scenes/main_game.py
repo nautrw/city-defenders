@@ -158,6 +158,7 @@ class MainGameScene(Scene):
             mouse_x, mouse_y = pygame.mouse.get_pos()
             mouse_world_coord = self.camera.viewport_to_world(mouse_x, mouse_y)
 
+            ## camera movement
             if not any(
                 element.rect.collidepoint(mouse_x, mouse_y)
                 for element in self.gui_manager.elements
@@ -191,12 +192,14 @@ class MainGameScene(Scene):
                         ) and not pygame.sprite.spritecollide(
                             self.tower_to_place, self.towers_group, False
                         )
-                elif event.type == ENEMY_KILLED:
-                    self.coins += event.entity.coins_drop
-                    self.gui_manager.update_coins_text()
-                elif event.type == DEFENSE_BREACHED:
-                    self.health -= event.entity.health
-                    self.gui_manager.update_health_text()
+
+            if event.type == ENEMY_KILLED:
+                self.coins += event.entity.coins_drop
+                self.gui_manager.update_coins_text()
+
+            if event.type == DEFENSE_BREACHED:
+                self.health -= event.entity.health
+                self.gui_manager.update_health_text()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
