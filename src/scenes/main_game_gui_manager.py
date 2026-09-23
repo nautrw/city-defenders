@@ -120,8 +120,6 @@ class MainGameSceneGUIManager(GUIManager):
             "heart_icon",
             Config.ELEMENT_OUTER_PADDING,
             card_height // 2,
-            Config.GUI_MEDIUM_ICON_SIZE,
-            Config.GUI_MEDIUM_ICON_SIZE,
             load_scaled_asset(
                 "health_icon",
                 (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE),
@@ -154,8 +152,6 @@ class MainGameSceneGUIManager(GUIManager):
             "coin_icon",
             Config.ELEMENT_OUTER_PADDING,
             card_height // 2,
-            Config.GUI_MEDIUM_ICON_SIZE,
-            Config.GUI_MEDIUM_ICON_SIZE,
             load_scaled_asset(
                 "coin", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
             ),
@@ -372,8 +368,6 @@ class MainGameSceneGUIManager(GUIManager):
             "coin_icon",
             cost_text.rect.right,
             cost_text.rect.top,
-            Config.FONT_SIZE_NORMAL,
-            Config.FONT_SIZE_NORMAL,
             coin_img,
         )
         tower_cost = Text(
@@ -488,7 +482,6 @@ class MainGameSceneGUIManager(GUIManager):
                 "attack_icon",
                 Config.ELEMENT_OUTER_PADDING,
                 tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-                *attack_icon_surf.size,
                 image=attack_icon_surf,
             )
 
@@ -507,7 +500,6 @@ class MainGameSceneGUIManager(GUIManager):
                 "attack_speed_icon",
                 Config.ELEMENT_OUTER_PADDING,
                 attack_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-                *attack_speed_icon_surf.size,
                 image=attack_speed_icon_surf,
             )
             attack_speed_text = Text(
@@ -525,7 +517,6 @@ class MainGameSceneGUIManager(GUIManager):
                 "range_icon",
                 Config.ELEMENT_OUTER_PADDING,
                 attack_speed_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-                *range_icon_surf.size,
                 image=range_icon_surf,
             )
             range_text = Text(

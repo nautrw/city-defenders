@@ -47,8 +47,6 @@ class MapSelectorSceneGUIManager(GUIManager):
                 "map_icon",
                 Config.SCREEN_WIDTH / 2,
                 Config.SCREEN_HEIGHT / 2,
-                map_icon_surf.width,
-                map_icon_surf.height,
                 map_icon_surf,
                 anchor=RectAnchorMode.CENTER,
             )
