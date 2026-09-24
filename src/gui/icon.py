@@ -10,15 +10,13 @@ class Icon(Element):
         id: str,
         x: float,
         y: float,
-        width: int,
-        height: int,
         image: pygame.Surface,
         anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
     ) -> None:
         self.id = id
-        self.surface = pygame.transform.scale(image, (width, height))
-        self.width = width
-        self.height = height
+        self.surface = image.copy()
+        self.width = image.width
+        self.height = image.height
         self.anchor = anchor
 
         self.x = x

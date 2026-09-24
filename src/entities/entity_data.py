@@ -1,4 +1,5 @@
 from src.entities.enemies.fast_slime import FastSlime
+from src.entities.enemies.ghost import Ghost
 from src.entities.enemies.slime import Slime
 from src.entities.enemies.tank_slime import TankSlime
 from src.entities.towers.ballista import BallistaTower
@@ -7,7 +8,12 @@ from src.entities.towers.crossbow import CrossbowTower
 from src.entities.towers.frostspire import FrostspireTower
 from src.entities.towers.venom_shooter import VenomShooterTower
 
-ENEMIES = {"slime": Slime, "fast_slime": FastSlime, "tank_slime": TankSlime}
+ENEMIES = {
+    "slime": Slime,
+    "fast_slime": FastSlime,
+    "tank_slime": TankSlime,
+    "ghost": Ghost,
+}
 TOWERS = {
     "crossbow": CrossbowTower,
     "ballista": BallistaTower,
