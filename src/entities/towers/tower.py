@@ -5,7 +5,10 @@ from pygame.typing import ColorLike
 import src.core.config as Config
 from src.core.utils import angle_to_point, load_asset
 from src.entities.enemies.enemy import Enemy
-from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
+from src.entities.projectiles.ballistic_projectile import (
+    BallisticProjectileType,
+    BallisticProjectile,
+)
 
 
 class Tower(pygame.sprite.Sprite):
@@ -59,7 +62,7 @@ class Tower(pygame.sprite.Sprite):
 
         self.tower_tip = pygame.Vector2(0, -self.tower_image.get_height() / 2)
 
-    def _shoot_at(self, enemy: Enemy) -> None:
+    def _shoot_at(self, enemy: Enemy) -> BallisticProjectile:
         # this is so it shoots from the tip of the tower
         projectile_offset = self.tower_tip.rotate(-self.tower_angle)
         projectile_position = self.position + projectile_offset

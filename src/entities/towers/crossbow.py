@@ -14,7 +14,11 @@ class CrossbowTower(Tower):
     initial_cost = 100
 
     def __init__(self, x_position: int, y_position: int) -> None:
-        images = [load_asset("crossbow_0"), load_asset("crossbow_1"), load_asset("crossbow_2")]
+        images = [
+            load_asset("crossbow_0"),
+            load_asset("crossbow_1"),
+            load_asset("crossbow_2"),
+        ]
 
         super().__init__(
             display_name=self.display_name,

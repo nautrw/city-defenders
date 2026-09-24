@@ -10,7 +10,7 @@ class CannonBall(BallisticProjectile):
     rect: pygame.Rect | pygame.FRect
 
     def __init__(
-        self, damage: int, x_position: float, y_position: float, target: Enemy
+        self, damage: float, x_position: float, y_position: float, target: Enemy
     ) -> None:
         image = load_asset("cannon_ball")
 

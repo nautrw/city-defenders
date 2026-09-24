@@ -36,7 +36,12 @@ class FrozenEffect(EnemyEffect):
     stackable = True
     overlay_color = (162, 235, 255)  # rgb(162,235,255)
 
-    def __init__(self, duration: float = 3, damage_over_time: float = 0, speed_multiplier: float = 0.5) -> None:
+    def __init__(
+        self,
+        duration: float = 3,
+        damage_over_time: float = 0,
+        speed_multiplier: float = 0.5,
+    ) -> None:
         super().__init__(
             duration=duration,
             stackable=self.stackable,

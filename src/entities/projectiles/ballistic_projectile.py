@@ -15,8 +15,8 @@ from src.entities.projectiles.explosion import Explosion
 # dont take an image because they provide it
 class BallisticProjectileType(Protocol):
     def __call__(
-        self, damage: int, x_position: float, y_position: float, target: Enemy
-    ) -> None:
+        self, damage: float, x_position: float, y_position: float, target: Enemy
+    ) -> "BallisticProjectile":
         pass
 
 
@@ -26,7 +26,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
     def __init__(
         self,
-        damage: int,
+        damage: float,
         x_position: float,
         y_position: float,
         target: Enemy,
