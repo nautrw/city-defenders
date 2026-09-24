@@ -152,6 +152,8 @@ class MapSelectorSceneGUIManager(GUIManager):
                 map_name = self.scene.all_maps[self.scene.selected_map_index]
                 self.scene.enter_map(map_name)
 
+            self.refresh()
+
 
 class MapSelectorScene(Scene):
     def __init__(self, game: "GameApp"):
