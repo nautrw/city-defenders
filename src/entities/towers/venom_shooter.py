@@ -26,7 +26,7 @@ class VenomShooterTower(Tower):
             display_name=self.display_name,
             description=self.description,
             cost=[self.initial_cost, 300, 450],
-            damage=[0, 0, 0],
+            damage=[0.1, 0.2, 0.3],
             x_position=x_position,
             y_position=y_position,
             tower_image=image,
