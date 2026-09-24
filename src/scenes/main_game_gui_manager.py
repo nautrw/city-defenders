@@ -474,12 +474,7 @@ class MainGameSceneGUIManager(GUIManager):
         ### tower upgrades
         if (
             selected_tower
-            and
-            selected_tower.upgrade_index
-            < len(
-                selected_tower.cost
-            )
-            - 1
+            and selected_tower.upgrade_index < len(selected_tower.cost) - 1
         ):
             coins_icon_surf = load_scaled_asset(
                 "coin", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
@@ -495,7 +490,7 @@ class MainGameSceneGUIManager(GUIManager):
                 f"Cost: {selected_tower.cost[selected_tower.upgrade_index]}",
                 x=coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
                 y=coins_icon.rect.centery,
-                anchor=RectAnchorMode.MIDLEFT
+                anchor=RectAnchorMode.MIDLEFT,
             )
 
             attack_icon_surf = load_scaled_asset(

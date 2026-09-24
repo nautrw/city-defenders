@@ -45,6 +45,6 @@ class GUIManager(ABC):
                         return container_element
             else:
                 if element.id == id:
-                    return element # ty:ignore[invalid-return-type]
+                    return element  # ty:ignore[invalid-return-type]
 
         raise ValueError(f"element with id {id} not found")
