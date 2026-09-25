@@ -78,21 +78,12 @@ class MapSelectorSceneGUIManager(GUIManager):
             arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
 
             # it's kind of confusing, i'm aware
-            (
-                right_button_normal_icon,
-                right_button_hovered_icon,
-                right_button_pressed_icon,
-            ) = load_button_state_triplet_assets("left_arrow", arrow_new_size).values()
-
-            left_button_icon = pygame.transform.flip(
-                right_button_normal_icon, True, False
-            )
-            left_button_hovered_icon = pygame.transform.flip(
-                right_button_hovered_icon, True, False
-            )
-            left_button_pressed_icon = pygame.transform.flip(
-                right_button_pressed_icon, True, False
-            )
+            right_icons = load_button_state_triplet_assets("left_arrow", arrow_new_size)
+            left_icons = {
+                "normal_icon": pygame.transform.flip(right_icons["normal_icon"], True, False),
+                "pressed_icon": pygame.transform.flip(right_icons["pressed_icon"], True, False),
+                "hover_icon": pygame.transform.flip(right_icons["hover_icon"], True, False),
+            }
 
             go_right_button = Button(
                 "go_right_button",
@@ -100,9 +91,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 map_icon.rect.centery,
                 *arrow_new_size,
                 anchor=RectAnchorMode.MIDLEFT,
-                normal_icon=right_button_normal_icon,
-                hover_icon=right_button_hovered_icon,
-                pressed_icon=right_button_pressed_icon,
+                **right_icons,
                 normal_bg=None,
                 hover_bg=None,
                 pressed_bg=None,
@@ -114,9 +103,9 @@ class MapSelectorSceneGUIManager(GUIManager):
                 map_icon.rect.centery,
                 *arrow_new_size,
                 anchor=RectAnchorMode.MIDRIGHT,
-                normal_icon=left_button_icon,
-                hover_icon=left_button_hovered_icon,
-                pressed_icon=left_button_pressed_icon,
+                normal_icon=left_icons["normal_icon"],
+                hover_icon=left_icons["hover_icon"],
+                pressed_icon=left_icons["pressed_icon"],
                 normal_bg=None,
                 hover_bg=None,
                 pressed_bg=None,

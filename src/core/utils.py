@@ -1,6 +1,7 @@
 import json
 import math
 from pathlib import Path
+from typing import TypedDict
 
 import numpy as np
 import pygame
@@ -112,11 +113,15 @@ def load_scaled_asset(
 ) -> pygame.Surface:
     return pygame.transform.scale(load_asset(asset_name), new_size)
 
+class ButtonStateTriplet(TypedDict):
+    normal_icon: pygame.Surface
+    hover_icon: pygame.Surface
+    pressed_icon: pygame.Surface
 
 def load_button_state_triplet_assets(
     base_name: str,
     new_size: tuple[int, int] = (Config.GUI_ICON_SIZE, Config.GUI_ICON_SIZE),
-) -> dict[str, pygame.Surface]:
+) -> ButtonStateTriplet:
     return {
         "normal_icon": load_scaled_asset(f"{base_name}_button_normal", new_size),
         "hover_icon": load_scaled_asset(f"{base_name}_button_hovered", new_size),
