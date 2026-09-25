@@ -72,7 +72,7 @@ class MapSelectorSceneGUIManager(GUIManager):
             arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
 
             # it's kind of confusing, i'm aware
-            right_button_icon = load_scaled_asset("left_button", arrow_new_size)
+            right_button_icon = load_scaled_asset("left_button_normal", arrow_new_size)
             right_button_hovered_icon = load_scaled_asset(
                 "left_arrow_button_hovered", arrow_new_size
             )
