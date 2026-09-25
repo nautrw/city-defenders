@@ -28,7 +28,10 @@ class HealthBar(pygame.sprite.Sprite):
         self.health_percent = 1.0
 
     def update(
-        self, current_health: float, max_health: float, position: tuple[float, float] | pygame.Vector2
+        self,
+        current_health: float,
+        max_health: float,
+        position: tuple[float, float] | pygame.Vector2,
     ) -> None:
         self.rect.centerx = int(position[0])
         self.rect.centery = int(position[1] + self.position_offset)

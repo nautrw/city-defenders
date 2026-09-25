@@ -1,9 +1,9 @@
-from src.entities.health_bar import HealthBar
 import pygame
 
+import src.core.config as Config
 from src.core.utils import load_asset
 from src.entities.enemies.enemy import Enemy
-import src.core.config as Config
+from src.entities.health_bar import HealthBar
 
 
 class TankSlime(Enemy):

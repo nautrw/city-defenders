@@ -26,7 +26,7 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_index = 0
         self.animation_duration = animation_duration
         self.animation_dt_counter = 0
-        
+
         self.image = self.animation[self.animation_index]
         self.rect = self.image.get_frect()
 
