@@ -2,13 +2,23 @@
     "cSpell.words": [
         "blit",
         "blits",
+        "centery",
         "collidepoint",
         "frect",
+        "frostspire",
+        "lerp",
+        "MIDBOTTOM",
         "MIDLEFT",
+        "MIDRIGHT",
         "MIDTOP",
         "MOUSEBUTTONDOWN",
         "MOUSEMOTION",
         "spritecollide",
-        "VERYBIG"
+        "SRCALPHA",
+        "stackable",
+        "tileset",
+        "venomshooter",
+        "VERYBIG",
+        "wraplength"
     ]
 }
