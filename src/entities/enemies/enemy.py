@@ -26,8 +26,8 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_index = 0
         self.animation_duration = animation_duration
         self.animation_dt_counter = 0
-
-        self.image = animation[self.animation_index]
+        
+        self.image = self.animation[self.animation_index]
         self.rect = self.image.get_frect()
 
         self.path_waypoints = path_waypoints
@@ -39,17 +39,19 @@ class Enemy(pygame.sprite.Sprite):
         self.max_health = max_health
         self.health = max_health
 
-        self.effects = []
+        self.effects: list[EnemyEffect] = []
 
         self.coins_drop = coins_drop
 
         self.health_bar = HealthBar()
 
     def draw(self, surface: pygame.Surface) -> None:
-        for effect in self.effects:
-            effect.draw(self.image)
+        image_drawn = self.image.copy()
 
-        surface.blit(self.image, self.rect)
+        for effect in self.effects:
+            effect.draw(image_drawn)
+
+        surface.blit(image_drawn, self.rect)
         self.health_bar.draw(surface)
 
     def add_effect(self, effect: EnemyEffect) -> None:
