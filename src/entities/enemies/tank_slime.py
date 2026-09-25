@@ -3,6 +3,7 @@ import pygame
 
 from src.core.utils import load_asset
 from src.entities.enemies.enemy import Enemy
+import src.core.config as Config
 
 
 class TankSlime(Enemy):
@@ -21,4 +22,7 @@ class TankSlime(Enemy):
             coins_drop=250,
         )
 
-        self.health_bar = HealthBar(width=56, height=10)
+        self.health_bar = HealthBar(
+            width=Config.DEFAULT_HEALTH_BAR_WIDTH * 2,
+            height=Config.DEFAULT_HEALTH_BAR_HEIGHT * 2,
+        )

@@ -9,8 +9,8 @@ class HealthBar(pygame.sprite.Sprite):
 
     def __init__(
         self,
-        width: float = 28.0,
-        height: float = 5.0,
+        width: float = Config.DEFAULT_HEALTH_BAR_WIDTH,
+        height: float = Config.DEFAULT_HEALTH_BAR_HEIGHT,
         border_width: float = 1.0,
         position_offset: float = -4.0,
     ) -> None:
