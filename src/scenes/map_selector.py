@@ -6,7 +6,7 @@ import pygame
 import src.core.config as Config
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import load_asset, load_map, load_scaled_asset, split_tileset
+from src.core.utils import load_asset, load_map, load_scaled_asset, split_tileset, load_button_state_triplet_assets
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.icon import Icon
@@ -72,15 +72,9 @@ class MapSelectorSceneGUIManager(GUIManager):
             arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
 
             # it's kind of confusing, i'm aware
-            right_button_icon = load_scaled_asset("left_button_normal", arrow_new_size)
-            right_button_hovered_icon = load_scaled_asset(
-                "left_arrow_button_hovered", arrow_new_size
-            )
-            right_button_pressed_icon = load_scaled_asset(
-                "left_arrow_button_pressed", arrow_new_size
-            )
+            right_button_normal_icon, right_button_hovered_icon, right_button_pressed_icon = load_button_state_triplet_assets("left_arrow", arrow_new_size).values()
 
-            left_button_icon = pygame.transform.flip(right_button_icon, True, False)
+            left_button_icon = pygame.transform.flip(right_button_normal_icon, True, False)
             left_button_hovered_icon = pygame.transform.flip(
                 right_button_hovered_icon, True, False
             )
@@ -94,7 +88,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 map_icon.rect.centery,
                 *arrow_new_size,
                 anchor=RectAnchorMode.MIDLEFT,
-                normal_icon=right_button_icon,
+                normal_icon=right_button_normal_icon,
                 hover_icon=right_button_hovered_icon,
                 pressed_icon=right_button_pressed_icon,
                 normal_bg=None,
