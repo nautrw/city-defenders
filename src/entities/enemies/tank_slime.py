@@ -1,3 +1,4 @@
+from src.entities.health_bar import HealthBar
 import pygame
 
 from src.core.utils import load_asset
@@ -19,3 +20,5 @@ class TankSlime(Enemy):
             path_waypoints=path_waypoints,
             coins_drop=250,
         )
+
+        self.health_bar = HealthBar(width=56, height=10)
