@@ -1,3 +1,4 @@
+from src.entities.enemies.crab import Crab
 from src.entities.enemies.fast_slime import FastSlime
 from src.entities.enemies.ghost import Ghost
 from src.entities.enemies.slime import Slime
@@ -13,6 +14,7 @@ ENEMIES = {
     "fast_slime": FastSlime,
     "tank_slime": TankSlime,
     "ghost": Ghost,
+    "crab": Crab
 }
 TOWERS = {
     "crossbow": CrossbowTower,
