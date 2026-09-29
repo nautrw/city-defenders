@@ -13,8 +13,8 @@ class Crab(Enemy):
 
         super().__init__(
             animation=animation,
-            movement_speed=50,
-            max_health=10,
+            movement_speed=32,
+            max_health=42,
             path_waypoints=path_waypoints,
-            coins_drop=25,
+            coins_drop=15,
         )

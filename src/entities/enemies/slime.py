@@ -13,8 +13,8 @@ class Slime(Enemy):
 
         super().__init__(
             animation=animation,
-            movement_speed=50,
-            max_health=10,
+            movement_speed=42,
+            max_health=18,
             path_waypoints=path_waypoints,
-            coins_drop=25,
+            coins_drop=12,
         )

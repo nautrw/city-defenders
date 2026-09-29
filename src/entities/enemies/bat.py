@@ -13,9 +13,9 @@ class Bat(Enemy):
 
         super().__init__(
             animation=animation,
-            movement_speed=150,
-            animation_duration=0.1,
-            max_health=10,
+            movement_speed=125,
+            animation_duration=0.125,
+            max_health=9,
             path_waypoints=path_waypoints,
-            coins_drop=30,
+            coins_drop=18,
         )

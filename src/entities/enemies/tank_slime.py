@@ -15,11 +15,11 @@ class TankSlime(Enemy):
 
         super().__init__(
             animation=animation,
-            movement_speed=10,
+            movement_speed=20,
             animation_duration=0.25,
-            max_health=100,
+            max_health=260,
             path_waypoints=path_waypoints,
-            coins_drop=250,
+            coins_drop=125,
         )
 
         self.health_bar = HealthBar(
