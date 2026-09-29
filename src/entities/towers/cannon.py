@@ -11,7 +11,7 @@ class CannonTower(Tower):
 
     display_name = "Cannon"
     description = "Shoots cannon balls at turrets. Explosion does massive amounts of damage to multiple enemies."
-    initial_cost = 100
+    initial_cost = 175
 
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [
@@ -23,12 +23,12 @@ class CannonTower(Tower):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=[self.initial_cost, 500, 700],
-            damage=[15, 25, 40],
+            cost=[self.initial_cost, 240, 330],
+            damage=[22, 35, 52],
             x_position=x_position,
             y_position=y_position,
             tower_image=images,
             projectile=CannonBall,
-            shooting_speed=[3, 2, 1],
-            area_radius=[75, 150, 200],
+            shooting_speed=[2.8, 2.3, 1.8],
+            area_radius=[115, 140, 165],
         )

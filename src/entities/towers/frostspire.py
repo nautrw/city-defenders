@@ -13,7 +13,7 @@ class FrostspireTower(Tower):
     description = (
         "Slows down enemies by making them cold. Does not damage enemies by itself."
     )
-    initial_cost = 250
+    initial_cost = 145
 
     def __init__(self, x_position: int, y_position: int) -> None:
         image = [
@@ -25,12 +25,12 @@ class FrostspireTower(Tower):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=[self.initial_cost, 300, 450],
+            cost=[self.initial_cost, 205, 285],
             damage=[0, 0, 0],
             x_position=x_position,
             y_position=y_position,
             tower_image=image,
             projectile=IceShard,
-            shooting_speed=[5, 3, 2],
-            area_radius=[75, 150, 200],
+            shooting_speed=[2.6, 2.1, 1.6],
+            area_radius=[105, 135, 165],
         )
