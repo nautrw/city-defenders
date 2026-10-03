@@ -1,3 +1,4 @@
+import random
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -74,6 +75,8 @@ class MainGameScene(Scene):
         self.game_speed_multiplier = 1.0
 
         self.music_playlist = map_data["music"]
+        random.shuffle(self.music_playlist)
+        
         self.music_index = 0
         self.music_channel = pygame.mixer.find_channel()
         self.play_next_music()

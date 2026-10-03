@@ -1,3 +1,4 @@
+import random
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -10,6 +11,7 @@ from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
+from src.maps.data import ALL_MAP_MUSIC
 from src.scenes.map_selector import MapSelectorScene
 
 if TYPE_CHECKING:
@@ -70,7 +72,9 @@ class MainMenuScene(Scene):
     def __init__(self, game: "GameApp"):
         super().__init__(game)
 
-        self.music_playlist = list(SOUNDS_DICT.keys())
+        self.music_playlist = ALL_MAP_MUSIC  # couldnt decide on one
+        random.shuffle(self.music_playlist)
+
         self.music_index = 0
         self.music_channel = pygame.mixer.find_channel()
         self.play_next_music()
@@ -82,9 +86,11 @@ class MainMenuScene(Scene):
         pygame.mixer.music.load(get_sound(current_music))
         pygame.mixer.music.play(fade_ms=Config.DEFAULT_SOUND_FADEIN_MS)
 
-        to_queue = self.music_playlist[(self.music_index + 1) % len(self.music_playlist)]
+        to_queue = self.music_playlist[
+            (self.music_index + 1) % len(self.music_playlist)
+        ]
         pygame.mixer.music.queue(get_sound(to_queue))
-        
+
     def render(self, surface: pygame.Surface) -> None:
         surface.fill(Config.BRIGHT_GREEN)
 
@@ -99,7 +105,7 @@ class MainMenuScene(Scene):
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             self.gui_manager.handle_event(event)
-            
+
             if event == pygame.mixer.music.get_endevent():
                 self.play_next_music()
 
