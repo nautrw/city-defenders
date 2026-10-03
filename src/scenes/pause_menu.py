@@ -1,13 +1,11 @@
-from src.gui.button import Button, CUSTOM_BUTTON_CLICKED
-import packaging.utils
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
-from pygame.examples.cursors import surf
 
 import src.core.config as Config
-from src.core.scenes_manager import Scene, SceneManager
+from src.core.scenes_manager import Scene
+from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
@@ -51,7 +49,7 @@ class PauseMenuGUIManager(GUIManager):
             container_side_length / 2,
             Config.ELEMENT_OUTER_PADDING,
             size=Config.FONT_SIZE_VERYBIG,
-            anchor=RectAnchorMode.MIDTOP
+            anchor=RectAnchorMode.MIDTOP,
         )
 
         back_button = Button(
@@ -60,8 +58,14 @@ class PauseMenuGUIManager(GUIManager):
             pause_text.rect.bottom + Config.ELEMENT_OUTER_PADDING,
             button_width,
             button_height,
-            text=Text("back_button_text", "Back", button_width / 2, button_height / 2, anchor=RectAnchorMode.CENTER),
-            anchor=RectAnchorMode.MIDTOP
+            text=Text(
+                "back_button_text",
+                "Back",
+                button_width / 2,
+                button_height / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            anchor=RectAnchorMode.MIDTOP,
         )
 
         restart_button = Button(
@@ -70,8 +74,14 @@ class PauseMenuGUIManager(GUIManager):
             back_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
             button_width,
             button_height,
-            text=Text("restart_button_text", "Restart Map", button_width / 2, button_height / 2, anchor=RectAnchorMode.CENTER),
-            anchor=RectAnchorMode.MIDTOP
+            text=Text(
+                "restart_button_text",
+                "Restart Map",
+                button_width / 2,
+                button_height / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            anchor=RectAnchorMode.MIDTOP,
         )
 
         main_container.add_element(pause_text)
@@ -80,15 +90,14 @@ class PauseMenuGUIManager(GUIManager):
         self.elements.append(main_container)
 
     def handle_event(self, event: pygame.Event) -> None:
-        if event.type == CUSTOM_BUTTON_CLICKED: # noqa: SIM102
+        if event.type == CUSTOM_BUTTON_CLICKED:
             if event.button.id == "back_button":
                 self.scene.game.scene_manager.pop()
             elif event.button.id == "restart_button":
                 self.scene.game.scene_manager.pop()
 
                 if self.scene.game.scene_manager.current_scene:
-                    self.scene.game.scene_manager.current_scene.restart() # ty:ignore[unresolved-attribute]
-
+                    self.scene.game.scene_manager.current_scene.restart()  # ty:ignore[unresolved-attribute]
 
 
 class PauseMenuScene(Scene):
@@ -108,10 +117,9 @@ class PauseMenuScene(Scene):
         for event in events:
             self.gui_manager.handle_event(event)
 
-            if event.type == pygame.KEYDOWN: # noqa: SIM102
+            if event.type == pygame.KEYDOWN:  # noqa: SIM102
                 if event.key == pygame.K_ESCAPE:
                     self.game.scene_manager.pop()
-
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
