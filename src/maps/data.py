@@ -1,4 +1,4 @@
-ALL_MAP_MUSIC = ["Heroic Demise", "Soliloquy"]
+ALL_MAP_MUSIC = ["Heroic Demise", "Soliloquy", "The Fall of Arcana"]
 
 MAPS_DATA = {
     "Ground Zero": {
