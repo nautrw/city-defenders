@@ -60,3 +60,6 @@ ASSET_PATH: Path = Path("src", "assets")
 MAPS_PATH: Path = Path("src", "maps")
 FONTS_PATH: Path = Path("src", "assets", "fonts")
 SOUNDS_PATH: Path = Path("src", "assets", "sounds")
+
+
+DEFAULT_SOUND_FADEIN_MS: int = 1000

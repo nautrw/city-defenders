@@ -5,7 +5,7 @@ import pygame
 
 import src.core.config as Config
 from src.core.scenes_manager import Scene
-from src.core.utils import load_asset
+from src.core.utils import SOUNDS_DICT, get_sound, load_asset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
@@ -70,8 +70,21 @@ class MainMenuScene(Scene):
     def __init__(self, game: "GameApp"):
         super().__init__(game)
 
+        self.music_playlist = list(SOUNDS_DICT.keys())
+        self.music_index = 0
+        self.music_channel = pygame.mixer.find_channel()
+        self.play_next_music()
+
         self.gui_manager = MainMenuSceneGUIManager(self)
 
+    def play_next_music(self):
+        current_music = self.music_playlist[self.music_index]
+        pygame.mixer.music.load(get_sound(current_music))
+        pygame.mixer.music.play(fade_ms=Config.DEFAULT_SOUND_FADEIN_MS)
+
+        to_queue = self.music_playlist[(self.music_index + 1) % len(self.music_playlist)]
+        pygame.mixer.music.queue(get_sound(to_queue))
+        
     def render(self, surface: pygame.Surface) -> None:
         surface.fill(Config.BRIGHT_GREEN)
 
@@ -86,6 +99,9 @@ class MainMenuScene(Scene):
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             self.gui_manager.handle_event(event)
+            
+            if event == pygame.mixer.music.get_endevent():
+                self.play_next_music()
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())

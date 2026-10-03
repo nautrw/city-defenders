@@ -5,11 +5,14 @@ from src.core.scenes_manager import SceneManager
 from src.core.utils import load_asset
 from src.scenes.main_menu import MainMenuScene
 
+STREAMED_MUSIC_END = pygame.event.custom_type()
+
 
 class GameApp:
     def __init__(self) -> None:
         pygame.init()
         pygame.mixer.init()
+        pygame.mixer.music.set_endevent(STREAMED_MUSIC_END)
         pygame.font.init()
 
         self.running = True

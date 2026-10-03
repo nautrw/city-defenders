@@ -22,7 +22,7 @@ FONTS_DICT = {
 }
 SOUNDS_DICT = {
     file.name.replace(".mp3", ""): file
-    for file in list(Config.MUSIC_PATH.rglob("*.mp3"))
+    for file in list(Config.SOUNDS_PATH.rglob("*.mp3"))
 }
 
 
@@ -138,5 +138,5 @@ def load_button_state_triplet_assets(
 def get_font(font_name: str) -> Path:
     return FONTS_DICT[font_name]
 
-def get_sound(sound_name: str):
-    return pygame.mixer.Sound(SOUNDS_DICT[sound_name])
+def get_sound(sound_name: str) -> Path:
+    return SOUNDS_DICT[sound_name]
