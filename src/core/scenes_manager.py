@@ -74,3 +74,9 @@ class SceneManager:
         """Pushes a new scene to the stack without affecting the one below.."""
         self._scenes_stack.append(new_scene)
         new_scene.on_enter()
+
+    def draw_sequentially(self, surface: pygame.Surface) -> None:
+        surface.fill((0, 0, 0))
+
+        for scene in self._scenes_stack:
+            scene.render(surface)

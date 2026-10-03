@@ -232,8 +232,6 @@ class MainGameScene(Scene):
             self.gui_manager.handle_event(event)
 
     def render(self, surface: pygame.Surface) -> None:
-        surface.fill("black")
-
         self.map.draw(self.game_surface)
 
         # pygame.sprite.Group.draw() only blits the sprite image,

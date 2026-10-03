@@ -45,7 +45,9 @@ class GameApp:
                 if self.scene_manager.current_scene:
                     self.scene_manager.current_scene.handle_events(events)
                     self.scene_manager.current_scene.update(self.delta_time)
-                    self.scene_manager.current_scene.render(self.screen)
+                
+                self.scene_manager.draw_sequentially(self.screen)
+
 
                 pygame.display.flip()
                 self.delta_time = self.clock.tick(Config.FPS) / 1000.0
