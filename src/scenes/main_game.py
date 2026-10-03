@@ -1,3 +1,4 @@
+from src.scenes.pause_menu import PauseMenuScene
 import random
 from enum import Enum, auto
 from typing import TYPE_CHECKING
@@ -82,6 +83,10 @@ class MainGameScene(Scene):
         self.play_next_music()
 
         self.gui_manager = MainGameSceneGUIManager(self)
+
+    def on_exit(self):
+        pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
 
     def play_next_music(self):
         current_music = self.music_playlist[self.music_index]
@@ -223,6 +228,7 @@ class MainGameScene(Scene):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.paused = not self.paused
+                    self.game.scene_manager.push(PauseMenuScene(self.game))
                 elif event.key == pygame.K_r:
                     self.draw_tower_radiuses = not self.draw_tower_radiuses
 
@@ -230,6 +236,9 @@ class MainGameScene(Scene):
                 self.play_next_music()
 
             self.gui_manager.handle_event(event)
+
+    def on_enter(self) -> None:
+        self.paused = False
 
     def render(self, surface: pygame.Surface) -> None:
         self.map.draw(self.game_surface)
@@ -271,3 +280,24 @@ class MainGameScene(Scene):
         surface.blit(scaled_game_surface, (0, 0), camera_view)
 
         self.gui_manager.render_elements(surface)
+
+    def restart(self) -> None:
+        self.enemies_group.empty()
+        self.towers_group.empty()
+        self.projectiles_group.empty()
+        self.explosions_group.empty()
+
+        self.tower_to_place = None
+        self.can_place_tower = False
+        self.selected_tower = None
+
+        self.wave = -1
+        self.wave_state = WaveState.CLEARING
+
+        self.wave_enemy_spawn_index = 0
+        self.enemy_spawn_interval = 1
+        self.enemy_spawn_interval_dt_count = 0
+
+        self.health = self.max_health
+
+        self.gui_manager.refresh()
