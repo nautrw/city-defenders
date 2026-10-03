@@ -30,23 +30,24 @@ class PauseMenuGUIManager(GUIManager):
         self.refresh()
 
     def refresh(self) -> None:
-        container_side_length = 500
-        button_width = container_side_length - (Config.ELEMENT_OUTER_PADDING * 2)
+        container_height = 258
+        container_width = 500
+        button_width = container_width - (Config.ELEMENT_OUTER_PADDING * 2)
         button_height = 50
 
         main_container = ElementContainer(
             "main_container",
             Config.SCREEN_WIDTH / 2,
             Config.SCREEN_HEIGHT / 2,
-            container_side_length,
-            container_side_length,
+            container_width,
+            container_height,
             anchor=RectAnchorMode.CENTER,
         )
 
         pause_text = Text(
             "paused_text",
             "Paused",
-            container_side_length / 2,
+            container_width / 2,
             Config.ELEMENT_OUTER_PADDING,
             size=Config.FONT_SIZE_VERYBIG,
             anchor=RectAnchorMode.MIDTOP,
@@ -54,7 +55,7 @@ class PauseMenuGUIManager(GUIManager):
 
         back_button = Button(
             "back_button",
-            container_side_length / 2,
+            container_width / 2,
             pause_text.rect.bottom + Config.ELEMENT_OUTER_PADDING,
             button_width,
             button_height,
@@ -70,7 +71,7 @@ class PauseMenuGUIManager(GUIManager):
 
         restart_button = Button(
             "restart_button",
-            container_side_length / 2,
+            container_width / 2,
             back_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
             button_width,
             button_height,
@@ -86,7 +87,7 @@ class PauseMenuGUIManager(GUIManager):
 
         main_menu_button = Button(
             "main_menu_button",
-            container_side_length / 2,
+            container_width / 2,
             restart_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
             button_width,
             button_height,
