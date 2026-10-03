@@ -1,3 +1,5 @@
+ALL_MAP_MUSIC = ["Heroic Demise", "Soliloquy"]
+
 MAPS_DATA = {
     "Ground Zero": {
         "waves": {
@@ -30,6 +32,7 @@ MAPS_DATA = {
         },
         "initial_balance": 260,
         "health": 25,
+        "music": ALL_MAP_MUSIC
     },
     "Frontier": {
         "waves": {
@@ -78,5 +81,6 @@ MAPS_DATA = {
         },
         "initial_balance": 300,
         "health": 25,
+        "music": ALL_MAP_MUSIC
     },
 }

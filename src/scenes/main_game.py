@@ -7,6 +7,7 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
+from src.core.utils import get_sound
 from src.entities.enemies.enemy import DEFENSE_BREACHED, ENEMY_KILLED
 from src.entities.entity_data import ENEMIES
 from src.entities.towers.tower import Tower
@@ -72,7 +73,22 @@ class MainGameScene(Scene):
 
         self.game_speed_multiplier = 1.0
 
+        self.music_playlist = map_data["music"]
+        self.music_index = 0
+        self.music_channel = pygame.mixer.find_channel()
+        self.play_next_music()
+
         self.gui_manager = MainGameSceneGUIManager(self)
+
+    def play_next_music(self):
+        current_music = self.music_playlist[self.music_index]
+        pygame.mixer.music.load(get_sound(current_music))
+        pygame.mixer.music.play(fade_ms=Config.DEFAULT_SOUND_FADEIN_MS)
+
+        to_queue = self.music_playlist[
+            (self.music_index + 1) % len(self.music_playlist)
+        ]
+        pygame.mixer.music.queue(get_sound(to_queue))
 
     def place_selected_tower(self) -> None:
         self.towers_group.add(self.tower_to_place)
@@ -206,6 +222,9 @@ class MainGameScene(Scene):
                     self.paused = not self.paused
                 elif event.key == pygame.K_r:
                     self.draw_tower_radiuses = not self.draw_tower_radiuses
+
+            if event == pygame.mixer.music.get_endevent():
+                self.play_next_music()
 
             self.gui_manager.handle_event(event)
 
