@@ -80,3 +80,6 @@ class SceneManager:
 
         for scene in self._scenes_stack:
             scene.render(surface)
+
+    def empty_stack(self):
+        self._scenes_stack: list[Scene] = []

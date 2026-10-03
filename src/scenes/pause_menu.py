@@ -84,9 +84,27 @@ class PauseMenuGUIManager(GUIManager):
             anchor=RectAnchorMode.MIDTOP,
         )
 
+        main_menu_button = Button(
+            "main_menu_button",
+            container_side_length / 2,
+            restart_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            button_width,
+            button_height,
+            text=Text(
+                "main_menu_button_text",
+                "Main Menu",
+                button_width / 2,
+                button_height / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            anchor=RectAnchorMode.MIDTOP,
+        )
+
+
         main_container.add_element(pause_text)
         main_container.add_element(back_button)
         main_container.add_element(restart_button)
+        main_container.add_element(main_menu_button)
         self.elements.append(main_container)
 
     def handle_event(self, event: pygame.Event) -> None:
@@ -98,6 +116,12 @@ class PauseMenuGUIManager(GUIManager):
 
                 if self.scene.game.scene_manager.current_scene:
                     self.scene.game.scene_manager.current_scene.restart()  # ty:ignore[unresolved-attribute]
+            elif event.button.id == "main_menu_button":
+                # prevents circular import
+                from src.scenes.main_menu import MainMenuScene
+
+                self.scene.game.scene_manager.empty_stack()
+                self.scene.game.scene_manager.push(MainMenuScene(self.scene.game))
 
 
 class PauseMenuScene(Scene):
