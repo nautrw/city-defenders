@@ -92,11 +92,9 @@ class PauseMenuGUIManager(GUIManager):
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
             if event.button.id == "back_button":
-                self.scene.game.scene_manager.pop()
-                pygame.mixer.music.unpause()
-                self.scene.game.scene_manager.paused = False
+                self.scene.unpause()
             elif event.button.id == "restart_button":
-                self.scene.game.scene_manager.pop()
+                self.scene.unpause()
 
                 if self.scene.game.scene_manager.current_scene:
                     self.scene.game.scene_manager.current_scene.restart()  # ty:ignore[unresolved-attribute]
@@ -115,13 +113,18 @@ class PauseMenuScene(Scene):
 
         self.gui_manager.render_elements(surface)
 
+    def unpause(self):
+        self.game.scene_manager.pop()
+        pygame.mixer.music.unpause()
+        self.game.scene_manager.current_scene.paused = False # ty:ignore[unresolved-attribute]
+
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
             self.gui_manager.handle_event(event)
 
             if event.type == pygame.KEYDOWN:  # noqa: SIM102
                 if event.key == pygame.K_ESCAPE:
-                    self.game.scene_manager.pop()
+                    self.unpause()
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())

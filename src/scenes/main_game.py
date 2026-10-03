@@ -1,4 +1,3 @@
-from src.scenes.pause_menu import PauseMenuScene
 import random
 from enum import Enum, auto
 from typing import TYPE_CHECKING
@@ -16,6 +15,7 @@ from src.entities.towers.tower import Tower
 from src.scenes.game_lost import GameLostScene
 from src.scenes.game_won import GameWonScene
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
+from src.scenes.pause_menu import PauseMenuScene
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
@@ -77,7 +77,7 @@ class MainGameScene(Scene):
 
         self.music_playlist = map_data["music"]
         random.shuffle(self.music_playlist)
-        
+
         self.music_index = 0
         self.music_channel = pygame.mixer.find_channel()
         self.play_next_music()
