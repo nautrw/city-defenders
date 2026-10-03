@@ -20,6 +20,10 @@ FONTS_DICT = {
     file.name.replace(".ttf", ""): file
     for file in list(Config.FONTS_PATH.rglob("*.ttf"))
 }
+SOUNDS_DICT = {
+    file.name.replace(".mp3", ""): file
+    for file in list(Config.MUSIC_PATH.rglob("*.mp3"))
+}
 
 
 def split_tileset(
@@ -113,10 +117,12 @@ def load_scaled_asset(
 ) -> pygame.Surface:
     return pygame.transform.scale(load_asset(asset_name), new_size)
 
+
 class ButtonStateTriplet(TypedDict):
     normal_icon: pygame.Surface
     hover_icon: pygame.Surface
     pressed_icon: pygame.Surface
+
 
 def load_button_state_triplet_assets(
     base_name: str,
@@ -131,3 +137,6 @@ def load_button_state_triplet_assets(
 
 def get_font(font_name: str) -> Path:
     return FONTS_DICT[font_name]
+
+def get_sound(sound_name: str):
+    return pygame.mixer.Sound(SOUNDS_DICT[sound_name])

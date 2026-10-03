@@ -9,6 +9,7 @@ from src.scenes.main_menu import MainMenuScene
 class GameApp:
     def __init__(self) -> None:
         pygame.init()
+        pygame.mixer.init()
         pygame.font.init()
 
         self.running = True

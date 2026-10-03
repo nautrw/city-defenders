@@ -59,3 +59,4 @@ BUTTON_SIZE: int = 70
 ASSET_PATH: Path = Path("src", "assets")
 MAPS_PATH: Path = Path("src", "maps")
 FONTS_PATH: Path = Path("src", "assets", "fonts")
+SOUNDS_PATH: Path = Path("src", "assets", "sounds")
