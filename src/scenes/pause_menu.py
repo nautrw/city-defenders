@@ -93,6 +93,8 @@ class PauseMenuGUIManager(GUIManager):
         if event.type == CUSTOM_BUTTON_CLICKED:
             if event.button.id == "back_button":
                 self.scene.game.scene_manager.pop()
+                pygame.mixer.music.unpause()
+                self.scene.game.scene_manager.paused = False
             elif event.button.id == "restart_button":
                 self.scene.game.scene_manager.pop()
 
