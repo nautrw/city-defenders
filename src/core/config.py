@@ -62,4 +62,4 @@ FONTS_PATH: Path = Path("src", "assets", "fonts")
 SOUNDS_PATH: Path = Path("src", "assets", "sounds")
 
 
-DEFAULT_SOUND_FADEIN_MS: int = 1000
+DEFAULT_SOUND_FADEIN_MS: int = 5000
