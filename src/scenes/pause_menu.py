@@ -101,7 +101,6 @@ class PauseMenuGUIManager(GUIManager):
             anchor=RectAnchorMode.MIDTOP,
         )
 
-
         main_container.add_element(pause_text)
         main_container.add_element(back_button)
         main_container.add_element(restart_button)
@@ -141,7 +140,7 @@ class PauseMenuScene(Scene):
     def unpause(self):
         self.game.scene_manager.pop()
         pygame.mixer.music.unpause()
-        self.game.scene_manager.current_scene.paused = False # ty:ignore[unresolved-attribute]
+        self.game.scene_manager.current_scene.paused = False  # ty:ignore[invalid-assignment]
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:

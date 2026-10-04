@@ -80,9 +80,15 @@ class MapSelectorSceneGUIManager(GUIManager):
             # it's kind of confusing, i'm aware
             right_icons = load_button_state_triplet_assets("left_arrow", arrow_new_size)
             left_icons = {
-                "normal_icon": pygame.transform.flip(right_icons["normal_icon"], True, False),
-                "pressed_icon": pygame.transform.flip(right_icons["pressed_icon"], True, False),
-                "hover_icon": pygame.transform.flip(right_icons["hover_icon"], True, False),
+                "normal_icon": pygame.transform.flip(
+                    right_icons["normal_icon"], True, False
+                ),
+                "pressed_icon": pygame.transform.flip(
+                    right_icons["pressed_icon"], True, False
+                ),
+                "hover_icon": pygame.transform.flip(
+                    right_icons["hover_icon"], True, False
+                ),
             }
 
             go_right_button = Button(

@@ -6,7 +6,7 @@ import pygame
 
 import src.core.config as Config
 from src.core.scenes_manager import Scene
-from src.core.utils import SOUNDS_DICT, get_sound, load_asset
+from src.core.utils import get_sound, load_asset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode

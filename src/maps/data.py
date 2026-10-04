@@ -32,7 +32,7 @@ MAPS_DATA = {
         },
         "initial_balance": 260,
         "health": 25,
-        "music": ALL_MAP_MUSIC
+        "music": ALL_MAP_MUSIC,
     },
     "Frontier": {
         "waves": {
@@ -81,6 +81,6 @@ MAPS_DATA = {
         },
         "initial_balance": 300,
         "health": 25,
-        "music": ALL_MAP_MUSIC
+        "music": ALL_MAP_MUSIC,
     },
 }

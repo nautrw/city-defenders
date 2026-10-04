@@ -138,5 +138,6 @@ def load_button_state_triplet_assets(
 def get_font(font_name: str) -> Path:
     return FONTS_DICT[font_name]
 
+
 def get_sound(sound_name: str) -> Path:
     return SOUNDS_DICT[sound_name]
