@@ -45,6 +45,16 @@ class MapSelectorSceneGUIManager(GUIManager):
         padding = Config.ELEMENT_OUTER_PADDING * 9
 
         if self.state == MapSelectorSceneGUIState.NORMAL:
+            close_icon = Button(
+                "back_to_main_menu_button",
+                Config.ELEMENT_OUTER_PADDING,
+                Config.ELEMENT_OUTER_PADDING,
+                Config.BUTTON_SIZE,
+                Config.BUTTON_SIZE,
+                anchor=RectAnchorMode.TOPLEFT,
+                normal_icon=load_scaled_asset("close_icon")
+            )
+
             map_name = self.scene.all_maps[self.scene.selected_map_index]
             map_icon_surf = load_scaled_asset(f"{map_name}_globe", (288, 288))
             waves_num = len(MAPS_DATA[map_name]["waves"].keys())  # ty:ignore[unresolved-attribute]
@@ -134,6 +144,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.MIDTOP,
             )
 
+            self.elements.append(close_icon)
             self.elements.append(map_name)
             self.elements.append(waves_number)
             self.elements.append(map_icon)
@@ -152,6 +163,10 @@ class MapSelectorSceneGUIManager(GUIManager):
             elif event.button.id == "play_button":
                 map_name = self.scene.all_maps[self.scene.selected_map_index]
                 self.scene.enter_map(map_name)
+            elif event.button.id == "back_to_main_menu_button":
+                # prevent circular import
+                from src.scenes.main_menu import MainMenuScene
+                self.scene.game.scene_manager.switch(MainMenuScene(self.scene.game))
 
             self.refresh()
 
