@@ -1,3 +1,4 @@
+from loguru import logger
 import random
 from enum import Enum, auto
 from typing import TYPE_CHECKING
@@ -114,6 +115,13 @@ class MainGameScene(Scene):
             tower_cost = self.selected_tower.cost[self.selected_tower.upgrade_index]
             refund = round(tower_cost * 0.75)
             self.coins += refund
+
+            # TODO: FINISH THIS LOG
+            logger.info(f"tower sold: type={type(self.selected_tower)}, "
+                        f"upgrade index={self.selected_tower.upgrade_index}, "
+                        f"current cost={tower_cost}, "
+                        f"new coins=")
+
             self.selected_tower.kill()
             self.selected_tower = None
 
@@ -218,10 +226,20 @@ class MainGameScene(Scene):
                         )
 
             if event.type == ENEMY_KILLED:
+                logger.debug(
+                    f"ENEMY_KILLED event received: type={type(event.entity)}, "
+                    f"coins={event.entity.coins_drop}"
+                )
+
                 self.coins += event.entity.coins_drop
                 self.gui_manager.update_coins_text()
 
             if event.type == DEFENSE_BREACHED:
+                logger.debug(
+                    f"DEFENSE_BREACHED event received: type={type(event.entity)}, "
+                    f"health={event.entity.health}, base health={self.health}"
+                )
+
                 self.health -= event.entity.health
                 self.gui_manager.update_health_text()
 
@@ -299,3 +317,5 @@ class MainGameScene(Scene):
         self.health = self.max_health
 
         self.gui_manager.refresh()
+
+        logger.success("game restarted successfully")
