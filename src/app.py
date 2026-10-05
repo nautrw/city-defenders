@@ -1,6 +1,7 @@
 import pygame
 
 import src.core.config as Config
+from src.core.data_saving import load_data_from_file
 from src.core.scenes_manager import SceneManager
 from src.core.utils import load_asset
 from src.scenes.main_menu import MainMenuScene
@@ -27,6 +28,8 @@ class GameApp:
 
         self.clock = pygame.time.Clock()
         self.delta_time = 0.0
+
+        self.player_save = load_data_from_file()
 
         self.scene_manager = SceneManager()
         self.scene_manager.push(MainMenuScene(self))

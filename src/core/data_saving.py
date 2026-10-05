@@ -1,3 +1,4 @@
+import os
 import json
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -20,8 +21,19 @@ class PlayerSave:
     unlocked_towers: list[str] = field(default_factory=list)
     beaten_maps: list[str] = field(default_factory=list)
 
+def ensure_data_file(path: Path = DATA_FILE) -> None:
+    if not os.path.isfile(path):
+        logger.info("data file does not exist, creating")
 
-def save_data_to_file(save: PlayerSave, path: Path = DATA_FILE) -> None:
+        with open(path, 'w') as f:
+            fresh_save = PlayerSave()
+            json_output = json.dumps(asdict(fresh_save))
+            f.write(json_output)
+
+
+def save_data_to_file(save: PlayerSave, path: Path=DATA_FILE) -> None:
+    ensure_data_file()
+
     json_output = json.dumps(asdict(save))
 
     with open(path, "w") as f:
@@ -30,7 +42,9 @@ def save_data_to_file(save: PlayerSave, path: Path = DATA_FILE) -> None:
     logger.success(f"Successfully wrote save file: {save}")
 
 
-def load_data_from_file(path: Path = DATA_FILE) -> PlayerSave:
+def load_data_from_file(path: Path=DATA_FILE) -> PlayerSave:
+    ensure_data_file()
+
     with open(path, "r") as f:
         json_output = json.load(f)
         save = PlayerSave(**json_output)
