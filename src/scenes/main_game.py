@@ -1,9 +1,9 @@
-from loguru import logger
 import random
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
+from loguru import logger
 
 import src.core.config as Config
 from src.core.camera import Camera
@@ -105,12 +105,14 @@ class MainGameScene(Scene):
         self.towers_group.add(self.tower_to_place)
         self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
 
-        cost = self.tower_to_place.cost[self.tower_to_place.upgrade_index] # ty:ignore[unresolved-attribute]
+        cost = self.tower_to_place.cost[self.tower_to_place.upgrade_index]  # ty:ignore[unresolved-attribute]
 
         self.coins -= cost
-        
-        logger.info(f"tower placed: type={type(self.tower_to_place)}, "
-                    f"cost={cost}, new coins={self.coins}")
+
+        logger.info(
+            f"tower placed: type={type(self.tower_to_place)}, "
+            f"cost={cost}, new coins={self.coins}"
+        )
 
         # reset everything
         self.can_place_tower = False
@@ -125,10 +127,12 @@ class MainGameScene(Scene):
             self.coins += refund
 
             # TODO: FINISH THIS LOG
-            logger.info(f"tower sold: type={type(self.selected_tower)}, "
-                        f"upgrade index={self.selected_tower.upgrade_index}, "
-                        f"current cost={tower_cost}, "
-                        f"new coins={self.coins}")
+            logger.info(
+                f"tower sold: type={type(self.selected_tower)}, "
+                f"upgrade index={self.selected_tower.upgrade_index}, "
+                f"current cost={tower_cost}, "
+                f"new coins={self.coins}"
+            )
 
             self.selected_tower.kill()
             self.selected_tower = None

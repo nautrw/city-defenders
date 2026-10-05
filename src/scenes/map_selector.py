@@ -1,8 +1,8 @@
-from loguru import logger
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
+from loguru import logger
 
 import src.core.config as Config
 from src.core.map import GameMap
@@ -53,7 +53,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE,
                 anchor=RectAnchorMode.TOPLEFT,
-                normal_icon=load_scaled_asset("close_icon")
+                normal_icon=load_scaled_asset("close_icon"),
             )
 
             map_name = self.scene.all_maps[self.scene.selected_map_index]
@@ -79,7 +79,7 @@ class MapSelectorSceneGUIManager(GUIManager):
 
             map_name = Text(
                 "map_name",
-                MAPS_DATA[map_name]["display_name"], # ty:ignore[invalid-argument-type]
+                MAPS_DATA[map_name]["display_name"],  # ty:ignore[invalid-argument-type]
                 Config.SCREEN_WIDTH / 2,
                 waves_number.rect.top - (padding / 2),
                 size=Config.FONT_SIZE_HUGE,
@@ -167,6 +167,7 @@ class MapSelectorSceneGUIManager(GUIManager):
             elif event.button.id == "back_to_main_menu_button":
                 # prevent circular import
                 from src.scenes.main_menu import MainMenuScene
+
                 self.scene.game.scene_manager.switch(MainMenuScene(self.scene.game))
 
             self.refresh()

@@ -1,12 +1,14 @@
-from pathlib import Path
 import json
-from dataclasses import dataclass, asdict, field
-from platformdirs import PlatformDirs
+from dataclasses import asdict, dataclass, field
+from pathlib import Path
+
 from loguru import logger
+from platformdirs import PlatformDirs
 
 dirs = PlatformDirs("CityDefenders", "nautrw", ensure_exists=True)
 DATA_FILE = dirs.user_data_path / "save.json"
 logger.info(f"Save data file: {DATA_FILE}")
+
 
 @dataclass
 class PlayerSave:
@@ -18,18 +20,20 @@ class PlayerSave:
     unlocked_towers: list[str] = field(default_factory=list)
     beaten_maps: list[str] = field(default_factory=list)
 
-def save_data_to_file(save: PlayerSave, path: Path=DATA_FILE) -> None:
+
+def save_data_to_file(save: PlayerSave, path: Path = DATA_FILE) -> None:
     json_output = json.dumps(asdict(save))
 
-    with open(path, 'w') as f:
+    with open(path, "w") as f:
         f.write(json_output)
 
     logger.success(f"Successfully wrote save file: {save}")
 
-def load_data_from_file(path: Path=DATA_FILE) -> PlayerSave:
-    with open(path, 'r') as f:
+
+def load_data_from_file(path: Path = DATA_FILE) -> PlayerSave:
+    with open(path, "r") as f:
         json_output = json.load(f)
         save = PlayerSave(**json_output)
         logger.success(f"Successfully loaded save file: {save}")
-    
+
     return save

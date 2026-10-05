@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
-from loguru import logger
 
 import pygame
+from loguru import logger
 
 # Solves the circular import error as a result of src.app being uninitialized
 # TYPE_CHECKING is false at runtime so the lsp can still see it but it's not
@@ -59,8 +59,10 @@ class SceneManager:
         # after popping
         if self._scenes_stack:
             self._scenes_stack[-1].on_enter()
-        
-        logger.info(f"scene popped: removed={old_scene}, new stack={self._scenes_stack}")
+
+        logger.info(
+            f"scene popped: removed={old_scene}, new stack={self._scenes_stack}"
+        )
 
     def switch(self, new_scene: Scene) -> None:
         """
@@ -73,7 +75,9 @@ class SceneManager:
         self._scenes_stack.append(new_scene)
         new_scene.on_enter()
 
-        logger.info(f"scene switched: old={old_scene}, new={type(new_scene)}, stack={self._scenes_stack}")
+        logger.info(
+            f"scene switched: old={old_scene}, new={type(new_scene)}, stack={self._scenes_stack}"
+        )
 
     def push(self, new_scene: Scene) -> None:
         """Pushes a new scene to the stack without affecting the one below.."""
