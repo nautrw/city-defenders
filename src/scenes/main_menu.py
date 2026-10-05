@@ -2,6 +2,7 @@ import random
 from typing import TYPE_CHECKING
 
 import pygame
+from loguru import logger
 
 import src.core.config as Config
 from src.core.scenes_manager import Scene
@@ -56,7 +57,9 @@ class MainMenuSceneGUIManager(GUIManager):
         self.elements.append(play_button)
 
     def handle_event(self, event: pygame.Event) -> None:
-        if event.type == CUSTOM_BUTTON_CLICKED:  # noqa: SIM102
+        if event.type == CUSTOM_BUTTON_CLICKED:
+            logger.debug(f"gui button clicked: id={event.button.id}")
+
             if event.button.id == "play_button":
                 self.scene.game.scene_manager.switch(MapSelectorScene(self.scene.game))
 

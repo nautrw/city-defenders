@@ -47,7 +47,7 @@ class MainGameSceneGUIManager(GUIManager):
         self.refresh()
 
     def switch_state(self, new_state: Enum):
-        logger.debug(f"switched state: old={self.state}, new={new_state.name}")
+        logger.debug(f"switched main game gui state: old={self.state}, new={new_state.name}")
 
         self.state = new_state
         self.refresh()

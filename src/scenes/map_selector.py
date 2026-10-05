@@ -148,6 +148,8 @@ class MapSelectorSceneGUIManager(GUIManager):
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
+            logger.debug(f"gui button clicked: id={event.button.id}")
+
             if event.button.id == "go_right_button":
                 self.scene.selected_map_index += 1
                 self.scene.selected_map_index %= len(self.scene.all_maps)

@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 import pygame
 
 import src.core.config as Config
+from loguru import logger
 from src.core.scenes_manager import Scene
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
@@ -102,6 +103,8 @@ class PauseMenuGUIManager(GUIManager):
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
+            logger.debug(f"gui button clicked: id={event.button.id}")
+
             if event.button.id == "back_button":
                 self.scene.unpause()
             elif event.button.id == "restart_button":
