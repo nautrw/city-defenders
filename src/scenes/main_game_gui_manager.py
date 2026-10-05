@@ -1,3 +1,4 @@
+from loguru import logger
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -615,6 +616,8 @@ class MainGameSceneGUIManager(GUIManager):
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
+            logger.debug(f"gui button clicked: id={event.button.id}")
+
             if event.button.id == "tower_picker_menu_button":
                 self.switch_state(UIStates.TOWER_PICKER_MENU)
             elif event.button.id == "tower_picker_menu_close_button":

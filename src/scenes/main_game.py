@@ -242,7 +242,7 @@ class MainGameScene(Scene):
                         )
 
             if event.type == ENEMY_KILLED:
-                logger.info(
+                logger.debug(
                     f"ENEMY_KILLED event received: type={type(event.entity)}, "
                     f"coins={event.entity.coins_drop}"
                 )
@@ -251,7 +251,7 @@ class MainGameScene(Scene):
                 self.gui_manager.update_coins_text()
 
             if event.type == DEFENSE_BREACHED:
-                logger.info(
+                logger.debug(
                     f"DEFENSE_BREACHED event received: type={type(event.entity)}, "
                     f"health={event.entity.health}, base health={self.health}"
                 )
@@ -334,4 +334,4 @@ class MainGameScene(Scene):
 
         self.gui_manager.refresh()
 
-        logger.success("game restarted successfully")
+        logger.info("game restarted")
