@@ -66,7 +66,7 @@ class MapSelectorSceneGUIManager(GUIManager):
             f"{waves_num} Waves",
             Config.SCREEN_WIDTH / 2,
             map_icon.rect.top - (padding / 3),
-            size=Config.FONT_SIZE_HEADER,
+            size=Config.FONT_SIZE_LARGE,
             anchor=RectAnchorMode.MIDBOTTOM,
         )
 
@@ -75,7 +75,7 @@ class MapSelectorSceneGUIManager(GUIManager):
             MAPS_DATA[map_name]["display_name"],  # ty:ignore[invalid-argument-type]
             Config.SCREEN_WIDTH / 2,
             waves_number.rect.top - (padding / 2),
-            size=Config.FONT_SIZE_HUGE,
+            size=Config.FONT_SIZE_XXXLARGE,
             anchor=RectAnchorMode.MIDBOTTOM,
         )
 
@@ -132,7 +132,7 @@ class MapSelectorSceneGUIManager(GUIManager):
                 "Play",
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE / 2,
-                Config.FONT_SIZE_HEADER,
+                Config.FONT_SIZE_LARGE,
                 anchor=RectAnchorMode.CENTER,
             ),
             anchor=RectAnchorMode.MIDTOP,

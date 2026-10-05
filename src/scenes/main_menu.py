@@ -31,7 +31,7 @@ class MainMenuSceneGUIManager(GUIManager):
             "City Defenders TD",
             Config.SCREEN_WIDTH / 2,
             Config.SCREEN_HEIGHT * 0.25,
-            Config.FONT_SIZE_HUGE,
+            Config.FONT_SIZE_XXXLARGE,
             anchor=RectAnchorMode.CENTER,
             wrap_length=0,
         )
@@ -47,7 +47,7 @@ class MainMenuSceneGUIManager(GUIManager):
                 "Play",
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE / 2,
-                Config.FONT_SIZE_HEADER,
+                Config.FONT_SIZE_LARGE,
                 anchor=RectAnchorMode.CENTER,
             ),
             anchor=RectAnchorMode.CENTER,

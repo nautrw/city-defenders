@@ -43,7 +43,7 @@ class PauseMenuGUIManager(GUIManager):
             "Paused",
             container_width / 2,
             Config.ELEMENT_OUTER_PADDING,
-            size=Config.FONT_SIZE_VERYBIG,
+            size=Config.FONT_SIZE_XXLARGE,
             anchor=RectAnchorMode.MIDTOP,
         )
 

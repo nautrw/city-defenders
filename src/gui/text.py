@@ -19,7 +19,7 @@ class Text(Element):
         text: str,
         x: float,
         y: float,
-        size: int = Config.FONT_SIZE_NORMAL,
+        size: int = Config.FONT_SIZE_MEDIUM,
         anchor: RectAnchorMode = RectAnchorMode.TOPLEFT,
         antialias: bool = True,
         fg_color: ColorLike = Config.TEXT_COLOR_NORMAL,

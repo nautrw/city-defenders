@@ -140,7 +140,7 @@ class MainGameSceneGUIManager(GUIManager):
             f"{self.scene.health}/{self.scene.max_health}",
             heart_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             card_height // 2,
-            Config.FONT_SIZE_BIGGER,
+            Config.FONT_SIZE_XLARGE,
             anchor=RectAnchorMode.MIDLEFT,
         )
 
@@ -171,7 +171,7 @@ class MainGameSceneGUIManager(GUIManager):
             str(self.scene.coins),
             coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             card_height // 2,
-            Config.FONT_SIZE_BIGGER,
+            Config.FONT_SIZE_XLARGE,
             anchor=RectAnchorMode.MIDLEFT,
         )
 
@@ -356,7 +356,7 @@ class MainGameSceneGUIManager(GUIManager):
             self.container_width // 2,
             Config.ELEMENT_OUTER_PADDING,
             anchor=RectAnchorMode.MIDTOP,
-            size=Config.FONT_SIZE_HEADER,
+            size=Config.FONT_SIZE_LARGE,
         )
 
         tower_description = Text(
@@ -399,7 +399,7 @@ class MainGameSceneGUIManager(GUIManager):
                 "Buy",
                 208 // 2,
                 104 // 2,
-                size=Config.FONT_SIZE_VERYBIG,
+                size=Config.FONT_SIZE_XXLARGE,
                 anchor=RectAnchorMode.CENTER,
             ),
             normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
@@ -447,7 +447,7 @@ class MainGameSceneGUIManager(GUIManager):
             self.container_width // 2,
             Config.ELEMENT_OUTER_PADDING,
             anchor=RectAnchorMode.MIDTOP,
-            size=Config.FONT_SIZE_HEADER,
+            size=Config.FONT_SIZE_LARGE,
         )
 
         tower_description = Text(
@@ -471,7 +471,7 @@ class MainGameSceneGUIManager(GUIManager):
                 "Sell",
                 208 // 2,
                 104 // 2,
-                size=Config.FONT_SIZE_VERYBIG,
+                size=Config.FONT_SIZE_XXLARGE,
                 anchor=RectAnchorMode.CENTER,
             ),
             normal_bg=Config.RED_BUTTON_NORMAL_BG,
@@ -566,7 +566,7 @@ class MainGameSceneGUIManager(GUIManager):
                     "Upgrade",
                     208 // 2,
                     104 // 2,
-                    size=Config.FONT_SIZE_BIGGER,
+                    size=Config.FONT_SIZE_XLARGE,
                     anchor=RectAnchorMode.CENTER,
                 ),
                 normal_bg=Config.GREEN_BUTTON_NORMAL_BG,

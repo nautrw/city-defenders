@@ -30,7 +30,7 @@ class GameVictorySceneGUIManager(GUIManager):
             "Victory!",
             Config.SCREEN_WIDTH / 2,
             Config.SCREEN_HEIGHT * 0.25,
-            size=Config.FONT_SIZE_HUGE,
+            size=Config.FONT_SIZE_XXXLARGE,
             anchor=RectAnchorMode.CENTER,
         )
 
@@ -46,7 +46,7 @@ class GameVictorySceneGUIManager(GUIManager):
                 "Play Again",
                 button_width / 2,
                 Config.BUTTON_SIZE / 2,
-                size=Config.FONT_SIZE_HEADER,
+                size=Config.FONT_SIZE_LARGE,
                 anchor=RectAnchorMode.CENTER,
             ),
             anchor=RectAnchorMode.CENTER,
