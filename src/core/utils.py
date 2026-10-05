@@ -58,7 +58,6 @@ def reshape(arr: list, dimensions: tuple[int, int]) -> list[list]:
         start_i = y * width
         end_i = start_i + width
         result.append(arr[start_i:end_i])
-        print(start_i, end_i, arr[start_i:end_i])
 
     return result
 
