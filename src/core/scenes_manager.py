@@ -27,10 +27,10 @@ class Scene(ABC):
     def render(self, surface: pygame.Surface) -> None: ...
 
     def on_enter(self) -> None:
-        logger.info(f"entered scene {type(self)}")
+        pass
 
     def on_exit(self) -> None:
-        logger.info(f"exited scene {type(self)}")
+        pass
 
 
 class SceneManager:
@@ -59,6 +59,8 @@ class SceneManager:
         # after popping
         if self._scenes_stack:
             self._scenes_stack[-1].on_enter()
+        
+        logger.info(f"scene popped: removed={old_scene}, new stack={self._scenes_stack}")
 
     def switch(self, new_scene: Scene) -> None:
         """
@@ -71,10 +73,14 @@ class SceneManager:
         self._scenes_stack.append(new_scene)
         new_scene.on_enter()
 
+        logger.info(f"scene switched: old={old_scene}, new={type(new_scene)}, stack={self._scenes_stack}")
+
     def push(self, new_scene: Scene) -> None:
         """Pushes a new scene to the stack without affecting the one below.."""
         self._scenes_stack.append(new_scene)
         new_scene.on_enter()
+
+        logger.info(f"scene pushed: new={new_scene}, stack={self._scenes_stack}")
 
     def draw_sequentially(self, surface: pygame.Surface) -> None:
         surface.fill((0, 0, 0))
