@@ -1,7 +1,8 @@
 ALL_MAP_MUSIC = ["Heroic Demise", "Soliloquy", "The Fall of Arcana"]
 
 MAPS_DATA = {
-    "Ground Zero": {
+    "ground_zero": {
+        "display_name": "Ground Zero",
         "waves": {
             0: ("slime", "slime"),
             1: ("slime", "ghost", "slime"),
@@ -34,7 +35,8 @@ MAPS_DATA = {
         "health": 25,
         "music": ALL_MAP_MUSIC,
     },
-    "Frontier": {
+    "frontier": {
+        "display_name": "Frontier",
         "waves": {
             0: ("slime", "slime", "ghost"),
             1: ("slime", "fast_slime", "ghost", "crab"),
@@ -83,7 +85,8 @@ MAPS_DATA = {
         "health": 25,
         "music": ALL_MAP_MUSIC,
     },
-    "Molten Lands": {
+    "molten_lands": {
+        "display_name": "Molten Lands",
         "waves": {
             0: (
                 "slime",

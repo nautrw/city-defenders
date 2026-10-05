@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
+from loguru import logger
 
 import pygame
 
@@ -26,10 +27,10 @@ class Scene(ABC):
     def render(self, surface: pygame.Surface) -> None: ...
 
     def on_enter(self) -> None:
-        pass
+        logger.info(f"entered scene {type(self)}")
 
     def on_exit(self) -> None:
-        pass
+        logger.info(f"exited scene {type(self)}")
 
 
 class SceneManager:

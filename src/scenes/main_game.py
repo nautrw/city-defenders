@@ -99,10 +99,18 @@ class MainGameScene(Scene):
         ]
         pygame.mixer.music.queue(get_sound(to_queue))
 
+        logger.info(f"playing music: current={current_music}, queued={to_queue}")
+
     def place_selected_tower(self) -> None:
         self.towers_group.add(self.tower_to_place)
         self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
-        self.coins -= self.tower_to_place.cost[self.tower_to_place.upgrade_index]  # ty:ignore[unresolved-attribute]
+
+        cost = self.tower_to_place.cost[self.tower_to_place.upgrade_index] # ty:ignore[unresolved-attribute]
+
+        self.coins -= cost
+        
+        logger.info(f"tower placed: type={type(self.tower_to_place)}, "
+                    f"cost={cost}, new coins={self.coins}")
 
         # reset everything
         self.can_place_tower = False
@@ -120,7 +128,7 @@ class MainGameScene(Scene):
             logger.info(f"tower sold: type={type(self.selected_tower)}, "
                         f"upgrade index={self.selected_tower.upgrade_index}, "
                         f"current cost={tower_cost}, "
-                        f"new coins=")
+                        f"new coins={self.coins}")
 
             self.selected_tower.kill()
             self.selected_tower = None
@@ -133,6 +141,8 @@ class MainGameScene(Scene):
         self.wave_state = WaveState.SPAWNING
 
         self.gui_manager.update_wave_text()
+
+        logger.info(f"new wave: wave={self.wave}, enemies={self.waves[self.wave]}")
 
     def update(self, delta_time: float) -> None:
         if not self.paused:
@@ -161,9 +171,11 @@ class MainGameScene(Scene):
                 and len(self.enemies_group) <= 0
                 and self.wave >= len(self.waves) - 1
             ):
+                logger.info("game won")
                 self.game.scene_manager.switch(GameWonScene(self.game))
 
             if self.health <= 0:
+                logger.info("game lost")
                 self.game.scene_manager.switch(GameLostScene(self.game))
 
             self.enemies_group.update(delta_time, self.game_speed_multiplier)
@@ -226,7 +238,7 @@ class MainGameScene(Scene):
                         )
 
             if event.type == ENEMY_KILLED:
-                logger.debug(
+                logger.info(
                     f"ENEMY_KILLED event received: type={type(event.entity)}, "
                     f"coins={event.entity.coins_drop}"
                 )
@@ -235,7 +247,7 @@ class MainGameScene(Scene):
                 self.gui_manager.update_coins_text()
 
             if event.type == DEFENSE_BREACHED:
-                logger.debug(
+                logger.info(
                     f"DEFENSE_BREACHED event received: type={type(event.entity)}, "
                     f"health={event.entity.health}, base health={self.health}"
                 )

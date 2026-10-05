@@ -78,7 +78,7 @@ class MapSelectorSceneGUIManager(GUIManager):
 
             map_name = Text(
                 "map_name",
-                self.scene.all_maps[self.scene.selected_map_index],
+                MAPS_DATA[map_name]["display_name"], # ty:ignore[invalid-argument-type]
                 Config.SCREEN_WIDTH / 2,
                 waves_number.rect.top - (padding / 2),
                 size=Config.FONT_SIZE_HUGE,
