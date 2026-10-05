@@ -1,4 +1,3 @@
-from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
@@ -14,52 +13,46 @@ if TYPE_CHECKING:
     from src.app import GameApp
 
 
-class GameDefeatSceneGUIState(Enum):
-    NORMAL = auto()
-
-
 class GameDefeatSceneGUIManager(GUIManager):
     def __init__(self, scene: "GameLostScene"):
-        default_state = GameDefeatSceneGUIState.NORMAL
         self.scene: GameLostScene
 
-        super().__init__(scene, default_state)
+        super().__init__(scene)
 
         self.refresh()
 
     def refresh(self) -> None:
         self.elements = []
 
-        if self.state == GameDefeatSceneGUIState.NORMAL:
-            defeat_text = Text(
-                "defeated_text",
-                "Defeated...",
-                Config.SCREEN_WIDTH / 2,
-                Config.SCREEN_HEIGHT * 0.25,
-                size=Config.FONT_SIZE_HUGE,
-                anchor=RectAnchorMode.CENTER,
-            )
+        defeat_text = Text(
+            "defeated_text",
+            "Defeated...",
+            Config.SCREEN_WIDTH / 2,
+            Config.SCREEN_HEIGHT * 0.25,
+            size=Config.FONT_SIZE_HUGE,
+            anchor=RectAnchorMode.CENTER,
+        )
 
-            button_width = Config.BUTTON_SIZE * 3
-            play_again_button = Button(
-                "play_again_button",
-                Config.SCREEN_WIDTH / 2,
-                Config.SCREEN_HEIGHT * 0.5,
-                button_width,
-                Config.BUTTON_SIZE,
-                text=Text(
-                    "play_again_button_text",
-                    "Play Again",
-                    button_width / 2,
-                    Config.BUTTON_SIZE / 2,
-                    size=Config.FONT_SIZE_HEADER,
-                    anchor=RectAnchorMode.CENTER,
-                ),
+        button_width = Config.BUTTON_SIZE * 3
+        play_again_button = Button(
+            "play_again_button",
+            Config.SCREEN_WIDTH / 2,
+            Config.SCREEN_HEIGHT * 0.5,
+            button_width,
+            Config.BUTTON_SIZE,
+            text=Text(
+                "play_again_button_text",
+                "Play Again",
+                button_width / 2,
+                Config.BUTTON_SIZE / 2,
+                size=Config.FONT_SIZE_HEADER,
                 anchor=RectAnchorMode.CENTER,
-            )
+            ),
+            anchor=RectAnchorMode.CENTER,
+        )
 
-            self.elements.append(defeat_text)
-            self.elements.append(play_again_button)
+        self.elements.append(defeat_text)
+        self.elements.append(play_again_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:  # noqa: SIM102

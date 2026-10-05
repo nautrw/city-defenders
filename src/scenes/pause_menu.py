@@ -1,4 +1,3 @@
-from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
@@ -15,15 +14,9 @@ if TYPE_CHECKING:
     from src.app import GameApp
 
 
-class PauseMenuGUIState(Enum):
-    NORMAL = auto()
-
-
 class PauseMenuGUIManager(GUIManager):
     def __init__(self, scene: "PauseMenuScene") -> None:
-        default_state = PauseMenuGUIState.NORMAL
-
-        super().__init__(scene, default_state)
+        super().__init__(scene)
 
         self.scene: PauseMenuScene
 

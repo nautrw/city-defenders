@@ -1,8 +1,8 @@
-from loguru import logger
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
+from loguru import logger
 
 import src.core.config as Config
 from src.core.utils import (
@@ -33,9 +33,10 @@ class UIStates(Enum):
 
 class MainGameSceneGUIManager(GUIManager):
     def __init__(self, scene: "MainGameScene") -> None:
-        default_state = UIStates.COLLAPSED
 
-        super().__init__(scene, default_state)
+        super().__init__(scene)
+
+        self.state = UIStates.COLLAPSED
 
         self.selected_tower_to_buy: type[Tower] | None = None
 
@@ -43,6 +44,12 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.container_width = 500
 
+        self.refresh()
+
+    def switch_state(self, new_state: Enum):
+        logger.debug(f"switched state: old={self.state}, new={new_state.name}")
+
+        self.state = new_state
         self.refresh()
 
     def update_wave_text(self) -> None:
