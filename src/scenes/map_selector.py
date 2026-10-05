@@ -1,3 +1,4 @@
+from loguru import logger
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -184,6 +185,8 @@ class MapSelectorScene(Scene):
         tileset_img = load_asset("tileset")
         tileset = split_tileset(tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT)
         map_data = load_map(map_name)
+
+        logger.info(f"map selected: {map_name}")
 
         self.game.scene_manager.switch(
             MainGameScene(self.game, GameMap(tileset, map_data), MAPS_DATA[map_name])
