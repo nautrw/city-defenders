@@ -3,7 +3,6 @@ import math
 from pathlib import Path
 from typing import TypedDict
 
-import numpy as np
 import pygame
 
 import src.core.config as Config
@@ -51,6 +50,17 @@ def split_tileset(
 
     return result
 
+def reshape(arr: list, dimensions: tuple[int, int]) -> list[list]:
+    width, height = dimensions
+    result = []
+
+    for y in range(height):
+        start_i = y * width
+        end_i = start_i + width
+        result.append(arr[start_i:end_i])
+        print(start_i, end_i, arr[start_i:end_i])
+
+    return result
 
 def clean_map_json(map_json: dict) -> dict:
     map_width, map_height = map_json["width"], map_json["height"]
@@ -70,7 +80,8 @@ def clean_map_json(map_json: dict) -> dict:
 
             # TILED USES 0 FOR EMPTY TILES; THE GENERATED MAP TILE IDS ARE NOT
             # 0 BASED
-            new_layer["data"] = np.reshape(new_layer["data"], (map_height, map_width))
+
+            new_layer["data"] = reshape(new_layer["data"], (map_width, map_height))
         elif new_layer["name"] == Config.ENEMY_PATH_LAYER_NAME:
             obj = new_layer["objects"][0]
 
