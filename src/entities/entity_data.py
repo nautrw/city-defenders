@@ -23,9 +23,24 @@ ENEMIES = {
     "lava_slime": LavaSlime,
 }
 TOWERS = {
-    "crossbow": CrossbowTower,
-    "ballista": BallistaTower,
-    "cannon": CannonTower,
-    "frostspire": FrostspireTower,
-    "venomshooter": VenomShooterTower,
+    "crossbow": {
+        "class": CrossbowTower,
+        "requires": None
+    },
+    "ballista": {
+        "ballista": BallistaTower,
+        "requires": "crossbow",
+    },
+    "cannon": {
+        "class": CannonTower,
+        "requires": "crossbow"
+    },
+    "frostspire": {
+        "class": FrostspireTower,
+        "requires": "cannon"
+    },
+    "venomshooter": {
+        "class": VenomShooterTower,
+        "requires": "frostspire"
+    }
 }

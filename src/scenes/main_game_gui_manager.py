@@ -320,6 +320,7 @@ class MainGameSceneGUIManager(GUIManager):
         )
 
         for i, tower in enumerate(TOWERS):
+
             column = i % columns
             row = i // columns
 
@@ -635,7 +636,8 @@ class MainGameSceneGUIManager(GUIManager):
                 and event.button.id.split("_")[1] in TOWERS
             ):
                 id = event.button.id.split("_")[1]
-                self.selected_tower_to_buy = TOWERS[id]
+                print(TOWERS[id])
+                self.selected_tower_to_buy = TOWERS[id]["class"]
                 self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
             elif event.button.id == "tower_picker_tower_selected_menu_close_button":
                 self.selected_tower_to_buy = None
