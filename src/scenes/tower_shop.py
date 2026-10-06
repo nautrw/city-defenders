@@ -1,3 +1,4 @@
+from src.gui.gui_utils import build_stat_display
 from typing import TYPE_CHECKING
 
 import pygame
@@ -39,6 +40,17 @@ class TowerShopGUIManager(GUIManager):
             normal_icon=load_scaled_asset("close_icon"),
         )
 
+        shards_display_container = build_stat_display(
+            "shards_display",
+            f"{self.scene.game.player_save.shards}",
+            Config.SCREEN_WIDTH / 2,
+            Config.ELEMENT_OUTER_PADDING,
+            icon_name="shard_icon",
+            text_size=Config.FONT_SIZE_XLARGE,
+            anchor=RectAnchorMode.MIDTOP,
+        )
+
+        self.elements.append(shards_display_container)
 
         arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
 
@@ -51,14 +63,12 @@ class TowerShopGUIManager(GUIManager):
             "pressed_icon": pygame.transform.flip(
                 right_icons["pressed_icon"], True, False
             ),
-            "hover_icon": pygame.transform.flip(
-                right_icons["hover_icon"], True, False
-            ),
+            "hover_icon": pygame.transform.flip(right_icons["hover_icon"], True, False),
         }
 
         go_right_button = Button(
             "go_right_button",
-            Config.SCREEN_WIDTH * .80,
+            Config.SCREEN_WIDTH * 0.80,
             Config.SCREEN_HEIGHT / 2,
             *arrow_new_size,
             anchor=RectAnchorMode.MIDLEFT,
@@ -70,7 +80,7 @@ class TowerShopGUIManager(GUIManager):
 
         go_left_button = Button(
             "go_left_button",
-            Config.SCREEN_WIDTH * .20,
+            Config.SCREEN_WIDTH * 0.20,
             Config.SCREEN_HEIGHT / 2,
             *arrow_new_size,
             anchor=RectAnchorMode.MIDRIGHT,
@@ -98,7 +108,9 @@ class TowerShopScene(Scene):
         super().__init__(game)
 
         self.selected_map_index = 0
-        self.background = load_scaled_asset("tower_shop", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT))
+        self.background = load_scaled_asset(
+            "tower_shop", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT)
+        )
 
         self.gui_manager = TowerShopGUIManager(self)
 
