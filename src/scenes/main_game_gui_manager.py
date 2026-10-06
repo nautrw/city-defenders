@@ -1,3 +1,4 @@
+from src.gui.gui_utils import build_stat_display
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -47,21 +48,25 @@ class MainGameSceneGUIManager(GUIManager):
         self.refresh()
 
     def switch_state(self, new_state: Enum):
-        logger.debug(f"switched main game gui state: old={self.state}, new={new_state.name}")
+        logger.debug(
+            f"switched main game gui state: old={self.state}, new={new_state.name}"
+        )
 
         self.state = new_state
         self.refresh()
 
     def update_wave_text(self) -> None:
-        self.get_element_by_id("wave_text", Text).update_text(
+        self.get_element_by_id("wave_display_text", Text).update_text(
             f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}"
         )
 
     def update_coins_text(self) -> None:
-        self.get_element_by_id("coins_text", Text).update_text(str(self.scene.coins))
+        self.get_element_by_id("coins_display_text", Text).update_text(
+            str(self.scene.coins)
+        )
 
     def update_health_text(self) -> None:
-        self.get_element_by_id("health_text", Text).update_text(
+        self.get_element_by_id("health_display_text", Text).update_text(
             f"{self.scene.health}/{self.scene.max_health}",
         )
 
@@ -121,93 +126,32 @@ class MainGameSceneGUIManager(GUIManager):
         return (container, close_button)
 
     def _build_stats_displays(self) -> None:
-        card_width = 192
-        card_height = 80
-
-        heart_icon = Icon(
-            "heart_icon",
-            Config.ELEMENT_OUTER_PADDING,
-            card_height // 2,
-            load_scaled_asset(
-                "health_icon",
-                (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE),
-            ),
-            anchor=RectAnchorMode.MIDLEFT,
-        )
-
-        health_text = Text(
-            "health_text",
+        health_display_container = build_stat_display(
+            "health_display",
             f"{self.scene.health}/{self.scene.max_health}",
-            heart_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-            card_height // 2,
-            Config.FONT_SIZE_XLARGE,
-            anchor=RectAnchorMode.MIDLEFT,
-        )
-
-        health_display_container = ElementContainer(
-            "health_display_container",
             Config.ELEMENT_OUTER_PADDING,
             Config.ELEMENT_OUTER_PADDING,
-            card_width,
-            card_height,
+            icon_name="health_icon",
+            text_size=Config.FONT_SIZE_XLARGE,
         )
-
-        health_display_container.add_element(heart_icon)
-        health_display_container.add_element(health_text)
         self.elements.append(health_display_container)
 
-        coin_icon = Icon(
-            "coin_icon",
-            Config.ELEMENT_OUTER_PADDING,
-            card_height // 2,
-            load_scaled_asset(
-                "coin", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
-            ),
-            RectAnchorMode.MIDLEFT,
-        )
-
-        coins_text = Text(
-            "coins_text",
-            str(self.scene.coins),
-            coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-            card_height // 2,
-            Config.FONT_SIZE_XLARGE,
-            anchor=RectAnchorMode.MIDLEFT,
-        )
-
-        coin_display_container = ElementContainer(
-            "coin_display_container",
+        coin_display_container = build_stat_display(
+            "coin_display",
+            f"{self.scene.coins}",
             Config.ELEMENT_OUTER_PADDING,
             health_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-            card_width,
-            card_height,
+            icon_name="coin_icon",
+            text_size=Config.FONT_SIZE_XLARGE,
         )
-
-        coin_display_container.add_element(coin_icon)
-        coin_display_container.add_element(coins_text)
-
         self.elements.append(coin_display_container)
 
-        wave_display_container = ElementContainer(
-            "wave_display_container",
+        wave_display_container = build_stat_display(
+            "wave_display",
+            "Not Started",
             Config.ELEMENT_OUTER_PADDING,
             coin_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-            card_width,
-            card_height,
         )
-
-        wave_text = Text(
-            "wave_text",
-            f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}"
-            if self.scene.wave != -1
-            else "Press Start",
-            Config.ELEMENT_OUTER_PADDING,
-            wave_display_container.rect.height / 2,
-            anchor=RectAnchorMode.MIDLEFT,
-        )
-
-        wave_display_container.add_element(wave_text)
-
         self.elements.append(wave_display_container)
 
     def _build_game_speed_controller(self) -> None:
@@ -320,7 +264,6 @@ class MainGameSceneGUIManager(GUIManager):
         )
 
         for i, tower in enumerate(TOWERS):
-
             column = i % columns
             row = i // columns
 
