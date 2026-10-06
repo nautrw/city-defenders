@@ -317,7 +317,7 @@ class MainGameSceneGUIManager(GUIManager):
             Config.ELEMENT_OUTER_PADDING,
             tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
         )
-        coin_img = load_scaled_asset("coin", (36, 36))
+        coin_img = load_scaled_asset("coin_icon", (36, 36))
         coin_icon = Icon(
             "coin_icon",
             cost_text.rect.right,
@@ -429,7 +429,7 @@ class MainGameSceneGUIManager(GUIManager):
             and selected_tower.upgrade_index < len(selected_tower.cost) - 1
         ):
             coins_icon_surf = load_scaled_asset(
-                "coin", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
+                "coin_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
             )
             coins_icon = Icon(
                 id="upgrade_cost_icon",
