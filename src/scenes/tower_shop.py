@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from src.app import GameApp
 
 
-class MapSelectorSceneGUIManager(GUIManager):
+class TowerShopGUIManager(GUIManager):
     def __init__(self, scene: "TowerShopScene") -> None:
 
         super().__init__(scene)
@@ -100,7 +100,7 @@ class TowerShopScene(Scene):
         self.selected_map_index = 0
         self.background = load_scaled_asset("tower_shop", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT))
 
-        self.gui_manager = MapSelectorSceneGUIManager(self)
+        self.gui_manager = TowerShopGUIManager(self)
 
     def render(self, surface: pygame.Surface) -> None:
         surface.blit(self.background, (0, 0))
