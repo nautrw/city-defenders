@@ -13,6 +13,7 @@ from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
 from src.maps.data import ALL_MAP_MUSIC
 from src.scenes.map_selector import MapSelectorScene
+from src.scenes.tower_shop import TowerShopScene
 
 if TYPE_CHECKING:
     from src.app import GameApp
@@ -104,6 +105,11 @@ class MainMenuScene(Scene):
 
             if event == pygame.mixer.music.get_endevent():
                 self.play_next_music()
+
+            # hidden for now, just for debugging
+            if event.type == pygame.KEYDOWN:  # noqa: SIM102
+                if event.key == pygame.K_SEMICOLON:
+                    self.game.scene_manager.switch(TowerShopScene(self.game))
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
