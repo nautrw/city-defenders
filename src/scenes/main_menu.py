@@ -1,3 +1,4 @@
+from src.core.data_saving import reset_data
 import random
 from typing import TYPE_CHECKING
 
@@ -107,9 +108,11 @@ class MainMenuScene(Scene):
                 self.play_next_music()
 
             # hidden for now, just for debugging
-            if event.type == pygame.KEYDOWN:  # noqa: SIM102
+            if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SEMICOLON:
                     self.game.scene_manager.switch(TowerShopScene(self.game))
+                elif event.key == pygame.K_DELETE:
+                    reset_data()
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())

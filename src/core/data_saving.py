@@ -23,7 +23,7 @@ class PlayerSave:
 
 def ensure_data_file(path: Path = DATA_FILE) -> None:
     if not os.path.isfile(path):
-        logger.info("data file does not exist, creating")
+        logger.info(f"data file does not exist at {path}, creating")
 
         with open(path, 'w') as f:
             fresh_save = PlayerSave()
@@ -51,3 +51,14 @@ def load_data_from_file(path: Path=DATA_FILE) -> PlayerSave:
         logger.success(f"Successfully loaded save file: {save}")
 
     return save
+
+def reset_data(path: Path = DATA_FILE) -> None:
+    if not os.path.isfile(path):
+        ensure_data_file(path)
+        return
+
+    os.remove(path)
+    fresh_save = PlayerSave()
+    save_data_to_file(fresh_save)
+
+    logger.info(f"reset data at path {path}")
