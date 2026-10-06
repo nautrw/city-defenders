@@ -29,7 +29,7 @@ TOWERS = {
         "requires": None
     },
     "ballista": {
-        "ballista": BallistaTower,
+        "class": BallistaTower,
         "shards_cost": 10,
         "requires": "crossbow",
     },
