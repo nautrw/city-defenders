@@ -42,7 +42,7 @@ class MapSelectorSceneGUIManager(GUIManager):
 
         arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
 
-        # it's kind of confusing, i'm aware
+        # right_icons go to the right map and left_icons go to the left map
         right_icons = load_button_state_triplet_assets("left_arrow", arrow_new_size)
         left_icons = {
             "normal_icon": pygame.transform.flip(
