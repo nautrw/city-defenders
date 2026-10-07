@@ -31,14 +31,26 @@ class GUIManager(ABC):
         for element in self.elements:
             element.update(delta_time, mouse_position)
 
-    def get_element_by_id(self, id: str, type: type[T]) -> T:
+    def get_element_by_id(self, id: str, element_type: type[T]) -> T:
+        match = None
+
         for element in self.elements:
             if isinstance(element, ElementContainer):
                 for container_element in element.elements:
                     if container_element.id == id:
-                        return container_element
+                        match = container_element
             else:
                 if element.id == id:
-                    return element  # ty:ignore[invalid-return-type]
+                    match = element
+
+            if match:
+                if not isinstance(match, element_type):
+                    raise ValueError(
+                        f"element {id} found of type "
+                        f"{type(element)}, {element_type} "
+                        "expected"
+                    )
+
+                return match
 
         raise ValueError(f"element with id {id} not found")
