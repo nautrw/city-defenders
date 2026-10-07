@@ -1,3 +1,4 @@
+from src.gui.text import Text
 from src.gui.container import ElementContainer
 from typing import TYPE_CHECKING
 
@@ -77,7 +78,27 @@ class TowerShopGUIManager(GUIManager):
             load_scaled_asset(f"{current_tower}_0", (250, 250)),
         )
 
+        tower_name = Text(
+            "tower_name",
+            TOWERS[current_tower]["class"].display_name, #ty:ignore[unresolved-attribute]
+            tower_icon.rect.right + Config.ELEMENT_OUTER_PADDING * 2,
+            Config.ELEMENT_OUTER_PADDING * 2,
+            size=Config.FONT_SIZE_XLARGE
+        )
+
+        tower_desc_x = tower_icon.rect.right + Config.ELEMENT_OUTER_PADDING * 2
+        tower_description = Text(
+            "tower_description",
+            TOWERS[current_tower]["class"].description, #ty:ignore[unresolved-attribute]
+            tower_desc_x,
+            tower_name.rect.bottom + (Config.ELEMENT_OUTER_PADDING * 2),
+            wrap_length=int((container_width - tower_desc_x) - Config.ELEMENT_OUTER_PADDING * 2),
+            size=Config.FONT_SIZE_MEDIUM
+        )
+
         menu_container.add_element(tower_icon)
+        menu_container.add_element(tower_name)
+        menu_container.add_element(tower_description)
         self.elements.append(menu_container)
 
         arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
