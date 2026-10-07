@@ -83,6 +83,7 @@ class MainMenuScene(Scene):
 
     def on_exit(self) -> None:
         pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
 
     def play_next_music(self):
         current_music = self.music_playlist[self.music_index]

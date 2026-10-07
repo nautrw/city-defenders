@@ -112,10 +112,16 @@ class TowerShopScene(Scene):
             "tower_shop", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT)
         )
 
+
+        self.gui_manager = TowerShopGUIManager(self)
+
+    def on_enter(self) -> None:
         pygame.mixer.music.load(get_sound("Classical Medieval Song"))
         pygame.mixer.music.play(loops=-1, fade_ms=Config.DEFAULT_SOUND_FADEIN_MS)
 
-        self.gui_manager = TowerShopGUIManager(self)
+    def on_leave(self) -> None:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
 
     def render(self, surface: pygame.Surface) -> None:
         surface.blit(self.background, (0, 0))
