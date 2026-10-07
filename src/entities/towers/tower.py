@@ -19,14 +19,14 @@ class Tower(pygame.sprite.Sprite):
         self,
         display_name: str,
         description: str,
-        cost: list[float],
-        damage: list[float],
+        cost: tuple[float, ...],
+        damage: tuple[float, ...],
         x_position: float,
         y_position: float,
         tower_image: list[pygame.Surface],
         projectile: BallisticProjectileType,
-        shooting_speed: list[float],
-        area_radius: list[float],
+        shooting_speed: tuple[float, ...],
+        area_radius: tuple[float, ...],
     ) -> None:
         super().__init__()
 

@@ -12,10 +12,10 @@ class BallistaTower(Tower):
 
     display_name = "Ballista"
     description = "Shoots bolts at a slow rate but with great force."
-    cost: ClassVar[list[float]] = [135, 185, 260]
-    damage: ClassVar[list[float]] = [24, 38, 58]
-    shooting_speed: ClassVar[list[float]] = [2.0, 1.65, 1.3]
-    area_radius: ClassVar[list[float]] = [150, 175, 205]
+    cost: ClassVar[tuple[float, ...]] = (135, 185, 260)
+    damage: ClassVar[tuple[float, ...]] = (24, 38, 58)
+    shooting_speed: ClassVar[tuple[float, ...]] = (2.0, 1.65, 1.3)
+    area_radius: ClassVar[tuple[float, ...]] = (150, 175, 205)
 
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [
