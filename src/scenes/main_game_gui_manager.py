@@ -584,8 +584,7 @@ class MainGameSceneGUIManager(GUIManager):
                 and event.button.id.split("_")[1] in TOWERS
             ):
                 id = event.button.id.split("_")[1]
-                print(TOWERS[id])
-                self.selected_tower_to_buy = TOWERS[id]["class"]
+                self.selected_tower_to_buy = TOWERS[id]["class"] # ty:ignore[invalid-assignment]
                 self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
             elif event.button.id == "tower_picker_tower_selected_menu_close_button":
                 self.selected_tower_to_buy = None
