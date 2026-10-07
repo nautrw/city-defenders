@@ -58,47 +58,104 @@ class TowerShopGUIManager(GUIManager):
         self.elements.append(shards_display_container)
 
         container_width = Config.SCREEN_WIDTH / 1.75
-        container_height = 960 * .75
+        container_height = 960 * 0.75
         menu_container = ElementContainer(
             "tower_menu_container",
             Config.SCREEN_WIDTH / 2,
-            Config.SCREEN_HEIGHT * .15,
+            Config.SCREEN_HEIGHT * 0.15,
             container_width,
             container_height,
-            bg_color=Config.DARKER_BG,
-            anchor=RectAnchorMode.MIDTOP
+            # bg_color=Config.DARKER_BG,
+            anchor=RectAnchorMode.MIDTOP,
         )
 
         current_tower = self.scene.towers[self.scene.tower_index]
-        
+
         tower_icon = Icon(
             "tower_icon",
             Config.ELEMENT_OUTER_PADDING * 2,
             Config.ELEMENT_OUTER_PADDING * 2,
-            load_scaled_asset(f"{current_tower}_0", (250, 250)),
+            load_scaled_asset(f"{current_tower}_{self.scene.tower_upgrade_index}", (250, 250)),
         )
 
         tower_name = Text(
             "tower_name",
-            TOWERS[current_tower]["class"].display_name, #ty:ignore[unresolved-attribute]
+            TOWERS[current_tower]["class"].display_name,  # ty:ignore[unresolved-attribute]
             tower_icon.rect.right + Config.ELEMENT_OUTER_PADDING * 2,
             Config.ELEMENT_OUTER_PADDING * 2,
-            size=Config.FONT_SIZE_XLARGE
+            size=Config.FONT_SIZE_XLARGE,
         )
 
         tower_desc_x = tower_icon.rect.right + Config.ELEMENT_OUTER_PADDING * 2
         tower_description = Text(
             "tower_description",
-            TOWERS[current_tower]["class"].description, #ty:ignore[unresolved-attribute]
+            TOWERS[current_tower]["class"].description,  # ty:ignore[unresolved-attribute]
             tower_desc_x,
             tower_name.rect.bottom + (Config.ELEMENT_OUTER_PADDING * 2),
-            wrap_length=int((container_width - tower_desc_x) - Config.ELEMENT_OUTER_PADDING * 2),
-            size=Config.FONT_SIZE_MEDIUM
+            wrap_length=int(
+                (container_width - tower_desc_x) - Config.ELEMENT_OUTER_PADDING * 2
+            ),
+            size=Config.FONT_SIZE_MEDIUM,
         )
 
         menu_container.add_element(tower_icon)
         menu_container.add_element(tower_name)
         menu_container.add_element(tower_description)
+
+        upgrade_button_side_length = 50
+        upgrade_button_y = max(
+            tower_icon.rect.bottom, tower_description.rect.bottom
+        ) + (Config.ELEMENT_OUTER_PADDING * 2)
+        upgrade1_button = Button(
+            "upgrade1_button",
+            Config.ELEMENT_OUTER_PADDING * 2,
+            upgrade_button_y,
+            upgrade_button_side_length,
+            upgrade_button_side_length,
+            text=Text(
+                "upgrade1_button_text",
+                "1",
+                upgrade_button_side_length / 2,
+                upgrade_button_side_length / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            enabled=self.scene.tower_upgrade_index != 0,
+        )
+        upgrade2_button = Button(
+            "upgrade2_button",
+            upgrade1_button.rect.right + Config.ELEMENT_OUTER_PADDING,
+            upgrade_button_y,
+            upgrade_button_side_length,
+            upgrade_button_side_length,
+            text=Text(
+                "upgrade2_button_text",
+                "2",
+                upgrade_button_side_length / 2,
+                upgrade_button_side_length / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            enabled=self.scene.tower_upgrade_index != 1,
+        )
+        upgrade3_button = Button(
+            "upgrade3_button",
+            upgrade2_button.rect.right + Config.ELEMENT_OUTER_PADDING,
+            upgrade_button_y,
+            upgrade_button_side_length,
+            upgrade_button_side_length,
+            text=Text(
+                "upgrade3_button_text",
+                "3",
+                upgrade_button_side_length / 2,
+                upgrade_button_side_length / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            enabled=self.scene.tower_upgrade_index != 2,
+        )
+
+        menu_container.add_element(upgrade1_button)
+        menu_container.add_element(upgrade2_button)
+        menu_container.add_element(upgrade3_button)
+
         self.elements.append(menu_container)
 
         arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
@@ -157,9 +214,17 @@ class TowerShopGUIManager(GUIManager):
             elif event.button.id == "go_left_button":
                 self.scene.tower_index -= 1
                 self.scene.tower_index %= len(self.scene.towers)
+                self.scene.tower_upgrade_index = 0
             elif event.button.id == "go_right_button":
                 self.scene.tower_index += 1
                 self.scene.tower_index %= len(self.scene.towers)
+                self.scene.tower_upgrade_index = 0
+            elif event.button.id == "upgrade1_button":
+                self.scene.tower_upgrade_index = 0
+            elif event.button.id == "upgrade2_button":
+                self.scene.tower_upgrade_index = 1
+            elif event.button.id == "upgrade3_button":
+                self.scene.tower_upgrade_index = 2
 
             self.refresh()
 
@@ -175,6 +240,7 @@ class TowerShopScene(Scene):
 
         self.towers = list(TOWERS.keys())
         self.tower_index = 0
+        self.tower_upgrade_index = 0
 
         self.gui_manager = TowerShopGUIManager(self)
 
