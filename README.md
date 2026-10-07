@@ -4,6 +4,8 @@ Tower defense game about defending medieval cities using towers.
 # Credits
 - [Oleaguid font](https://opengameart.org/content/oleaguid-font) by [arynoc](https://opengameart.org/users/arynoc)
 - [Heroic Demise (Updated Version)](https://opengameart.org/content/heroic-demise-updated-version) by [Matthew Pablo](https://opengameart.org/users/matthew-pablo)
-  - Modification: *Short quiet segments at the beginning and end removed*
+  - Modification: *Removed short quiet segments at the beginning and end removed*
 - [Soliloquy](https://opengameart.org/content/soliloquy) by [Matthew Pablo](https://opengameart.org/users/matthew-pablo)
 - [The Fall of Arcana (New Era Version)](https://opengameart.org/content/the-fall-of-arcana-new-era-version) by [Matthew Pablo](https://opengameart.org/users/matthew-pablo)
+- [Classical/Medieval Song](https://opengameart.org/content/classicalmedieval-song) by [professorlamp](https://opengameart.org/users/professorlamp) ([website](https://jrtheories.webs.com))
+  - Modification: *Removed short quiet segments at the beginning and end removed*
