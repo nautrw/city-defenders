@@ -19,7 +19,7 @@ class Tower(pygame.sprite.Sprite):
         self,
         display_name: str,
         description: str,
-        cost: tuple[float, ...],
+        cost: tuple[int, ...],
         damage: tuple[float, ...],
         x_position: float,
         y_position: float,

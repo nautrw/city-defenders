@@ -14,7 +14,7 @@ class VenomShooterTower(Tower):
     description = (
         "Shoots drops of venom at enemies, poisoning them and damaging them over time."
     )
-    cost: ClassVar[tuple[float, ...]] = (155, 215, 295)
+    cost: ClassVar[tuple[int, ...]] = (155, 215, 295)
     damage: ClassVar[tuple[float, ...]] = (1.5, 2.5, 4)
     shooting_speed: ClassVar[tuple[float, ...]] = (2.4, 1.9, 1.5)
     area_radius: ClassVar[tuple[float, ...]] = (115, 145, 175)
