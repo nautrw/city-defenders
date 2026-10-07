@@ -6,8 +6,9 @@ from loguru import logger
 import src.core.config as Config
 from src.core.scenes_manager import Scene
 from src.core.utils import (
+    get_sound,
     load_button_state_triplet_assets,
-    load_scaled_asset, get_sound,
+    load_scaled_asset,
 )
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
@@ -100,6 +101,12 @@ class TowerShopGUIManager(GUIManager):
         if event.type == CUSTOM_BUTTON_CLICKED:
             logger.debug(f"gui button clicked: id={event.button.id}")
 
+            if event.button.id == "back_to_main_menu_button":
+                # prevent circular import
+                from src.scenes.main_menu import MainMenuScene
+
+                self.scene.game.scene_manager.switch(MainMenuScene(self.scene.game))
+
             self.refresh()
 
 
@@ -111,7 +118,6 @@ class TowerShopScene(Scene):
         self.background = load_scaled_asset(
             "tower_shop", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT)
         )
-
 
         self.gui_manager = TowerShopGUIManager(self)
 
