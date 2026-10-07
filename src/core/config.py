@@ -40,6 +40,7 @@ DEFAULT_HEALTH_BAR_WIDTH: float = 28.0
 DEFAULT_HEALTH_BAR_HEIGHT: float = 5.0
 
 DARK_BG: ColorLike = "#17151650"
+DARKER_BG: ColorLike = "#171516AF"
 
 TEXT_COLOR_NORMAL: ColorLike = "white"
 

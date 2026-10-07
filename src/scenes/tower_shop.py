@@ -1,3 +1,4 @@
+from src.gui.container import ElementContainer
 from typing import TYPE_CHECKING
 
 import pygame
@@ -10,9 +11,11 @@ from src.core.utils import (
     load_button_state_triplet_assets,
     load_scaled_asset,
 )
+from src.entities.entity_data import TOWERS
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.gui_utils import build_stat_display
+from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
 
 if TYPE_CHECKING:
@@ -52,6 +55,30 @@ class TowerShopGUIManager(GUIManager):
         )
 
         self.elements.append(shards_display_container)
+
+        container_width = Config.SCREEN_WIDTH / 1.75
+        container_height = 960 * .75
+        menu_container = ElementContainer(
+            "tower_menu_container",
+            Config.SCREEN_WIDTH / 2,
+            Config.SCREEN_HEIGHT * .15,
+            container_width,
+            container_height,
+            bg_color=Config.DARKER_BG,
+            anchor=RectAnchorMode.MIDTOP
+        )
+
+        current_tower = self.scene.towers[self.scene.tower_index]
+        
+        tower_icon = Icon(
+            "tower_icon",
+            Config.ELEMENT_OUTER_PADDING * 2,
+            Config.ELEMENT_OUTER_PADDING * 2,
+            load_scaled_asset(f"{current_tower}_0", (250, 250)),
+        )
+
+        menu_container.add_element(tower_icon)
+        self.elements.append(menu_container)
 
         arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
 
@@ -118,6 +145,9 @@ class TowerShopScene(Scene):
         self.background = load_scaled_asset(
             "tower_shop", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT)
         )
+
+        self.towers = list(TOWERS.keys())
+        self.tower_index = 0
 
         self.gui_manager = TowerShopGUIManager(self)
 
