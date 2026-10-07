@@ -58,7 +58,7 @@ class MainGameSceneGUIManager(GUIManager):
 
     def update_wave_text(self) -> None:
         self.get_element_by_id("wave_display_text", Text).update_text(
-            f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}"
+            "Not Started" if self.scene.wave == -1 else f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}",
         )
 
     def update_coins_text(self) -> None:
@@ -149,7 +149,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         wave_display_container = build_stat_display(
             "wave_display",
-            "Not Started",
+            "Not Started" if self.scene.wave == -1 else f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}",
             Config.ELEMENT_OUTER_PADDING,
             coin_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
         )
