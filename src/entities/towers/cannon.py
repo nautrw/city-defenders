@@ -1,3 +1,4 @@
+from typing import ClassVar
 import pygame
 
 from src.core.utils import load_asset
@@ -11,7 +12,10 @@ class CannonTower(Tower):
 
     display_name = "Cannon"
     description = "Shoots cannon balls at turrets. Explosion does massive amounts of damage to multiple enemies."
-    initial_cost = 175
+    cost: ClassVar[list[float]] = [175, 240, 330]
+    damage: ClassVar[list[float]] = [22, 35, 52]
+    shooting_speed: ClassVar[list[float]] = [2.8, 2.3, 1.8]
+    area_radius: ClassVar[list[float]] = [115, 140, 165]
 
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [
@@ -23,12 +27,12 @@ class CannonTower(Tower):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=[self.initial_cost, 240, 330],
-            damage=[22, 35, 52],
+            cost=self.cost,
+            damage=self.damage,
             x_position=x_position,
             y_position=y_position,
             tower_image=images,
             projectile=CannonBall,
-            shooting_speed=[2.8, 2.3, 1.8],
-            area_radius=[115, 140, 165],
+            shooting_speed=self.shooting_speed,
+            area_radius=self.area_radius,
         )

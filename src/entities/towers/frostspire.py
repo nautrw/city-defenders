@@ -1,3 +1,4 @@
+from typing import ClassVar
 import pygame
 
 from src.core.utils import load_asset
@@ -13,10 +14,13 @@ class FrostspireTower(Tower):
     description = (
         "Slows down enemies by making them cold. Does not damage enemies by itself."
     )
-    initial_cost = 145
+    cost: ClassVar[list[float]] = [145, 205, 285]
+    damage: ClassVar[list[float]] = [0, 0, 0]
+    shooting_speed: ClassVar[list[float]] = [2.6, 2.1, 1.6]
+    area_radius: ClassVar[list[float]] = [105, 135, 165]
 
     def __init__(self, x_position: int, y_position: int) -> None:
-        image = [
+        images = [
             load_asset("frostspire_0"),
             load_asset("frostspire_1"),
             load_asset("frostspire_2"),
@@ -25,12 +29,12 @@ class FrostspireTower(Tower):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=[self.initial_cost, 205, 285],
-            damage=[0, 0, 0],
+            cost=self.cost,
+            damage=self.damage,
             x_position=x_position,
             y_position=y_position,
-            tower_image=image,
+            tower_image=images,
             projectile=IceShard,
-            shooting_speed=[2.6, 2.1, 1.6],
-            area_radius=[105, 135, 165],
+            shooting_speed=self.shooting_speed,
+            area_radius=self.area_radius,
         )

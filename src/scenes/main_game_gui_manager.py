@@ -137,7 +137,7 @@ class MainGameSceneGUIManager(GUIManager):
         self.elements.append(health_display_container)
 
         coin_display_container = build_stat_display(
-            "coin_display",
+            "coins_display",
             f"{self.scene.coins}",
             Config.ELEMENT_OUTER_PADDING,
             health_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
@@ -326,7 +326,7 @@ class MainGameSceneGUIManager(GUIManager):
         )
         tower_cost = Text(
             "tower_cost",
-            str(self.selected_tower_to_buy.initial_cost),  # ty:ignore[unresolved-attribute]
+            str(self.selected_tower_to_buy.cost[0]),  # ty:ignore[unresolved-attribute]
             coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             coin_icon.rect.top,
         )
@@ -349,7 +349,7 @@ class MainGameSceneGUIManager(GUIManager):
             normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
             hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
             pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
-            enabled=(self.scene.coins >= self.selected_tower_to_buy.initial_cost),  # ty:ignore[unresolved-attribute]
+            enabled=(self.scene.coins >= self.selected_tower_to_buy.cost[0]),  # ty:ignore[unresolved-attribute]
         )
 
         container.add_element(tower_name)
@@ -599,7 +599,7 @@ class MainGameSceneGUIManager(GUIManager):
                 # here comes ty:ignore hell...
                 if (
                     self.selected_tower_to_buy
-                    and self.scene.coins >= self.selected_tower_to_buy.initial_cost  # ty:ignore[unresolved-attribute]
+                    and self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
                 ):
                     self.scene.tower_to_place = self.selected_tower_to_buy(  # ty:ignore[missing-argument]
                         *self.scene.camera.viewport_to_world(  # ty:ignore[invalid-argument-type]

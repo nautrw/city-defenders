@@ -1,3 +1,4 @@
+from typing import ClassVar
 import pygame
 
 from src.core.utils import load_asset
@@ -13,10 +14,13 @@ class VenomShooterTower(Tower):
     description = (
         "Shoots drops of venom at enemies, poisoning them and damaging them over time."
     )
-    initial_cost = 155
+    cost: ClassVar[list[float]] = [155, 215, 295]
+    damage: ClassVar[list[float]] = [1.5, 2.5, 4]
+    shooting_speed: ClassVar[list[float]] = [2.4, 1.9, 1.5]
+    area_radius: ClassVar[list[float]] = [115, 145, 175]
 
     def __init__(self, x_position: int, y_position: int) -> None:
-        image = [
+        images = [
             load_asset("venomshooter_0"),
             load_asset("venomshooter_1"),
             load_asset("venomshooter_2"),
@@ -25,12 +29,12 @@ class VenomShooterTower(Tower):
         super().__init__(
             display_name=self.display_name,
             description=self.description,
-            cost=[self.initial_cost, 215, 295],
-            damage=[1.5, 2.5, 4],
+            cost=self.cost,
+            damage=self.damage,
             x_position=x_position,
             y_position=y_position,
-            tower_image=image,
+            tower_image=images,
             projectile=VenomSpit,
-            shooting_speed=[2.4, 1.9, 1.5],
-            area_radius=[115, 145, 175],
+            shooting_speed=self.shooting_speed,
+            area_radius=self.area_radius,
         )

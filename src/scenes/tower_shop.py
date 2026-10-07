@@ -70,6 +70,7 @@ class TowerShopGUIManager(GUIManager):
         )
 
         current_tower = self.scene.towers[self.scene.tower_index]
+        current_tower_class = TOWERS[current_tower]["class"]
 
         tower_icon = Icon(
             "tower_icon",
@@ -80,7 +81,7 @@ class TowerShopGUIManager(GUIManager):
 
         tower_name = Text(
             "tower_name",
-            TOWERS[current_tower]["class"].display_name,  # ty:ignore[unresolved-attribute]
+            current_tower_class.display_name,  # ty:ignore[unresolved-attribute]
             tower_icon.rect.right + Config.ELEMENT_OUTER_PADDING * 2,
             Config.ELEMENT_OUTER_PADDING * 2,
             size=Config.FONT_SIZE_XLARGE,
@@ -89,7 +90,7 @@ class TowerShopGUIManager(GUIManager):
         tower_desc_x = tower_icon.rect.right + Config.ELEMENT_OUTER_PADDING * 2
         tower_description = Text(
             "tower_description",
-            TOWERS[current_tower]["class"].description,  # ty:ignore[unresolved-attribute]
+            current_tower_class.description, # ty:ignore[unresolved-attribute]
             tower_desc_x,
             tower_name.rect.bottom + (Config.ELEMENT_OUTER_PADDING * 2),
             wrap_length=int(
@@ -155,6 +156,76 @@ class TowerShopGUIManager(GUIManager):
         menu_container.add_element(upgrade1_button)
         menu_container.add_element(upgrade2_button)
         menu_container.add_element(upgrade3_button)
+
+        coins_icon = Icon(
+            id="cost_icon",
+            x=Config.ELEMENT_OUTER_PADDING,
+            y=upgrade1_button.rect.bottom + Config.ELEMENT_OUTER_PADDING * 2,
+            image=load_scaled_asset(
+            "coin_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
+            ),
+        )
+        coins_cost_text = Text(
+            "tower_coins_cost_text",
+            f"Cost: {tower.cost[selected_tower.upgrade_index]}",
+            x=coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            y=coins_icon.rect.centery,
+            anchor=RectAnchorMode.MIDLEFT,
+        )
+
+        attack_icon_surf = load_scaled_asset(
+            "attack_icon",
+            (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE),
+        )
+        attack_icon = Icon(
+            "attack_icon",
+            Config.ELEMENT_OUTER_PADDING,
+            coins_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            image=attack_icon_surf,
+        )
+
+        attack_text = Text(
+            "selected_tower_attack_stat_upgrade_text",
+            f"{selected_tower.damage[selected_tower.upgrade_index]} -> {selected_tower.damage[selected_tower.upgrade_index + 1]}",
+            attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            attack_icon.rect.centery,
+            anchor=RectAnchorMode.MIDLEFT,
+        )
+
+        attack_speed_icon_surf = load_scaled_asset(
+            "clock_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
+        )
+        attack_speed_icon = Icon(
+            "attack_speed_icon",
+            Config.ELEMENT_OUTER_PADDING,
+            attack_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            image=attack_speed_icon_surf,
+        )
+        attack_speed_text = Text(
+            "selected_tower_attack_speed_stat_text",
+            f"{selected_tower.shooting_speed[selected_tower.upgrade_index]} -> {selected_tower.shooting_speed[selected_tower.upgrade_index + 1]}",
+            attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            attack_speed_icon.rect.centery,
+            anchor=RectAnchorMode.MIDLEFT,
+        )
+
+        range_icon_surf = load_scaled_asset(
+            "range_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
+        )
+        range_icon = Icon(
+            "range_icon",
+            Config.ELEMENT_OUTER_PADDING,
+            attack_speed_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            image=range_icon_surf,
+        )
+        range_text = Text(
+            "selected_tower_range_stat_text",
+            f"{selected_tower.area_radius[selected_tower.upgrade_index]} -> {selected_tower.area_radius[selected_tower.upgrade_index + 1]}",
+            range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            range_icon.rect.centery,
+            anchor=RectAnchorMode.MIDLEFT,
+        )
+    
 
         self.elements.append(menu_container)
 
