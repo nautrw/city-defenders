@@ -133,6 +133,12 @@ class TowerShopGUIManager(GUIManager):
                 from src.scenes.main_menu import MainMenuScene
 
                 self.scene.game.scene_manager.switch(MainMenuScene(self.scene.game))
+            elif event.button.id == "go_left_button":
+                self.scene.tower_index -= 1
+                self.scene.tower_index %= len(self.scene.towers)
+            elif event.button.id == "go_right_button":
+                self.scene.tower_index += 1
+                self.scene.tower_index %= len(self.scene.towers)
 
             self.refresh()
 
