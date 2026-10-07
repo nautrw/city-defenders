@@ -50,6 +50,7 @@ def split_tileset(
 
     return result
 
+
 def reshape(arr: list, dimensions: tuple[int, int]) -> list[list]:
     width, height = dimensions
     result = []
@@ -60,6 +61,7 @@ def reshape(arr: list, dimensions: tuple[int, int]) -> list[list]:
         result.append(arr[start_i:end_i])
 
     return result
+
 
 def clean_map_json(map_json: dict) -> dict:
     map_width, map_height = map_json["width"], map_json["height"]

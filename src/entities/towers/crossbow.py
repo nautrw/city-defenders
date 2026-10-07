@@ -1,4 +1,5 @@
 from typing import ClassVar
+
 import pygame
 
 from src.core.utils import load_asset

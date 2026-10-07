@@ -1,9 +1,9 @@
-from src.gui.container import ElementContainer
 import src.core.config as Config
-from src.gui.icon import Icon
-from src.gui.text import Text
-from src.gui.placement_system import RectAnchorMode
 from src.core.utils import load_scaled_asset
+from src.gui.container import ElementContainer
+from src.gui.icon import Icon
+from src.gui.placement_system import RectAnchorMode
+from src.gui.text import Text
 
 
 def build_stat_display(
@@ -18,11 +18,7 @@ def build_stat_display(
     card_height: int = 80,
 ) -> ElementContainer:
     container = ElementContainer(
-        parent_id,
-        x, y,
-        card_width,
-        card_height,
-        anchor=anchor
+        parent_id, x, y, card_width, card_height, anchor=anchor
     )
 
     if icon_name:

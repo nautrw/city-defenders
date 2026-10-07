@@ -1,4 +1,3 @@
-from src.gui.gui_utils import build_stat_display
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -16,6 +15,7 @@ from src.entities.towers.tower import Tower
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
+from src.gui.gui_utils import build_stat_display
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
@@ -58,7 +58,9 @@ class MainGameSceneGUIManager(GUIManager):
 
     def update_wave_text(self) -> None:
         self.get_element_by_id("wave_display_text", Text).update_text(
-            "Not Started" if self.scene.wave == -1 else f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}",
+            "Not Started"
+            if self.scene.wave == -1
+            else f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}",
         )
 
     def update_coins_text(self) -> None:
@@ -149,7 +151,9 @@ class MainGameSceneGUIManager(GUIManager):
 
         wave_display_container = build_stat_display(
             "wave_display",
-            "Not Started" if self.scene.wave == -1 else f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}",
+            "Not Started"
+            if self.scene.wave == -1
+            else f"Wave {self.scene.wave + 1}/{len(self.scene.waves)}",
             Config.ELEMENT_OUTER_PADDING,
             coin_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
         )
@@ -289,7 +293,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.elements.append(container)
         self.elements.append(close_button)
-        
+
     def _build_tower_picker_selected_menu(self) -> None:
         container, close_button = self._build_side_menu(
             "tower_picker_tower_selected_menu"
@@ -374,8 +378,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         attack_speed_text = Text(
             "attack_speed_text",
-            f"Cooldown: "
-            f"{self.selected_tower_to_buy.shooting_speed[0]}s",  # ty:ignore[unresolved-attribute]
+            f"Cooldown: {self.selected_tower_to_buy.shooting_speed[0]}s",  # ty:ignore[unresolved-attribute]
             attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             attack_speed_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -397,8 +400,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         range_text = Text(
             "range_text",
-            f"Range: "
-            f"{self.selected_tower_to_buy.area_radius[0]}",  # ty:ignore[unresolved-attribute]
+            f"Range: {self.selected_tower_to_buy.area_radius[0]}",  # ty:ignore[unresolved-attribute]
             range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             range_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -430,8 +432,7 @@ class MainGameSceneGUIManager(GUIManager):
             hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
             pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
             enabled=(
-                self.scene.coins
-                >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
+                self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
             ),
         )
 
@@ -440,8 +441,7 @@ class MainGameSceneGUIManager(GUIManager):
         container.add_element(build_button)
 
         self.elements.append(container)
-        self.elements.append(close_button)       
-
+        self.elements.append(close_button)
 
     def _build_placing_tower_ui(self) -> None:
         tower_discard_button = self._build_close_button(
@@ -665,7 +665,7 @@ class MainGameSceneGUIManager(GUIManager):
                 and event.button.id.split("_")[1] in TOWERS
             ):
                 id = event.button.id.split("_")[1]
-                self.selected_tower_to_buy = TOWERS[id]["class"] # ty:ignore[invalid-assignment]
+                self.selected_tower_to_buy = TOWERS[id]["class"]  # ty:ignore[invalid-assignment]
                 self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
             elif event.button.id == "tower_picker_tower_selected_menu_close_button":
                 self.selected_tower_to_buy = None

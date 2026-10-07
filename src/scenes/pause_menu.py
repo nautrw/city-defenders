@@ -1,9 +1,9 @@
 from typing import TYPE_CHECKING
 
 import pygame
+from loguru import logger
 
 import src.core.config as Config
-from loguru import logger
 from src.core.scenes_manager import Scene
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer

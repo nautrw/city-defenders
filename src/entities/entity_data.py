@@ -23,29 +23,17 @@ ENEMIES = {
     "lava_slime": LavaSlime,
 }
 TOWERS = {
-    "crossbow": {
-        "class": CrossbowTower,
-        "shards_cost": 0,
-        "requires": None
-    },
+    "crossbow": {"class": CrossbowTower, "shards_cost": 0, "requires": None},
     "ballista": {
         "class": BallistaTower,
         "shards_cost": 10,
         "requires": "crossbow",
     },
-    "cannon": {
-        "class": CannonTower,
-        "shards_cost": 20,
-        "requires": "crossbow"
-    },
-    "frostspire": {
-        "class": FrostspireTower,
-        "shards_cost": 30,
-        "requires": "cannon"
-    },
+    "cannon": {"class": CannonTower, "shards_cost": 20, "requires": "crossbow"},
+    "frostspire": {"class": FrostspireTower, "shards_cost": 30, "requires": "cannon"},
     "venomshooter": {
         "class": VenomShooterTower,
         "shards_cost": 40,
-        "requires": "frostspire"
-    }
+        "requires": "frostspire",
+    },
 }

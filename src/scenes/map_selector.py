@@ -90,9 +90,7 @@ class MapSelectorSceneGUIManager(GUIManager):
             "pressed_icon": pygame.transform.flip(
                 right_icons["pressed_icon"], True, False
             ),
-            "hover_icon": pygame.transform.flip(
-                right_icons["hover_icon"], True, False
-            ),
+            "hover_icon": pygame.transform.flip(right_icons["hover_icon"], True, False),
         }
 
         go_right_button = Button(

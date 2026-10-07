@@ -1,5 +1,3 @@
-from src.gui.text import Text
-from src.gui.container import ElementContainer
 from typing import TYPE_CHECKING
 
 import pygame
@@ -14,10 +12,12 @@ from src.core.utils import (
 )
 from src.entities.entity_data import TOWERS
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
+from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
 from src.gui.gui_utils import build_stat_display
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
+from src.gui.text import Text
 
 if TYPE_CHECKING:
     from src.app import GameApp
@@ -76,7 +76,9 @@ class TowerShopGUIManager(GUIManager):
             "tower_icon",
             Config.ELEMENT_OUTER_PADDING * 2,
             Config.ELEMENT_OUTER_PADDING * 2,
-            load_scaled_asset(f"{current_tower}_{self.scene.tower_upgrade_index}", (250, 250)),
+            load_scaled_asset(
+                f"{current_tower}_{self.scene.tower_upgrade_index}", (250, 250)
+            ),
         )
 
         tower_name = Text(
@@ -90,7 +92,7 @@ class TowerShopGUIManager(GUIManager):
         tower_desc_x = tower_icon.rect.right + Config.ELEMENT_OUTER_PADDING * 2
         tower_description = Text(
             "tower_description",
-            current_tower_class.description, # ty:ignore[unresolved-attribute]
+            current_tower_class.description,  # ty:ignore[unresolved-attribute]
             tower_desc_x,
             tower_name.rect.bottom + (Config.ELEMENT_OUTER_PADDING * 2),
             wrap_length=int(
@@ -162,13 +164,11 @@ class TowerShopGUIManager(GUIManager):
             id="cost_icon",
             x=Config.ELEMENT_OUTER_PADDING,
             y=upgrade1_button.rect.bottom + Config.ELEMENT_OUTER_PADDING * 2,
-            image=load_scaled_asset(
-            "coin_icon", stat_icon_size
-            ),
+            image=load_scaled_asset("coin_icon", stat_icon_size),
         )
         coins_cost_text = Text(
             "tower_coins_cost_text",
-            f"Cost: {current_tower_class.cost[self.scene.tower_upgrade_index]}", # ty:ignore[unresolved-attribute]
+            f"Cost: {current_tower_class.cost[self.scene.tower_upgrade_index]}",  # ty:ignore[unresolved-attribute]
             x=coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             y=coins_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -181,14 +181,14 @@ class TowerShopGUIManager(GUIManager):
             "attack_icon",
             Config.ELEMENT_OUTER_PADDING,
             coins_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-            load_scaled_asset("attack_icon", stat_icon_size)
+            load_scaled_asset("attack_icon", stat_icon_size),
         )
         attack_text = Text(
             "attack_text",
-            f"Damage: {current_tower_class.damage[self.scene.tower_upgrade_index]}", # ty:ignore[unresolved-attribute],
+            f"Damage: {current_tower_class.damage[self.scene.tower_upgrade_index]}",  # ty:ignore[unresolved-attribute],
             attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             attack_icon.rect.centery,
-            anchor=RectAnchorMode.MIDLEFT
+            anchor=RectAnchorMode.MIDLEFT,
         )
 
         menu_container.add_element(attack_icon)
@@ -198,14 +198,14 @@ class TowerShopGUIManager(GUIManager):
             "attack_speed_icon",
             Config.ELEMENT_OUTER_PADDING,
             attack_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-            load_scaled_asset("clock_icon", stat_icon_size)
+            load_scaled_asset("clock_icon", stat_icon_size),
         )
         attack_speed_text = Text(
             "attack_speed_text",
-            f"Cooldown: {current_tower_class.shooting_speed[self.scene.tower_upgrade_index]}s", # ty:ignore[unresolved-attribute],
+            f"Cooldown: {current_tower_class.shooting_speed[self.scene.tower_upgrade_index]}s",  # ty:ignore[unresolved-attribute],
             attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             attack_speed_icon.rect.centery,
-            anchor=RectAnchorMode.MIDLEFT
+            anchor=RectAnchorMode.MIDLEFT,
         )
 
         menu_container.add_element(attack_speed_icon)
@@ -215,18 +215,18 @@ class TowerShopGUIManager(GUIManager):
             "range_icon",
             Config.ELEMENT_OUTER_PADDING,
             attack_speed_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-            load_scaled_asset("range_icon", stat_icon_size)
+            load_scaled_asset("range_icon", stat_icon_size),
         )
         range_text = Text(
             "range_text",
-            f"Range: {current_tower_class.area_radius[self.scene.tower_upgrade_index]}", # ty:ignore[unresolved-attribute],
+            f"Range: {current_tower_class.area_radius[self.scene.tower_upgrade_index]}",  # ty:ignore[unresolved-attribute],
             range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             range_icon.rect.centery,
-            anchor=RectAnchorMode.MIDLEFT
+            anchor=RectAnchorMode.MIDLEFT,
         )
 
-        menu_container.add_element(range_icon) 
-        menu_container.add_element(range_text) 
+        menu_container.add_element(range_icon)
+        menu_container.add_element(range_text)
 
         self.elements.append(menu_container)
 
