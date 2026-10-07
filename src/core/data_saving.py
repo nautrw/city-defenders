@@ -1,3 +1,4 @@
+from src.entities.entity_data import TOWERS
 import os
 import json
 from dataclasses import asdict, dataclass, field
@@ -20,6 +21,13 @@ class PlayerSave:
     # at me
     unlocked_towers: list[str] = field(default_factory=list)
     beaten_maps: list[str] = field(default_factory=list)
+
+    def unlock_tower(self, tower_name: str) -> None:
+        if not tower_name in TOWERS:
+            raise ValueError(f"can not unlock invlaid tower: {tower_name}")
+        
+        if not tower_name in self.unlocked_towers:
+            self.unlocked_towers.append(tower_name)
 
 def ensure_data_file(path: Path = DATA_FILE) -> None:
     if not os.path.isfile(path):
