@@ -458,7 +458,8 @@ class MainGameSceneGUIManager(GUIManager):
 
             attack_text = Text(
                 "selected_tower_attack_stat_upgrade_text",
-                f"Damage: {selected_tower.damage[selected_tower.upgrade_index]} -> {selected_tower.damage[selected_tower.upgrade_index + 1]}",
+                f"Damage: {selected_tower.damage[selected_tower.upgrade_index]}"
+                f" -> {selected_tower.damage[selected_tower.upgrade_index + 1]}",
                 attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
                 attack_icon.rect.centery,
                 anchor=RectAnchorMode.MIDLEFT,
@@ -475,7 +476,9 @@ class MainGameSceneGUIManager(GUIManager):
             )
             attack_speed_text = Text(
                 "selected_tower_attack_speed_stat_text",
-                f"Cooldown: {selected_tower.shooting_speed[selected_tower.upgrade_index]}s -> {selected_tower.shooting_speed[selected_tower.upgrade_index + 1]}s",
+                f"Cooldown: "
+                f"{selected_tower.shooting_speed[selected_tower.upgrade_index]}s"
+                f" -> {selected_tower.shooting_speed[selected_tower.upgrade_index + 1]}s",
                 attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
                 attack_speed_icon.rect.centery,
                 anchor=RectAnchorMode.MIDLEFT,
@@ -492,7 +495,9 @@ class MainGameSceneGUIManager(GUIManager):
             )
             range_text = Text(
                 "selected_tower_range_stat_text",
-                f"Range: {selected_tower.area_radius[selected_tower.upgrade_index]} -> {selected_tower.area_radius[selected_tower.upgrade_index + 1]}",
+                f"Range: "
+                f"{selected_tower.area_radius[selected_tower.upgrade_index]} ->"
+                f" {selected_tower.area_radius[selected_tower.upgrade_index + 1]}",
                 range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
                 range_icon.rect.centery,
                 anchor=RectAnchorMode.MIDLEFT,
