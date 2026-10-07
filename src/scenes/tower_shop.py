@@ -1,4 +1,3 @@
-from src.gui.gui_utils import build_stat_display
 from typing import TYPE_CHECKING
 
 import pygame
@@ -8,10 +7,11 @@ import src.core.config as Config
 from src.core.scenes_manager import Scene
 from src.core.utils import (
     load_button_state_triplet_assets,
-    load_scaled_asset,
+    load_scaled_asset, get_sound,
 )
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
+from src.gui.gui_utils import build_stat_display
 from src.gui.placement_system import RectAnchorMode
 
 if TYPE_CHECKING:
@@ -112,6 +112,9 @@ class TowerShopScene(Scene):
             "tower_shop", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT)
         )
 
+        pygame.mixer.music.load(get_sound("Classical Medieval Song"))
+        pygame.mixer.music.play(loops=-1, fade_ms=Config.DEFAULT_SOUND_FADEIN_MS)
+
         self.gui_manager = TowerShopGUIManager(self)
 
     def render(self, surface: pygame.Surface) -> None:
@@ -125,3 +128,6 @@ class TowerShopScene(Scene):
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
+
+    def on_exit(self) -> None:
+        pygame.mixer.music.stop()
