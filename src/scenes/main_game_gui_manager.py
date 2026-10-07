@@ -40,6 +40,7 @@ class MainGameSceneGUIManager(GUIManager):
         self.state = UIStates.COLLAPSED
 
         self.selected_tower_to_buy: type[Tower] | None = None
+        self.selected_tower_upgrade_index = 0
 
         self.scene: MainGameScene
 
@@ -288,7 +289,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.elements.append(container)
         self.elements.append(close_button)
-
+        
     def _build_tower_picker_selected_menu(self) -> None:
         container, close_button = self._build_side_menu(
             "tower_picker_tower_selected_menu"
@@ -311,25 +312,173 @@ class MainGameSceneGUIManager(GUIManager):
             wrap_length=self.container_width,
         )
 
-        cost_text = Text(
-            "cost_text",
-            "Cost: ",
+        # -------------------------------------------------------------------------
+        # Upgrade buttons
+        # -------------------------------------------------------------------------
+
+        upgrade_button_side_length = 56
+
+        upgrade_button_y = (
+            tower_description.rect.bottom
+            + Config.ELEMENT_OUTER_PADDING * 2
+        )
+
+        upgrade1_button = Button(
+            "upgrade1_button",
+            Config.ELEMENT_OUTER_PADDING * 2,
+            upgrade_button_y,
+            upgrade_button_side_length,
+            upgrade_button_side_length,
+            text=Text(
+                "upgrade1_button_text",
+                "1",
+                upgrade_button_side_length / 2,
+                upgrade_button_side_length / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            enabled=self.selected_tower_upgrade_index != 0,
+        )
+
+        upgrade2_button = Button(
+            "upgrade2_button",
+            upgrade1_button.rect.right + Config.ELEMENT_OUTER_PADDING,
+            upgrade_button_y,
+            upgrade_button_side_length,
+            upgrade_button_side_length,
+            text=Text(
+                "upgrade2_button_text",
+                "2",
+                upgrade_button_side_length / 2,
+                upgrade_button_side_length / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            enabled=self.selected_tower_upgrade_index != 1,
+        )
+
+        upgrade3_button = Button(
+            "upgrade3_button",
+            upgrade2_button.rect.right + Config.ELEMENT_OUTER_PADDING,
+            upgrade_button_y,
+            upgrade_button_side_length,
+            upgrade_button_side_length,
+            text=Text(
+                "upgrade3_button_text",
+                "3",
+                upgrade_button_side_length / 2,
+                upgrade_button_side_length / 2,
+                anchor=RectAnchorMode.CENTER,
+            ),
+            enabled=self.selected_tower_upgrade_index != 2,
+        )
+
+        container.add_element(upgrade1_button)
+        container.add_element(upgrade2_button)
+        container.add_element(upgrade3_button)
+
+        # -------------------------------------------------------------------------
+        # Selected upgrade stats
+        # -------------------------------------------------------------------------
+
+        upgrade_index = self.selected_tower_upgrade_index
+
+        stat_icon_size = (
+            Config.GUI_MEDIUM_ICON_SIZE,
+            Config.GUI_MEDIUM_ICON_SIZE,
+        )
+
+        # Cost
+        coins_icon = Icon(
+            "cost_icon",
             Config.ELEMENT_OUTER_PADDING,
-            tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            upgrade1_button.rect.bottom + Config.ELEMENT_OUTER_PADDING * 2,
+            load_scaled_asset(
+                "coin_icon",
+                stat_icon_size,
+            ),
         )
-        coin_img = load_scaled_asset("coin_icon", (36, 36))
-        coin_icon = Icon(
-            "coin_icon",
-            cost_text.rect.right,
-            cost_text.rect.top,
-            coin_img,
+
+        coins_cost_text = Text(
+            "tower_coins_cost_text",
+            f"Cost: {self.selected_tower_to_buy.cost[upgrade_index]}",  # ty:ignore[unresolved-attribute]
+            coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            coins_icon.rect.centery,
+            anchor=RectAnchorMode.MIDLEFT,
         )
-        tower_cost = Text(
-            "tower_cost",
-            str(self.selected_tower_to_buy.cost[0]),  # ty:ignore[unresolved-attribute]
-            coin_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-            coin_icon.rect.top,
+
+        container.add_element(coins_icon)
+        container.add_element(coins_cost_text)
+
+        # Damage
+        attack_icon = Icon(
+            "attack_icon",
+            Config.ELEMENT_OUTER_PADDING,
+            coins_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            load_scaled_asset(
+                "attack_icon",
+                stat_icon_size,
+            ),
         )
+
+        attack_text = Text(
+            "attack_text",
+            f"Damage: {self.selected_tower_to_buy.damage[upgrade_index]}",  # ty:ignore[unresolved-attribute]
+            attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            attack_icon.rect.centery,
+            anchor=RectAnchorMode.MIDLEFT,
+        )
+
+        container.add_element(attack_icon)
+        container.add_element(attack_text)
+
+        # Cooldown
+        attack_speed_icon = Icon(
+            "attack_speed_icon",
+            Config.ELEMENT_OUTER_PADDING,
+            attack_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            load_scaled_asset(
+                "clock_icon",
+                stat_icon_size,
+            ),
+        )
+
+        attack_speed_text = Text(
+            "attack_speed_text",
+            f"Cooldown: "
+            f"{self.selected_tower_to_buy.shooting_speed[upgrade_index]}s",  # ty:ignore[unresolved-attribute]
+            attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            attack_speed_icon.rect.centery,
+            anchor=RectAnchorMode.MIDLEFT,
+        )
+
+        container.add_element(attack_speed_icon)
+        container.add_element(attack_speed_text)
+
+        # Range
+        range_icon = Icon(
+            "range_icon",
+            Config.ELEMENT_OUTER_PADDING,
+            attack_speed_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            load_scaled_asset(
+                "range_icon",
+                stat_icon_size,
+            ),
+        )
+
+        range_text = Text(
+            "range_text",
+            f"Range: "
+            f"{self.selected_tower_to_buy.area_radius[upgrade_index]}",  # ty:ignore[unresolved-attribute]
+            range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+            range_icon.rect.centery,
+            anchor=RectAnchorMode.MIDLEFT,
+        )
+
+        container.add_element(range_icon)
+        container.add_element(range_text)
+
+        # -------------------------------------------------------------------------
+        # Buy button
+        # -------------------------------------------------------------------------
 
         build_button = Button(
             "buy_selected_tower_button",
@@ -349,18 +498,19 @@ class MainGameSceneGUIManager(GUIManager):
             normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
             hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
             pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
-            enabled=(self.scene.coins >= self.selected_tower_to_buy.cost[0]),  # ty:ignore[unresolved-attribute]
+            enabled=(
+                self.scene.coins
+                >= self.selected_tower_to_buy.cost[upgrade_index]  # ty:ignore[unresolved-attribute]
+            ),
         )
 
         container.add_element(tower_name)
         container.add_element(tower_description)
-        container.add_element(cost_text)
-        container.add_element(coin_icon)
-        container.add_element(tower_cost)
         container.add_element(build_button)
 
         self.elements.append(container)
-        self.elements.append(close_button)
+        self.elements.append(close_button)       
+
 
     def _build_placing_tower_ui(self) -> None:
         tower_discard_button = self._build_close_button(
