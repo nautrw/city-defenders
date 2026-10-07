@@ -312,75 +312,6 @@ class MainGameSceneGUIManager(GUIManager):
             wrap_length=self.container_width,
         )
 
-        # -------------------------------------------------------------------------
-        # Upgrade buttons
-        # -------------------------------------------------------------------------
-
-        upgrade_button_side_length = 56
-
-        upgrade_button_y = (
-            tower_description.rect.bottom
-            + Config.ELEMENT_OUTER_PADDING * 2
-        )
-
-        upgrade1_button = Button(
-            "upgrade1_button",
-            Config.ELEMENT_OUTER_PADDING * 2,
-            upgrade_button_y,
-            upgrade_button_side_length,
-            upgrade_button_side_length,
-            text=Text(
-                "upgrade1_button_text",
-                "1",
-                upgrade_button_side_length / 2,
-                upgrade_button_side_length / 2,
-                anchor=RectAnchorMode.CENTER,
-            ),
-            enabled=self.selected_tower_upgrade_index != 0,
-        )
-
-        upgrade2_button = Button(
-            "upgrade2_button",
-            upgrade1_button.rect.right + Config.ELEMENT_OUTER_PADDING,
-            upgrade_button_y,
-            upgrade_button_side_length,
-            upgrade_button_side_length,
-            text=Text(
-                "upgrade2_button_text",
-                "2",
-                upgrade_button_side_length / 2,
-                upgrade_button_side_length / 2,
-                anchor=RectAnchorMode.CENTER,
-            ),
-            enabled=self.selected_tower_upgrade_index != 1,
-        )
-
-        upgrade3_button = Button(
-            "upgrade3_button",
-            upgrade2_button.rect.right + Config.ELEMENT_OUTER_PADDING,
-            upgrade_button_y,
-            upgrade_button_side_length,
-            upgrade_button_side_length,
-            text=Text(
-                "upgrade3_button_text",
-                "3",
-                upgrade_button_side_length / 2,
-                upgrade_button_side_length / 2,
-                anchor=RectAnchorMode.CENTER,
-            ),
-            enabled=self.selected_tower_upgrade_index != 2,
-        )
-
-        container.add_element(upgrade1_button)
-        container.add_element(upgrade2_button)
-        container.add_element(upgrade3_button)
-
-        # -------------------------------------------------------------------------
-        # Selected upgrade stats
-        # -------------------------------------------------------------------------
-
-        upgrade_index = self.selected_tower_upgrade_index
-
         stat_icon_size = (
             Config.GUI_MEDIUM_ICON_SIZE,
             Config.GUI_MEDIUM_ICON_SIZE,
@@ -390,7 +321,7 @@ class MainGameSceneGUIManager(GUIManager):
         coins_icon = Icon(
             "cost_icon",
             Config.ELEMENT_OUTER_PADDING,
-            upgrade1_button.rect.bottom + Config.ELEMENT_OUTER_PADDING * 2,
+            tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING * 2,
             load_scaled_asset(
                 "coin_icon",
                 stat_icon_size,
@@ -399,7 +330,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         coins_cost_text = Text(
             "tower_coins_cost_text",
-            f"Cost: {self.selected_tower_to_buy.cost[upgrade_index]}",  # ty:ignore[unresolved-attribute]
+            f"Cost: {self.selected_tower_to_buy.cost[0]}",  # ty:ignore[unresolved-attribute]
             coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             coins_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -421,7 +352,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         attack_text = Text(
             "attack_text",
-            f"Damage: {self.selected_tower_to_buy.damage[upgrade_index]}",  # ty:ignore[unresolved-attribute]
+            f"Damage: {self.selected_tower_to_buy.damage[0]}",  # ty:ignore[unresolved-attribute]
             attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             attack_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -444,7 +375,7 @@ class MainGameSceneGUIManager(GUIManager):
         attack_speed_text = Text(
             "attack_speed_text",
             f"Cooldown: "
-            f"{self.selected_tower_to_buy.shooting_speed[upgrade_index]}s",  # ty:ignore[unresolved-attribute]
+            f"{self.selected_tower_to_buy.shooting_speed[0]}s",  # ty:ignore[unresolved-attribute]
             attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             attack_speed_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -467,7 +398,7 @@ class MainGameSceneGUIManager(GUIManager):
         range_text = Text(
             "range_text",
             f"Range: "
-            f"{self.selected_tower_to_buy.area_radius[upgrade_index]}",  # ty:ignore[unresolved-attribute]
+            f"{self.selected_tower_to_buy.area_radius[0]}",  # ty:ignore[unresolved-attribute]
             range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             range_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -500,7 +431,7 @@ class MainGameSceneGUIManager(GUIManager):
             pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
             enabled=(
                 self.scene.coins
-                >= self.selected_tower_to_buy.cost[upgrade_index]  # ty:ignore[unresolved-attribute]
+                >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
             ),
         )
 
