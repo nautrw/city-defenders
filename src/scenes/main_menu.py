@@ -75,9 +75,14 @@ class MainMenuScene(Scene):
 
         self.music_index = 0
         self.music_channel = pygame.mixer.find_channel()
-        self.play_next_music()
 
         self.gui_manager = MainMenuSceneGUIManager(self)
+
+    def on_enter(self) -> None:
+        self.play_next_music()
+
+    def on_exit(self) -> None:
+        pygame.mixer.music.stop()
 
     def play_next_music(self):
         current_music = self.music_playlist[self.music_index]
