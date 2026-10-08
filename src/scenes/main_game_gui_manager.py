@@ -606,6 +606,18 @@ class MainGameSceneGUIManager(GUIManager):
                 >= selected_tower.cost[selected_tower.upgrade_index],
             )
 
+            if not self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]:
+                not_enough_coins_text = Text(
+                    "not_enough_coins_text",
+                    "Not enough coins",
+                    upgrade_button.rect.centerx,
+                    upgrade_button.rect.top - Config.ELEMENT_OUTER_PADDING,
+                    anchor=RectAnchorMode.MIDBOTTOM,
+                    fg_color=Config.RED
+                )
+
+                selected_tower_menu.add_element(not_enough_coins_text)
+
             selected_tower_menu.add_element(attack_icon)
             selected_tower_menu.add_element(attack_text)
             selected_tower_menu.add_element(attack_speed_icon)

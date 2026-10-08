@@ -21,6 +21,7 @@ ENEMY_PATH_LAYER_NAME: str = "path"
 
 
 DARK_RED: ColorLike = "#771a10"
+RED: ColorLike = "#e03826"
 BRIGHT_GREEN: ColorLike = "#61a53f"
 TOWER_RADIUS_COLOR: ColorLike = (0, 0, 0, 75)
 
