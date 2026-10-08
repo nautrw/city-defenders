@@ -134,5 +134,5 @@ class Button(Element):
 
         self.pressed_last_frame = pressed
 
-    def toggle(self) -> None:
-        self.enabled = not self.enabled
+    def toggle(self, condition: bool) -> None:
+        self.enabled = condition
