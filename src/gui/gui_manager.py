@@ -1,3 +1,5 @@
+import functools
+import operator
 from abc import ABC, abstractmethod
 from typing import TypeVar
 
@@ -54,3 +56,21 @@ class GUIManager(ABC):
                 return match
 
         raise ValueError(f"element with id {id} not found")
+
+    def element_exists(self, id: str) -> bool:
+        elements = [
+            [e.id for e in element.elements]
+            if isinstance(element, ElementContainer)
+            else element.id
+            for element in self.elements
+        ]
+
+        # reduce() flattens the list,
+        # https://docs.astral.sh/ruff/rules/quadratic-list-summation/
+        return id in functools.reduce(operator.iadd, elements, [])
+
+    def add_element(self, element: Element) -> None:
+        if not self.element_exists(element.id):
+            self.elements.append(element)
+        else:
+            raise ValueError(f"element with id {element.id} already exists in manager")
