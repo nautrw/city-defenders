@@ -52,8 +52,8 @@ class GameDefeatSceneGUIManager(GUIManager):
             anchor=RectAnchorMode.CENTER,
         )
 
-        self.elements.append(defeat_text)
-        self.elements.append(play_again_button)
+        self.add_element(defeat_text)
+        self.add_element(play_again_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:

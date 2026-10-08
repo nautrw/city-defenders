@@ -55,7 +55,7 @@ class TowerShopGUIManager(GUIManager):
             anchor=RectAnchorMode.MIDTOP,
         )
 
-        self.elements.append(shards_display_container)
+        self.add_element(shards_display_container)
 
         container_width = Config.SCREEN_WIDTH / 1.75
         container_height = 960 * 0.75
@@ -228,7 +228,7 @@ class TowerShopGUIManager(GUIManager):
         menu_container.add_element(range_icon)
         menu_container.add_element(range_text)
 
-        self.elements.append(menu_container)
+        self.add_element(menu_container)
 
         arrow_new_size = (Config.BUTTON_SIZE * 3, Config.BUTTON_SIZE * 3)
 
@@ -270,9 +270,9 @@ class TowerShopGUIManager(GUIManager):
             pressed_bg=None,
         )
 
-        self.elements.append(close_icon)
-        self.elements.append(go_right_button)
-        self.elements.append(go_left_button)
+        self.add_element(close_icon)
+        self.add_element(go_right_button)
+        self.add_element(go_left_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:

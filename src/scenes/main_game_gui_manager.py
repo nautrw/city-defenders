@@ -137,7 +137,7 @@ class MainGameSceneGUIManager(GUIManager):
             icon_name="health_icon",
             text_size=Config.FONT_SIZE_XLARGE,
         )
-        self.elements.append(health_display_container)
+        self.add_element(health_display_container)
 
         coin_display_container = build_stat_display(
             "coins_display",
@@ -147,7 +147,7 @@ class MainGameSceneGUIManager(GUIManager):
             icon_name="coin_icon",
             text_size=Config.FONT_SIZE_XLARGE,
         )
-        self.elements.append(coin_display_container)
+        self.add_element(coin_display_container)
 
         wave_display_container = build_stat_display(
             "wave_display",
@@ -157,7 +157,7 @@ class MainGameSceneGUIManager(GUIManager):
             Config.ELEMENT_OUTER_PADDING,
             coin_display_container.rect.bottom + Config.ELEMENT_OUTER_PADDING,
         )
-        self.elements.append(wave_display_container)
+        self.add_element(wave_display_container)
 
     def _build_game_speed_controller(self) -> None:
         game_speed_button_width = 72
@@ -227,7 +227,7 @@ class MainGameSceneGUIManager(GUIManager):
         game_speed_buttons_container.add_element(game_speed_normal_button)
         game_speed_buttons_container.add_element(game_speed_double_button)
 
-        self.elements.append(game_speed_buttons_container)
+        self.add_element(game_speed_buttons_container)
 
     def _build_collapsed_ui(self) -> None:
         build_icon = load_scaled_asset("build_icon")
@@ -254,8 +254,8 @@ class MainGameSceneGUIManager(GUIManager):
             enabled=not (self.scene.wave + 1) >= len(self.scene.waves),
         )
 
-        self.elements.append(build_button)
-        self.elements.append(next_wave_button)
+        self.add_element(build_button)
+        self.add_element(next_wave_button)
 
     def _build_tower_picker_menu(self) -> None:
         container, close_button = self._build_side_menu("tower_picker_menu")
@@ -291,8 +291,8 @@ class MainGameSceneGUIManager(GUIManager):
 
             container.add_element(element)
 
-        self.elements.append(container)
-        self.elements.append(close_button)
+        self.add_element(container)
+        self.add_element(close_button)
 
     def _build_tower_picker_selected_menu(self) -> None:
         container, close_button = self._build_side_menu(
@@ -440,8 +440,8 @@ class MainGameSceneGUIManager(GUIManager):
         container.add_element(tower_description)
         container.add_element(build_button)
 
-        self.elements.append(container)
-        self.elements.append(close_button)
+        self.add_element(container)
+        self.add_element(close_button)
 
     def _build_placing_tower_ui(self) -> None:
         tower_discard_button = self._build_close_button(
@@ -451,7 +451,7 @@ class MainGameSceneGUIManager(GUIManager):
             anchor_mode=RectAnchorMode.TOPRIGHT,
         )
 
-        self.elements.append(tower_discard_button)
+        self.add_element(tower_discard_button)
 
     def _build_tower_selected_menu(self) -> None:
         if self.scene.selected_tower:
@@ -631,8 +631,8 @@ class MainGameSceneGUIManager(GUIManager):
         selected_tower_menu.add_element(tower_description)
         selected_tower_menu.add_element(sell_button)
 
-        self.elements.append(selected_tower_menu)
-        self.elements.append(close_selected_tower_menu_button)
+        self.add_element(selected_tower_menu)
+        self.add_element(close_selected_tower_menu_button)
 
     def refresh(self) -> None:
         self.elements = []

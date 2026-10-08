@@ -60,4 +60,9 @@ class ElementContainer(Element):
             element.update(delta_time, relative_mouse_position)
 
     def add_element(self, element: Element) -> None:
-        self.elements.append(element)
+        if not element.id in [element.id for element in self.elements]:
+            self.elements.append(element)
+        else:
+            raise ValueError(
+                f"element with id {element.id} already exists in container"
+            )

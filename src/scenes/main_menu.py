@@ -55,8 +55,8 @@ class MainMenuSceneGUIManager(GUIManager):
             anchor=RectAnchorMode.CENTER,
         )
 
-        self.elements.append(title_text)
-        self.elements.append(play_button)
+        self.add_element(title_text)
+        self.add_element(play_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:

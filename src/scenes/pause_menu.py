@@ -99,7 +99,7 @@ class PauseMenuGUIManager(GUIManager):
         main_container.add_element(back_button)
         main_container.add_element(restart_button)
         main_container.add_element(main_menu_button)
-        self.elements.append(main_container)
+        self.add_element(main_container)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:

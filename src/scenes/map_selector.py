@@ -136,13 +136,13 @@ class MapSelectorSceneGUIManager(GUIManager):
             anchor=RectAnchorMode.MIDTOP,
         )
 
-        self.elements.append(close_icon)
-        self.elements.append(map_name)
-        self.elements.append(waves_number)
-        self.elements.append(map_icon)
-        self.elements.append(go_right_button)
-        self.elements.append(go_left_button)
-        self.elements.append(play_button)
+        self.add_element(close_icon)
+        self.add_element(map_name)
+        self.add_element(waves_number)
+        self.add_element(map_icon)
+        self.add_element(go_right_button)
+        self.add_element(go_left_button)
+        self.add_element(play_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
