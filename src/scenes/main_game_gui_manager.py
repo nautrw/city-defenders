@@ -1,3 +1,4 @@
+from pydantic.type_adapter import P
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -14,7 +15,7 @@ from src.entities.entity_data import TOWERS
 from src.entities.towers.tower import Tower
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
-from src.gui.gui_manager import GUIManager
+from src.gui.gui_manager import GUIManager, ElementNotFoundError
 from src.gui.gui_utils import build_stat_display
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
@@ -100,19 +101,20 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]
             )
 
-            if self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]:
+            if self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index] and self.element_exists("not_enough_coins_text"):
                 try:
                     self.delete_element_by_id("not_enough_coins_text", Text)
-                except ValueError:
-                    pass
+                except ElementNotFoundError as e:
+                    logger.warning(f"element not_enough_coins_text was not deleted: {e}")
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
             self.get_element_by_id("buy_selected_tower_button", Button).toggle(self.scene.coins >= self.selected_tower_to_buy.cost[0]) # ty:ignore[unresolved-attribute]
 
-            if (self.scene.coins >= self.selected_tower_to_buy.cost[0]): # ty:ignore[unresolved-attribute]
+            print(self.element_exists("not_enough_coins_text"))
+            if (self.scene.coins >= self.selected_tower_to_buy.cost[0]) and self.element_exists("not_enough_coins_text"): # ty:ignore[unresolved-attribute]
                 try:
                     self.delete_element_by_id("not_enough_coins_text", Text)
-                except ValueError as e:
-                    logger.warning(f"not enough coins text was not deleted: {e}")
+                except ElementNotFoundError as e:
+                    logger.warning(f"element not_enough_coins_text was not deleted: {e}")
                 
 
     def _build_close_button(

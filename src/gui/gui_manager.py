@@ -11,6 +11,11 @@ from src.gui.element import Element
 
 T = TypeVar("T", bound=Element | ElementContainer)
 
+class ElementSearchTypeMismatchError(TypeError):
+    pass
+
+class ElementNotFoundError(ValueError):
+    pass
 
 class GUIManager(ABC):
     def __init__(self, scene: Scene) -> None:
@@ -47,7 +52,7 @@ class GUIManager(ABC):
 
             if match:
                 if not isinstance(match, element_type):
-                    raise ValueError(
+                    raise ElementSearchTypeMismatchError(
                         f"element {id} found of type "
                         f"{type(element)}, {element_type} "
                         "expected"
@@ -55,7 +60,7 @@ class GUIManager(ABC):
 
                 return match
 
-        raise ValueError(f"element with id {id} not found")
+        raise ElementNotFoundError(f"element with id {id} not found")
 
     def element_exists(self, id: str) -> bool:
         elements = [
@@ -83,7 +88,7 @@ class GUIManager(ABC):
                         if isinstance(container_element, element_type):
                             element.elements.remove(container_element)
                         else:
-                            raise ValueError(
+                            raise ElementNotFoundError(
                                 f"element {id} found of type "
                                 f"{type(element)}, {element_type} "
                                 "expected"
@@ -93,10 +98,10 @@ class GUIManager(ABC):
                     if isinstance(container_element, element_type):
                         self.elements.remove(element)
                     else:
-                        raise ValueError(
+                        raise ElementSearchTypeMismatchError(
                             f"element {id} found of type "
                             f"{type(element)}, {element_type} "
                             "expected"
                         )
 
-        raise ValueError(f"element with id {id} not found")
+        raise ElementNotFoundError(f"element with id {id} not found")
