@@ -74,3 +74,29 @@ class GUIManager(ABC):
             self.elements.append(element)
         else:
             raise ValueError(f"element with id {element.id} already exists in manager")
+
+    def delete_element_by_id(self, id: str, element_type: type[T]) -> T:
+        for element in self.elements:
+            if isinstance(element, ElementContainer):
+                for container_element in element.elements:
+                    if container_element.id == id:
+                        if isinstance(container_element, element_type):
+                            element.elements.remove(container_element)
+                        else:
+                            raise ValueError(
+                                f"element {id} found of type "
+                                f"{type(element)}, {element_type} "
+                                "expected"
+                            )
+            else:
+                if element.id == id:
+                    if isinstance(container_element, element_type):
+                        self.elements.remove(element)
+                    else:
+                        raise ValueError(
+                            f"element {id} found of type "
+                            f"{type(element)}, {element_type} "
+                            "expected"
+                        )
+
+        raise ValueError(f"element with id {id} not found")
