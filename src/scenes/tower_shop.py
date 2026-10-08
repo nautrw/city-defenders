@@ -233,11 +233,11 @@ class TowerShopGUIManager(GUIManager):
         button_height = 104
 
         unlock_tower_button_icon = Icon(
-                "unlock_tower_button_icon",
-                Config.ELEMENT_OUTER_PADDING,
-                button_height / 2,
-                load_scaled_asset("shard_icon", stat_icon_size),
-                anchor=RectAnchorMode.MIDLEFT
+            "unlock_tower_button_icon",
+            Config.ELEMENT_OUTER_PADDING,
+            button_height / 2,
+            load_scaled_asset("shard_icon", stat_icon_size),
+            anchor=RectAnchorMode.MIDLEFT,
         )
 
         unlock_button = Button(
@@ -250,11 +250,15 @@ class TowerShopGUIManager(GUIManager):
             normal_icon=unlock_tower_button_icon,
             text=Text(
                 "unlock_tower_button_text",
-                f"{current_tower_dict["shards_cost"]}",
+                f"{current_tower_dict['shards_cost']}",
                 unlock_tower_button_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
                 button_height / 2,
                 anchor=RectAnchorMode.MIDLEFT,
-                size=Config.FONT_SIZE_XLARGE
+                size=Config.FONT_SIZE_XLARGE,
+                fg_color=Config.TEXT_COLOR_NORMAL
+                if self.scene.game.player_save.shards
+                >= current_tower_dict["shards_cost"] # ty:ignore[unsupported-operator]
+                else Config.RED,
             ),
         )
 
