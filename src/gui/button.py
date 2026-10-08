@@ -1,3 +1,4 @@
+from src.gui.icon import Icon
 from enum import Enum, auto
 
 import pygame
@@ -33,9 +34,9 @@ class Button(Element):
         normal_bg: ColorLike | None = Config.BUTTON_NORMAL_BG,
         hover_bg: ColorLike | None = Config.BUTTON_HOVERED_BG,
         pressed_bg: ColorLike | None = Config.BUTTON_PRESSED_BG,
-        normal_icon: pygame.Surface | None = None,
-        hover_icon: pygame.Surface | None = None,
-        pressed_icon: pygame.Surface | None = None,
+        normal_icon: pygame.Surface | Icon |None = None,
+        hover_icon: pygame.Surface | Icon | None = None,
+        pressed_icon: pygame.Surface | Icon | None = None,
         text: Text | None = None,
         once_per_click: bool = True,
         enabled: bool = True,
@@ -69,17 +70,26 @@ class Button(Element):
             self.text.render_text()
 
         if self.normal_icon:
-            self.icon_rect = self.normal_icon.get_frect(
-                center=(self.width / 2, self.height / 2)
-            )
-
-            if self.text:
+            if isinstance(self.normal_icon, pygame.Surface):
                 self.icon_rect = self.normal_icon.get_frect(
-                    centerx=self.width / 2, top=inner_padding
+                    center=(self.width / 2, self.height / 2)
                 )
+
+                if self.text:
+                    self.icon_rect = self.normal_icon.get_frect(
+                        centerx=self.width / 2, top=inner_padding
+                    )
+            elif isinstance(self.normal_icon, Icon):
+                self.icon_rect = self.normal_icon.rect
 
         self.pressed_last_frame = pygame.mouse.get_pressed()[0]
         self.once_per_click = once_per_click
+    
+    def _draw_icon(self, icon: pygame.Surface | Icon, surface: pygame.Surface) -> None:
+        if isinstance(icon, pygame.Surface):
+            surface.blit(icon, self.icon_rect)
+        elif isinstance(icon, Icon):
+            icon.draw(surface)
 
     def draw(self, surface: pygame.Surface) -> None:
         if self.enabled:
@@ -88,25 +98,25 @@ class Button(Element):
                     self.image.fill(self.normal_bg)
 
                 if self.normal_icon:
-                    self.image.blit(self.normal_icon, self.icon_rect)
+                    self._draw_icon(self.normal_icon, self.image)
             elif self.state == ButtonStates.HOVERED:
                 if self.hover_bg:
                     self.image.fill(self.hover_bg)
 
                 if self.hover_icon:
-                    self.image.blit(self.hover_icon, self.icon_rect)
+                    self._draw_icon(self.hover_icon, self.image)
             elif self.state == ButtonStates.PRESSED:
                 if self.pressed_bg:
                     self.image.fill(self.pressed_bg)
 
                 if self.pressed_icon:
-                    self.image.blit(self.pressed_icon, self.icon_rect)
+                    self._draw_icon(self.pressed_icon, self.image)
         else:
             if self.pressed_bg:
                 self.image.fill(self.pressed_bg)
 
             if self.pressed_icon:
-                self.image.blit(self.pressed_icon, self.icon_rect)
+                self._draw_icon(self.pressed_icon, self.image)
 
         if self.text:
             self.text.draw(self.image)
