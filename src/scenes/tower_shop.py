@@ -70,6 +70,7 @@ class TowerShopGUIManager(GUIManager):
         )
 
         current_tower = self.scene.towers[self.scene.tower_index]
+        current_tower_dict = TOWERS[current_tower]
         current_tower_class = TOWERS[current_tower]["class"]
 
         tower_icon = Icon(
@@ -227,6 +228,37 @@ class TowerShopGUIManager(GUIManager):
 
         menu_container.add_element(range_icon)
         menu_container.add_element(range_text)
+
+        button_width = 208
+        button_height = 104
+
+        unlock_tower_button_icon = Icon(
+                "unlock_tower_button_icon",
+                Config.ELEMENT_OUTER_PADDING,
+                button_height / 2,
+                load_scaled_asset("shard_icon", stat_icon_size),
+                anchor=RectAnchorMode.MIDLEFT
+        )
+
+        unlock_button = Button(
+            "unlock_tower_button",
+            container_width / 2,
+            container_height - Config.ELEMENT_OUTER_PADDING * 2,
+            button_width,
+            button_height,
+            anchor=RectAnchorMode.MIDBOTTOM,
+            normal_icon=unlock_tower_button_icon,
+            text=Text(
+                "unlock_tower_button_text",
+                f"{current_tower_dict["shards_cost"]}",
+                unlock_tower_button_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+                button_height / 2,
+                anchor=RectAnchorMode.MIDLEFT,
+                size=Config.FONT_SIZE_XLARGE
+            ),
+        )
+
+        menu_container.add_element(unlock_button)
 
         self.add_element(menu_container)
 
