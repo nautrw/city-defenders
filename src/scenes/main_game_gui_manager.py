@@ -1,4 +1,3 @@
-from pydantic.type_adapter import P
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -104,17 +103,15 @@ class MainGameSceneGUIManager(GUIManager):
             if self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index] and self.element_exists("not_enough_coins_text"):
                 try:
                     self.delete_element_by_id("not_enough_coins_text", Text)
-                except ElementNotFoundError as e:
-                    logger.warning(f"element not_enough_coins_text was not deleted: {e}")
+                except ElementNotFoundError:
+                    pass
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
             self.get_element_by_id("buy_selected_tower_button", Button).toggle(self.scene.coins >= self.selected_tower_to_buy.cost[0]) # ty:ignore[unresolved-attribute]
-
-            print(self.element_exists("not_enough_coins_text"))
             if (self.scene.coins >= self.selected_tower_to_buy.cost[0]) and self.element_exists("not_enough_coins_text"): # ty:ignore[unresolved-attribute]
                 try:
                     self.delete_element_by_id("not_enough_coins_text", Text)
-                except ElementNotFoundError as e:
-                    logger.warning(f"element not_enough_coins_text was not deleted: {e}")
+                except ElementNotFoundError:
+                    pass
                 
 
     def _build_close_button(
