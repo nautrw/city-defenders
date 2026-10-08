@@ -105,6 +105,15 @@ class MainGameSceneGUIManager(GUIManager):
                     self.delete_element_by_id("not_enough_coins_text", Text)
                 except ValueError:
                     pass
+        elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
+            self.get_element_by_id("buy_selected_tower_button", Button).toggle(self.scene.coins >= self.selected_tower_to_buy.cost[0]) # ty:ignore[unresolved-attribute]
+
+            if (self.scene.coins >= self.selected_tower_to_buy.cost[0]): # ty:ignore[unresolved-attribute]
+                try:
+                    self.delete_element_by_id("not_enough_coins_text", Text)
+                except ValueError as e:
+                    logger.warning(f"not enough coins text was not deleted: {e}")
+                
 
     def _build_close_button(
         self,
@@ -452,6 +461,19 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
             ),
         )
+
+        if (not self.scene.coins >= self.selected_tower_to_buy.cost[0]): # ty:ignore[unresolved-attribute]
+            not_enough_coins_text = Text(
+                "not_enough_coins_text",
+                "Not enough coins",
+                build_button.rect.centerx,
+                build_button.rect.top - Config.ELEMENT_OUTER_PADDING,
+                anchor=RectAnchorMode.MIDBOTTOM,
+                fg_color=Config.RED,
+            )
+
+            container.add_element(not_enough_coins_text)
+            
 
         container.add_element(tower_name)
         container.add_element(tower_description)
