@@ -89,6 +89,23 @@ class MainGameSceneGUIManager(GUIManager):
             self.scene.game_speed_multiplier != 2
         )
 
+    def update_coin_dependent_ui(self) -> None:
+        if self.state == UIStates.TOWER_SELECTED:
+            if self.scene.selected_tower:
+                selected_tower: Tower = self.scene.selected_tower
+
+            self.get_element_by_id(
+                "upgrade_selected_tower_button", Button
+            ).toggle(
+                self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]
+            )
+
+            if self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]:
+                try:
+                    self.delete_element_by_id("not_enough_coins_text", Text)
+                except ValueError:
+                    pass
+
     def _build_close_button(
         self,
         x: float,
@@ -606,14 +623,17 @@ class MainGameSceneGUIManager(GUIManager):
                 >= selected_tower.cost[selected_tower.upgrade_index],
             )
 
-            if not self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]:
+            if (
+                not self.scene.coins
+                >= selected_tower.cost[selected_tower.upgrade_index]
+            ):
                 not_enough_coins_text = Text(
                     "not_enough_coins_text",
                     "Not enough coins",
                     upgrade_button.rect.centerx,
                     upgrade_button.rect.top - Config.ELEMENT_OUTER_PADDING,
                     anchor=RectAnchorMode.MIDBOTTOM,
-                    fg_color=Config.RED
+                    fg_color=Config.RED,
                 )
 
                 selected_tower_menu.add_element(not_enough_coins_text)

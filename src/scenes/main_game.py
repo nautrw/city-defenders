@@ -249,6 +249,7 @@ class MainGameScene(Scene):
 
                 self.coins += event.entity.coins_drop
                 self.gui_manager.update_coins_text()
+                self.gui_manager.update_coin_dependent_ui()
 
             if event.type == DEFENSE_BREACHED:
                 logger.debug(
