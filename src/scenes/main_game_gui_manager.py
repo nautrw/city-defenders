@@ -14,7 +14,7 @@ from src.entities.entity_data import TOWERS
 from src.entities.towers.tower import Tower
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
-from src.gui.gui_manager import GUIManager, ElementNotFoundError
+from src.gui.gui_manager import ElementNotFoundError, GUIManager
 from src.gui.gui_utils import build_stat_display
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
@@ -94,25 +94,28 @@ class MainGameSceneGUIManager(GUIManager):
             if self.scene.selected_tower:
                 selected_tower: Tower = self.scene.selected_tower
 
-            self.get_element_by_id(
-                "upgrade_selected_tower_button", Button
-            ).toggle(
+            self.get_element_by_id("upgrade_selected_tower_button", Button).toggle(
                 self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]
             )
 
-            if self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index] and self.element_exists("not_enough_coins_text"):
+            if self.scene.coins >= selected_tower.cost[
+                selected_tower.upgrade_index
+            ] and self.element_exists("not_enough_coins_text"):
                 try:
                     self.delete_element_by_id("not_enough_coins_text", Text)
                 except ElementNotFoundError:
                     pass
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
-            self.get_element_by_id("buy_selected_tower_button", Button).toggle(self.scene.coins >= self.selected_tower_to_buy.cost[0]) # ty:ignore[unresolved-attribute]
-            if (self.scene.coins >= self.selected_tower_to_buy.cost[0]) and self.element_exists("not_enough_coins_text"): # ty:ignore[unresolved-attribute]
-                try:
-                    self.delete_element_by_id("not_enough_coins_text", Text)
-                except ElementNotFoundError:
-                    pass
-                
+            buy_button = self.get_element_by_id("buy_selected_tower_button", Button)
+
+            buy_button.toggle(
+                self.scene.coins >= self.selected_tower_to_buy.cost[0] # ty:ignore[unresolved-attribute]
+            )
+
+            assert buy_button.text
+            buy_button.text.fg_color = Config.TEXT_COLOR_NORMAL if self.scene.coins >= self.selected_tower_to_buy.cost[0] else Config.RED # ty:ignore[unresolved-attribute]
+            buy_button.text.render_text()
+
 
     def _build_close_button(
         self,
@@ -346,33 +349,11 @@ class MainGameSceneGUIManager(GUIManager):
             Config.GUI_MEDIUM_ICON_SIZE,
         )
 
-        # Cost
-        coins_icon = Icon(
-            "cost_icon",
-            Config.ELEMENT_OUTER_PADDING,
-            tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING * 2,
-            load_scaled_asset(
-                "coin_icon",
-                stat_icon_size,
-            ),
-        )
-
-        coins_cost_text = Text(
-            "tower_coins_cost_text",
-            f"Cost: {self.selected_tower_to_buy.cost[0]}",  # ty:ignore[unresolved-attribute]
-            coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-            coins_icon.rect.centery,
-            anchor=RectAnchorMode.MIDLEFT,
-        )
-
-        container.add_element(coins_icon)
-        container.add_element(coins_cost_text)
-
         # Damage
         attack_icon = Icon(
             "attack_icon",
             Config.ELEMENT_OUTER_PADDING,
-            coins_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
             load_scaled_asset(
                 "attack_icon",
                 stat_icon_size,
@@ -438,21 +419,36 @@ class MainGameSceneGUIManager(GUIManager):
         # Buy button
         # -------------------------------------------------------------------------
 
+        buy_button_width = 208
+        buy_button_height = 104
+
+        build_button_coins_icon = Icon(
+            "buy_tower_button_coins_icon",
+            Config.ELEMENT_OUTER_PADDING,
+            buy_button_height / 2,
+            load_scaled_asset("coin_icon", stat_icon_size),
+            anchor=RectAnchorMode.MIDLEFT,
+        )
+
         build_button = Button(
             "buy_selected_tower_button",
             self.container_width // 2,
             Config.SCREEN_HEIGHT * 0.75,
-            208,
-            104,
+            buy_button_width,
+            buy_button_height,
             anchor=RectAnchorMode.CENTER,
             text=Text(
-                "buy_text",
-                "Buy",
-                208 // 2,
-                104 // 2,
+                "buy_button_cost_text",
+                f"{self.selected_tower_to_buy.cost[0]}",  # ty:ignore[unresolved-attribute]
+                buy_button_width / 2,
+                buy_button_height / 2,
                 size=Config.FONT_SIZE_XXLARGE,
                 anchor=RectAnchorMode.CENTER,
+                fg_color=Config.TEXT_COLOR_NORMAL
+                if self.scene.coins >= self.selected_tower_to_buy.cost[0] # ty:ignore[unresolved-attribute]
+                else Config.RED,
             ),
+            normal_icon=build_button_coins_icon,
             normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
             hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
             pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
@@ -460,19 +456,6 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
             ),
         )
-
-        if (not self.scene.coins >= self.selected_tower_to_buy.cost[0]): # ty:ignore[unresolved-attribute]
-            not_enough_coins_text = Text(
-                "not_enough_coins_text",
-                "Not enough coins",
-                build_button.rect.centerx,
-                build_button.rect.top - Config.ELEMENT_OUTER_PADDING,
-                anchor=RectAnchorMode.MIDBOTTOM,
-                fg_color=Config.RED,
-            )
-
-            container.add_element(not_enough_coins_text)
-            
 
         container.add_element(tower_name)
         container.add_element(tower_description)
