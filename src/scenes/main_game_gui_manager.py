@@ -40,7 +40,6 @@ class MainGameSceneGUIManager(GUIManager):
         self.state = UIStates.COLLAPSED
 
         self.selected_tower_to_buy: type[Tower] | None = None
-        self.selected_tower_upgrade_index = 0
 
         self.scene: MainGameScene
 
@@ -92,30 +91,35 @@ class MainGameSceneGUIManager(GUIManager):
     def update_coin_dependent_ui(self) -> None:
         if self.state == UIStates.TOWER_SELECTED:
             if self.scene.selected_tower:
-                selected_tower: Tower = self.scene.selected_tower
+                tower: Tower = self.scene.selected_tower
+            else:
+                logger.critical("no selected tower")
+                return
 
-            self.get_element_by_id("upgrade_selected_tower_button", Button).toggle(
-                self.scene.coins >= selected_tower.cost[selected_tower.upgrade_index]
+            upograde_button = self.get_element_by_id(
+                "upgrade_selected_tower_button", Button
             )
 
-            if self.scene.coins >= selected_tower.cost[
-                selected_tower.upgrade_index
-            ] and self.element_exists("not_enough_coins_text"):
-                try:
-                    self.delete_element_by_id("not_enough_coins_text", Text)
-                except ElementNotFoundError:
-                    pass
+            can_upgrade = self.scene.coins >= tower.cost[tower.upgrade_index + 1]
+
+            upograde_button.toggle(can_upgrade)
+
+            assert upograde_button.text
+            upograde_button.text.fg_color = (
+                Config.TEXT_COLOR_NORMAL if can_upgrade else Config.RED
+            )
+            upograde_button.text.render_text()
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
             buy_button = self.get_element_by_id("buy_selected_tower_button", Button)
+            can_buy = self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
 
-            buy_button.toggle(
-                self.scene.coins >= self.selected_tower_to_buy.cost[0] # ty:ignore[unresolved-attribute]
-            )
+            buy_button.toggle(can_buy)
 
             assert buy_button.text
-            buy_button.text.fg_color = Config.TEXT_COLOR_NORMAL if self.scene.coins >= self.selected_tower_to_buy.cost[0] else Config.RED # ty:ignore[unresolved-attribute]
+            buy_button.text.fg_color = (
+                Config.TEXT_COLOR_NORMAL if can_buy else Config.RED
+            )
             buy_button.text.render_text()
-
 
     def _build_close_button(
         self,
@@ -445,7 +449,7 @@ class MainGameSceneGUIManager(GUIManager):
                 size=Config.FONT_SIZE_XXLARGE,
                 anchor=RectAnchorMode.CENTER,
                 fg_color=Config.TEXT_COLOR_NORMAL
-                if self.scene.coins >= self.selected_tower_to_buy.cost[0] # ty:ignore[unresolved-attribute]
+                if self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
                 else Config.RED,
             ),
             normal_icon=build_button_coins_icon,
@@ -475,6 +479,11 @@ class MainGameSceneGUIManager(GUIManager):
         self.add_element(tower_discard_button)
 
     def _build_tower_selected_menu(self) -> None:
+        stat_icon_size = (
+            Config.GUI_MEDIUM_ICON_SIZE,
+            Config.GUI_MEDIUM_ICON_SIZE,
+        )
+
         if self.scene.selected_tower:
             selected_tower: Tower = self.scene.selected_tower
 
@@ -530,23 +539,6 @@ class MainGameSceneGUIManager(GUIManager):
             selected_tower
             and selected_tower.upgrade_index < len(selected_tower.cost) - 1
         ):
-            coins_icon_surf = load_scaled_asset(
-                "coin_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
-            )
-            coins_icon = Icon(
-                id="upgrade_cost_icon",
-                x=Config.ELEMENT_OUTER_PADDING,
-                y=tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
-                image=coins_icon_surf,
-            )
-            upgrade_cost_text = Text(
-                "upgrade_tower_cost_text",
-                f"Cost: {selected_tower.cost[selected_tower.upgrade_index]}",
-                x=coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-                y=coins_icon.rect.centery,
-                anchor=RectAnchorMode.MIDLEFT,
-            )
-
             attack_icon_surf = load_scaled_asset(
                 "attack_icon",
                 (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE),
@@ -554,7 +546,7 @@ class MainGameSceneGUIManager(GUIManager):
             attack_icon = Icon(
                 "attack_icon",
                 Config.ELEMENT_OUTER_PADDING,
-                coins_icon.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                tower_description.rect.bottom + Config.ELEMENT_OUTER_PADDING,
                 image=attack_icon_surf,
             )
 
@@ -605,42 +597,43 @@ class MainGameSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.MIDLEFT,
             )
 
+            upgrade_button_width = 208
+            upgrade_button_height = 104
+
+            coins_icon = Icon(
+                id="upgrade_cost_icon",
+                x=Config.ELEMENT_OUTER_PADDING,
+                y=upgrade_button_height / 2,
+                image=load_scaled_asset("coin_icon", stat_icon_size),
+                anchor=RectAnchorMode.MIDLEFT,
+            )
+
             upgrade_button = Button(
                 "upgrade_selected_tower_button",
                 self.container_width // 2,
                 sell_button.rect.top - Config.ELEMENT_OUTER_PADDING,
-                208,
-                104,
+                upgrade_button_width,
+                upgrade_button_height,
                 anchor=RectAnchorMode.MIDBOTTOM,
                 text=Text(
                     "upgrade_button_text",
-                    "Upgrade",
-                    208 // 2,
-                    104 // 2,
-                    size=Config.FONT_SIZE_XLARGE,
-                    anchor=RectAnchorMode.CENTER,
+                    f"{selected_tower.cost[selected_tower.upgrade_index + 1]}",
+                    coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
+                    upgrade_button_height / 2,
+                    size=Config.FONT_SIZE_XXLARGE,
+                    anchor=RectAnchorMode.MIDLEFT,
+                    fg_color=Config.TEXT_COLOR_NORMAL
+                    if self.scene.coins
+                    >= selected_tower.cost[selected_tower.upgrade_index + 1]
+                    else Config.RED,
                 ),
+                normal_icon=coins_icon,
                 normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
                 hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
                 pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
                 enabled=self.scene.coins
-                >= selected_tower.cost[selected_tower.upgrade_index],
+                >= selected_tower.cost[selected_tower.upgrade_index + 1],
             )
-
-            if (
-                not self.scene.coins
-                >= selected_tower.cost[selected_tower.upgrade_index]
-            ):
-                not_enough_coins_text = Text(
-                    "not_enough_coins_text",
-                    "Not enough coins",
-                    upgrade_button.rect.centerx,
-                    upgrade_button.rect.top - Config.ELEMENT_OUTER_PADDING,
-                    anchor=RectAnchorMode.MIDBOTTOM,
-                    fg_color=Config.RED,
-                )
-
-                selected_tower_menu.add_element(not_enough_coins_text)
 
             selected_tower_menu.add_element(attack_icon)
             selected_tower_menu.add_element(attack_text)
@@ -648,8 +641,6 @@ class MainGameSceneGUIManager(GUIManager):
             selected_tower_menu.add_element(attack_speed_text)
             selected_tower_menu.add_element(range_icon)
             selected_tower_menu.add_element(range_text)
-            selected_tower_menu.add_element(coins_icon)
-            selected_tower_menu.add_element(upgrade_cost_text)
             selected_tower_menu.add_element(upgrade_button)
 
         close_selected_tower_menu_button = self._build_close_button(
