@@ -96,19 +96,23 @@ class MainGameSceneGUIManager(GUIManager):
                 logger.critical("no selected tower")
                 return
 
-            upograde_button = self.get_element_by_id(
-                "upgrade_selected_tower_button", Button
-            )
+            if not tower.upgrade_index < len(tower.cost) - 1:
+                return
 
             can_upgrade = self.scene.coins >= tower.cost[tower.upgrade_index + 1]
 
-            upograde_button.toggle(can_upgrade)
+            if can_upgrade:
+                upgrade_button = self.get_element_by_id(
+                    "upgrade_selected_tower_button", Button
+                )
 
-            assert upograde_button.text
-            upograde_button.text.fg_color = (
-                Config.TEXT_COLOR_NORMAL if can_upgrade else Config.RED
-            )
-            upograde_button.text.render_text()
+                upgrade_button.toggle(can_upgrade)
+
+                assert upgrade_button.text
+                upgrade_button.text.fg_color = (
+                    Config.TEXT_COLOR_NORMAL if can_upgrade else Config.RED
+                )
+                upgrade_button.text.render_text()
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
             buy_button = self.get_element_by_id("buy_selected_tower_button", Button)
             can_buy = self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
