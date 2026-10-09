@@ -15,7 +15,7 @@ from src.entities.towers.tower import Tower
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import ElementNotFoundError, GUIManager
-from src.gui.gui_utils import build_stat_display
+from src.gui.gui_utils import build_currency_button, build_stat_display
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
@@ -423,40 +423,13 @@ class MainGameSceneGUIManager(GUIManager):
         container.add_element(range_icon)
         container.add_element(range_text)
 
-        # -------------------------------------------------------------------------
         # Buy button
-        # -------------------------------------------------------------------------
-
-        buy_button_width = 208
-        buy_button_height = 104
-
-        build_button_coins_icon = Icon(
-            "buy_tower_button_coins_icon",
-            Config.ELEMENT_OUTER_PADDING,
-            buy_button_height / 2,
-            load_scaled_asset("coin_icon", stat_icon_size),
-            anchor=RectAnchorMode.MIDLEFT,
-        )
-
-        build_button = Button(
+        buy_button = build_currency_button(
             "buy_selected_tower_button",
-            self.container_width // 2,
-            Config.SCREEN_HEIGHT * 0.75,
-            buy_button_width,
-            buy_button_height,
-            anchor=RectAnchorMode.CENTER,
-            text=Text(
-                "buy_button_cost_text",
-                f"{self.selected_tower_to_buy.cost[0]}",  # ty:ignore[unresolved-attribute]
-                buy_button_width / 2,
-                buy_button_height / 2,
-                size=Config.FONT_SIZE_XXLARGE,
-                anchor=RectAnchorMode.CENTER,
-                fg_color=Config.TEXT_COLOR_NORMAL
-                if self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
-                else Config.RED,
-            ),
-            normal_icon=build_button_coins_icon,
+            container.width // 2,
+            container.height * 0.75,
+            "coin_icon",
+            f"{self.selected_tower_to_buy.cost[0]}",  # ty:ignore[unresolved-attribute]
             normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
             hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
             pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
@@ -467,7 +440,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         container.add_element(tower_name)
         container.add_element(tower_description)
-        container.add_element(build_button)
+        container.add_element(buy_button)
 
         self.add_element(container)
         self.add_element(close_button)
@@ -483,15 +456,10 @@ class MainGameSceneGUIManager(GUIManager):
         self.add_element(tower_discard_button)
 
     def _build_tower_selected_menu(self) -> None:
-        stat_icon_size = (
-            Config.GUI_MEDIUM_ICON_SIZE,
-            Config.GUI_MEDIUM_ICON_SIZE,
-        )
-
         if self.scene.selected_tower:
             selected_tower: Tower = self.scene.selected_tower
 
-        selected_tower_menu = ElementContainer(
+        container = ElementContainer(
             "selected_tower_menu",
             Config.SCREEN_WIDTH - self.container_width,
             0,
@@ -601,37 +569,12 @@ class MainGameSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.MIDLEFT,
             )
 
-            upgrade_button_width = 208
-            upgrade_button_height = 104
-
-            coins_icon = Icon(
-                id="upgrade_cost_icon",
-                x=Config.ELEMENT_OUTER_PADDING,
-                y=upgrade_button_height / 2,
-                image=load_scaled_asset("coin_icon", stat_icon_size),
-                anchor=RectAnchorMode.MIDLEFT,
-            )
-
-            upgrade_button = Button(
+            upgrade_button = build_currency_button(
                 "upgrade_selected_tower_button",
-                self.container_width // 2,
-                sell_button.rect.top - Config.ELEMENT_OUTER_PADDING,
-                upgrade_button_width,
-                upgrade_button_height,
-                anchor=RectAnchorMode.MIDBOTTOM,
-                text=Text(
-                    "upgrade_button_text",
-                    f"{selected_tower.cost[selected_tower.upgrade_index + 1]}",
-                    coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-                    upgrade_button_height / 2,
-                    size=Config.FONT_SIZE_XXLARGE,
-                    anchor=RectAnchorMode.MIDLEFT,
-                    fg_color=Config.TEXT_COLOR_NORMAL
-                    if self.scene.coins
-                    >= selected_tower.cost[selected_tower.upgrade_index + 1]
-                    else Config.RED,
-                ),
-                normal_icon=coins_icon,
+                container.rect.width / 2,
+                container.rect.height * 0.75,
+                "coin_icon",
+                f"{selected_tower.cost[selected_tower.upgrade_index + 1]}",
                 normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
                 hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
                 pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
@@ -639,31 +582,31 @@ class MainGameSceneGUIManager(GUIManager):
                 >= selected_tower.cost[selected_tower.upgrade_index + 1],
             )
 
-            selected_tower_menu.add_element(attack_icon)
-            selected_tower_menu.add_element(attack_text)
-            selected_tower_menu.add_element(attack_speed_icon)
-            selected_tower_menu.add_element(attack_speed_text)
-            selected_tower_menu.add_element(range_icon)
-            selected_tower_menu.add_element(range_text)
-            selected_tower_menu.add_element(upgrade_button)
+            container.add_element(attack_icon)
+            container.add_element(attack_text)
+            container.add_element(attack_speed_icon)
+            container.add_element(attack_speed_text)
+            container.add_element(range_icon)
+            container.add_element(range_text)
+            container.add_element(upgrade_button)
 
-        close_selected_tower_menu_button = self._build_close_button(
+        close_container_button = self._build_close_button(
             x=(
                 Config.SCREEN_WIDTH
                 - self.container_width
                 - Config.ELEMENT_OUTER_PADDING
             ),
             y=Config.ELEMENT_OUTER_PADDING,
-            element_id="close_selected_tower_menu_button",
+            element_id="close_container_button",
             anchor_mode=RectAnchorMode.TOPRIGHT,
         )
 
-        selected_tower_menu.add_element(tower_name)
-        selected_tower_menu.add_element(tower_description)
-        selected_tower_menu.add_element(sell_button)
+        container.add_element(tower_name)
+        container.add_element(tower_description)
+        container.add_element(sell_button)
 
-        self.add_element(selected_tower_menu)
-        self.add_element(close_selected_tower_menu_button)
+        self.add_element(container)
+        self.add_element(close_container_button)
 
     def refresh(self) -> None:
         self.elements = []
