@@ -740,9 +740,11 @@ class MainGameSceneGUIManager(GUIManager):
             elif (
                 event.button.id == "upgrade_selected_tower_button"
                 and self.scene.selected_tower
+                and not self.scene.selected_tower.upgrade_index
+                > len(self.scene.selected_tower.cost) - 1
             ):
                 upgrade_cost = self.scene.selected_tower.cost[
-                    self.scene.selected_tower.upgrade_index
+                    self.scene.selected_tower.upgrade_index + 1
                 ]
 
                 if self.scene.coins >= upgrade_cost:
