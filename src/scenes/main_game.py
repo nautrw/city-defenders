@@ -57,6 +57,7 @@ class MainGameScene(Scene):
         self.draw_tower_radiuses = False
 
         self.coins = map_data["initial_balance"]
+        self.shards_reward = map_data["shards_reward"]
 
         self.tower_to_place: Tower | None = None
         self.can_place_tower = False
@@ -177,6 +178,7 @@ class MainGameScene(Scene):
             ):
                 logger.info("game won")
                 self.game.scene_manager.switch(GameWonScene(self.game))
+                self.game.player_save.shards += self.shards_reward
 
             if self.health <= 0:
                 logger.info("game lost")

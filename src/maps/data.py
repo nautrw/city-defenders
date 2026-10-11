@@ -32,6 +32,7 @@ MAPS_DATA = {
             ),
         },
         "initial_balance": 260,
+        "shards_reward": 100,
         "health": 25,
         "music": ALL_MAP_MUSIC,
     },
@@ -83,6 +84,7 @@ MAPS_DATA = {
         },
         "initial_balance": 300,
         "health": 25,
+        "shards_reward": 100,
         "music": ALL_MAP_MUSIC,
     },
     "molten_lands": {
@@ -194,6 +196,7 @@ MAPS_DATA = {
         },
         "initial_balance": 350,
         "health": 25,
+        "shards_reward": 100,
         "music": ALL_MAP_MUSIC,
     },
 }
