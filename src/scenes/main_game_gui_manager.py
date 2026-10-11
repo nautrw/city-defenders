@@ -457,13 +457,7 @@ class MainGameSceneGUIManager(GUIManager):
         if self.scene.selected_tower:
             selected_tower: Tower = self.scene.selected_tower
 
-        container = ElementContainer(
-            "selected_tower_menu",
-            Config.SCREEN_WIDTH - self.container_width,
-            0,
-            self.container_width,
-            Config.SCREEN_HEIGHT,
-        )
+        container, close_button = self._build_side_menu("tower_selected_menu")
 
         ### tower info
         tower_name = Text(
@@ -588,23 +582,12 @@ class MainGameSceneGUIManager(GUIManager):
             container.add_element(range_text)
             container.add_element(upgrade_button)
 
-        close_container_button = self._build_close_button(
-            x=(
-                Config.SCREEN_WIDTH
-                - self.container_width
-                - Config.ELEMENT_OUTER_PADDING
-            ),
-            y=Config.ELEMENT_OUTER_PADDING,
-            element_id="close_container_button",
-            anchor_mode=RectAnchorMode.TOPRIGHT,
-        )
-
         container.add_element(tower_name)
         container.add_element(tower_description)
         container.add_element(sell_button)
 
         self.add_element(container)
-        self.add_element(close_container_button)
+        self.add_element(close_button)
 
     def refresh(self) -> None:
         self.elements = []
@@ -645,7 +628,7 @@ class MainGameSceneGUIManager(GUIManager):
             elif event.button.id == "sell_selected_tower_button":
                 self.scene.sell_selected_tower()
                 self.switch_state(UIStates.COLLAPSED)
-            elif event.button.id == "close_selected_tower_menu_button":
+            elif event.button.id == "tower_selected_menu_close_button":
                 self.switch_state(UIStates.COLLAPSED)
                 self.scene.selected_tower = None
             elif event.button.id == "tower_discard_button":
