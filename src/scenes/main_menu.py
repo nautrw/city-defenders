@@ -7,7 +7,7 @@ from loguru import logger
 import src.core.config as Config
 from src.core.data_saving import reset_data
 from src.core.scenes_manager import Scene
-from src.core.utils import get_sound, load_asset
+from src.core.utils import get_sound, load_asset, load_scaled_asset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
@@ -78,6 +78,10 @@ class MainMenuScene(Scene):
 
         self.gui_manager = MainMenuSceneGUIManager(self)
 
+        self.background = load_scaled_asset(
+            "main_menu", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT)
+        )
+
     def on_enter(self) -> None:
         self.play_next_music()
 
@@ -96,7 +100,7 @@ class MainMenuScene(Scene):
         pygame.mixer.music.queue(get_sound(to_queue))
 
     def render(self, surface: pygame.Surface) -> None:
-        surface.fill(Config.BRIGHT_GREEN)
+        surface.blit(self.background, (0, 0))
 
         game_icon = load_asset("game_icon")
         game_icon_rect = game_icon.get_rect(
