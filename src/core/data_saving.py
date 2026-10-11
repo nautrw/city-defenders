@@ -15,7 +15,7 @@ logger.info(f"Save data file: {DATA_FILE}")
 
 @dataclass
 class PlayerSave:
-    shards: int = 0
+    shards: int = 10000 # TODO: Change this later
 
     # can't use [] as a default value because all instances would share the same
     # list; this likely won't be a problem for a player save but LSP will scream

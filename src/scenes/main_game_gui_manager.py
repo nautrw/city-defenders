@@ -302,7 +302,7 @@ class MainGameSceneGUIManager(GUIManager):
             ),
         )
 
-        for i, tower in enumerate(TOWERS):
+        for i, tower in enumerate(self.scene.game.player_save.unlocked_towers):
             column = i % columns
             row = i // columns
 
