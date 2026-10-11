@@ -25,7 +25,7 @@ class PlayerSave:
 
     def unlock_tower(self, tower_name: str) -> None:
         if not tower_name in TOWERS:
-            raise ValueError(f"can not unlock invlaid tower: {tower_name}")
+            raise ValueError(f"can not unlock invalid tower: {tower_name}")
 
         if not tower_name in self.unlocked_towers:
             self.unlocked_towers.append(tower_name)
