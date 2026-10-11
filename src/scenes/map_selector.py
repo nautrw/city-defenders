@@ -175,6 +175,8 @@ class MapSelectorScene(Scene):
 
         self.gui_manager = MapSelectorSceneGUIManager(self)
 
+        self.background = load_scaled_asset("map_selector", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT))
+
     def enter_map(self, map_name: str):
         tileset_img = load_asset("tileset")
         tileset = split_tileset(tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT)
@@ -187,7 +189,7 @@ class MapSelectorScene(Scene):
         )
 
     def render(self, surface: pygame.Surface) -> None:
-        surface.fill(Config.BRIGHT_GREEN)
+        surface.blit(self.background, (0, 0))
 
         self.gui_manager.render_elements(surface)
 
