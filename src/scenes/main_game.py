@@ -56,7 +56,8 @@ class MainGameScene(Scene):
         self.paused = False
         self.draw_tower_radiuses = False
 
-        self.coins = map_data["initial_balance"]
+        self.original_coins = map_data["initial_balance"]
+        self.coins = self.original_coins
         self.shards_reward = map_data["shards_reward"]
 
         self.tower_to_place: Tower | None = None
@@ -334,6 +335,8 @@ class MainGameScene(Scene):
         self.enemy_spawn_interval_dt_count = 0
 
         self.health = self.max_health
+
+        self.coins = self.original_coins
 
         self.gui_manager.refresh()
 
