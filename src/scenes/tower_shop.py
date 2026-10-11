@@ -14,7 +14,7 @@ from src.entities.entity_data import TOWERS
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
-from src.gui.gui_utils import build_stat_display
+from src.gui.gui_utils import build_currency_button, build_stat_display
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
@@ -229,37 +229,15 @@ class TowerShopGUIManager(GUIManager):
         menu_container.add_element(range_icon)
         menu_container.add_element(range_text)
 
-        button_width = 208
-        button_height = 104
-
-        unlock_tower_button_icon = Icon(
-            "unlock_tower_button_icon",
-            Config.ELEMENT_OUTER_PADDING,
-            button_height / 2,
-            load_scaled_asset("shard_icon", stat_icon_size),
-            anchor=RectAnchorMode.MIDLEFT,
-        )
-
-        unlock_button = Button(
+        unlock_button = build_currency_button(
             "unlock_tower_button",
             container_width / 2,
             container_height - Config.ELEMENT_OUTER_PADDING * 2,
-            button_width,
-            button_height,
+            "shard_icon",
+            str(current_tower_dict["shards_cost"]),
             anchor=RectAnchorMode.MIDBOTTOM,
-            normal_icon=unlock_tower_button_icon,
-            text=Text(
-                "unlock_tower_button_text",
-                f"{current_tower_dict['shards_cost']}",
-                unlock_tower_button_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
-                button_height / 2,
-                anchor=RectAnchorMode.MIDLEFT,
-                size=Config.FONT_SIZE_XLARGE,
-                fg_color=Config.TEXT_COLOR_NORMAL
-                if self.scene.game.player_save.shards
-                >= current_tower_dict["shards_cost"] # ty:ignore[unsupported-operator]
-                else Config.RED,
-            ),
+            enabled=self.scene.game.player_save.shards
+            >= current_tower_dict["shards_cost"],  # ty:ignore[unsupported-operator]
         )
 
         menu_container.add_element(unlock_button)
