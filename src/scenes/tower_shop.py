@@ -229,18 +229,29 @@ class TowerShopGUIManager(GUIManager):
         menu_container.add_element(range_icon)
         menu_container.add_element(range_text)
 
-        unlock_button = build_currency_button(
-            "unlock_tower_button",
-            container_width / 2,
-            container_height - Config.ELEMENT_OUTER_PADDING * 2,
-            "shard_icon",
-            str(current_tower_dict["shards_cost"]),
-            anchor=RectAnchorMode.MIDBOTTOM,
-            enabled=self.scene.game.player_save.shards
-            >= current_tower_dict["shards_cost"],  # ty:ignore[unsupported-operator]
-        )
+        if not current_tower in self.scene.game.player_save.unlocked_towers:
+            unlock_button = build_currency_button(
+                "unlock_tower_button",
+                container_width / 2,
+                container_height - Config.ELEMENT_OUTER_PADDING * 2,
+                "shard_icon",
+                str(current_tower_dict["shards_cost"]),
+                anchor=RectAnchorMode.MIDBOTTOM,
+                enabled=self.scene.game.player_save.shards
+                >= current_tower_dict["shards_cost"],  # ty:ignore[unsupported-operator]
+            )
 
-        menu_container.add_element(unlock_button)
+            menu_container.add_element(unlock_button)
+        else:
+            unlocked_text = Text(
+                "tower_unlocked_text",
+                "Unlocked",
+                container_width / 2,
+                container_height - Config.ELEMENT_OUTER_PADDING * 2,
+                anchor=RectAnchorMode.MIDBOTTOM,
+            )
+
+            menu_container.add_element(unlocked_text)
 
         self.add_element(menu_container)
 
@@ -290,6 +301,9 @@ class TowerShopGUIManager(GUIManager):
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
+            current_tower = self.scene.towers[self.scene.tower_index]
+            current_tower_dict = TOWERS[current_tower]
+
             logger.debug(f"gui button clicked: id={event.button.id}")
 
             if event.button.id == "back_to_main_menu_button":
@@ -311,6 +325,15 @@ class TowerShopGUIManager(GUIManager):
                 self.scene.tower_upgrade_index = 1
             elif event.button.id == "upgrade3_button":
                 self.scene.tower_upgrade_index = 2
+            elif event.button.id == "unlock_tower_button":
+                if (
+                    self.scene.game.player_save.shards
+                    >= current_tower_dict["shards_cost"] # ty:ignore[unsupported-operator]
+                ):
+                    self.scene.game.player_save.shards -= current_tower_dict[
+                        "shards_cost"
+                    ]  # ty:ignore[unsupported-operator]
+                    self.scene.game.player_save.unlocked_towers.append(current_tower)
 
             self.refresh()
 

@@ -20,7 +20,7 @@ class PlayerSave:
     # can't use [] as a default value because all instances would share the same
     # list; this likely won't be a problem for a player save but LSP will scream
     # at me
-    unlocked_towers: list[str] = field(default_factory=list)
+    unlocked_towers: list[str] = field(default_factory=lambda: ["crossbow"])
     beaten_maps: list[str] = field(default_factory=list)
 
     def unlock_tower(self, tower_name: str) -> None:
