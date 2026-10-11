@@ -49,7 +49,7 @@ class Text(Element):
             self.anchor,
         )
 
-        self.render_text()
+        self._render_text()
 
     def update(self, delta_time: float, mouse_position: tuple[float, float]) -> None:
         pass
@@ -59,9 +59,13 @@ class Text(Element):
 
     def update_text(self, new_text: Any) -> None:
         self.text = str(new_text)
-        self.render_text()
+        self._render_text()
 
-    def render_text(self) -> None:
+    def update_color(self, new_color: ColorLike) -> None:
+        self.fg_color = new_color
+        self._render_text()
+
+    def _render_text(self) -> None:
         self.image = self.font.render(
             self.text, self.antialias, self.fg_color, wraplength=self.wrap_length
         )

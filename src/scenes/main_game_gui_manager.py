@@ -109,10 +109,9 @@ class MainGameSceneGUIManager(GUIManager):
                 upgrade_button.toggle(can_upgrade)
 
                 assert upgrade_button.text
-                upgrade_button.text.fg_color = (
+                upgrade_button.text.update_color(
                     Config.TEXT_COLOR_NORMAL if can_upgrade else Config.RED
                 )
-                upgrade_button.text.render_text()
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
             buy_button = self.get_element_by_id("buy_selected_tower_button", Button)
             can_buy = self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
@@ -120,10 +119,9 @@ class MainGameSceneGUIManager(GUIManager):
             buy_button.toggle(can_buy)
 
             assert buy_button.text
-            buy_button.text.fg_color = (
+            buy_button.text.update_color(
                 Config.TEXT_COLOR_NORMAL if can_buy else Config.RED
             )
-            buy_button.text.render_text()
 
     def _build_close_button(
         self,

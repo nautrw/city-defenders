@@ -66,9 +66,6 @@ class Button(Element):
 
         self.text = text
 
-        if self.text:
-            self.text.render_text()
-
         if self.normal_icon:
             if isinstance(self.normal_icon, pygame.Surface):
                 self.icon_rect = self.normal_icon.get_frect(
