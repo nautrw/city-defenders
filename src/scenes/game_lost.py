@@ -5,6 +5,7 @@ from loguru import logger
 
 import src.core.config as Config
 from src.core.scenes_manager import Scene
+from src.core.utils import get_sound
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
@@ -71,6 +72,14 @@ class GameLostScene(Scene):
         super().__init__(game)
 
         self.gui_manager = GameDefeatSceneGUIManager(self)
+
+    def on_enter(self) -> None:
+        pygame.mixer.music.load(get_sound("The Fallen"))
+        pygame.mixer.music.play(loops=-1, fade_ms=Config.DEFAULT_SOUND_FADEIN_MS)
+
+    def on_exit(self) -> None:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
 
     def handle_events(self, events: list[pygame.Event]) -> None:
         for event in events:
