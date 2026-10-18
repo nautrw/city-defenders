@@ -271,7 +271,7 @@ class MainGameScene(Scene):
                 elif event.key == pygame.K_r:
                     self.draw_tower_radiuses = not self.draw_tower_radiuses
 
-            if event == pygame.mixer.music.get_endevent():
+            if event.type == pygame.mixer.music.get_endevent():
                 self.play_next_music()
 
             self.gui_manager.handle_event(event)
