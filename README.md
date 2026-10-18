@@ -16,3 +16,4 @@ Tower defense game about defending medieval cities using towers.
   - Modification: *Removed short quiet segments at the beginning and end removed*
 - [The Fallen](https://opengameart.org/content/the-fallen-rpg-orchestral-essentials-defeated-music) by [Jonathan Shaw](https://opengameart.org/users/inspectorj) ([website](https://www.jshaw.co.uk/))
   - Modification: *Removed short quiet segments at the beginning and end removed*
+- [The Bard's Tale](https://opengameart.org/content/medieval-the-bards-tale) by [RandomMind](https://opengameart.org/users/randommind)

@@ -11,7 +11,7 @@ from src.core.utils import (
     load_button_state_triplet_assets,
     load_map,
     load_scaled_asset,
-    split_tileset,
+    split_tileset, get_sound,
 )
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
@@ -176,6 +176,14 @@ class MapSelectorScene(Scene):
         self.gui_manager = MapSelectorSceneGUIManager(self)
 
         self.background = load_scaled_asset("map_selector", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT))
+
+    def on_enter(self) -> None:
+        pygame.mixer.music.load(get_sound("The Bards Tale"))
+        pygame.mixer.music.play(loops=-1, fade_ms=Config.DEFAULT_SOUND_FADEIN_MS)
+
+    def on_exit(self) -> None:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
 
     def enter_map(self, map_name: str):
         tileset_img = load_asset("tileset")

@@ -357,7 +357,7 @@ class TowerShopScene(Scene):
         pygame.mixer.music.load(get_sound("Classical Medieval Song"))
         pygame.mixer.music.play(loops=-1, fade_ms=Config.DEFAULT_SOUND_FADEIN_MS)
 
-    def on_leave(self) -> None:
+    def on_exit(self) -> None:
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()
 
@@ -372,6 +372,3 @@ class TowerShopScene(Scene):
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
-
-    def on_exit(self) -> None:
-        pygame.mixer.music.stop()
