@@ -1,3 +1,5 @@
+from src.gui.icon import Icon
+from src.gui.container import ElementContainer
 from src.gui.gui_utils import build_stat_display
 from typing import TYPE_CHECKING
 
@@ -6,7 +8,7 @@ from loguru import logger
 
 import src.core.config as Config
 from src.core.scenes_manager import Scene
-from src.core.utils import get_sound
+from src.core.utils import get_sound, load_asset, load_scaled_asset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
@@ -27,30 +29,40 @@ class GameVictorySceneGUIManager(GUIManager):
     def refresh(self) -> None:
         self.elements = []
 
+        victory_plaque_img = load_scaled_asset("victory_plaque", (360, 432))
+        victory_plaque = ElementContainer(
+            "victory_plaque",
+            Config.SCREEN_WIDTH / 2,
+            Config.SCREEN_HEIGHT * .4,
+            *victory_plaque_img.size,
+            bg_image=victory_plaque_img,
+            anchor=RectAnchorMode.CENTER
+        )
+
         victory_text = Text(
             "victory_text",
             "Victory!",
-            Config.SCREEN_WIDTH / 2,
-            Config.SCREEN_HEIGHT * 0.25,
+            victory_plaque.rect.width / 2,
+            victory_plaque.rect.height * .24,
             size=Config.FONT_SIZE_XXXLARGE,
-            anchor=RectAnchorMode.CENTER,
+            anchor=RectAnchorMode.MIDTOP,
         )
 
         shards_reward = build_stat_display(
             "shards_reward",
             f"+{self.scene.shards_reward}",
-            Config.SCREEN_WIDTH /2,
-            victory_text.rect.bottom + ( Config.ELEMENT_OUTER_PADDING * 2 ),
+            victory_plaque.rect.width / 2,
+            victory_plaque.rect.height * .65, # wanted it to be 67 so bad :(
             icon_name="shard_icon",
             anchor=RectAnchorMode.MIDTOP,
-            text_size=Config.FONT_SIZE_XXLARGE
+            text_size=Config.FONT_SIZE_XLARGE
         )
 
         button_width = Config.BUTTON_SIZE * 3
         play_again_button = Button(
             "play_again_button",
             Config.SCREEN_WIDTH / 2,
-            Config.SCREEN_HEIGHT * 0.5,
+            victory_plaque.rect.bottom + Config.ELEMENT_OUTER_PADDING,
             button_width,
             Config.BUTTON_SIZE,
             text=Text(
@@ -61,12 +73,13 @@ class GameVictorySceneGUIManager(GUIManager):
                 size=Config.FONT_SIZE_LARGE,
                 anchor=RectAnchorMode.CENTER,
             ),
-            anchor=RectAnchorMode.CENTER,
+            anchor=RectAnchorMode.MIDTOP,
         )
 
-        self.add_element(victory_text)
+        self.add_element(victory_plaque)
+        victory_plaque.add_element(victory_text)
+        victory_plaque.add_element(shards_reward)
         self.add_element(play_again_button)
-        self.add_element(shards_reward)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
@@ -76,7 +89,9 @@ class GameVictorySceneGUIManager(GUIManager):
                 # prevent circular import
                 from src.scenes.map_selector import MapSelectorScene
 
-                self.scene.game.scene_manager.switch(MapSelectorScene(self.scene.game))
+                # stack is [maingame, gamewonscene] before emptying
+                self.scene.game.scene_manager.empty_stack()
+                self.scene.game.scene_manager.push(MapSelectorScene(self.scene.game))
 
 
 class GameWonScene(Scene):
@@ -103,5 +118,8 @@ class GameWonScene(Scene):
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
 
     def render(self, surface: pygame.Surface) -> None:
-        surface.fill(Config.BRIGHT_GREEN)
+        overlay = pygame.Surface(surface.get_size(), pygame.SRCALPHA)
+        overlay.fill(Config.DARK_BG)
+        surface.blit(overlay)
+
         self.gui_manager.render_elements(surface)

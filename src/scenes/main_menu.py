@@ -1,3 +1,4 @@
+from src.scenes.game_won import GameWonScene
 import random
 from typing import TYPE_CHECKING
 
@@ -134,8 +135,11 @@ class MainMenuScene(Scene):
         for event in events:
             self.gui_manager.handle_event(event)
 
-            if event == pygame.mixer.music.get_endevent():
+            if event.type == pygame.mixer.music.get_endevent():
                 self.play_next_music()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_v:
+                    self.game.scene_manager.switch(GameWonScene(self.game, 1000))
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())

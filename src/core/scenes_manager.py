@@ -79,8 +79,11 @@ class SceneManager:
             f"scene switched: old={old_scene}, new={type(new_scene)}, stack={self._scenes_stack}"
         )
 
-    def push(self, new_scene: Scene) -> None:
+    def push(self, new_scene: Scene, do_exit: bool = False) -> None:
         """Pushes a new scene to the stack without affecting the one below.."""
+        if do_exit and self.current_scene:
+            self.current_scene.on_exit()
+
         self._scenes_stack.append(new_scene)
         new_scene.on_enter()
 
