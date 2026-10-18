@@ -1,3 +1,4 @@
+from src.gui.gui_utils import build_stat_display
 from typing import TYPE_CHECKING
 
 import pygame
@@ -35,6 +36,16 @@ class GameVictorySceneGUIManager(GUIManager):
             anchor=RectAnchorMode.CENTER,
         )
 
+        shards_reward = build_stat_display(
+            "shards_reward",
+            f"+{self.scene.shards_reward}",
+            Config.SCREEN_WIDTH /2,
+            victory_text.rect.bottom + ( Config.ELEMENT_OUTER_PADDING * 2 ),
+            icon_name="shard_icon",
+            anchor=RectAnchorMode.MIDTOP,
+            text_size=Config.FONT_SIZE_XXLARGE
+        )
+
         button_width = Config.BUTTON_SIZE * 3
         play_again_button = Button(
             "play_again_button",
@@ -55,6 +66,7 @@ class GameVictorySceneGUIManager(GUIManager):
 
         self.add_element(victory_text)
         self.add_element(play_again_button)
+        self.add_element(shards_reward)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
@@ -68,7 +80,9 @@ class GameVictorySceneGUIManager(GUIManager):
 
 
 class GameWonScene(Scene):
-    def __init__(self, game: "GameApp") -> None:
+    def __init__(self, game: "GameApp", shards_reward: int) -> None:
+        self.shards_reward = shards_reward
+
         super().__init__(game)
 
         self.gui_manager = GameVictorySceneGUIManager(self)

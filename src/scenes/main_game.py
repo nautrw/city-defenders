@@ -178,7 +178,7 @@ class MainGameScene(Scene):
                 and self.wave >= len(self.waves) - 1
             ):
                 logger.info("game won")
-                self.game.scene_manager.switch(GameWonScene(self.game))
+                self.game.scene_manager.switch(GameWonScene(self.game, self.shards_reward))
                 self.game.player_save.shards += self.shards_reward
 
             if self.health <= 0:

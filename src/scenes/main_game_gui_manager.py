@@ -14,7 +14,7 @@ from src.entities.entity_data import TOWERS
 from src.entities.towers.tower import Tower
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
-from src.gui.gui_manager import ElementNotFoundError, GUIManager
+from src.gui.gui_manager import GUIManager
 from src.gui.gui_utils import build_currency_button, build_stat_display
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
