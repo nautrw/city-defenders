@@ -56,15 +56,17 @@ class MainGameScene(Scene):
         self.paused = False
         self.draw_tower_radiuses = False
 
-        self.original_coins = map_data["initial_balance"]
+        self.map_data = map_data
+
+        self.original_coins = self.map_data["initial_balance"]
         self.coins = self.original_coins
-        self.shards_reward = map_data["shards_reward"]
+        self.shards_reward = self.map_data["shards_reward"]
 
         self.tower_to_place: Tower | None = None
         self.can_place_tower = False
         self.selected_tower: Tower | None = None
 
-        self.waves = map_data["waves"]
+        self.waves = self.map_data["waves"]
         # -1 so that when the player starts the first wave it'll go to index 0
         self.wave = -1
         self.wave_state = WaveState.CLEARING
@@ -73,12 +75,14 @@ class MainGameScene(Scene):
         self.enemy_spawn_interval = 1
         self.enemy_spawn_interval_dt_count = 0
 
-        self.max_health = map_data["health"]
+        self.max_health = self.map_data["health"]
         self.health = self.max_health
+
+        self.enemies_killed = 0
 
         self.game_speed_multiplier = 1.0
 
-        self.music_playlist = map_data["music"]
+        self.music_playlist = self.map_data["music"]
         random.shuffle(self.music_playlist)
 
         self.music_index = 0
@@ -177,13 +181,36 @@ class MainGameScene(Scene):
                 and len(self.enemies_group) <= 0
                 and self.wave >= len(self.waves) - 1
             ):
-                logger.info("game won")
-                self.game.scene_manager.push(GameWonScene(self.game, self.shards_reward), do_exit=True)
+                logger.info(
+                    "game won: "
+                    f"map={self.map_data['display_name']}"
+                    f"shards reward={self.shards_reward}, "
+                    f"final coins={self.coins}, "
+                    f"final health={self.health}/{self.max_health}, "
+                    f"towers placed={len(self.towers_group)}"
+                )
+                self.game.scene_manager.push(
+                    GameWonScene(self.game, self.shards_reward), do_exit=True
+                )
                 self.game.player_save.shards += self.shards_reward
 
             if self.health <= 0:
-                logger.info("game lost")
-                self.game.scene_manager.switch(GameLostScene(self.game))
+                reward = self.shards_reward // 2
+                logger.info(
+                    "game lost: "
+                    f"map={self.map_data['display_name']}"
+                    f"shards reward={reward}, "
+                    f"final coins={self.coins}, "
+                    f"final health={self.health}/{self.max_health}, "
+                    f"wave={self.wave + 1}/{len(self.waves)}, "
+                    f"enemies killed={self.enemies_killed}, "
+                    f"enemies remaining in wave={len(self.enemies_group)}, "
+                    f"towers placed={len(self.towers_group)}"
+                )
+                self.game.scene_manager.push(
+                    GameLostScene(self.game, reward), do_exit=True
+                )
+                self.game.player_save.shards += reward
 
             self.enemies_group.update(delta_time, self.game_speed_multiplier)
             self.towers_group.update(
@@ -245,9 +272,11 @@ class MainGameScene(Scene):
                         )
 
             if event.type == ENEMY_KILLED:
+                self.enemies_killed += 1
+
                 logger.debug(
                     f"ENEMY_KILLED event received: type={type(event.entity)}, "
-                    f"coins={event.entity.coins_drop}"
+                    f"coins={event.entity.coins_drop}, count={self.enemies_killed}"
                 )
 
                 self.coins += event.entity.coins_drop
