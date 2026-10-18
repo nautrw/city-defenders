@@ -1,3 +1,4 @@
+import enum
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -45,6 +46,13 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.container_width = 500
 
+        self.game_speeds = [
+            (0.5, "1/2x"),
+            (1, "1x"),
+            (2, "2x"),
+            (3, "3x"),
+        ]
+
         self.refresh()
 
     def switch_state(self, new_state: Enum):
@@ -78,15 +86,10 @@ class MainGameSceneGUIManager(GUIManager):
         ) >= len(self.scene.waves)
 
     def update_game_speed_buttons(self) -> None:
-        self.get_element_by_id("game_speed_half_button", Button).enabled = (
-            self.scene.game_speed_multiplier != 0.5
-        )
-        self.get_element_by_id("game_speed_normal_button", Button).enabled = (
-            self.scene.game_speed_multiplier != 1
-        )
-        self.get_element_by_id("game_speed_double_button", Button).enabled = (
-            self.scene.game_speed_multiplier != 2
-        )
+        for (speed, label) in self.game_speeds:
+            self.get_element_by_id(f"game_speed_{label}_button", Button).toggle(
+                self.scene.game_speed_multiplier != speed
+            )
 
     def update_coin_dependent_ui(self) -> None:
         if self.state == UIStates.TOWER_SELECTED:
@@ -201,65 +204,31 @@ class MainGameSceneGUIManager(GUIManager):
             "game_speed_buttons_container",
             Config.ELEMENT_OUTER_PADDING,
             Config.SCREEN_HEIGHT - Config.ELEMENT_OUTER_PADDING,
-            (game_speed_button_width * 3) + (Config.ELEMENT_OUTER_PADDING * 4),
+            (game_speed_button_width * len(self.game_speeds))
+            + (Config.ELEMENT_OUTER_PADDING * (len(self.game_speeds) + 1)),
             game_speed_button_height + (Config.ELEMENT_OUTER_PADDING * 2),
             anchor=RectAnchorMode.BOTTOMLEFT,
         )
 
-        game_speed_half_button = Button(
-            "game_speed_half_button",
-            Config.ELEMENT_OUTER_PADDING,
-            game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
-            game_speed_button_width,
-            game_speed_button_height,
-            text=Text(
-                "game_speed_half_text",
-                "1/2x",
-                game_speed_button_width / 2,
-                game_speed_button_height / 2,
-                anchor=RectAnchorMode.CENTER,
-            ),
-            anchor=RectAnchorMode.BOTTOMLEFT,
-            enabled=self.scene.game_speed_multiplier != 0.5,
-        )
-
-        game_speed_normal_button = Button(
-            "game_speed_normal_button",
-            game_speed_half_button.rect.right + Config.ELEMENT_OUTER_PADDING,
-            game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
-            game_speed_button_width,
-            game_speed_button_height,
-            text=Text(
-                "game_speed_normal_text",
-                "1x",
-                game_speed_button_width / 2,
-                game_speed_button_height / 2,
-                anchor=RectAnchorMode.CENTER,
-            ),
-            anchor=RectAnchorMode.BOTTOMLEFT,
-            enabled=self.scene.game_speed_multiplier != 1,
-        )
-
-        game_speed_double_button = Button(
-            "game_speed_double_button",
-            game_speed_normal_button.rect.right + Config.ELEMENT_OUTER_PADDING,
-            game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
-            game_speed_button_width,
-            game_speed_button_height,
-            text=Text(
-                "game_speed_double_text",
-                "2x",
-                game_speed_button_width / 2,
-                game_speed_button_height / 2,
-                anchor=RectAnchorMode.CENTER,
-            ),
-            anchor=RectAnchorMode.BOTTOMLEFT,
-            enabled=self.scene.game_speed_multiplier != 2,
-        )
-
-        game_speed_buttons_container.add_element(game_speed_half_button)
-        game_speed_buttons_container.add_element(game_speed_normal_button)
-        game_speed_buttons_container.add_element(game_speed_double_button)
+        for i, (speed, label) in enumerate(self.game_speeds):
+            button = Button(
+                f"game_speed_{label}_button",
+                Config.ELEMENT_OUTER_PADDING
+                + (i * (game_speed_button_width + Config.ELEMENT_OUTER_PADDING)),
+                game_speed_buttons_container.rect.height - Config.ELEMENT_OUTER_PADDING,
+                game_speed_button_width,
+                game_speed_button_height,
+                text=Text(
+                    f"game_speed_{label}_button_text",
+                    label,
+                    game_speed_button_width / 2,
+                    game_speed_button_height / 2,
+                    anchor=RectAnchorMode.CENTER,
+                ),
+                anchor=RectAnchorMode.BOTTOMLEFT,
+                enabled=self.scene.game_speed_multiplier != speed,
+            )
+            game_speed_buttons_container.add_element(button)
 
         self.add_element(game_speed_buttons_container)
 
@@ -652,14 +621,17 @@ class MainGameSceneGUIManager(GUIManager):
                 if not (self.scene.wave + 1) >= len(self.scene.waves):
                     self.scene.next_wave()
                     self.update_next_wave_button()
-            elif event.button.id == "game_speed_half_button":
+            elif event.button.id == "game_speed_1/2x_button":
                 self.scene.game_speed_multiplier = 0.5
                 self.update_game_speed_buttons()
-            elif event.button.id == "game_speed_normal_button":
-                self.scene.game_speed_multiplier = 1
+            elif event.button.id == "game_speed_1x_button":
+                self.scene.game_speed_multiplier = 1.0
                 self.update_game_speed_buttons()
-            elif event.button.id == "game_speed_double_button":
-                self.scene.game_speed_multiplier = 2
+            elif event.button.id == "game_speed_2x_button":
+                self.scene.game_speed_multiplier = 2.0
+                self.update_game_speed_buttons()
+            elif event.button.id == "game_speed_3x_button":
+                self.scene.game_speed_multiplier = 3.0
                 self.update_game_speed_buttons()
             elif (
                 event.button.id == "upgrade_selected_tower_button"
