@@ -55,8 +55,26 @@ class MainMenuSceneGUIManager(GUIManager):
             anchor=RectAnchorMode.CENTER,
         )
 
+        tower_shop_button = Button(
+            "tower_shop_button",
+            Config.SCREEN_WIDTH / 2,
+            play_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            Config.BUTTON_SIZE * 4,
+            Config.BUTTON_SIZE,
+            text = Text(
+                "tower_shop_button_text",
+                "Tower Shop",
+                Config.BUTTON_SIZE * (4/2),
+                Config.BUTTON_SIZE / 2,
+                Config.FONT_SIZE_LARGE,
+                anchor=RectAnchorMode.CENTER
+            ),
+            anchor=RectAnchorMode.MIDTOP
+        )
+
         self.add_element(title_text)
         self.add_element(play_button)
+        self.add_element(tower_shop_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
@@ -64,6 +82,8 @@ class MainMenuSceneGUIManager(GUIManager):
 
             if event.button.id == "play_button":
                 self.scene.game.scene_manager.switch(MapSelectorScene(self.scene.game))
+            elif event.button.id == "tower_shop_button":
+                self.scene.game.scene_manager.switch(TowerShopScene(self.scene.game))
 
 
 class MainMenuScene(Scene):
@@ -116,13 +136,6 @@ class MainMenuScene(Scene):
 
             if event == pygame.mixer.music.get_endevent():
                 self.play_next_music()
-
-            # hidden for now, just for debugging
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SEMICOLON:
-                    self.game.scene_manager.switch(TowerShopScene(self.game))
-                elif event.key == pygame.K_DELETE:
-                    reset_data()
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())
