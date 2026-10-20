@@ -186,7 +186,7 @@ class MapSelectorScene(Scene):
     def __init__(self, game: "GameApp"):
         super().__init__(game)
 
-        self.all_maps = list(MAPS_DATA.keys())
+        self.all_maps = MAP_PROGRESSION
         self.selected_map_index = 0
 
         self.gui_manager = MapSelectorSceneGUIManager(self)
