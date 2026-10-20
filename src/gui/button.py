@@ -1,4 +1,3 @@
-from src.gui.icon import Icon
 from enum import Enum, auto
 
 import pygame
@@ -6,6 +5,7 @@ from pygame.typing import ColorLike
 
 import src.core.config as Config
 from src.gui.element import Element
+from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
 

@@ -71,7 +71,7 @@ class TowerShopGUIManager(GUIManager):
 
         current_tower = self.scene.towers[self.scene.tower_index]
         current_tower_dict = TOWERS[current_tower]
-        current_tower_class = TOWERS[current_tower]["class"]
+        current_tower_class = current_tower_dict["type"]
 
         tower_icon = Icon(
             "tower_icon",
@@ -84,7 +84,7 @@ class TowerShopGUIManager(GUIManager):
 
         tower_name = Text(
             "tower_name",
-            current_tower_class.display_name,  # ty:ignore[unresolved-attribute]
+            current_tower_class.display_name,
             tower_icon.rect.right + Config.ELEMENT_OUTER_PADDING * 2,
             Config.ELEMENT_OUTER_PADDING * 2,
             size=Config.FONT_SIZE_XLARGE,
@@ -93,7 +93,7 @@ class TowerShopGUIManager(GUIManager):
         tower_desc_x = tower_icon.rect.right + Config.ELEMENT_OUTER_PADDING * 2
         tower_description = Text(
             "tower_description",
-            current_tower_class.description,  # ty:ignore[unresolved-attribute]
+            current_tower_class.description,
             tower_desc_x,
             tower_name.rect.bottom + (Config.ELEMENT_OUTER_PADDING * 2),
             wrap_length=int(
@@ -169,7 +169,7 @@ class TowerShopGUIManager(GUIManager):
         )
         coins_cost_text = Text(
             "tower_coins_cost_text",
-            f"Cost: {current_tower_class.cost[self.scene.tower_upgrade_index]}",  # ty:ignore[unresolved-attribute]
+            f"Cost: {current_tower_class.cost[self.scene.tower_upgrade_index]}",
             x=coins_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             y=coins_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -186,7 +186,7 @@ class TowerShopGUIManager(GUIManager):
         )
         attack_text = Text(
             "attack_text",
-            f"Damage: {current_tower_class.damage[self.scene.tower_upgrade_index]}",  # ty:ignore[unresolved-attribute],
+            f"Damage: {current_tower_class.damage[self.scene.tower_upgrade_index]}",
             attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             attack_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -203,7 +203,7 @@ class TowerShopGUIManager(GUIManager):
         )
         attack_speed_text = Text(
             "attack_speed_text",
-            f"Cooldown: {current_tower_class.shooting_speed[self.scene.tower_upgrade_index]}s",  # ty:ignore[unresolved-attribute],
+            f"Cooldown: {current_tower_class.shooting_speed[self.scene.tower_upgrade_index]}s",
             attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             attack_speed_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -220,7 +220,7 @@ class TowerShopGUIManager(GUIManager):
         )
         range_text = Text(
             "range_text",
-            f"Range: {current_tower_class.area_radius[self.scene.tower_upgrade_index]}",  # ty:ignore[unresolved-attribute],
+            f"Range: {current_tower_class.area_radius[self.scene.tower_upgrade_index]}",
             range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             range_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -235,10 +235,10 @@ class TowerShopGUIManager(GUIManager):
                 container_width / 2,
                 container_height - Config.ELEMENT_OUTER_PADDING * 2,
                 "shard_icon",
-                str(current_tower_dict["shards_cost"]),
+                str(current_tower_dict["type"].shards_cost),
                 anchor=RectAnchorMode.MIDBOTTOM,
                 enabled=self.scene.game.player_save.shards
-                >= current_tower_dict["shards_cost"],  # ty:ignore[unsupported-operator]
+                >= current_tower_dict["type"].shards_cost,
             )
 
             menu_container.add_element(unlock_button)
@@ -328,11 +328,11 @@ class TowerShopGUIManager(GUIManager):
             elif event.button.id == "unlock_tower_button":
                 if (
                     self.scene.game.player_save.shards
-                    >= current_tower_dict["shards_cost"] # ty:ignore[unsupported-operator]
+                    >= current_tower_dict["type"].shards_cost
                 ):
                     self.scene.game.player_save.shards -= current_tower_dict[
-                        "shards_cost"
-                    ]  # ty:ignore[unsupported-operator]
+                        "type"
+                    ].shards_cost
                     self.scene.game.player_save.unlocked_towers.append(current_tower)
 
             self.refresh()

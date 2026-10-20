@@ -9,11 +9,11 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import get_sound, load_map, split_tileset, load_asset
-from src.maps.data import MAPS_DATA
+from src.core.utils import get_sound, load_asset, load_map, split_tileset
 from src.entities.enemies.enemy import DEFENSE_BREACHED, ENEMY_KILLED
 from src.entities.entity_data import ENEMIES
-from src.entities.towers.tower import Tower, TowerType
+from src.entities.towers.tower import TowerType
+from src.maps.data import MAPS_DATA
 from src.scenes.game_lost import GameLostScene
 from src.scenes.game_won import GameWonScene
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
@@ -47,6 +47,7 @@ class MainGameScene(Scene):
         map_data = load_map(map_name)
         
         self.map = GameMap(tileset, map_data)
+        assert self.map.image is not None
         self.game_surface = pygame.Surface(self.map.image.size)
         self.game_surface_rect = self.game_surface.get_frect()
         self.scaled_game_surface_size = (

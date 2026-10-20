@@ -1,4 +1,3 @@
-from src.scenes.game_won import GameWonScene
 import random
 from typing import TYPE_CHECKING
 
@@ -6,7 +5,6 @@ import pygame
 from loguru import logger
 
 import src.core.config as Config
-from src.core.data_saving import reset_data
 from src.core.scenes_manager import Scene
 from src.core.utils import get_sound, load_asset, load_scaled_asset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
@@ -137,9 +135,6 @@ class MainMenuScene(Scene):
 
             if event.type == pygame.mixer.music.get_endevent():
                 self.play_next_music()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_v:
-                    self.game.scene_manager.switch(GameWonScene(self.game, 1000))
 
     def update(self, delta_time: float) -> None:
         self.gui_manager.update_elements(delta_time, pygame.mouse.get_pos())

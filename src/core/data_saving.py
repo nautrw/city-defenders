@@ -1,4 +1,3 @@
-from src.core.utils import MAPS_DICT
 import json
 import os
 from dataclasses import asdict, dataclass, field
@@ -7,6 +6,7 @@ from pathlib import Path
 from loguru import logger
 from platformdirs import PlatformDirs
 
+from src.core.utils import MAPS_DICT
 from src.entities.entity_data import TOWERS
 
 dirs = PlatformDirs("CityDefenders", "nautrw", ensure_exists=True)

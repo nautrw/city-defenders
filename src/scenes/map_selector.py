@@ -4,14 +4,11 @@ import pygame
 from loguru import logger
 
 import src.core.config as Config
-from src.core.map import GameMap
 from src.core.scenes_manager import Scene
 from src.core.utils import (
-    load_asset,
+    get_sound,
     load_button_state_triplet_assets,
-    load_map,
     load_scaled_asset,
-    split_tileset, get_sound,
 )
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager

@@ -1,11 +1,12 @@
-from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
-from src.entities.towers.tower import Tower
 from typing import ClassVar
 
 import pygame
 
 from src.core.utils import load_asset
 from src.entities.projectiles.arrow import Arrow
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
+from src.entities.towers.tower import Tower
+
 
 class CrossbowTower(Tower):
     image: pygame.Surface

@@ -1,5 +1,5 @@
-from src.entities.towers.tower import Tower
 from typing import TypedDict
+
 from src.entities.enemies.armored_crab import ArmoredCrab
 from src.entities.enemies.bat import Bat
 from src.entities.enemies.crab import Crab
@@ -12,6 +12,7 @@ from src.entities.towers.ballista import BallistaTower
 from src.entities.towers.cannon import CannonTower
 from src.entities.towers.crossbow import CrossbowTower
 from src.entities.towers.frostspire import FrostspireTower
+from src.entities.towers.tower import Tower
 from src.entities.towers.venom_shooter import VenomShooterTower
 
 ENEMIES = {

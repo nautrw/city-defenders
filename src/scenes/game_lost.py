@@ -1,5 +1,3 @@
-from src.gui.gui_utils import build_stat_display
-from src.gui.container import ElementContainer
 from typing import TYPE_CHECKING
 
 import pygame
@@ -9,7 +7,9 @@ import src.core.config as Config
 from src.core.scenes_manager import Scene
 from src.core.utils import get_sound, load_scaled_asset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
+from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
+from src.gui.gui_utils import build_stat_display
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
 

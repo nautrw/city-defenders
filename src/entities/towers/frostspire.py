@@ -3,9 +3,9 @@ from typing import ClassVar
 import pygame
 
 from src.core.utils import load_asset
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from src.entities.projectiles.ice_shard import IceShard
 from src.entities.towers.tower import Tower
-from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 
 
 class FrostspireTower(Tower):

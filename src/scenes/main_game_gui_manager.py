@@ -11,7 +11,7 @@ from src.core.utils import (
     load_scaled_asset,
 )
 from src.entities.entity_data import TOWERS
-from src.entities.towers.tower import Tower, TowerType
+from src.entities.towers.tower import TowerType
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager

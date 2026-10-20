@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+
 ALL_MAP_MUSIC = ["Heroic Demise", "Soliloquy", "The Fall of Arcana"]
 
 @dataclass

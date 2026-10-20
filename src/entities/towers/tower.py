@@ -1,4 +1,5 @@
 from typing import ClassVar, Protocol
+
 import pygame
 from pygame.geometry import Circle
 from pygame.typing import ColorLike
@@ -10,6 +11,7 @@ from src.entities.projectiles.ballistic_projectile import (
     BallisticProjectile,
     BallisticProjectileType,
 )
+
 
 class TowerType(Protocol):
     image: pygame.Surface

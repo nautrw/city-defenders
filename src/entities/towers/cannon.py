@@ -2,8 +2,8 @@ from typing import ClassVar
 
 import pygame
 
-from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from src.core.utils import load_asset
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from src.entities.projectiles.cannon_ball import CannonBall
 from src.entities.towers.tower import Tower
 
