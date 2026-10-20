@@ -68,3 +68,5 @@ MAPS_DATA = {
         music=ALL_MAP_MUSIC,
     ),
 }
+
+MAP_PROGRESSION = ["ground_zero", "frontier", "molten_lands"]

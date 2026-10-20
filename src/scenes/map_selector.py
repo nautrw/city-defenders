@@ -15,7 +15,7 @@ from src.gui.gui_manager import GUIManager
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
-from src.maps.data import MAPS_DATA
+from src.maps.data import MAPS_DATA, MAP_PROGRESSION
 from src.scenes.main_game import MainGameScene
 
 if TYPE_CHECKING:
@@ -68,9 +68,9 @@ class MapSelectorSceneGUIManager(GUIManager):
             anchor=RectAnchorMode.MIDBOTTOM,
         )
 
-        map_name = Text(
+        map_name_text = Text(
             "map_name",
-            map_data.display_name, 
+            map_data.display_name,
             Config.SCREEN_WIDTH / 2,
             waves_number.rect.top - (padding / 2),
             size=Config.FONT_SIZE_XXXLARGE,
@@ -117,25 +117,43 @@ class MapSelectorSceneGUIManager(GUIManager):
             pressed_bg=None,
         )
 
+        last_map = MAP_PROGRESSION[(self.scene.selected_map_index - 1) % len(MAPS_DATA)]
+        can_play_map = (last_map in self.scene.game.player_save.beaten_maps) or (
+            self.scene.selected_map_index == 0
+        )
+
         play_button = Button(
             "play_button",
             map_icon.rect.centerx,
             map_icon.rect.bottom + padding,
-            Config.BUTTON_SIZE * 2,
+            Config.BUTTON_SIZE * 2 if can_play_map else Config.BUTTON_SIZE * 4,
             Config.BUTTON_SIZE,
             text=Text(
                 "play_button_play_text",
                 "Play",
                 Config.BUTTON_SIZE,
                 Config.BUTTON_SIZE / 2,
+                Config.FONT_SIZE_XLARGE,
+                anchor=RectAnchorMode.CENTER,
+            )
+            if can_play_map
+            else Text(
+                "play_button_play_text",
+                "Not Unlocked",
+                Config.BUTTON_SIZE * 2,
+                Config.BUTTON_SIZE / 2,
                 Config.FONT_SIZE_LARGE,
                 anchor=RectAnchorMode.CENTER,
             ),
             anchor=RectAnchorMode.MIDTOP,
+            enabled=can_play_map,
+            normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
+            hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
+            pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
         )
 
         self.add_element(close_icon)
-        self.add_element(map_name)
+        self.add_element(map_name_text)
         self.add_element(waves_number)
         self.add_element(map_icon)
         self.add_element(go_right_button)
@@ -173,7 +191,9 @@ class MapSelectorScene(Scene):
 
         self.gui_manager = MapSelectorSceneGUIManager(self)
 
-        self.background = load_scaled_asset("map_selector", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT))
+        self.background = load_scaled_asset(
+            "map_selector", (Config.SCREEN_WIDTH, Config.SCREEN_HEIGHT)
+        )
 
     def on_enter(self) -> None:
         pygame.mixer.music.load(get_sound("The Bards Tale"))
@@ -186,9 +206,7 @@ class MapSelectorScene(Scene):
     def enter_map(self, map_name: str):
         logger.info(f"map selected: {map_name}")
 
-        self.game.scene_manager.switch(
-            MainGameScene(self.game, map_name)
-        )
+        self.game.scene_manager.switch(MainGameScene(self.game, map_name))
 
     def render(self, surface: pygame.Surface) -> None:
         surface.blit(self.background, (0, 0))

@@ -1,3 +1,4 @@
+from src.maps.data import MAPS_DATA
 import json
 import os
 from dataclasses import asdict, dataclass, field
@@ -6,7 +7,6 @@ from pathlib import Path
 from loguru import logger
 from platformdirs import PlatformDirs
 
-from src.core.utils import MAPS_DICT
 from src.entities.entity_data import TOWERS
 
 dirs = PlatformDirs("CityDefenders", "nautrw", ensure_exists=True)
@@ -33,7 +33,7 @@ class PlayerSave:
             logger.info(f"tower added to player save unlocked towers: {tower_name}")
     
     def beat_map(self, map_name: str) -> None:
-        if map_name not in MAPS_DICT:
+        if map_name not in MAPS_DATA:
             raise ValueError(f"can not unlock invalid map: {map_name}")
         
         if not map_name in self.beaten_maps:
