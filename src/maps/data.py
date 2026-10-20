@@ -10,6 +10,7 @@ class MapData:
     shards_reward: int
     health: int
     music: list[str]
+    ground_on_top: bool = False
 
 MAPS_DATA = {
     "ground_zero": MapData(
@@ -67,6 +68,26 @@ MAPS_DATA = {
         health=25,
         music=ALL_MAP_MUSIC,
     ),
+    "archipelago": MapData(
+        display_name="Archipelago",
+        waves=[
+            ("slime", "fast_slime", "ghost", "crab"),
+            ("fast_slime", "fast_slime", "ghost", "crab", "bat"),
+            ("slime", "fast_slime", "ghost", "ghost", "crab", "bat", "lava_slime"),
+            ("fast_slime", "fast_slime", "ghost", "crab", "crab", "bat", "lava_slime"),
+            ("fast_slime", "fast_slime", "ghost", "ghost", "crab", "bat", "bat", "lava_slime"),
+            ("fast_slime", "fast_slime", "fast_slime", "ghost", "ghost", "crab", "crab", "bat", "lava_slime"),
+            ("fast_slime", "fast_slime", "ghost", "ghost", "crab", "crab", "bat", "lava_slime", "lava_slime"),
+            ("fast_slime", "fast_slime", "ghost", "ghost", "crab", "crab", "bat", "bat", "lava_slime", "tank_slime"),
+            ("fast_slime", "fast_slime", "ghost", "ghost", "ghost", "crab", "crab", "bat", "lava_slime", "lava_slime", "armored_crab"),
+            ("fast_slime", "fast_slime", "fast_slime", "ghost", "ghost", "crab", "crab", "bat", "bat", "lava_slime", "lava_slime", "tank_slime", "armored_crab"),
+        ],
+        initial_coins=350,
+        shards_reward=100,
+        health=25,
+        music=ALL_MAP_MUSIC,
+        ground_on_top=True
+    )
 }
 
-MAP_PROGRESSION = ["ground_zero", "frontier", "molten_lands"]
+MAP_PROGRESSION = ["ground_zero", "frontier", "molten_lands", "archipelago"]
