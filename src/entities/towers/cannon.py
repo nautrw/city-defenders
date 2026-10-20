@@ -2,6 +2,7 @@ from typing import ClassVar
 
 import pygame
 
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from src.core.utils import load_asset
 from src.entities.projectiles.cannon_ball import CannonBall
 from src.entities.towers.tower import Tower
@@ -18,6 +19,10 @@ class CannonTower(Tower):
     shooting_speed: ClassVar[tuple[float, ...]] = (2.8, 2.3, 1.8)
     area_radius: ClassVar[tuple[float, ...]] = (115, 140, 165)
 
+    projectile: ClassVar[BallisticProjectileType] = CannonBall
+
+    shards_cost: ClassVar[int] = 20
+
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [
             load_asset("cannon_0"),
@@ -26,14 +31,7 @@ class CannonTower(Tower):
         ]
 
         super().__init__(
-            display_name=self.display_name,
-            description=self.description,
-            cost=self.cost,
-            damage=self.damage,
             x_position=x_position,
             y_position=y_position,
             tower_image=images,
-            projectile=CannonBall,
-            shooting_speed=self.shooting_speed,
-            area_radius=self.area_radius,
         )

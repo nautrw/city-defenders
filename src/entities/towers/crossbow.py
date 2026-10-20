@@ -1,11 +1,11 @@
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
+from src.entities.towers.tower import Tower
 from typing import ClassVar
 
 import pygame
 
 from src.core.utils import load_asset
 from src.entities.projectiles.arrow import Arrow
-from src.entities.towers.tower import Tower
-
 
 class CrossbowTower(Tower):
     image: pygame.Surface
@@ -18,6 +18,10 @@ class CrossbowTower(Tower):
     shooting_speed: ClassVar[tuple[float, ...]] = (0.85, 0.65, 0.45)
     area_radius: ClassVar[tuple[float, ...]] = (105, 125, 150)
 
+    projectile: ClassVar[BallisticProjectileType] = Arrow
+
+    shards_cost: ClassVar[int] = 0
+
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [
             load_asset("crossbow_0"),
@@ -26,14 +30,7 @@ class CrossbowTower(Tower):
         ]
 
         super().__init__(
-            display_name=self.display_name,
-            description=self.description,
-            cost=self.cost,
-            damage=self.damage,
             x_position=x_position,
             y_position=y_position,
             tower_image=images,
-            projectile=Arrow,
-            shooting_speed=self.shooting_speed,
-            area_radius=self.area_radius,
         )

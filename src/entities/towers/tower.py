@@ -1,3 +1,4 @@
+from typing import ClassVar, Protocol
 import pygame
 from pygame.geometry import Circle
 from pygame.typing import ColorLike
@@ -10,31 +11,68 @@ from src.entities.projectiles.ballistic_projectile import (
     BallisticProjectileType,
 )
 
+class TowerType(Protocol):
+    image: pygame.Surface
+    rect: pygame.Rect | pygame.FRect
+
+    display_name: ClassVar[str]
+    description: ClassVar[str]
+    
+    cost: ClassVar[tuple[int, ...]]
+    damage: ClassVar[tuple[float, ...]]
+    shooting_speed: ClassVar[tuple[float, ...]]
+    area_radius: ClassVar[tuple[float, ...]]
+
+    projectile: ClassVar[BallisticProjectileType]
+
+    shards_cost: ClassVar[int]
+
+    upgrade_index: int
+
+    def __init__(self, x_position: float, y_position: float) -> "Tower":
+        ...
+    
+    def kill(self) -> None:
+        ...
+
+    def move_center(self, new_x: float, new_y: float) -> None:
+        ...
+
+    def upgrade(self) -> None:
+        ...
+
+    def draw(
+        self,
+        surface: pygame.Surface,
+        draw_radiuses: bool,
+        overlay_color: ColorLike | None = None,
+    ) -> None:
+        ...
+    
 
 class Tower(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect | pygame.FRect
 
+    display_name: ClassVar[str]
+    description: ClassVar[str]
+    
+    cost: ClassVar[tuple[int, ...]]
+    damage: ClassVar[tuple[float, ...]]
+    shooting_speed: ClassVar[tuple[float, ...]]
+    area_radius: ClassVar[tuple[float, ...]]
+
+    projectile: ClassVar[BallisticProjectileType]
+
+    shards_cost: ClassVar[int]
+
     def __init__(
         self,
-        display_name: str,
-        description: str,
-        cost: tuple[int, ...],
-        damage: tuple[float, ...],
         x_position: float,
         y_position: float,
         tower_image: list[pygame.Surface],
-        projectile: BallisticProjectileType,
-        shooting_speed: tuple[float, ...],
-        area_radius: tuple[float, ...],
     ) -> None:
         super().__init__()
-
-        self.display_name = display_name
-        self.description = description
-        self.cost = cost
-
-        self.damage = damage
 
         self.position = pygame.Vector2(x_position, y_position)
 
@@ -50,12 +88,9 @@ class Tower(pygame.sprite.Sprite):
         self.rect = self.base.get_frect(center=self.position)
         self.tower_rect = self.tower_image.get_frect(center=self.position)
 
-        self.projectile = projectile
-        self.shooting_speed = shooting_speed
         # can shoot immediately after placing
-        self.shoot_cooldown_delta_time = shooting_speed[self.upgrade_index]
+        self.shoot_cooldown_delta_time = self.shooting_speed[self.upgrade_index]
 
-        self.area_radius = area_radius
         self.area = Circle(self.rect.center, self.area_radius[self.upgrade_index])
 
         self.tower_angle = 0

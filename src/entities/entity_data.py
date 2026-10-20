@@ -1,3 +1,5 @@
+from src.entities.towers.tower import Tower
+from typing import TypedDict
 from src.entities.enemies.armored_crab import ArmoredCrab
 from src.entities.enemies.bat import Bat
 from src.entities.enemies.crab import Crab
@@ -22,18 +24,15 @@ ENEMIES = {
     "bat": Bat,
     "lava_slime": LavaSlime,
 }
-TOWERS = {
-    "crossbow": {"class": CrossbowTower, "shards_cost": 0, "requires": None},
-    "ballista": {
-        "class": BallistaTower,
-        "shards_cost": 10,
-        "requires": "crossbow",
-    },
-    "cannon": {"class": CannonTower, "shards_cost": 20, "requires": "crossbow"},
-    "frostspire": {"class": FrostspireTower, "shards_cost": 30, "requires": "cannon"},
-    "venomshooter": {
-        "class": VenomShooterTower,
-        "shards_cost": 40,
-        "requires": "frostspire",
-    },
+
+class TowersDict(TypedDict):
+    type: type[Tower]
+    requires: str | None
+
+TOWERS: dict[str, TowersDict] = {
+    "crossbow": { "type": CrossbowTower, "requires": None },
+    "ballista": { "type": BallistaTower, "requires": "crossbow", },
+    "cannon": { "type": CannonTower, "requires": "ballista", },
+    "frostspire": {"type": FrostspireTower, "requires": "cannon" },
+    "venomshooter": { "type": VenomShooterTower, "requires": "frostspire", },
 }

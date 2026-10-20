@@ -13,7 +13,7 @@ from src.core.utils import get_sound, load_map, split_tileset, load_asset
 from src.maps.data import MAPS_DATA
 from src.entities.enemies.enemy import DEFENSE_BREACHED, ENEMY_KILLED
 from src.entities.entity_data import ENEMIES
-from src.entities.towers.tower import Tower
+from src.entities.towers.tower import Tower, TowerType
 from src.scenes.game_lost import GameLostScene
 from src.scenes.game_won import GameWonScene
 from src.scenes.main_game_gui_manager import MainGameSceneGUIManager, UIStates
@@ -72,9 +72,9 @@ class MainGameScene(Scene):
         self.coins = self.original_coins
         self.shards_reward = self.map_data.shards_reward
 
-        self.tower_to_place: Tower | None = None
+        self.tower_to_place: TowerType | None = None
         self.can_place_tower = False
-        self.selected_tower: Tower | None = None
+        self.selected_tower: TowerType | None = None
 
         self.waves = self.map_data.waves
         # -1 so that when the player starts the first wave it'll go to index 0

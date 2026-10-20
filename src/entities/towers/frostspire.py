@@ -5,6 +5,7 @@ import pygame
 from src.core.utils import load_asset
 from src.entities.projectiles.ice_shard import IceShard
 from src.entities.towers.tower import Tower
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 
 
 class FrostspireTower(Tower):
@@ -20,6 +21,10 @@ class FrostspireTower(Tower):
     shooting_speed: ClassVar[tuple[float, ...]] = (2.6, 2.1, 1.6)
     area_radius: ClassVar[tuple[float, ...]] = (105, 135, 165)
 
+    projectile: ClassVar[BallisticProjectileType] = IceShard
+
+    shards_cost: ClassVar[int] = 30
+
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [
             load_asset("frostspire_0"),
@@ -28,14 +33,7 @@ class FrostspireTower(Tower):
         ]
 
         super().__init__(
-            display_name=self.display_name,
-            description=self.description,
-            cost=self.cost,
-            damage=self.damage,
             x_position=x_position,
             y_position=y_position,
             tower_image=images,
-            projectile=IceShard,
-            shooting_speed=self.shooting_speed,
-            area_radius=self.area_radius,
         )

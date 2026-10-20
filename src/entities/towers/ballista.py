@@ -1,3 +1,4 @@
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from typing import ClassVar
 
 import pygame
@@ -18,6 +19,10 @@ class BallistaTower(Tower):
     shooting_speed: ClassVar[tuple[float, ...]] = (2.0, 1.65, 1.3)
     area_radius: ClassVar[tuple[float, ...]] = (150, 175, 205)
 
+    projectile: ClassVar[BallisticProjectileType] = Bolt
+
+    shards_cost: ClassVar[int] = 10
+
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [
             load_asset("ballista_0"),
@@ -26,14 +31,7 @@ class BallistaTower(Tower):
         ]
 
         super().__init__(
-            display_name=self.display_name,
-            description=self.description,
-            cost=self.cost,
-            damage=self.damage,
             x_position=x_position,
             y_position=y_position,
             tower_image=images,
-            projectile=Bolt,
-            shooting_speed=self.shooting_speed,
-            area_radius=self.area_radius,
         )

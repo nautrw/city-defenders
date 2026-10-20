@@ -1,3 +1,4 @@
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from typing import ClassVar
 
 import pygame
@@ -20,6 +21,10 @@ class VenomShooterTower(Tower):
     shooting_speed: ClassVar[tuple[float, ...]] = (2.4, 1.9, 1.5)
     area_radius: ClassVar[tuple[float, ...]] = (115, 145, 175)
 
+    projectile: ClassVar[BallisticProjectileType] = VenomSpit
+
+    shards_cost: ClassVar[int] = 40
+
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [
             load_asset("venomshooter_0"),
@@ -28,14 +33,7 @@ class VenomShooterTower(Tower):
         ]
 
         super().__init__(
-            display_name=self.display_name,
-            description=self.description,
-            cost=self.cost,
-            damage=self.damage,
             x_position=x_position,
             y_position=y_position,
             tower_image=images,
-            projectile=VenomSpit,
-            shooting_speed=self.shooting_speed,
-            area_radius=self.area_radius,
         )

@@ -11,7 +11,7 @@ from src.core.utils import (
     load_scaled_asset,
 )
 from src.entities.entity_data import TOWERS
-from src.entities.towers.tower import Tower
+from src.entities.towers.tower import Tower, TowerType
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
@@ -39,7 +39,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         self.state = UIStates.COLLAPSED
 
-        self.selected_tower_to_buy: type[Tower] | None = None
+        self.selected_tower_to_buy: type[TowerType] | None = None
 
         self.scene: MainGameScene
 
@@ -93,7 +93,7 @@ class MainGameSceneGUIManager(GUIManager):
     def update_coin_dependent_ui(self) -> None:
         if self.state == UIStates.TOWER_SELECTED:
             if self.scene.selected_tower:
-                tower: Tower = self.scene.selected_tower
+                tower = self.scene.selected_tower
             else:
                 logger.critical("no selected tower")
                 return
@@ -423,7 +423,7 @@ class MainGameSceneGUIManager(GUIManager):
 
     def _build_tower_selected_menu(self) -> None:
         if self.scene.selected_tower:
-            selected_tower: Tower = self.scene.selected_tower
+            selected_tower = self.scene.selected_tower
 
         container, close_button = self._build_side_menu("tower_selected_menu")
 
@@ -493,7 +493,7 @@ class MainGameSceneGUIManager(GUIManager):
 
             attack_speed_icon_surf = load_scaled_asset(
                 "clock_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
-            )
+     )
             attack_speed_icon = Icon(
                 "attack_speed_icon",
                 Config.ELEMENT_OUTER_PADDING,
@@ -588,7 +588,7 @@ class MainGameSceneGUIManager(GUIManager):
                 and event.button.id.split("_")[1] in TOWERS
             ):
                 id = event.button.id.split("_")[1]
-                self.selected_tower_to_buy = TOWERS[id]["class"]  # ty:ignore[invalid-assignment]
+                self.selected_tower_to_buy = TOWERS[id]["type"]
                 self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
             elif event.button.id == "tower_picker_tower_selected_menu_close_button":
                 self.selected_tower_to_buy = None
@@ -604,13 +604,16 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.tower_to_place = None
                 self.scene.can_place_tower = False
             elif event.button.id == "buy_selected_tower_button":
-                # here comes ty:ignore hell...
+                # this is a memorial for the many hours of my time that were 
+                # lost in the battle against the LSP to ensure that there were
+                # no type hinting errors
+                # 2026-2026
                 if (
                     self.selected_tower_to_buy
-                    and self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
+                    and self.scene.coins >= self.selected_tower_to_buy.cost[0]
                 ):
-                    self.scene.tower_to_place = self.selected_tower_to_buy(  # ty:ignore[missing-argument]
-                        *self.scene.camera.viewport_to_world(  # ty:ignore[invalid-argument-type]
+                    self.scene.tower_to_place = self.selected_tower_to_buy(
+                        *self.scene.camera.viewport_to_world(
                             *pygame.mouse.get_pos()
                         )
                     )
