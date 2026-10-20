@@ -37,6 +37,11 @@ class MapSelectorSceneGUIManager(GUIManager):
     def refresh(self) -> None:
         self.elements = []
 
+        map_name = self.scene.all_maps[self.scene.selected_map_index]
+        map_icon_surf = load_scaled_asset(f"{map_name}_globe", (288, 288))
+        map_data = MAPS_DATA[map_name]
+        waves_num = len(map_data.waves)
+
         padding = Config.ELEMENT_OUTER_PADDING * 9
 
         close_icon = Button(
@@ -48,10 +53,6 @@ class MapSelectorSceneGUIManager(GUIManager):
             anchor=RectAnchorMode.TOPLEFT,
             normal_icon=load_scaled_asset("close_icon"),
         )
-
-        map_name = self.scene.all_maps[self.scene.selected_map_index]
-        map_icon_surf = load_scaled_asset(f"{map_name}_globe", (288, 288))
-        waves_num = len(MAPS_DATA[map_name]["waves"].keys())  # ty:ignore[unresolved-attribute]
 
         map_icon = Icon(
             "map_icon",
@@ -72,7 +73,7 @@ class MapSelectorSceneGUIManager(GUIManager):
 
         map_name = Text(
             "map_name",
-            MAPS_DATA[map_name]["display_name"],  # ty:ignore[invalid-argument-type]
+            map_data.display_name, 
             Config.SCREEN_WIDTH / 2,
             waves_number.rect.top - (padding / 2),
             size=Config.FONT_SIZE_XXXLARGE,
@@ -186,14 +187,10 @@ class MapSelectorScene(Scene):
         pygame.mixer.music.unload()
 
     def enter_map(self, map_name: str):
-        tileset_img = load_asset("tileset")
-        tileset = split_tileset(tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT)
-        map_data = load_map(map_name)
-
         logger.info(f"map selected: {map_name}")
 
         self.game.scene_manager.switch(
-            MainGameScene(self.game, GameMap(tileset, map_data), MAPS_DATA[map_name])
+            MainGameScene(self.game, map_name)
         )
 
     def render(self, surface: pygame.Surface) -> None:

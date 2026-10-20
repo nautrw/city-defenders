@@ -9,7 +9,8 @@ import src.core.config as Config
 from src.core.camera import Camera
 from src.core.map import GameMap
 from src.core.scenes_manager import Scene
-from src.core.utils import get_sound
+from src.core.utils import get_sound, load_map, split_tileset, load_asset
+from src.maps.data import MAPS_DATA
 from src.entities.enemies.enemy import DEFENSE_BREACHED, ENEMY_KILLED
 from src.entities.entity_data import ENEMIES
 from src.entities.towers.tower import Tower
@@ -31,10 +32,21 @@ class WaveState(Enum):
 
 
 class MainGameScene(Scene):
-    def __init__(self, game: "GameApp", map: GameMap, map_data: dict) -> None:
+    # def __init__(self, game: "GameApp", map: GameMap, map_data: dict) -> None:
+    def __init__(self, game: "GameApp", map_name: str) -> None:
         super().__init__(game)
 
-        self.map = map
+        if not map_name or (map_name not in MAPS_DATA):
+            raise ValueError(f"invalid map name: {map_name}")
+
+        self.map_name = map_name
+        self.map_data = MAPS_DATA[map_name]
+
+        tileset_img = load_asset("tileset")
+        tileset = split_tileset(tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT)
+        map_data = load_map(map_name)
+        
+        self.map = GameMap(tileset, map_data)
         self.game_surface = pygame.Surface(self.map.image.size)
         self.game_surface_rect = self.game_surface.get_frect()
         self.scaled_game_surface_size = (
@@ -56,17 +68,15 @@ class MainGameScene(Scene):
         self.paused = False
         self.draw_tower_radiuses = False
 
-        self.map_data = map_data
-
-        self.original_coins = self.map_data["initial_balance"]
+        self.original_coins = self.map_data.initial_coins
         self.coins = self.original_coins
-        self.shards_reward = self.map_data["shards_reward"]
+        self.shards_reward = self.map_data.shards_reward
 
         self.tower_to_place: Tower | None = None
         self.can_place_tower = False
         self.selected_tower: Tower | None = None
 
-        self.waves = self.map_data["waves"]
+        self.waves = self.map_data.waves
         # -1 so that when the player starts the first wave it'll go to index 0
         self.wave = -1
         self.wave_state = WaveState.CLEARING
@@ -75,14 +85,14 @@ class MainGameScene(Scene):
         self.enemy_spawn_interval = 1
         self.enemy_spawn_interval_dt_count = 0
 
-        self.max_health = self.map_data["health"]
+        self.max_health = self.map_data.health
         self.health = self.max_health
 
         self.enemies_killed = 0
 
         self.game_speed_multiplier = 1.0
 
-        self.music_playlist = self.map_data["music"]
+        self.music_playlist = self.map_data.music
         random.shuffle(self.music_playlist)
 
         self.music_index = 0
@@ -183,7 +193,7 @@ class MainGameScene(Scene):
             ):
                 logger.info(
                     "game won: "
-                    f"map={self.map_data['display_name']}"
+                    f"map={self.map_name}"
                     f"shards reward={self.shards_reward}, "
                     f"final coins={self.coins}, "
                     f"final health={self.health}/{self.max_health}, "
@@ -193,12 +203,13 @@ class MainGameScene(Scene):
                     GameWonScene(self.game, self.shards_reward), do_exit=True
                 )
                 self.game.player_save.shards += self.shards_reward
+                self.game.player_save.beat_map(self.map_name)
 
             if self.health <= 0:
                 reward = self.shards_reward // 2
                 logger.info(
                     "game lost: "
-                    f"map={self.map_data['display_name']}"
+                    f"map={self.map_name}"
                     f"shards reward={reward}, "
                     f"final coins={self.coins}, "
                     f"final health={self.health}/{self.max_health}, "
