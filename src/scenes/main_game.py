@@ -45,8 +45,8 @@ class MainGameScene(Scene):
         tileset_img = load_asset("tileset")
         tileset = split_tileset(tileset_img, Config.TILE_WIDTH, Config.TILE_HEIGHT)
         map_data = load_map(map_name)
-        
-        self.map = GameMap(tileset, map_data)
+
+        self.map = GameMap(tileset, map_data, self.map_data.ground_on_top)
         assert self.map.image is not None
         self.game_surface = pygame.Surface(self.map.image.size)
         self.game_surface_rect = self.game_surface.get_frect()
@@ -277,10 +277,22 @@ class MainGameScene(Scene):
                     if self.tower_to_place:
                         new_coord = pygame.Vector2(mouse_world_coord)
                         self.tower_to_place.move_center(*new_coord)
-                        self.can_place_tower = not pygame.sprite.spritecollide(
-                            self.tower_to_place, self.map.blocked_tiles, False
-                        ) and not pygame.sprite.spritecollide(
-                            self.tower_to_place, self.towers_group, False
+                        self.can_place_tower = (
+                            (
+                                not pygame.sprite.spritecollide(
+                                    self.tower_to_place, self.map.blocked_tiles, False
+                                )
+                                and not self.map.ground_on_top
+                            )
+                            or (
+                                pygame.sprite.spritecollide(
+                                    self.tower_to_place, self.map.ground_tiles, False
+                                )
+                                and self.map.ground_on_top
+                            )
+                            and not pygame.sprite.spritecollide(
+                                self.tower_to_place, self.towers_group, False
+                            )
                         )
 
             if event.type == ENEMY_KILLED:

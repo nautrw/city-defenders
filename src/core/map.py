@@ -16,7 +16,7 @@ class MapTile(pygame.sprite.Sprite):
 
 
 class GameMap(pygame.sprite.Sprite):
-    def __init__(self, tileset: dict[int, pygame.Surface], map_data: dict) -> None:
+    def __init__(self, tileset: dict[int, pygame.Surface], map_data: dict, ground_on_top: bool = False) -> None:
         super().__init__()
 
         self.tileset = tileset
@@ -30,6 +30,9 @@ class GameMap(pygame.sprite.Sprite):
 
         self.ground_tiles = pygame.sprite.Group()
         self.blocked_tiles = pygame.sprite.Group()
+
+        self.ground_on_top = ground_on_top
+        
         self.path = map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"]
 
         self._load_layer(Config.GROUND_TILES_LAYER_NAME, self.ground_tiles)
@@ -55,8 +58,12 @@ class GameMap(pygame.sprite.Sprite):
         assert self.image is not None
         self.image.fill((0, 0, 0, 0))
 
-        self.ground_tiles.draw(self.image)
-        self.blocked_tiles.draw(self.image)
+        if not self.ground_on_top:
+            self.ground_tiles.draw(self.image)
+            self.blocked_tiles.draw(self.image)
+        else:
+            self.blocked_tiles.draw(self.image)
+            self.ground_tiles.draw(self.image)
 
         # pygame.draw.lines(
         #     self.image,
