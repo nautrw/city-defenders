@@ -4,8 +4,8 @@ import src.core.config as Config
 
 
 class HealthBar(pygame.sprite.Sprite):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
+    # image: pygame.Surface
+    # rect: pygame.Rect | pygame.FRect
 
     def __init__(
         self,
@@ -23,6 +23,7 @@ class HealthBar(pygame.sprite.Sprite):
         self.position_offset = position_offset
 
         self.image = pygame.Surface((self.width, self.height))
+        assert self.image is not None
         self.rect = self.image.get_frect()
 
         self.health_percent = 1.0
@@ -33,12 +34,16 @@ class HealthBar(pygame.sprite.Sprite):
         max_health: float,
         position: tuple[float, float] | pygame.Vector2,
     ) -> None:
+        assert self.image is not None
+        assert self.rect is not None
         self.rect.centerx = int(position[0])
         self.rect.centery = int(position[1] + self.position_offset)
 
         self.health_percent = current_health / max_health
 
     def draw(self, surface: pygame.Surface) -> None:
+        assert self.image is not None
+        assert self.rect is not None
         surface.blit(self.image, self.rect)
 
         # multiplied by 2 to account for all sides of the bar having the border

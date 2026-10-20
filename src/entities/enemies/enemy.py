@@ -8,8 +8,8 @@ DEFENSE_BREACHED = pygame.event.custom_type()
 
 
 class Enemy(pygame.sprite.Sprite):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
+    # image: pygame.Surface
+    # rect: pygame.Rect | pygame.FRect
 
     def __init__(
         self,
@@ -28,6 +28,7 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_dt_counter = 0
 
         self.image = self.animation[self.animation_index]
+        assert self.image is not None
         self.rect = self.image.get_frect()
 
         self.path_waypoints = path_waypoints
@@ -46,6 +47,9 @@ class Enemy(pygame.sprite.Sprite):
         self.health_bar = HealthBar()
 
     def draw(self, surface: pygame.Surface) -> None:
+        assert self.image is not None
+        assert self.rect is not None
+
         image_drawn = self.image.copy()
 
         for effect in self.effects:
@@ -78,6 +82,8 @@ class Enemy(pygame.sprite.Sprite):
         return self.velocity * cumulative_speed_multiplier
 
     def update(self, delta_time: float, game_speed_multiplier: int) -> None:
+        assert self.rect is not None
+
         movement_target = pygame.Vector2(self.path_waypoints[self.waypoint_index])
         movement = movement_target - pygame.Vector2(self.rect.center)
         distance_to_target = movement.length()

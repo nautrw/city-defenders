@@ -4,22 +4,18 @@ import src.core.config as Config
 
 
 class MapTile(pygame.sprite.Sprite):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
     def __init__(self, map_x: float, map_y: float, tile_img: pygame.Surface):
         super().__init__()
 
         self.image = tile_img.copy()
+
+        assert self.image is not None
         self.rect = self.image.get_frect(
             topleft=(map_x * Config.TILE_WIDTH, map_y * Config.TILE_HEIGHT)
         )
 
 
 class GameMap(pygame.sprite.Sprite):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
     def __init__(self, tileset: dict[int, pygame.Surface], map_data: dict) -> None:
         super().__init__()
 
@@ -38,8 +34,9 @@ class GameMap(pygame.sprite.Sprite):
 
         self._load_layer(Config.GROUND_TILES_LAYER_NAME, self.ground_tiles)
         self._load_layer(Config.BLOCKED_TILES_LAYER_NAME, self.blocked_tiles)
-
+        
         self.image = pygame.Surface((self.map_width, self.map_height))
+        assert self.image is not None
         self.rect = self.image.get_frect(topleft=(0.0, 0.0))
         self._draw_map()
 
@@ -55,6 +52,7 @@ class GameMap(pygame.sprite.Sprite):
                 group.add(tile)
 
     def _draw_map(self) -> None:
+        assert self.image is not None
         self.image.fill((0, 0, 0, 0))
 
         self.ground_tiles.draw(self.image)
@@ -72,4 +70,6 @@ class GameMap(pygame.sprite.Sprite):
         pass
 
     def draw(self, surface: pygame.Surface) -> None:
+        assert self.image is not None
+        assert self.rect is not None
         surface.blit(self.image, self.rect)

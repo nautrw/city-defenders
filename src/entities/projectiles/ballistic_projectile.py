@@ -21,8 +21,8 @@ class BallisticProjectileType(Protocol):
 
 
 class BallisticProjectile(pygame.sprite.Sprite):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
+    # image: pygame.Surface
+    # rect: pygame.Rect | pygame.FRect
 
     def __init__(
         self,
@@ -60,7 +60,11 @@ class BallisticProjectile(pygame.sprite.Sprite):
         explosions_group: pygame.sprite.Group,
         game_speed_multiplier: int,
     ) -> None:
-        # makes the arrow dissapear if the target is killed by another tower
+        assert self.image is not None
+        assert self.rect is not None
+        assert self.target.rect is not None
+
+        # makes the arrow disappear if the target is killed by another tower
         if not self.target.alive():
             self.kill()
             return
@@ -103,4 +107,8 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
     def draw(self, surface: pygame.Surface) -> None:
         self.image = pygame.transform.rotate(self.original_image, self.angle)
+
+        assert self.image is not None
+        assert self.rect is not None
+
         surface.blit(self.image, self.rect)
