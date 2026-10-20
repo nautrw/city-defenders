@@ -128,9 +128,9 @@ class Button(Element):
             if pressed:
                 self.state = ButtonStates.PRESSED
 
-                if (
+                if self.enabled and (
                     self.once_per_click and not self.pressed_last_frame
-                ) or not self.once_per_click:
+                ):
                     pygame.event.post(
                         pygame.event.Event(CUSTOM_BUTTON_CLICKED, {"button": self})
                     )
