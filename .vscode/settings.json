@@ -4,6 +4,8 @@
         "blits",
         "centery",
         "collidepoint",
+        "endevent",
+        "FADEIN",
         "frect",
         "frostspire",
         "lerp",
@@ -13,12 +15,18 @@
         "MIDTOP",
         "MOUSEBUTTONDOWN",
         "MOUSEMOTION",
+        "nautrw",
+        "Oleaguid",
         "spritecollide",
         "SRCALPHA",
         "stackable",
+        "tilelayer",
+        "tilemaps",
         "tileset",
         "venomshooter",
         "VERYBIG",
-        "wraplength"
+        "wraplength",
+        "XXLARGE",
+        "XXXLARGE"
     ]
 }

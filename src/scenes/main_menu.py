@@ -101,7 +101,7 @@ class MainMenuScene(Scene):
     def __init__(self, game: "GameApp"):
         super().__init__(game)
 
-        self.music_playlist = ALL_MAP_MUSIC  # couldnt decide on one
+        self.music_playlist = ALL_MAP_MUSIC  # couldn't decide on one
         random.shuffle(self.music_playlist)
 
         self.music_index = 0
