@@ -16,7 +16,12 @@ class MapTile(pygame.sprite.Sprite):
 
 
 class GameMap(pygame.sprite.Sprite):
-    def __init__(self, tileset: dict[int, pygame.Surface], map_data: dict, ground_on_top: bool = False) -> None:
+    def __init__(
+        self,
+        tileset: dict[int, pygame.Surface],
+        map_data: dict,
+        ground_on_top: bool = False,
+    ) -> None:
         super().__init__()
 
         self.tileset = tileset
@@ -32,12 +37,12 @@ class GameMap(pygame.sprite.Sprite):
         self.blocked_tiles = pygame.sprite.Group()
 
         self.ground_on_top = ground_on_top
-        
+
         self.path = map_data["layers"][Config.ENEMY_PATH_LAYER_NAME]["data"]
 
         self._load_layer(Config.GROUND_TILES_LAYER_NAME, self.ground_tiles)
         self._load_layer(Config.BLOCKED_TILES_LAYER_NAME, self.blocked_tiles)
-        
+
         self.image = pygame.Surface((self.map_width, self.map_height))
         assert self.image is not None
         self.rect = self.image.get_frect(topleft=(0.0, 0.0))

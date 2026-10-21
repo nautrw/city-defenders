@@ -40,7 +40,7 @@ class Explosion(pygame.sprite.Sprite):
 
             for enemy in collisions:
                 enemy.health -= self.damage
-                
+
                 if self.burn:
                     enemy.add_effect(BurningEffect)
 
@@ -55,6 +55,6 @@ class Explosion(pygame.sprite.Sprite):
     def draw(self, surface: pygame.Surface) -> None:
         assert self.image is not None
         assert self.rect is not None
-        
+
         self.image.set_alpha(self.opacity)
         surface.blit(self.image, self.rect)

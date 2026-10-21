@@ -30,17 +30,17 @@ class GameVictorySceneGUIManager(GUIManager["GameWonScene"]):
         victory_plaque = ElementContainer(
             "victory_plaque",
             Config.SCREEN_WIDTH / 2,
-            Config.SCREEN_HEIGHT * .4,
+            Config.SCREEN_HEIGHT * 0.4,
             *victory_plaque_img.size,
             bg_image=victory_plaque_img,
-            anchor=RectAnchorMode.CENTER
+            anchor=RectAnchorMode.CENTER,
         )
 
         victory_text = Text(
             "victory_text",
             "Victory!",
             victory_plaque.rect.width / 2,
-            victory_plaque.rect.height * .24,
+            victory_plaque.rect.height * 0.24,
             size=Config.FONT_SIZE_XXXLARGE,
             anchor=RectAnchorMode.MIDTOP,
         )
@@ -49,10 +49,10 @@ class GameVictorySceneGUIManager(GUIManager["GameWonScene"]):
             "shards_reward",
             f"+{self.scene.shards_reward}",
             victory_plaque.rect.width / 2,
-            victory_plaque.rect.height * .65, # wanted it to be 67 so bad :(
+            victory_plaque.rect.height * 0.65,  # wanted it to be 67 so bad :(
             icon_name="shard_icon",
             anchor=RectAnchorMode.MIDTOP,
-            text_size=Config.FONT_SIZE_XLARGE
+            text_size=Config.FONT_SIZE_XLARGE,
         )
 
         button_width = Config.BUTTON_SIZE * 3
@@ -102,7 +102,7 @@ class GameWonScene(Scene):
     def on_enter(self) -> None:
         pygame.mixer.music.load(get_sound("Cant Stop Winning"))
         pygame.mixer.music.play(loops=-1, fade_ms=Config.DEFAULT_SOUND_FADEIN_MS)
-    
+
     def on_exit(self) -> None:
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()

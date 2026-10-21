@@ -33,9 +33,9 @@ class MainMenuSceneGUIManager(GUIManager):
             Config.ELEMENT_OUTER_PADDING,
             Config.BUTTON_SIZE,
             Config.BUTTON_SIZE,
-            normal_icon=load_scaled_asset("close_icon")
+            normal_icon=load_scaled_asset("close_icon"),
         )
-        
+
         title_text = Text(
             "title_text",
             "City Defenders TD",
@@ -69,15 +69,15 @@ class MainMenuSceneGUIManager(GUIManager):
             play_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
             Config.BUTTON_SIZE * 4,
             Config.BUTTON_SIZE,
-            text = Text(
+            text=Text(
                 "tower_shop_button_text",
                 "Tower Shop",
-                Config.BUTTON_SIZE * (4/2),
+                Config.BUTTON_SIZE * (4 / 2),
                 Config.BUTTON_SIZE / 2,
                 Config.FONT_SIZE_LARGE,
-                anchor=RectAnchorMode.CENTER
+                anchor=RectAnchorMode.CENTER,
             ),
-            anchor=RectAnchorMode.MIDTOP
+            anchor=RectAnchorMode.MIDTOP,
         )
 
         self.add_element(quit_button)

@@ -34,7 +34,7 @@ class Button(Element):
         normal_bg: ColorLike | None = Config.BUTTON_NORMAL_BG,
         hover_bg: ColorLike | None = Config.BUTTON_HOVERED_BG,
         pressed_bg: ColorLike | None = Config.BUTTON_PRESSED_BG,
-        normal_icon: pygame.Surface | Icon |None = None,
+        normal_icon: pygame.Surface | Icon | None = None,
         hover_icon: pygame.Surface | Icon | None = None,
         pressed_icon: pygame.Surface | Icon | None = None,
         text: Text | None = None,
@@ -81,7 +81,7 @@ class Button(Element):
 
         self.pressed_last_frame = pygame.mouse.get_pressed()[0]
         self.once_per_click = once_per_click
-    
+
     def _draw_icon(self, icon: pygame.Surface | Icon, surface: pygame.Surface) -> None:
         if isinstance(icon, pygame.Surface):
             surface.blit(icon, self.icon_rect)

@@ -12,11 +12,14 @@ from src.gui.element import Element
 ElementT = TypeVar("ElementT", bound=Element | ElementContainer)
 SceneT = TypeVar("SceneT", bound=Scene)
 
+
 class ElementSearchTypeMismatchError(TypeError):
     pass
 
+
 class ElementNotFoundError(ValueError):
     pass
+
 
 # Generic[SceneT] is another example of typing magic I don't fully
 # understand but it solves my problems; you pass in a scene type and then it

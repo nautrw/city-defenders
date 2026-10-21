@@ -1,6 +1,7 @@
-from loguru import logger
 import sys
+
 import pygame
+from loguru import logger
 
 import src.core.config as Config
 from src.core.data_saving import load_data_from_file, save_data_to_file
@@ -35,7 +36,7 @@ class GameApp:
 
         self.scene_manager = SceneManager()
         self.scene_manager.push(MainMenuScene(self))
-    
+
     def save_quit(self) -> None:
         logger.info("quitting game")
 

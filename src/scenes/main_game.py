@@ -120,7 +120,7 @@ class MainGameScene(Scene):
 
     def place_selected_tower(self) -> None:
         assert self.tower_to_place is not None
-        
+
         self.towers_group.add(self.tower_to_place)
         self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
 

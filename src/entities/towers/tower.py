@@ -73,7 +73,7 @@ class Tower(pygame.sprite.Sprite):
 
     def move_center(self, new_x: float, new_y: float) -> None:
         assert self.rect is not None
-        
+
         self.position = (new_x, new_y)
         self.rect.center = self.position
         self.tower_rect.center = self.position
@@ -125,7 +125,7 @@ class Tower(pygame.sprite.Sprite):
         game_speed_multiplier: int,
     ) -> None:
         assert self.rect is not None
-        
+
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
                 self.tower_angle = angle_to_point(

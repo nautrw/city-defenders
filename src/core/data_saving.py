@@ -16,7 +16,7 @@ logger.info(f"Save data file: {DATA_FILE}")
 
 @dataclass
 class PlayerSave:
-    shards: int = 10000 # TODO: Change this later
+    shards: int = 10000  # TODO: Change this later
 
     # can't use [] as a default value because all instances would share the same
     # list; this likely won't be a problem for a player save but LSP will scream
@@ -31,14 +31,15 @@ class PlayerSave:
         if not tower_name in self.unlocked_towers:
             self.unlocked_towers.append(tower_name)
             logger.info(f"tower added to player save unlocked towers: {tower_name}")
-    
+
     def beat_map(self, map_name: str) -> None:
         if map_name not in MAPS_DATA:
             raise ValueError(f"can not unlock invalid map: {map_name}")
-        
+
         if not map_name in self.beaten_maps:
             self.beaten_maps.append(map_name)
             logger.info(f"map added to player save beaten maps: {map_name}")
+
 
 def ensure_data_file(path: Path = DATA_FILE) -> None:
     if not os.path.isfile(path):

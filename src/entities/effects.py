@@ -76,5 +76,5 @@ class BurningEffect(EnemyEffect):
             stackable=self.stackable,
             damage_over_time=damage_over_time,
             overlay_color=self.overlay_color,
-            speed_multiplier=self.speed_multiplier
+            speed_multiplier=self.speed_multiplier,
         )

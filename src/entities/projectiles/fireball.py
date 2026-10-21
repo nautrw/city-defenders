@@ -20,10 +20,12 @@ class Fireball(BallisticProjectile):
             image=image,
             damage=damage,
             explode_on_target_collision=True,
-            effect_on_collide=BurningEffect
+            effect_on_collide=BurningEffect,
         )
-    
-    def _handle_collision(self, enemies_group: pygame.sprite.Group, explosions_group: pygame.sprite.Group) -> None:
+
+    def _handle_collision(
+        self, enemies_group: pygame.sprite.Group, explosions_group: pygame.sprite.Group
+    ) -> None:
         if not self.hit_target and self.target in pygame.sprite.spritecollide(
             self, enemies_group, False
         ):
@@ -32,7 +34,10 @@ class Fireball(BallisticProjectile):
             if self.explode_on_target_collision:
                 assert self.target.rect is not None
                 explosion = Explosion(
-                    self.damage, self.target.rect.centerx, self.target.rect.centery, burn=True
+                    self.damage,
+                    self.target.rect.centerx,
+                    self.target.rect.centery,
+                    burn=True,
                 )
                 explosions_group.add(explosion)
 
@@ -44,4 +49,3 @@ class Fireball(BallisticProjectile):
 
             self.kill()
             return
- 

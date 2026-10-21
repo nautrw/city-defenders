@@ -1,4 +1,3 @@
-from numpy.random import f
 from enum import Enum, auto
 from typing import TYPE_CHECKING
 
@@ -15,6 +14,7 @@ from src.gui.text import Text
 
 if TYPE_CHECKING:
     from src.app import GameApp
+
 
 class PauseMenuGUIManagerState(Enum):
     NORMAL = auto()
@@ -117,9 +117,9 @@ class PauseMenuGUIManager(GUIManager):
                     button_width / 2,
                     button_height / 2,
                     fg_color=Config.RED,
-                    anchor=RectAnchorMode.CENTER
+                    anchor=RectAnchorMode.CENTER,
                 ),
-                anchor=RectAnchorMode.MIDTOP
+                anchor=RectAnchorMode.MIDTOP,
             )
 
             main_container.add_element(pause_text)
@@ -148,8 +148,8 @@ class PauseMenuGUIManager(GUIManager):
                 Config.ELEMENT_OUTER_PADDING,
                 size=Config.FONT_SIZE_MEDIUM,
                 anchor=RectAnchorMode.MIDTOP,
-                wrap_length=container_width
-            ) 
+                wrap_length=container_width,
+            )
             warning_text_1 = Text(
                 "warning_text_1",
                 "You will lose your",
@@ -158,7 +158,7 @@ class PauseMenuGUIManager(GUIManager):
                 size=Config.FONT_SIZE_MEDIUM,
                 anchor=RectAnchorMode.MIDTOP,
                 fg_color=Config.RED,
-                wrap_length=container_width
+                wrap_length=container_width,
             )
             warning_text_2 = Text(
                 "warning_text_2",
@@ -168,7 +168,7 @@ class PauseMenuGUIManager(GUIManager):
                 size=Config.FONT_SIZE_MEDIUM,
                 anchor=RectAnchorMode.MIDTOP,
                 fg_color=Config.RED,
-                wrap_length=container_width
+                wrap_length=container_width,
             )
 
             yes_button = Button(
@@ -182,9 +182,9 @@ class PauseMenuGUIManager(GUIManager):
                     "Yes",
                     button_width / 2,
                     button_height / 2,
-                    anchor=RectAnchorMode.CENTER ,
-                    fg_color=Config.RED
-                )
+                    anchor=RectAnchorMode.CENTER,
+                    fg_color=Config.RED,
+                ),
             )
             no_button = Button(
                 "no_button",
@@ -197,15 +197,15 @@ class PauseMenuGUIManager(GUIManager):
                     "No",
                     button_width / 2,
                     button_height / 2,
-                    anchor=RectAnchorMode.CENTER ,
-                )
+                    anchor=RectAnchorMode.CENTER,
+                ),
             )
 
-            main_container.add_element(question_text) 
-            main_container.add_element(warning_text_1) 
-            main_container.add_element(warning_text_2) 
-            main_container.add_element(yes_button) 
-            main_container.add_element(no_button) 
+            main_container.add_element(question_text)
+            main_container.add_element(warning_text_1)
+            main_container.add_element(warning_text_2)
+            main_container.add_element(yes_button)
+            main_container.add_element(no_button)
             self.add_element(main_container)
 
     def handle_event(self, event: pygame.Event) -> None:
@@ -235,6 +235,7 @@ class PauseMenuGUIManager(GUIManager):
                     self.refresh()
                 elif event.button.id == "yes_button":
                     self.scene.game.save_quit()
+
 
 class PauseMenuScene(Scene):
     def __init__(self, game: "GameApp"):

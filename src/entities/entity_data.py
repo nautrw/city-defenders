@@ -26,7 +26,7 @@ ENEMIES = {
     "armored_crab": ArmoredCrab,
     "bat": Bat,
     "lava_slime": LavaSlime,
-    "phantom": Phantom
+    "phantom": Phantom,
 }
 
 

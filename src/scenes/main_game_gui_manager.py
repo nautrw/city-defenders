@@ -83,7 +83,7 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
         ) >= len(self.scene.waves)
 
     def update_game_speed_buttons(self) -> None:
-        for (speed, label) in self.game_speeds:
+        for speed, label in self.game_speeds:
             self.get_element_by_id(f"game_speed_{label}_button", Button).toggle(
                 self.scene.game_speed_multiplier != speed
             )
@@ -400,9 +400,7 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
             normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
             hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
             pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
-            enabled=(
-                self.scene.coins >= self.selected_tower_to_buy.cost[0]
-            ),
+            enabled=(self.scene.coins >= self.selected_tower_to_buy.cost[0]),
         )
 
         container.add_element(tower_name)
@@ -494,7 +492,7 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
 
             attack_speed_icon_surf = load_scaled_asset(
                 "clock_icon", (Config.GUI_MEDIUM_ICON_SIZE, Config.GUI_MEDIUM_ICON_SIZE)
-     )
+            )
             attack_speed_icon = Icon(
                 "attack_speed_icon",
                 Config.ELEMENT_OUTER_PADDING,
@@ -606,7 +604,7 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
                 self.scene.can_place_tower = False
             elif event.button.id == "buy_selected_tower_button":
                 # ty ignore battle memorial
-                # this is a memorial for the many hours of my time that were 
+                # this is a memorial for the many hours of my time that were
                 # lost in the battle against the LSP to ensure that there were
                 # no type hinting errors
                 # 2026-2026
@@ -617,10 +615,8 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
                     # selected_tower_to_buy will always be a subclass type of
                     # Tower, but you can't create a tower here because it needs
                     # to take an image, so I ignore this one and take the L
-                    self.scene.tower_to_place = self.selected_tower_to_buy( # ty:ignore[missing-argument]
-                        *self.scene.camera.viewport_to_world(
-                            *pygame.mouse.get_pos()
-                        )
+                    self.scene.tower_to_place = self.selected_tower_to_buy(  # ty:ignore[missing-argument]
+                        *self.scene.camera.viewport_to_world(*pygame.mouse.get_pos())
                     )
 
                     self.switch_state(UIStates.PLACING_TOWER)

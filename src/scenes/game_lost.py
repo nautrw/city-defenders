@@ -30,17 +30,17 @@ class GameDefeatSceneGUIManager(GUIManager["GameLostScene"]):
         defeat_plaque = ElementContainer(
             "defeat_plaque",
             Config.SCREEN_WIDTH / 2,
-            Config.SCREEN_HEIGHT * .4,
+            Config.SCREEN_HEIGHT * 0.4,
             *defeat_plaque_img.size,
             bg_image=defeat_plaque_img,
-            anchor=RectAnchorMode.CENTER
+            anchor=RectAnchorMode.CENTER,
         )
 
         defeat_text = Text(
             "defeat_text",
             "Defeated...",
             defeat_plaque.rect.width / 2,
-            defeat_plaque.rect.height * .24,
+            defeat_plaque.rect.height * 0.24,
             size=Config.FONT_SIZE_XXXLARGE,
             anchor=RectAnchorMode.MIDTOP,
         )
@@ -49,10 +49,10 @@ class GameDefeatSceneGUIManager(GUIManager["GameLostScene"]):
             "shards_reward",
             f"+{self.scene.shards_reward}",
             defeat_plaque.rect.width / 2,
-            defeat_plaque.rect.height * .65, # wanted it to be 67 so bad :(
+            defeat_plaque.rect.height * 0.65,  # wanted it to be 67 so bad :(
             icon_name="shard_icon",
             anchor=RectAnchorMode.MIDTOP,
-            text_size=Config.FONT_SIZE_XLARGE
+            text_size=Config.FONT_SIZE_XLARGE,
         )
 
         button_width = Config.BUTTON_SIZE * 3
@@ -77,7 +77,6 @@ class GameDefeatSceneGUIManager(GUIManager["GameLostScene"]):
         defeat_plaque.add_element(defeat_text)
         defeat_plaque.add_element(shards_reward)
         self.add_element(play_again_button)
-
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
@@ -121,4 +120,3 @@ class GameLostScene(Scene):
         surface.blit(overlay)
 
         self.gui_manager.render_elements(surface)
-
