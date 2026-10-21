@@ -577,78 +577,85 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
         if event.type == CUSTOM_BUTTON_CLICKED:
             logger.debug(f"gui button clicked: id={event.button.id}")
 
-            if event.button.id == "tower_picker_menu_button":
-                self.switch_state(UIStates.TOWER_PICKER_MENU)
-            elif event.button.id == "tower_picker_menu_close_button":
-                self.switch_state(UIStates.COLLAPSED)
-            elif (
-                event.button.id.startswith("build_")
-                and event.button.id.endswith("_tower_button")
-                and event.button.id.split("_")[1] in TOWERS
-            ):
-                id = event.button.id.split("_")[1]
-                self.selected_tower_to_buy = TOWERS[id]["type"]
-                self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
-            elif event.button.id == "tower_picker_tower_selected_menu_close_button":
-                self.selected_tower_to_buy = None
-                self.switch_state(UIStates.TOWER_PICKER_MENU)
-            elif event.button.id == "sell_selected_tower_button":
-                self.scene.sell_selected_tower()
-                self.switch_state(UIStates.COLLAPSED)
-            elif event.button.id == "tower_selected_menu_close_button":
-                self.switch_state(UIStates.COLLAPSED)
-                self.scene.selected_tower = None
-            elif event.button.id == "tower_discard_button":
-                self.switch_state(UIStates.TOWER_PICKER_MENU)
-                self.scene.tower_to_place = None
-                self.scene.can_place_tower = False
-            elif event.button.id == "buy_selected_tower_button":
-                # ty ignore battle memorial
-                # this is a memorial for the many hours of my time that were
-                # lost in the battle against the LSP to ensure that there were
-                # no type hinting errors
-                # 2026-2026
+            if self.state == UIStates.COLLAPSED:
+                if event.button.id == "tower_picker_menu_button":
+                    self.switch_state(UIStates.TOWER_PICKER_MENU)
+                elif event.button.id == "next_wave_button":
+                    if not (self.scene.wave + 1) >= len(self.scene.waves):
+                        self.scene.next_wave()
+                        self.update_next_wave_button()
+                elif event.button.id == "game_speed_1/2x_button":
+                    self.scene.game_speed_multiplier = 0.5
+                    self.update_game_speed_buttons()
+                elif event.button.id == "game_speed_1x_button":
+                    self.scene.game_speed_multiplier = 1.0
+                    self.update_game_speed_buttons()
+                elif event.button.id == "game_speed_2x_button":
+                    self.scene.game_speed_multiplier = 2.0
+                    self.update_game_speed_buttons()
+                elif event.button.id == "game_speed_3x_button":
+                    self.scene.game_speed_multiplier = 3.0
+                    self.update_game_speed_buttons()
+            elif self.state == UIStates.TOWER_PICKER_MENU:
                 if (
-                    self.selected_tower_to_buy
-                    and self.scene.coins >= self.selected_tower_to_buy.cost[0]
+                    event.button.id.startswith("build_")
+                    and event.button.id.endswith("_tower_button")
+                    and event.button.id.split("_")[1] in TOWERS
                 ):
-                    # selected_tower_to_buy will always be a subclass type of
-                    # Tower, but you can't create a tower here because it needs
-                    # to take an image, so I ignore this one and take the L
-                    self.scene.tower_to_place = self.selected_tower_to_buy(  # ty:ignore[missing-argument]
-                        *self.scene.camera.viewport_to_world(*pygame.mouse.get_pos())
-                    )
+                    id = event.button.id.split("_")[1]
+                    self.selected_tower_to_buy = TOWERS[id]["type"]
+                    self.switch_state(UIStates.TOWER_PICKER_TOWER_SELECTED)
+                elif event.button.id == "tower_picker_menu_close_button":
+                    self.switch_state(UIStates.COLLAPSED)
+            elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
+                if event.button.id == "tower_picker_tower_selected_menu_close_button":
+                    self.selected_tower_to_buy = None
+                    self.switch_state(UIStates.TOWER_PICKER_MENU)
+                elif event.button.id == "buy_selected_tower_button":
+                    # ty ignore battle memorial
+                    # this is a memorial for the many hours of my time that were
+                    # lost in the battle against the LSP to ensure that there were
+                    # no type hinting errors
+                    # 2026-2026
+                    if (
+                        self.selected_tower_to_buy
+                        and self.scene.coins >= self.selected_tower_to_buy.cost[0]
+                    ):
+                        # selected_tower_to_buy will always be a subclass type of
+                        # Tower, but you can't create a tower here because it needs
+                        # to take an image, so I ignore this one and take the L
+                        self.scene.tower_to_place = self.selected_tower_to_buy(  # ty:ignore[missing-argument]
+                            *self.scene.camera.viewport_to_world(
+                                *pygame.mouse.get_pos()
+                            )
+                        )
 
-                    self.switch_state(UIStates.PLACING_TOWER)
-            elif event.button.id == "next_wave_button":
-                if not (self.scene.wave + 1) >= len(self.scene.waves):
-                    self.scene.next_wave()
-                    self.update_next_wave_button()
-            elif event.button.id == "game_speed_1/2x_button":
-                self.scene.game_speed_multiplier = 0.5
-                self.update_game_speed_buttons()
-            elif event.button.id == "game_speed_1x_button":
-                self.scene.game_speed_multiplier = 1.0
-                self.update_game_speed_buttons()
-            elif event.button.id == "game_speed_2x_button":
-                self.scene.game_speed_multiplier = 2.0
-                self.update_game_speed_buttons()
-            elif event.button.id == "game_speed_3x_button":
-                self.scene.game_speed_multiplier = 3.0
-                self.update_game_speed_buttons()
-            elif (
-                event.button.id == "upgrade_selected_tower_button"
-                and self.scene.selected_tower
-                and not self.scene.selected_tower.upgrade_index
-                > len(self.scene.selected_tower.cost) - 1
-            ):
-                upgrade_cost = self.scene.selected_tower.cost[
-                    self.scene.selected_tower.upgrade_index + 1
-                ]
-
-                if self.scene.coins >= upgrade_cost:
-                    self.scene.coins -= self.scene.selected_tower.cost[
-                        self.scene.selected_tower.upgrade_index
+                        self.switch_state(UIStates.PLACING_TOWER)
+            elif self.state == UIStates.TOWER_SELECTED:
+                if event.button.id == "sell_selected_tower_button":
+                    self.scene.sell_selected_tower()
+                    self.switch_state(UIStates.COLLAPSED)
+                elif (
+                    event.button.id == "upgrade_selected_tower_button"
+                    and self.scene.selected_tower
+                    and not self.scene.selected_tower.upgrade_index
+                    > len(self.scene.selected_tower.cost) - 1
+                ):
+                    upgrade_cost = self.scene.selected_tower.cost[
+                        self.scene.selected_tower.upgrade_index + 1
                     ]
-                    self.scene.selected_tower.upgrade()
-                    self.refresh()
+
+                    if self.scene.coins >= upgrade_cost:
+                        self.scene.coins -= self.scene.selected_tower.cost[
+                            self.scene.selected_tower.upgrade_index
+                        ]
+                        self.scene.selected_tower.upgrade()
+                        self.refresh()
+                elif event.button.id == "tower_selected_menu_close_button":
+                    self.switch_state(UIStates.COLLAPSED)
+                    self.scene.selected_tower = None
+            elif self.state == UIStates.PLACING_TOWER: # noqa: SIM102
+                if event.button.id == "tower_discard_button":
+                    self.switch_state(UIStates.TOWER_PICKER_MENU)
+                    self.scene.tower_to_place = None
+                    self.scene.can_place_tower = False
