@@ -227,7 +227,17 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
                 enabled=self.scene.game_speed_multiplier != speed,
             )
             game_speed_buttons_container.add_element(button)
+        
+        pause_button = Button(
+            "pause_button",
+            Config.ELEMENT_OUTER_PADDING,
+            game_speed_buttons_container.rect.top - Config.ELEMENT_OUTER_PADDING,
+            Config.BUTTON_SIZE,
+            Config.BUTTON_SIZE,
+            anchor=RectAnchorMode.BOTTOMLEFT 
+        )
 
+        self.add_element(pause_button)
         self.add_element(game_speed_buttons_container)
 
     def _build_collapsed_ui(self) -> None:
@@ -390,7 +400,6 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
         container.add_element(range_icon)
         container.add_element(range_text)
 
-        # Buy button
         buy_button = build_currency_button(
             "buy_selected_tower_button",
             container.width // 2,
@@ -465,7 +474,6 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
             pressed_bg=Config.RED_BUTTON_PRESSED_BG,
         )
 
-        ### tower upgrades
         if (
             selected_tower
             and selected_tower.upgrade_index < len(selected_tower.cost) - 1
@@ -577,25 +585,29 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
         if event.type == CUSTOM_BUTTON_CLICKED:
             logger.debug(f"gui button clicked: id={event.button.id}")
 
+            # these are always available
+            if event.button.id == "game_speed_1/2x_button":
+              self.scene.game_speed_multiplier = 0.5
+              self.update_game_speed_buttons()
+            elif event.button.id == "game_speed_1x_button":
+                self.scene.game_speed_multiplier = 1.0
+                self.update_game_speed_buttons()
+            elif event.button.id == "game_speed_2x_button":
+                self.scene.game_speed_multiplier = 2.0
+                self.update_game_speed_buttons()
+            elif event.button.id == "game_speed_3x_button":
+                self.scene.game_speed_multiplier = 3.0
+                self.update_game_speed_buttons()
+            elif event.button.id == "pause_button":
+                self.scene.pause()
+
             if self.state == UIStates.COLLAPSED:
                 if event.button.id == "tower_picker_menu_button":
                     self.switch_state(UIStates.TOWER_PICKER_MENU)
-                elif event.button.id == "next_wave_button":
+                elif event.button.id == "next_wave_button": # noqa: SIM102
                     if not (self.scene.wave + 1) >= len(self.scene.waves):
                         self.scene.next_wave()
                         self.update_next_wave_button()
-                elif event.button.id == "game_speed_1/2x_button":
-                    self.scene.game_speed_multiplier = 0.5
-                    self.update_game_speed_buttons()
-                elif event.button.id == "game_speed_1x_button":
-                    self.scene.game_speed_multiplier = 1.0
-                    self.update_game_speed_buttons()
-                elif event.button.id == "game_speed_2x_button":
-                    self.scene.game_speed_multiplier = 2.0
-                    self.update_game_speed_buttons()
-                elif event.button.id == "game_speed_3x_button":
-                    self.scene.game_speed_multiplier = 3.0
-                    self.update_game_speed_buttons()
             elif self.state == UIStates.TOWER_PICKER_MENU:
                 if (
                     event.button.id.startswith("build_")

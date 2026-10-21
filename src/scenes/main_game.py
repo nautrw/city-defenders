@@ -320,16 +320,19 @@ class MainGameScene(Scene):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    self.paused = not self.paused
-                    self.game.scene_manager.push(PauseMenuScene(self.game))
-                    pygame.mixer.music.pause()
+                    self.pause()
                 elif event.key == pygame.K_r:
                     self.draw_tower_radiuses = not self.draw_tower_radiuses
 
             if event.type == pygame.mixer.music.get_endevent():
                 self.play_next_music()
-
+                
             self.gui_manager.handle_event(event)
+    
+    def pause(self) -> None:
+        self.paused = not self.paused
+        self.game.scene_manager.push(PauseMenuScene(self.game))
+        pygame.mixer.music.pause()
 
     def render(self, surface: pygame.Surface) -> None:
         self.map.draw(self.game_surface)
