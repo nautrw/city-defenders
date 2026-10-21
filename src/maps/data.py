@@ -13,8 +13,8 @@ class MapData:
     ground_on_top: bool = False
 
 MAPS_DATA = {
-    "ground_zero": MapData(
-        display_name="Ground Zero",
+    "magic_forest": MapData(
+        display_name="Magic Forest",
         waves=[
             ("slime", "slime"),
             ("slime", "ghost", "slime"),
@@ -90,4 +90,4 @@ MAPS_DATA = {
     )
 }
 
-MAP_PROGRESSION = ["ground_zero", "frontier", "molten_lands", "archipelago"]
+MAP_PROGRESSION = ["magic_forest", "frontier", "molten_lands", "archipelago"]
