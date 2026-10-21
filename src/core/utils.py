@@ -11,6 +11,7 @@ SPRITES_DICT = {
     file.name.replace(".png", ""): file
     for file in list(Config.ASSET_PATH.rglob("*.png"))
 }
+print(SPRITES_DICT)
 MAPS_DICT = {
     file.name.replace(".json", ""): file
     for file in list(Config.MAPS_PATH.rglob("*.json"))

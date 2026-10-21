@@ -11,6 +11,7 @@ from src.entities.enemies.tank_slime import TankSlime
 from src.entities.towers.ballista import BallistaTower
 from src.entities.towers.cannon import CannonTower
 from src.entities.towers.crossbow import CrossbowTower
+from src.entities.towers.flamethrower import FlamethrowerTower
 from src.entities.towers.frostspire import FrostspireTower
 from src.entities.towers.tower import Tower
 from src.entities.towers.venom_shooter import VenomShooterTower
@@ -26,14 +27,26 @@ ENEMIES = {
     "lava_slime": LavaSlime,
 }
 
+
 class TowersDict(TypedDict):
     type: type[Tower]
     requires: str | None
 
+
 TOWERS: dict[str, TowersDict] = {
-    "crossbow": { "type": CrossbowTower, "requires": None },
-    "ballista": { "type": BallistaTower, "requires": "crossbow", },
-    "cannon": { "type": CannonTower, "requires": "ballista", },
-    "frostspire": {"type": FrostspireTower, "requires": "cannon" },
-    "venomshooter": { "type": VenomShooterTower, "requires": "frostspire", },
+    "crossbow": {"type": CrossbowTower, "requires": None},
+    "ballista": {
+        "type": BallistaTower,
+        "requires": "crossbow",
+    },
+    "cannon": {
+        "type": CannonTower,
+        "requires": "ballista",
+    },
+    "frostspire": {"type": FrostspireTower, "requires": "cannon"},
+    "venomshooter": {
+        "type": VenomShooterTower,
+        "requires": "frostspire",
+    },
+    "flamethrower": {"type": FlamethrowerTower, "requires": "venomshooter"},
 }
