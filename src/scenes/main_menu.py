@@ -1,4 +1,4 @@
-from src.core.data_saving import reset_data
+from src.core.data_saving import reset_data, load_data_from_file
 from src.gui.container import ElementContainer
 from enum import Enum, auto
 import random
@@ -207,6 +207,7 @@ class MainMenuSceneGUIManager(GUIManager):
             elif self.state == MainMenuSceneGUIState.CONFIRM_ERASE_DATA:
                 if event.button.id == "erase_data_yes_button":
                     reset_data()
+                    self.scene.game.player_save = load_data_from_file()
                     self.state = MainMenuSceneGUIState.NORMAL
                     self.refresh()
                 elif event.button.id == "erase_data_no_button":
