@@ -17,10 +17,8 @@ if TYPE_CHECKING:
     from src.app import GameApp
 
 
-class GameVictorySceneGUIManager(GUIManager):
+class GameVictorySceneGUIManager(GUIManager["GameWonScene"]):
     def __init__(self, scene: "GameWonScene"):
-        self.scene: GameWonScene
-
         super().__init__(scene)
 
         self.refresh()

@@ -1,4 +1,4 @@
-from typing import ClassVar, Protocol
+from typing import ClassVar
 
 import pygame
 from pygame.geometry import Circle
@@ -13,44 +13,7 @@ from src.entities.projectiles.ballistic_projectile import (
 )
 
 
-class TowerType(Protocol):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
-    display_name: ClassVar[str]
-    description: ClassVar[str]
-
-    cost: ClassVar[tuple[int, ...]]
-    damage: ClassVar[tuple[float, ...]]
-    shooting_speed: ClassVar[tuple[float, ...]]
-    area_radius: ClassVar[tuple[float, ...]]
-
-    projectile: ClassVar[BallisticProjectileType]
-
-    shards_cost: ClassVar[int]
-
-    upgrade_index: int
-
-    def __init__(self, x_position: float, y_position: float) -> "Tower": ...
-
-    def kill(self) -> None: ...
-
-    def move_center(self, new_x: float, new_y: float) -> None: ...
-
-    def upgrade(self) -> None: ...
-
-    def draw(
-        self,
-        surface: pygame.Surface,
-        draw_radiuses: bool,
-        overlay_color: ColorLike | None = None,
-    ) -> None: ...
-
-
 class Tower(pygame.sprite.Sprite):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
     display_name: ClassVar[str]
     description: ClassVar[str]
 
@@ -85,6 +48,8 @@ class Tower(pygame.sprite.Sprite):
         self.rect = self.base.get_frect(center=self.position)
         self.tower_rect = self.tower_image.get_frect(center=self.position)
 
+        assert self.rect is not None
+
         # can shoot immediately after placing
         self.shoot_cooldown_delta_time = self.shooting_speed[self.upgrade_index]
 
@@ -107,6 +72,8 @@ class Tower(pygame.sprite.Sprite):
         return projectile
 
     def move_center(self, new_x: float, new_y: float) -> None:
+        assert self.rect is not None
+        
         self.position = (new_x, new_y)
         self.rect.center = self.position
         self.tower_rect.center = self.position
@@ -118,6 +85,7 @@ class Tower(pygame.sprite.Sprite):
         draw_radiuses: bool,
         overlay_color: ColorLike | None = None,
     ) -> None:
+        assert self.rect is not None
         self.base = self.original_base_image.copy()
 
         if draw_radiuses:
@@ -144,6 +112,8 @@ class Tower(pygame.sprite.Sprite):
         surface.blit(self.tower_image, self.tower_rect)
 
     def upgrade(self) -> None:
+        assert self.rect is not None
+
         self.upgrade_index += 1
         self.area = Circle(self.rect.center, self.area_radius[self.upgrade_index])
 
@@ -154,6 +124,8 @@ class Tower(pygame.sprite.Sprite):
         projectiles_group: pygame.sprite.Group,
         game_speed_multiplier: int,
     ) -> None:
+        assert self.rect is not None
+        
         for enemy in enemies_group:
             if self.area.colliderect(enemy.rect):
                 self.tower_angle = angle_to_point(

@@ -11,7 +11,7 @@ from src.core.utils import (
     load_scaled_asset,
 )
 from src.entities.entity_data import TOWERS
-from src.entities.towers.tower import TowerType
+from src.entities.towers.tower import Tower
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
@@ -32,16 +32,14 @@ class UIStates(Enum):
     TOWER_SELECTED = auto()
 
 
-class MainGameSceneGUIManager(GUIManager):
+class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
     def __init__(self, scene: "MainGameScene") -> None:
 
         super().__init__(scene)
 
         self.state = UIStates.COLLAPSED
 
-        self.selected_tower_to_buy: type[TowerType] | None = None
-
-        self.scene: MainGameScene
+        self.selected_tower_to_buy: type[Tower] | None = None
 
         self.container_width = 500
 
@@ -116,7 +114,8 @@ class MainGameSceneGUIManager(GUIManager):
                 )
         elif self.state == UIStates.TOWER_PICKER_TOWER_SELECTED:
             buy_button = self.get_element_by_id("buy_selected_tower_button", Button)
-            can_buy = self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
+            assert self.selected_tower_to_buy is not None
+            can_buy = self.scene.coins >= self.selected_tower_to_buy.cost[0]
 
             buy_button.toggle(can_buy)
 
@@ -297,13 +296,15 @@ class MainGameSceneGUIManager(GUIManager):
         self.add_element(close_button)
 
     def _build_tower_picker_selected_menu(self) -> None:
+        assert self.selected_tower_to_buy is not None
+
         container, close_button = self._build_side_menu(
             "tower_picker_tower_selected_menu"
         )
 
         tower_name = Text(
             "selected_tower_display_name",
-            self.selected_tower_to_buy.display_name,  # ty:ignore[unresolved-attribute]
+            self.selected_tower_to_buy.display_name,
             self.container_width // 2,
             Config.ELEMENT_OUTER_PADDING,
             anchor=RectAnchorMode.MIDTOP,
@@ -312,7 +313,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         tower_description = Text(
             "selected_tower_description",
-            self.selected_tower_to_buy.description,  # ty:ignore[unresolved-attribute]
+            self.selected_tower_to_buy.description,
             Config.ELEMENT_OUTER_PADDING,
             Config.ELEMENT_OUTER_PADDING + tower_name.rect.height,
             wrap_length=self.container_width,
@@ -336,7 +337,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         attack_text = Text(
             "attack_text",
-            f"Damage: {self.selected_tower_to_buy.damage[0]}",  # ty:ignore[unresolved-attribute]
+            f"Damage: {self.selected_tower_to_buy.damage[0]}",
             attack_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             attack_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -358,7 +359,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         attack_speed_text = Text(
             "attack_speed_text",
-            f"Cooldown: {self.selected_tower_to_buy.shooting_speed[0]}s",  # ty:ignore[unresolved-attribute]
+            f"Cooldown: {self.selected_tower_to_buy.shooting_speed[0]}s",
             attack_speed_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             attack_speed_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -380,7 +381,7 @@ class MainGameSceneGUIManager(GUIManager):
 
         range_text = Text(
             "range_text",
-            f"Range: {self.selected_tower_to_buy.area_radius[0]}",  # ty:ignore[unresolved-attribute]
+            f"Range: {self.selected_tower_to_buy.area_radius[0]}",
             range_icon.rect.right + Config.ELEMENT_OUTER_PADDING,
             range_icon.rect.centery,
             anchor=RectAnchorMode.MIDLEFT,
@@ -395,12 +396,12 @@ class MainGameSceneGUIManager(GUIManager):
             container.width // 2,
             container.height * 0.75,
             "coin_icon",
-            f"{self.selected_tower_to_buy.cost[0]}",  # ty:ignore[unresolved-attribute]
+            f"{self.selected_tower_to_buy.cost[0]}",
             normal_bg=Config.GREEN_BUTTON_NORMAL_BG,
             hover_bg=Config.GREEN_BUTTON_HOVERED_BG,
             pressed_bg=Config.GREEN_BUTTON_PRESSED_BG,
             enabled=(
-                self.scene.coins >= self.selected_tower_to_buy.cost[0]  # ty:ignore[unresolved-attribute]
+                self.scene.coins >= self.selected_tower_to_buy.cost[0]
             ),
         )
 
@@ -604,6 +605,7 @@ class MainGameSceneGUIManager(GUIManager):
                 self.scene.tower_to_place = None
                 self.scene.can_place_tower = False
             elif event.button.id == "buy_selected_tower_button":
+                # ty ignore battle memorial
                 # this is a memorial for the many hours of my time that were 
                 # lost in the battle against the LSP to ensure that there were
                 # no type hinting errors
@@ -612,7 +614,10 @@ class MainGameSceneGUIManager(GUIManager):
                     self.selected_tower_to_buy
                     and self.scene.coins >= self.selected_tower_to_buy.cost[0]
                 ):
-                    self.scene.tower_to_place = self.selected_tower_to_buy(
+                    # selected_tower_to_buy will always be a subclass type of
+                    # Tower, but you can't create a tower here because it needs
+                    # to take an image, so I ignore this one and take the L
+                    self.scene.tower_to_place = self.selected_tower_to_buy( # ty:ignore[missing-argument]
                         *self.scene.camera.viewport_to_world(
                             *pygame.mouse.get_pos()
                         )

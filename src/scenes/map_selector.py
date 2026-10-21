@@ -15,7 +15,7 @@ from src.gui.gui_manager import GUIManager
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
-from src.maps.data import MAPS_DATA, MAP_PROGRESSION
+from src.maps.data import MAP_PROGRESSION, MAPS_DATA
 from src.scenes.main_game import MainGameScene
 
 if TYPE_CHECKING:

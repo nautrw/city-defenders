@@ -1,13 +1,10 @@
-from src.entities.effects import BurningEffect
 import pygame
 
 from src.core.utils import load_asset
+from src.entities.effects import BurningEffect
 
 
 class Explosion(pygame.sprite.Sprite):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
     def __init__(
         self,
         damage: float,
@@ -19,6 +16,7 @@ class Explosion(pygame.sprite.Sprite):
         super().__init__()
 
         self.image = load_asset("explosion")
+        assert self.image is not None
         self.rect = self.image.get_frect(center=(x_position, y_position))
 
         self.damage = damage
@@ -55,5 +53,8 @@ class Explosion(pygame.sprite.Sprite):
             self.kill()
 
     def draw(self, surface: pygame.Surface) -> None:
+        assert self.image is not None
+        assert self.rect is not None
+        
         self.image.set_alpha(self.opacity)
         surface.blit(self.image, self.rect)

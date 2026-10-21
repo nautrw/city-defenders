@@ -1,4 +1,3 @@
-from src.maps.data import MAPS_DATA
 import json
 import os
 from dataclasses import asdict, dataclass, field
@@ -8,6 +7,7 @@ from loguru import logger
 from platformdirs import PlatformDirs
 
 from src.entities.entity_data import TOWERS
+from src.maps.data import MAPS_DATA
 
 dirs = PlatformDirs("CityDefenders", "nautrw", ensure_exists=True)
 DATA_FILE = dirs.user_data_path / "save.json"

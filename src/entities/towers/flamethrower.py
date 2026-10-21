@@ -1,18 +1,12 @@
-from src.entities.enemies.enemy import Enemy
 from typing import ClassVar
 
-import pygame
-
 from src.core.utils import load_asset
-from src.entities.projectiles.ballistic_projectile import BallisticProjectileType, BallisticProjectile
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from src.entities.projectiles.fireball import Fireball
 from src.entities.towers.tower import Tower
 
 
 class FlamethrowerTower(Tower):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
     display_name = "Flamethrower"
     description = "Shoots fireballs fireballs at enemies. Causes damage to multiple enemies and makes them burn."
     cost: ClassVar[tuple[int, ...]] = (175, 240, 330)

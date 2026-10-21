@@ -21,9 +21,6 @@ class BallisticProjectileType(Protocol):
 
 
 class BallisticProjectile(pygame.sprite.Sprite):
-    # image: pygame.Surface
-    # rect: pygame.Rect | pygame.FRect
-
     def __init__(
         self,
         damage: float,
@@ -103,6 +100,8 @@ class BallisticProjectile(pygame.sprite.Sprite):
                 explosions_group.add(explosion)
 
             if self.effect_on_collide:
+                # effect_on_collide is a subclass of EnemyEffect but that parent
+                # takes a duration and such so i just ignore it
                 effect = self.effect_on_collide(damage_over_time=self.damage)  # ty:ignore[missing-argument]
                 self.target.add_effect(effect)
 

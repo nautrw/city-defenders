@@ -12,7 +12,7 @@ from src.core.scenes_manager import Scene
 from src.core.utils import get_sound, load_asset, load_map, split_tileset
 from src.entities.enemies.enemy import DEFENSE_BREACHED, ENEMY_KILLED
 from src.entities.entity_data import ENEMIES
-from src.entities.towers.tower import TowerType
+from src.entities.towers.tower import Tower
 from src.maps.data import MAPS_DATA
 from src.scenes.game_lost import GameLostScene
 from src.scenes.game_won import GameWonScene
@@ -73,9 +73,9 @@ class MainGameScene(Scene):
         self.coins = self.original_coins
         self.shards_reward = self.map_data.shards_reward
 
-        self.tower_to_place: TowerType | None = None
+        self.tower_to_place: Tower | None = None
         self.can_place_tower = False
-        self.selected_tower: TowerType | None = None
+        self.selected_tower: Tower | None = None
 
         self.waves = self.map_data.waves
         # -1 so that when the player starts the first wave it'll go to index 0
@@ -119,10 +119,12 @@ class MainGameScene(Scene):
         logger.info(f"playing music: current={current_music}, queued={to_queue}")
 
     def place_selected_tower(self) -> None:
+        assert self.tower_to_place is not None
+        
         self.towers_group.add(self.tower_to_place)
         self.gui_manager.switch_state(UIStates.TOWER_PICKER_MENU)
 
-        cost = self.tower_to_place.cost[self.tower_to_place.upgrade_index]  # ty:ignore[unresolved-attribute]
+        cost = self.tower_to_place.cost[self.tower_to_place.upgrade_index]
 
         self.coins -= cost
 

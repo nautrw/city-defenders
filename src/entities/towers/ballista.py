@@ -1,7 +1,5 @@
 from typing import ClassVar
 
-import pygame
-
 from src.core.utils import load_asset
 from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from src.entities.projectiles.bolt import Bolt
@@ -9,9 +7,6 @@ from src.entities.towers.tower import Tower
 
 
 class BallistaTower(Tower):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
     display_name = "Ballista"
     description = "Shoots bolts at a slow rate but with great force."
     cost: ClassVar[tuple[int, ...]] = (135, 185, 260)

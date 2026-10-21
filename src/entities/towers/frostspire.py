@@ -1,7 +1,5 @@
 from typing import ClassVar
 
-import pygame
-
 from src.core.utils import load_asset
 from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from src.entities.projectiles.ice_shard import IceShard
@@ -9,9 +7,6 @@ from src.entities.towers.tower import Tower
 
 
 class FrostspireTower(Tower):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
     display_name = "Frostspire"
     description = (
         "Slows down enemies by making them cold. Does not damage enemies by itself."

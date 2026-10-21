@@ -1,7 +1,5 @@
 from typing import ClassVar
 
-import pygame
-
 from src.core.utils import load_asset
 from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
 from src.entities.projectiles.venom_spit import VenomSpit
@@ -9,9 +7,6 @@ from src.entities.towers.tower import Tower
 
 
 class VenomShooterTower(Tower):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
     display_name = "Venom Shooter"
     description = (
         "Shoots drops of venom at enemies, poisoning them and damaging them over time."

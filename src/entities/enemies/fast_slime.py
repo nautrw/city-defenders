@@ -1,13 +1,8 @@
-import pygame
-
 from src.core.utils import load_asset
 from src.entities.enemies.enemy import Enemy
 
 
 class FastSlime(Enemy):
-    image: pygame.Surface
-    rect: pygame.Rect | pygame.FRect
-
     def __init__(self, path_waypoints: list[tuple[float, float]]) -> None:
         animation = [load_asset("fastslime1"), load_asset("fastslime2")]
 

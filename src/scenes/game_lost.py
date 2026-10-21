@@ -17,10 +17,8 @@ if TYPE_CHECKING:
     from src.app import GameApp
 
 
-class GameDefeatSceneGUIManager(GUIManager):
+class GameDefeatSceneGUIManager(GUIManager["GameLostScene"]):
     def __init__(self, scene: "GameLostScene"):
-        self.scene: GameLostScene
-
         super().__init__(scene)
 
         self.refresh()
@@ -123,3 +121,4 @@ class GameLostScene(Scene):
         surface.blit(overlay)
 
         self.gui_manager.render_elements(surface)
+

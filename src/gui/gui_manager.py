@@ -1,7 +1,7 @@
 import functools
 import operator
 from abc import ABC, abstractmethod
-from typing import TypeVar
+from typing import Generic, TypeVar
 
 import pygame
 
@@ -9,7 +9,8 @@ from src.core.scenes_manager import Scene
 from src.gui.container import ElementContainer
 from src.gui.element import Element
 
-T = TypeVar("T", bound=Element | ElementContainer)
+ElementT = TypeVar("ElementT", bound=Element | ElementContainer)
+SceneT = TypeVar("SceneT", bound=Scene)
 
 class ElementSearchTypeMismatchError(TypeError):
     pass
@@ -17,9 +18,12 @@ class ElementSearchTypeMismatchError(TypeError):
 class ElementNotFoundError(ValueError):
     pass
 
-class GUIManager(ABC):
-    def __init__(self, scene: Scene) -> None:
-        self.scene: Scene = scene
+# Generic[SceneT] is another example of typing magic I don't fully
+# understand but it solves my problems; you pass in a scene type and then it
+# uses that scene type as the type of the scene
+class GUIManager(ABC, Generic[SceneT]):
+    def __init__(self, scene: SceneT) -> None:
+        self.scene = scene
         self.elements: list[Element] = []
 
     @abstractmethod
@@ -38,7 +42,7 @@ class GUIManager(ABC):
         for element in self.elements:
             element.update(delta_time, mouse_position)
 
-    def get_element_by_id(self, id: str, element_type: type[T]) -> T:
+    def get_element_by_id(self, id: str, element_type: type[ElementT]) -> ElementT:
         match = None
 
         for element in self.elements:
@@ -80,7 +84,7 @@ class GUIManager(ABC):
         else:
             raise ValueError(f"element with id {element.id} already exists in manager")
 
-    def delete_element_by_id(self, id: str, element_type: type[T]) -> T:
+    def delete_element_by_id(self, id: str, element_type: type[ElementT]) -> ElementT:
         for element in self.elements:
             if isinstance(element, ElementContainer):
                 for container_element in element.elements:

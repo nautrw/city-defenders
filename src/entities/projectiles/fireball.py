@@ -1,9 +1,11 @@
 import pygame
-from src.entities.projectiles.explosion import Explosion
+
 from src.core.utils import load_asset
+from src.entities.effects import BurningEffect
 from src.entities.enemies.enemy import Enemy
 from src.entities.projectiles.ballistic_projectile import BallisticProjectile
-from src.entities.effects import BurningEffect
+from src.entities.projectiles.explosion import Explosion
+
 
 class Fireball(BallisticProjectile):
     def __init__(
@@ -35,6 +37,8 @@ class Fireball(BallisticProjectile):
                 explosions_group.add(explosion)
 
             if self.effect_on_collide:
+                # self.effect_on_collide is meant to be a subclass, and those
+                # dont take duration so its ignored here
                 effect = self.effect_on_collide(damage_over_time=self.damage)  # ty:ignore[missing-argument]
                 self.target.add_effect(effect)
 

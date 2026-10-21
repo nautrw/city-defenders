@@ -8,9 +8,6 @@ DEFENSE_BREACHED = pygame.event.custom_type()
 
 
 class Enemy(pygame.sprite.Sprite):
-    # image: pygame.Surface
-    # rect: pygame.Rect | pygame.FRect
-
     def __init__(
         self,
         animation: list[pygame.Surface],
