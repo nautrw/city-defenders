@@ -227,14 +227,21 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
                 enabled=self.scene.game_speed_multiplier != speed,
             )
             game_speed_buttons_container.add_element(button)
-        
+
         pause_button = Button(
             "pause_button",
             Config.ELEMENT_OUTER_PADDING,
             game_speed_buttons_container.rect.top - Config.ELEMENT_OUTER_PADDING,
             Config.BUTTON_SIZE,
             Config.BUTTON_SIZE,
-            anchor=RectAnchorMode.BOTTOMLEFT 
+            normal_icon=Icon(
+                "pause_button_icon",
+                Config.BUTTON_SIZE / 2,
+                Config.BUTTON_SIZE / 2,
+                image=load_scaled_asset("pause_icon"),
+                anchor=RectAnchorMode.CENTER
+            ),
+            anchor=RectAnchorMode.BOTTOMLEFT,
         )
 
         self.add_element(pause_button)
@@ -587,8 +594,8 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
 
             # these are always available
             if event.button.id == "game_speed_1/2x_button":
-              self.scene.game_speed_multiplier = 0.5
-              self.update_game_speed_buttons()
+                self.scene.game_speed_multiplier = 0.5
+                self.update_game_speed_buttons()
             elif event.button.id == "game_speed_1x_button":
                 self.scene.game_speed_multiplier = 1.0
                 self.update_game_speed_buttons()
@@ -604,7 +611,7 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
             if self.state == UIStates.COLLAPSED:
                 if event.button.id == "tower_picker_menu_button":
                     self.switch_state(UIStates.TOWER_PICKER_MENU)
-                elif event.button.id == "next_wave_button": # noqa: SIM102
+                elif event.button.id == "next_wave_button":  # noqa: SIM102
                     if not (self.scene.wave + 1) >= len(self.scene.waves):
                         self.scene.next_wave()
                         self.update_next_wave_button()
@@ -666,7 +673,7 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
                 elif event.button.id == "tower_selected_menu_close_button":
                     self.switch_state(UIStates.COLLAPSED)
                     self.scene.selected_tower = None
-            elif self.state == UIStates.PLACING_TOWER: # noqa: SIM102
+            elif self.state == UIStates.PLACING_TOWER:  # noqa: SIM102
                 if event.button.id == "tower_discard_button":
                     self.switch_state(UIStates.TOWER_PICKER_MENU)
                     self.scene.tower_to_place = None
