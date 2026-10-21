@@ -6,6 +6,7 @@ from src.entities.enemies.crab import Crab
 from src.entities.enemies.fast_slime import FastSlime
 from src.entities.enemies.ghost import Ghost
 from src.entities.enemies.lava_slime import LavaSlime
+from src.entities.enemies.phantom import Phantom
 from src.entities.enemies.slime import Slime
 from src.entities.enemies.tank_slime import TankSlime
 from src.entities.towers.ballista import BallistaTower
@@ -25,6 +26,7 @@ ENEMIES = {
     "armored_crab": ArmoredCrab,
     "bat": Bat,
     "lava_slime": LavaSlime,
+    "phantom": Phantom
 }
 
 
