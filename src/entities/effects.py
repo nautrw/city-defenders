@@ -29,7 +29,7 @@ class EnemyEffect:
 
     def draw(self, surface: pygame.Surface):
         if self.overlay_color:
-            surface.fill(self.overlay_color, special_flags=pygame.)
+            surface.fill(self.overlay_color, special_flags=pygame.BLEND_RGBA_MIN)
 
 
 class FrozenEffect(EnemyEffect):
