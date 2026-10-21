@@ -29,7 +29,7 @@ class EnemyEffect:
 
     def draw(self, surface: pygame.Surface):
         if self.overlay_color:
-            surface.fill(self.overlay_color, special_flags=pygame.BLEND_RGBA_MIN)
+            surface.fill(self.overlay_color, special_flags=pygame.)
 
 
 class FrozenEffect(EnemyEffect):
@@ -61,4 +61,20 @@ class PoisonedEffect(EnemyEffect):
             stackable=self.stackable,
             damage_over_time=damage_over_time,
             overlay_color=self.overlay_color,
+        )
+
+
+class BurningEffect(EnemyEffect):
+    duration = 5
+    speed_multiplier = 3
+    stackable = True
+    overlay_color = "#FF6717"
+
+    def __init__(self, duration: float = duration, damage_over_time: float = 1) -> None:
+        super().__init__(
+            duration=duration,
+            stackable=self.stackable,
+            damage_over_time=damage_over_time,
+            overlay_color=self.overlay_color,
+            speed_multiplier=self.speed_multiplier
         )

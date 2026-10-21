@@ -1,9 +1,10 @@
+from src.entities.enemies.enemy import Enemy
 from typing import ClassVar
 
 import pygame
 
 from src.core.utils import load_asset
-from src.entities.projectiles.ballistic_projectile import BallisticProjectileType
+from src.entities.projectiles.ballistic_projectile import BallisticProjectileType, BallisticProjectile
 from src.entities.projectiles.fireball import Fireball
 from src.entities.towers.tower import Tower
 
@@ -15,7 +16,7 @@ class FlamethrowerTower(Tower):
     display_name = "Flamethrower"
     description = "Shoots fireballs fireballs at enemies. Causes damage to multiple enemies and makes them burn."
     cost: ClassVar[tuple[int, ...]] = (175, 240, 330)
-    damage: ClassVar[tuple[float, ...]] = (22, 35, 52)
+    damage: ClassVar[tuple[float, ...]] = (2, 5, 7)
     shooting_speed: ClassVar[tuple[float, ...]] = (2.8, 2.3, 1.8)
     area_radius: ClassVar[tuple[float, ...]] = (115, 140, 165)
 

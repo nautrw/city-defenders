@@ -1,3 +1,4 @@
+from src.entities.effects import BurningEffect
 import pygame
 
 from src.core.utils import load_asset
@@ -13,6 +14,7 @@ class Explosion(pygame.sprite.Sprite):
         x_position: float,
         y_position: float,
         duration: float = 0.25,
+        burn: bool = False,
     ) -> None:
         super().__init__()
 
@@ -27,6 +29,8 @@ class Explosion(pygame.sprite.Sprite):
 
         self.hit_enemies = False
 
+        self.burn = False
+
     def update(
         self,
         delta_time: float,
@@ -38,6 +42,9 @@ class Explosion(pygame.sprite.Sprite):
 
             for enemy in collisions:
                 enemy.health -= self.damage
+                
+                if self.burn:
+                    enemy.add_effect(BurningEffect)
 
             self.hit_enemies = True
 

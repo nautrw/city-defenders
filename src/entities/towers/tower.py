@@ -19,7 +19,7 @@ class TowerType(Protocol):
 
     display_name: ClassVar[str]
     description: ClassVar[str]
-    
+
     cost: ClassVar[tuple[int, ...]]
     damage: ClassVar[tuple[float, ...]]
     shooting_speed: ClassVar[tuple[float, ...]]
@@ -31,26 +31,21 @@ class TowerType(Protocol):
 
     upgrade_index: int
 
-    def __init__(self, x_position: float, y_position: float) -> "Tower":
-        ...
-    
-    def kill(self) -> None:
-        ...
+    def __init__(self, x_position: float, y_position: float) -> "Tower": ...
 
-    def move_center(self, new_x: float, new_y: float) -> None:
-        ...
+    def kill(self) -> None: ...
 
-    def upgrade(self) -> None:
-        ...
+    def move_center(self, new_x: float, new_y: float) -> None: ...
+
+    def upgrade(self) -> None: ...
 
     def draw(
         self,
         surface: pygame.Surface,
         draw_radiuses: bool,
         overlay_color: ColorLike | None = None,
-    ) -> None:
-        ...
-    
+    ) -> None: ...
+
 
 class Tower(pygame.sprite.Sprite):
     image: pygame.Surface
@@ -58,7 +53,7 @@ class Tower(pygame.sprite.Sprite):
 
     display_name: ClassVar[str]
     description: ClassVar[str]
-    
+
     cost: ClassVar[tuple[int, ...]]
     damage: ClassVar[tuple[float, ...]]
     shooting_speed: ClassVar[tuple[float, ...]]
@@ -100,7 +95,6 @@ class Tower(pygame.sprite.Sprite):
         self.tower_tip = pygame.Vector2(0, -self.tower_image.get_height() / 2)
 
     def _shoot_at(self, enemy: Enemy) -> BallisticProjectile:
-        # this is so it shoots from the tip of the tower
         projectile_offset = self.tower_tip.rotate(-self.tower_angle)
         projectile_position = self.position + projectile_offset
 

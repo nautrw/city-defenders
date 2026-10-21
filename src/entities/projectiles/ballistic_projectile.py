@@ -87,12 +87,16 @@ class BallisticProjectile(pygame.sprite.Sprite):
             self.target.position.y,
         )
 
+        self._handle_collision(enemies_group, explosions_group)
+
+    def _handle_collision(self, enemies_group: pygame.sprite.Group, explosions_group: pygame.sprite.Group) -> None:
         if not self.hit_target and self.target in pygame.sprite.spritecollide(
             self, enemies_group, False
         ):
             self.target.health -= self.damage
 
             if self.explode_on_target_collision:
+                assert self.target.rect is not None
                 explosion = Explosion(
                     self.damage, self.target.rect.centerx, self.target.rect.centery
                 )
@@ -104,6 +108,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
 
             self.kill()
             return
+        
 
     def draw(self, surface: pygame.Surface) -> None:
         self.image = pygame.transform.rotate(self.original_image, self.angle)
