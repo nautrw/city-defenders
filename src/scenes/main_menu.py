@@ -27,6 +27,15 @@ class MainMenuSceneGUIManager(GUIManager):
         self.refresh()
 
     def refresh(self) -> None:
+        quit_button = Button(
+            "quit_button",
+            Config.ELEMENT_OUTER_PADDING,
+            Config.ELEMENT_OUTER_PADDING,
+            Config.BUTTON_SIZE,
+            Config.BUTTON_SIZE,
+            normal_icon=load_scaled_asset("close_icon")
+        )
+        
         title_text = Text(
             "title_text",
             "City Defenders TD",
@@ -71,6 +80,7 @@ class MainMenuSceneGUIManager(GUIManager):
             anchor=RectAnchorMode.MIDTOP
         )
 
+        self.add_element(quit_button)
         self.add_element(title_text)
         self.add_element(play_button)
         self.add_element(tower_shop_button)
@@ -83,6 +93,8 @@ class MainMenuSceneGUIManager(GUIManager):
                 self.scene.game.scene_manager.switch(MapSelectorScene(self.scene.game))
             elif event.button.id == "tower_shop_button":
                 self.scene.game.scene_manager.switch(TowerShopScene(self.scene.game))
+            elif event.button.id == "quit_button":
+                self.scene.game.save_quit()
 
 
 class MainMenuScene(Scene):

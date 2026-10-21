@@ -1,7 +1,9 @@
+from loguru import logger
+import sys
 import pygame
 
 import src.core.config as Config
-from src.core.data_saving import load_data_from_file
+from src.core.data_saving import load_data_from_file, save_data_to_file
 from src.core.scenes_manager import SceneManager
 from src.core.utils import load_asset
 from src.scenes.main_menu import MainMenuScene
@@ -33,6 +35,13 @@ class GameApp:
 
         self.scene_manager = SceneManager()
         self.scene_manager.push(MainMenuScene(self))
+    
+    def save_quit(self) -> None:
+        logger.info("quitting game")
+
+        save_data_to_file(self.player_save)
+        pygame.quit()
+        sys.exit()
 
     def run(self) -> None:
         try:
@@ -44,6 +53,7 @@ class GameApp:
                         # reminder that all exit logic is in the `finally` block
                         # near the bottom of the function
                         self.running = False
+                        self.save_quit()
 
                 if self.scene_manager.current_scene:
                     self.scene_manager.current_scene.handle_events(events)
