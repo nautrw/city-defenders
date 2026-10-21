@@ -59,9 +59,11 @@ class Enemy(pygame.sprite.Sprite):
         if effect.stackable or not effect in self.effects:
             self.effects.append(effect)
 
-    def update_effects(self, delta_time: float) -> None:
+    def update_effects(self, delta_time: float, particle_group: pygame.sprite.Group) -> None:
+        assert self.rect is not None
+        
         for effect in self.effects:
-            effect.update(delta_time)
+            effect.update(delta_time, (self.rect.left, self.rect.right), self.rect.centery, particle_group)
 
             if effect.duration_counter >= effect.duration:
                 self.effects.remove(effect)
@@ -78,7 +80,7 @@ class Enemy(pygame.sprite.Sprite):
 
         return self.velocity * cumulative_speed_multiplier
 
-    def update(self, delta_time: float, game_speed_multiplier: int) -> None:
+    def update(self, delta_time: float, game_speed_multiplier: int, particle_group: pygame.sprite.Group) -> None:
         assert self.rect is not None
 
         movement_target = pygame.Vector2(self.path_waypoints[self.waypoint_index])
@@ -87,7 +89,7 @@ class Enemy(pygame.sprite.Sprite):
 
         multiplied_dt = delta_time * game_speed_multiplier
 
-        self.update_effects(multiplied_dt)
+        self.update_effects(multiplied_dt, particle_group)
 
         if distance_to_target <= (self.movement_speed * multiplied_dt):
             self.position = movement_target

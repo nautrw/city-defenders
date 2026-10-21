@@ -65,6 +65,7 @@ class MainGameScene(Scene):
         self.towers_group = pygame.sprite.Group()
         self.projectiles_group = pygame.sprite.Group()
         self.explosions_group = pygame.sprite.Group()
+        self.particles_group = pygame.sprite.Group()
 
         self.paused = False
         self.draw_tower_radiuses = False
@@ -226,7 +227,8 @@ class MainGameScene(Scene):
                 )
                 self.game.player_save.shards += reward
 
-            self.enemies_group.update(delta_time, self.game_speed_multiplier)
+            self.particles_group.update(delta_time, self.game_speed_multiplier)
+            self.enemies_group.update(delta_time, self.game_speed_multiplier, self.particles_group)
             self.towers_group.update(
                 delta_time,
                 self.enemies_group,
@@ -326,7 +328,7 @@ class MainGameScene(Scene):
 
             if event.type == pygame.mixer.music.get_endevent():
                 self.play_next_music()
-                
+
             self.gui_manager.handle_event(event)
     
     def pause(self) -> None:
@@ -343,6 +345,9 @@ class MainGameScene(Scene):
         # than that
         for enemy in self.enemies_group:
             enemy.draw(self.game_surface)
+        
+        for particle in self.particles_group:
+            particle.draw(self.game_surface)
 
         for tower in self.towers_group:
             tower.draw(self.game_surface, self.draw_tower_radiuses)
