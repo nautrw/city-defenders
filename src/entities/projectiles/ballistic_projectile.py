@@ -97,7 +97,7 @@ class BallisticProjectile(pygame.sprite.Sprite):
             if self.explode_on_target_collision:
                 assert self.target.rect is not None
                 explosion = Explosion(
-                    self.damage, self.target.rect.centerx, self.target.rect.centery
+                    self.damage * (1/4), self.target.rect.centerx, self.target.rect.centery
                 )
                 explosions_group.add(explosion)
 

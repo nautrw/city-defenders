@@ -11,14 +11,14 @@ class FrostspireTower(Tower):
     description = (
         "Slows down enemies by making them cold. Does not damage enemies by itself."
     )
-    cost: ClassVar[tuple[int, ...]] = (145, 205, 285)
+
+    cost: ClassVar[tuple[int, ...]] = (240, 325, 430)
     damage: ClassVar[tuple[float, ...]] = (0, 0, 0)
-    shooting_speed: ClassVar[tuple[float, ...]] = (2.6, 2.1, 1.6)
-    area_radius: ClassVar[tuple[float, ...]] = (105, 135, 165)
+    shooting_speed: ClassVar[tuple[float, ...]] = (2.0, 1.55, 1.2)
+    area_radius: ClassVar[tuple[float, ...]] = (135, 165, 200)
+    shards_cost: ClassVar[int] = 240
 
     projectile: ClassVar[BallisticProjectileType] = IceShard
-
-    shards_cost: ClassVar[int] = 30
 
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [

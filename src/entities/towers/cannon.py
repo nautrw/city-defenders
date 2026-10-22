@@ -9,14 +9,14 @@ from src.entities.towers.tower import Tower
 class CannonTower(Tower):
     display_name = "Cannon"
     description = "Shoots cannon balls at turrets. Explosion does massive amounts of damage to multiple enemies."
-    cost: ClassVar[tuple[int, ...]] = (175, 240, 330)
-    damage: ClassVar[tuple[float, ...]] = (22, 35, 52)
-    shooting_speed: ClassVar[tuple[float, ...]] = (2.8, 2.3, 1.8)
-    area_radius: ClassVar[tuple[float, ...]] = (115, 140, 165)
+
+    cost: ClassVar[tuple[int, ...]] = (195, 225, 300)
+    damage: ClassVar[tuple[float, ...]] = (20, 25, 30)
+    shooting_speed: ClassVar[tuple[float, ...]] = (3.0, 2.5, 2.0)
+    area_radius: ClassVar[tuple[float, ...]] = (110, 135, 160)
+    shards_cost: ClassVar[int] = 155
 
     projectile: ClassVar[BallisticProjectileType] = CannonBall
-
-    shards_cost: ClassVar[int] = 20
 
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [

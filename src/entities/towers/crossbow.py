@@ -9,14 +9,15 @@ from src.entities.towers.tower import Tower
 class CrossbowTower(Tower):
     display_name = "Crossbow"
     description = "An automatic crossbow. Slowly shoots arrows at enemies."
-    cost: ClassVar[tuple[int, ...]] = (85, 125, 185)
-    damage: ClassVar[tuple[float, ...]] = (7, 11, 17)
-    shooting_speed: ClassVar[tuple[float, ...]] = (0.85, 0.65, 0.45)
-    area_radius: ClassVar[tuple[float, ...]] = (105, 125, 150)
+
+    cost: ClassVar[tuple[int, ...]] = (95, 145, 210)
+    damage: ClassVar[tuple[float, ...]] = (6, 9, 12)
+    shooting_speed: ClassVar[tuple[float, ...]] = (0.95, 0.72, 0.52)
+    area_radius: ClassVar[tuple[float, ...]] = (95, 115, 135)
+    shards_cost: ClassVar[int] = 0
 
     projectile: ClassVar[BallisticProjectileType] = Arrow
 
-    shards_cost: ClassVar[int] = 0
 
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [

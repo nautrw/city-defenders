@@ -281,23 +281,10 @@ class MainGameScene(Scene):
                     if self.tower_to_place:
                         new_coord = pygame.Vector2(mouse_world_coord)
                         self.tower_to_place.move_center(*new_coord)
-                        self.can_place_tower = (
-                            (
-                                not pygame.sprite.spritecollide(
-                                    self.tower_to_place, self.map.blocked_tiles, False
-                                )
-                                and not self.map.ground_on_top
-                            )
-                            or (
-                                pygame.sprite.spritecollide(
-                                    self.tower_to_place, self.map.ground_tiles, False
-                                )
-                                and self.map.ground_on_top
-                            )
-                            and not pygame.sprite.spritecollide(
-                                self.tower_to_place, self.towers_group, False
-                            )
-                        )
+                        self.can_place_tower = not pygame.sprite.spritecollide(
+                            self.tower_to_place, self.map.blocked_tiles, False
+                        ) and not pygame.sprite.spritecollide(
+                            self.tower_to_place, self.towers_group, False)
 
             if event.type == ENEMY_KILLED:
                 self.enemies_killed += 1

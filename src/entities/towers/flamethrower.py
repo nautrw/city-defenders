@@ -9,14 +9,14 @@ from src.entities.towers.tower import Tower
 class FlamethrowerTower(Tower):
     display_name = "Flamethrower"
     description = "Shoots fireballs fireballs at enemies. Causes damage to multiple enemies and makes them burn."
-    cost: ClassVar[tuple[int, ...]] = (175, 240, 330)
-    damage: ClassVar[tuple[float, ...]] = (2, 5, 7)
-    shooting_speed: ClassVar[tuple[float, ...]] = (2.8, 2.3, 1.8)
-    area_radius: ClassVar[tuple[float, ...]] = (115, 140, 165)
+
+    cost: ClassVar[tuple[int, ...]] = (350, 470, 620)
+    damage: ClassVar[tuple[float, ...]] = (5, 7, 10)
+    shooting_speed: ClassVar[tuple[float, ...]] = (2.5, 2.0, 1.6)
+    area_radius: ClassVar[tuple[float, ...]] = (135, 165, 195)
+    shards_cost: ClassVar[int] = 425
 
     projectile: ClassVar[BallisticProjectileType] = Fireball
-
-    shards_cost: ClassVar[int] = 20
 
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [

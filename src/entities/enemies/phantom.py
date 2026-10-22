@@ -17,8 +17,8 @@ class Phantom(Enemy):
 
         super().__init__(
             animation=animation,
-            movement_speed=58,
-            max_health=24,
+            movement_speed=82,
+            max_health=45,
             path_waypoints=path_waypoints,
-            coins_drop=17,
+            coins_drop=30,
         )

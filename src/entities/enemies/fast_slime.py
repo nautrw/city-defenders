@@ -8,9 +8,9 @@ class FastSlime(Enemy):
 
         super().__init__(
             animation=animation,
-            movement_speed=105,
+            movement_speed=100,
             animation_duration=0.15,
-            max_health=12,
+            max_health=25,
             path_waypoints=path_waypoints,
-            coins_drop=16,
+            coins_drop=24,
         )

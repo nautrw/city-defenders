@@ -9,14 +9,15 @@ from src.entities.towers.tower import Tower
 class BallistaTower(Tower):
     display_name = "Ballista"
     description = "Shoots bolts at a slow rate but with great force."
-    cost: ClassVar[tuple[int, ...]] = (135, 185, 260)
-    damage: ClassVar[tuple[float, ...]] = (24, 38, 58)
-    shooting_speed: ClassVar[tuple[float, ...]] = (2.0, 1.65, 1.3)
-    area_radius: ClassVar[tuple[float, ...]] = (150, 175, 205)
+
+    cost: ClassVar[tuple[int, ...]] = (130, 160, 200)
+    damage: ClassVar[tuple[float, ...]] = (24, 38, 54)
+    shooting_speed: ClassVar[tuple[float, ...]] = (2.2, 1.8, 1.45)
+    area_radius: ClassVar[tuple[float, ...]] = (135, 160, 185)
 
     projectile: ClassVar[BallisticProjectileType] = Bolt
 
-    shards_cost: ClassVar[int] = 10
+    shards_cost: ClassVar[int] = 75
 
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [

@@ -10,11 +10,11 @@ class ArmoredCrab(Enemy):
 
         super().__init__(
             animation=animation,
-            movement_speed=17,
+            movement_speed=20,
             animation_duration=0.25,
-            max_health=210,
+            max_health=340,
             path_waypoints=path_waypoints,
-            coins_drop=110,
+            coins_drop=105,
         )
 
         self.health_bar = HealthBar(

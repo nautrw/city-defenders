@@ -11,14 +11,14 @@ class VenomShooterTower(Tower):
     description = (
         "Shoots drops of venom at enemies, poisoning them and damaging them over time."
     )
-    cost: ClassVar[tuple[int, ...]] = (155, 215, 295)
-    damage: ClassVar[tuple[float, ...]] = (1.5, 2.5, 4)
-    shooting_speed: ClassVar[tuple[float, ...]] = (2.4, 1.9, 1.5)
-    area_radius: ClassVar[tuple[float, ...]] = (115, 145, 175)
+
+    cost: ClassVar[tuple[int, ...]] = (290, 390, 510)
+    damage: ClassVar[tuple[float, ...]] = (4, 6, 8)
+    shooting_speed: ClassVar[tuple[float, ...]] = (1.9, 1.5, 1.2)
+    area_radius: ClassVar[tuple[float, ...]] = (130, 160, 190)
+    shards_cost: ClassVar[int] = 330
 
     projectile: ClassVar[BallisticProjectileType] = VenomSpit
-
-    shards_cost: ClassVar[int] = 40
 
     def __init__(self, x_position: int, y_position: int) -> None:
         images = [
