@@ -18,12 +18,12 @@ MAPS_DATA = {
     "magic_forest": MapData(
         display_name="Magic Forest",
         waves=[
-            ("slime", "slime", "slime"),
-            ("slime", "ghost", "slime", "fast_slime"),
-            ("slime", "fast_slime", "ghost", "crab", "slime"),
-            ("fast_slime", "fast_slime", "ghost", "crab", "slime", "ghost"),
-            ("slime", "fast_slime", "fast_slime", "ghost", "crab", "crab"),
-            ("fast_slime", "fast_slime", "ghost", "ghost", "crab", "phantom"),
+            ("slime", "slime", ),
+            ("slime", "slime", "slime", "slime"),
+            ("slime", "fast_slime", "ghost"),
+            ("fast_slime", "ghost", "slime", "ghost"),
+            ("slime", "fast_slime", "fast_slime", "ghost", "crab"),
+            ("fast_slime", "fast_slime", "ghost", "crab", "crab", "phantom"),
             ("slime", "fast_slime", "ghost", "crab", "crab", "phantom", "tank_slime"),
             ("fast_slime", "fast_slime", "ghost", "ghost", "crab", "tank_slime", "phantom"),
             (
@@ -31,7 +31,7 @@ MAPS_DATA = {
                 "crab", "crab", "tank_slime", "phantom", "armored_crab",
             ),
         ],
-        initial_coins=260,
+        initial_coins=200,
         shards_reward=75,
         health=25,
         music=ALL_MAP_MUSIC,
@@ -59,8 +59,8 @@ MAPS_DATA = {
                 "crab", "phantom", "tank_slime", "armored_crab",
             ),
         ],
-        initial_coins=280,
-        shards_reward=80,
+        initial_coins=250,
+        shards_reward=150,
         health=30,
         music=ALL_MAP_MUSIC,
     ),
@@ -69,24 +69,23 @@ MAPS_DATA = {
         display_name="Molten Lands",
         waves=[
             ("slime", "fast_slime", "fast_slime", "ghost", "crab"),
-            ("fast_slime", "fast_slime", "ghost", "ghost", "crab", "phantom"),
-            ("fast_slime", "fast_slime", "ghost", "crab", "crab", "phantom", "tank_slime"),
+            ("fast_slime", "fast_slime", "ghost", "ghost", "crab", ),
+            ("fast_slime", "fast_slime", "ghost", "crab", "crab", "tank_slime"),
             (
                 "fast_slime", "fast_slime", "ghost", "ghost",
-                "crab", "crab", "phantom", "tank_slime",
+                "crab", "crab", "ghost", "ghost"
             ),
             (
                 "fast_slime", "fast_slime", "fast_slime", "ghost",
-                "ghost", "crab", "phantom", "tank_slime", "armored_crab",
+                "ghost", "crab", "phantom", "phantom", "ghost",
             ),
             (
                 "fast_slime", "fast_slime", "ghost", "ghost",
-                "crab", "crab", "phantom", "tank_slime", "tank_slime",
+                "crab", "crab", "phantom", "tank_slime", 
             ),
             (
                 "fast_slime", "fast_slime", "fast_slime", "ghost",
-                "ghost", "crab", "crab", "phantom", "tank_slime",
-                "armored_crab",
+                "ghost", "crab", "crab", "phantom", "tank_slime"
             ),
             (
                 "fast_slime", "fast_slime", "ghost", "ghost",
@@ -122,7 +121,7 @@ MAPS_DATA = {
             ),
             (
                 "fast_slime", "fast_slime", "fast_slime", "ghost",
-                "ghost", "crab", "crab", "phantom", "tank_slime",
+                "ghost", "crab", "crab", "phantom", "",
             ),
             (
                 "fast_slime", "fast_slime", "ghost", "ghost",

@@ -14,7 +14,7 @@ class TankSlime(Enemy):
             animation_duration=0.25,
             max_health=300,
             path_waypoints=path_waypoints,
-            coins_drop=115,
+            coins_drop=65,
         )
 
         self.health_bar = HealthBar(

@@ -11,8 +11,8 @@ class CrossbowTower(Tower):
     description = "An automatic crossbow. Slowly shoots arrows at enemies."
 
     cost: ClassVar[tuple[int, ...]] = (95, 145, 210)
-    damage: ClassVar[tuple[float, ...]] = (6, 9, 12)
-    shooting_speed: ClassVar[tuple[float, ...]] = (0.95, 0.72, 0.52)
+    damage: ClassVar[tuple[float, ...]] = (6, 9, 10)
+    shooting_speed: ClassVar[tuple[float, ...]] = (0.95, 0.80, 0.75)
     area_radius: ClassVar[tuple[float, ...]] = (95, 115, 135)
     shards_cost: ClassVar[int] = 0
 

@@ -11,5 +11,5 @@ class Slime(Enemy):
             movement_speed=48,
             max_health=20,
             path_waypoints=path_waypoints,
-            coins_drop=18,
+            coins_drop=15,
         )

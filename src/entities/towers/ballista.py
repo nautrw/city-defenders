@@ -10,8 +10,8 @@ class BallistaTower(Tower):
     display_name = "Ballista"
     description = "Shoots bolts at a slow rate but with great force."
 
-    cost: ClassVar[tuple[int, ...]] = (130, 160, 200)
-    damage: ClassVar[tuple[float, ...]] = (24, 38, 54)
+    cost: ClassVar[tuple[int, ...]] = (150, 175, 250)
+    damage: ClassVar[tuple[float, ...]] = (18, 22, 26)
     shooting_speed: ClassVar[tuple[float, ...]] = (2.2, 1.8, 1.45)
     area_radius: ClassVar[tuple[float, ...]] = (135, 160, 185)
 

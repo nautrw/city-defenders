@@ -20,5 +20,5 @@ class Ghost(Enemy):
             movement_speed=65,
             max_health=30,
             path_waypoints=path_waypoints,
-            coins_drop=28,
+            coins_drop=20,
         )

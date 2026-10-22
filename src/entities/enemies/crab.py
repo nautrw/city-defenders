@@ -11,5 +11,5 @@ class Crab(Enemy):
             movement_speed=36,
             max_health=35,
             path_waypoints=path_waypoints,
-            coins_drop=32,
+            coins_drop=24,
         )
