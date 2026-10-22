@@ -65,4 +65,4 @@ SOUNDS_PATH: Path = Path("src", "assets", "sounds")
 
 DEFAULT_SOUND_FADEIN_MS: int = 5000
 
-PARTICLE_SPAWN_INTERVAL: float = .25
+PARTICLE_SPAWN_INTERVAL: float = .2

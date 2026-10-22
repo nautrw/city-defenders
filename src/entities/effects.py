@@ -1,5 +1,5 @@
 import random
-from src.core.utils import load_asset
+from src.core.utils import load_asset, load_scaled_asset
 from src.entities.particle import Particle
 import src.core.config as Config
 import pygame
@@ -60,7 +60,7 @@ class FrozenEffect(EnemyEffect):
     ) -> None:
         super().__init__(
             duration=duration,
-            particle_img=load_asset("frozen_effect"),
+            particle_img=load_scaled_asset("frozen_effect", (8, 8)),
             stackable=self.stackable,
             speed_multiplier=speed_multiplier,
             overlay_color=self.overlay_color,
@@ -75,7 +75,7 @@ class PoisonedEffect(EnemyEffect):
     def __init__(self, duration: float = 3, damage_over_time: float = 0.1) -> None:
         super().__init__(
             duration=duration,
-            particle_img=load_asset("poisoned_effect"),
+            particle_img=load_scaled_asset("poisoned_effect", (8, 8)),
             stackable=self.stackable,
             damage_over_time=damage_over_time,
             overlay_color=self.overlay_color,
@@ -91,7 +91,7 @@ class BurningEffect(EnemyEffect):
     def __init__(self, duration: float = duration, damage_over_time: float = 1) -> None:
         super().__init__(
             duration=duration,
-            particle_img=load_asset("burning_effect"),
+            particle_img=load_scaled_asset("burning_effect", (8, 8)),
             stackable=self.stackable,
             damage_over_time=damage_over_time,
             overlay_color=self.overlay_color,
