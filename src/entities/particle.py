@@ -35,4 +35,6 @@ class Particle(pygame.sprite.Sprite):
         assert self.image is not None
         assert self.rect is not None
         
+        alpha = int(255 * (1 - self.age / self.lifetime))
+        self.image.set_alpha(alpha)
         surface.blit(self.image, self.rect)
