@@ -11,10 +11,10 @@ class CannonTower(Tower):
     description = "Shoots cannon balls at turrets. Explosion does massive amounts of damage to multiple enemies."
 
     cost: ClassVar[tuple[int, ...]] = (195, 225, 300)
-    damage: ClassVar[tuple[float, ...]] = (20, 25, 30)
+    damage: ClassVar[tuple[float, ...]] = (22, 26, 30)
     shooting_speed: ClassVar[tuple[float, ...]] = (3.0, 2.5, 2.0)
     area_radius: ClassVar[tuple[float, ...]] = (110, 135, 160)
-    shards_cost: ClassVar[int] = 155
+    shards_cost: ClassVar[int] = 150
 
     projectile: ClassVar[BallisticProjectileType] = CannonBall
 

@@ -68,9 +68,9 @@ MAPS_DATA = {
     "molten_lands": MapData(
         display_name="Molten Lands",
         waves=[
-            ("slime", "fast_slime", "fast_slime", "ghost", "crab"),
-            ("fast_slime", "fast_slime", "ghost", "ghost", "crab", ),
-            ("fast_slime", "fast_slime", "ghost", "crab", "crab", "tank_slime"),
+            ("slime", "fast_slime", "ghost"),
+            ("slime", "fast_slime", "ghost", "crab", ),
+            ("fast_slime", "fast_slime", "ghost", "crab", "crab" ),
             (
                 "fast_slime", "fast_slime", "ghost", "ghost",
                 "crab", "crab", "ghost", "ghost"
@@ -81,15 +81,15 @@ MAPS_DATA = {
             ),
             (
                 "fast_slime", "fast_slime", "ghost", "ghost",
-                "crab", "crab", "phantom", "tank_slime", 
+                "crab", "crab", "phantom",
             ),
             (
                 "fast_slime", "fast_slime", "fast_slime", "ghost",
-                "ghost", "crab", "crab", "phantom", "tank_slime"
+                "ghost", "crab", "crab", "phantom",
             ),
             (
                 "fast_slime", "fast_slime", "ghost", "ghost",
-                "ghost", "crab", "crab", "phantom", "tank_slime",
+                "ghost", "crab", "crab", "phantom",
                 "tank_slime", "armored_crab",
             ),
             (
@@ -105,7 +105,7 @@ MAPS_DATA = {
             ),
         ],
         initial_coins=310,
-        shards_reward=85,
+        shards_reward=240,
         health=40,
         music=ALL_MAP_MUSIC,
     ),
@@ -113,20 +113,19 @@ MAPS_DATA = {
     "archipelago": MapData(
         display_name="Archipelago",
         waves=[
-            ("slime", "fast_slime", "fast_slime", "ghost", "crab"),
-            ("fast_slime", "fast_slime", "ghost", "ghost", "crab", "phantom"),
+            ("slime", "slime", "fast_slime"),
+            ("fast_slime", "fast_slime", "ghost", "ghost"),
             (
-                "fast_slime", "fast_slime", "ghost", "ghost",
-                "crab", "crab", "phantom", "tank_slime",
+                "slime", "slime", "fast_slime", "ghost",
+                "crab", "crab",
             ),
             (
-                "fast_slime", "fast_slime", "fast_slime", "ghost",
-                "ghost", "crab", "crab", "phantom", "",
+                "slime", "slime", "fast_slime", "fast_slime",
+                "ghost", "crab", "ghost"
             ),
             (
-                "fast_slime", "fast_slime", "ghost", "ghost",
-                "crab", "crab", "phantom", "tank_slime",
-                "armored_crab",
+                "slime", "fast_slime", "ghost", "ghost",
+                "crab", "crab", "phantom"
             ),
             (
                 "fast_slime", "fast_slime", "fast_slime", "ghost",
@@ -135,7 +134,7 @@ MAPS_DATA = {
             ),
             (
                 "fast_slime", "fast_slime", "fast_slime", "ghost",
-                "ghost", "ghost", "crab", "crab", "phantom",
+                "ghost", "crab", "crab", "phantom",
                 "tank_slime", "armored_crab",
             ),
             (
@@ -146,14 +145,13 @@ MAPS_DATA = {
             (
                 "fast_slime", "fast_slime", "fast_slime", "ghost",
                 "ghost", "ghost", "crab", "crab", "phantom",
-                "phantom", "tank_slime", "tank_slime",
-                "armored_crab", "armored_crab",
+                "phantom", "tank_slime", "armored_crab", "armored_crab",
             ),
             (
                 "fast_slime", "fast_slime", "fast_slime", "fast_slime",
                 "ghost", "ghost", "ghost", "crab", "crab",
                 "phantom", "phantom", "tank_slime", "tank_slime",
-                "armored_crab", "armored_crab", "armored_crab",
+                "armored_crab", "armored_crab",
             ),
         ],
         initial_coins=300,
