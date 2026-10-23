@@ -65,8 +65,8 @@ MAPS_DATA = {
         music=ALL_MAP_MUSIC,
     ),
 
-    "molten_lands": MapData(
-        display_name="Molten Lands",
+    "gate_to_the_volcano": MapData(
+        display_name="Gate to the Volcano",
         waves=[
             ("slime", "fast_slime", "ghost"),
             ("slime", "fast_slime", "ghost", "crab", ),
