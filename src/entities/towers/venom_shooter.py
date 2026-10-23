@@ -12,9 +12,9 @@ class VenomShooterTower(Tower):
         "Shoots drops of venom at enemies, poisoning them and damaging them over time."
     )
 
-    cost: ClassVar[tuple[int, ...]] = (290, 390, 510)
-    damage: ClassVar[tuple[float, ...]] = (4, 6, 8)
-    shooting_speed: ClassVar[tuple[float, ...]] = (1.9, 1.5, 1.2)
+    cost: ClassVar[tuple[int, ...]] = (250, 300, 350)
+    damage: ClassVar[tuple[float, ...]] = (2, 3, 4)
+    shooting_speed: ClassVar[tuple[float, ...]] = (3, 2.5, 2.0)
     area_radius: ClassVar[tuple[float, ...]] = (130, 160, 190)
     shards_cost: ClassVar[int] = 330
 
