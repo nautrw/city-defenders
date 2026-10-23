@@ -166,6 +166,6 @@ MAPS_DATA = {
 MAP_PROGRESSION = [
     "magic_forest",
     "frontier",
-    "molten_lands",
+    "gate_to_the_volcano",
     "archipelago",
 ]
