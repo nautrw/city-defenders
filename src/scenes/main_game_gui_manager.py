@@ -34,9 +34,6 @@ class UIStates(Enum):
 
 class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
     def __init__(self, scene: "MainGameScene") -> None:
-        self.scene = scene
-        self.elements = []
-        
         self.state = UIStates.COLLAPSED
 
         self.selected_tower_to_buy: type[Tower] | None = None
@@ -50,7 +47,7 @@ class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
             (3, "3x"),
         ]
 
-        self.refresh()
+        super().__init__(scene)
 
     def switch_state(self, new_state: Enum):
         logger.debug(

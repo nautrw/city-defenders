@@ -23,12 +23,9 @@ class PauseMenuGUIManagerState(Enum):
 
 class PauseMenuGUIManager(GUIManager):
     def __init__(self, scene: "PauseMenuScene") -> None:
-        super().__init__(scene)
-
-        self.scene: PauseMenuScene
         self.state = PauseMenuGUIManagerState.NORMAL
 
-        self.refresh()
+        super().__init__(scene)
 
     def refresh(self) -> None:
         self.elements = []

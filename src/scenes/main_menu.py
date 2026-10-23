@@ -29,11 +29,9 @@ class MainMenuSceneGUIState(Enum):
 
 class MainMenuSceneGUIManager(GUIManager):
     def __init__(self, scene: "MainMenuScene") -> None:
-        self.scene = scene
-        self.elements = []
         self.state = MainMenuSceneGUIState.NORMAL
 
-        self.refresh()
+        super().__init__(scene)
 
     def refresh(self) -> None:
         self.elements = []
