@@ -17,7 +17,7 @@ class Ghost(Enemy):
 
         super().__init__(
             animation=animation,
-            movement_speed=65,
+            movement_speed=60,
             max_health=30,
             path_waypoints=path_waypoints,
             coins_drop=20,
