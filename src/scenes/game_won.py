@@ -18,11 +18,6 @@ if TYPE_CHECKING:
 
 
 class GameVictorySceneGUIManager(GUIManager["GameWonScene"]):
-    def __init__(self, scene: "GameWonScene"):
-        super().__init__(scene)
-
-        self.refresh()
-
     def refresh(self) -> None:
         self.elements = []
 

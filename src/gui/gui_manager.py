@@ -28,6 +28,7 @@ class GUIManager(ABC, Generic[SceneT]):
     def __init__(self, scene: SceneT) -> None:
         self.scene = scene
         self.elements: list[Element] = []
+        self.refresh()
 
     @abstractmethod
     def refresh(self) -> None: ...

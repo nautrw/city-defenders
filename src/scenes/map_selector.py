@@ -23,14 +23,6 @@ if TYPE_CHECKING:
 
 
 class MapSelectorSceneGUIManager(GUIManager):
-    def __init__(self, scene: "MapSelectorScene") -> None:
-
-        super().__init__(scene)
-
-        self.scene: MapSelectorScene
-
-        self.refresh()
-
     def refresh(self) -> None:
         self.elements = []
 

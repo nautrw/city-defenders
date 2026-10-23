@@ -18,11 +18,6 @@ if TYPE_CHECKING:
 
 
 class GameDefeatSceneGUIManager(GUIManager["GameLostScene"]):
-    def __init__(self, scene: "GameLostScene"):
-        super().__init__(scene)
-
-        self.refresh()
-
     def refresh(self) -> None:
         self.elements = []
 

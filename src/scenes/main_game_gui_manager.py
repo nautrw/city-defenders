@@ -34,9 +34,9 @@ class UIStates(Enum):
 
 class MainGameSceneGUIManager(GUIManager["MainGameScene"]):
     def __init__(self, scene: "MainGameScene") -> None:
-
-        super().__init__(scene)
-
+        self.scene = scene
+        self.elements = []
+        
         self.state = UIStates.COLLAPSED
 
         self.selected_tower_to_buy: type[Tower] | None = None
