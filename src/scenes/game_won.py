@@ -85,12 +85,22 @@ class GameVictorySceneGUIManager(GUIManager["GameWonScene"]):
             ),
             anchor=RectAnchorMode.MIDTOP
         )
+        tower_shop_direction_text = Text(
+            "tower_shop_direction_text",
+            "You should check the tower shop for a new tower...",
+            Config.SCREEN_WIDTH / 2,
+            tower_shop_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            Config.FONT_SIZE_LARGE,
+            anchor=RectAnchorMode.MIDTOP,
+            fg_color=Config.BRIGHT_GREEN
+        )
 
         self.add_element(victory_plaque)
         victory_plaque.add_element(victory_text)
         victory_plaque.add_element(shards_reward)
         self.add_element(play_again_button)
         self.add_element(tower_shop_button)
+        self.add_element(tower_shop_direction_text)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
