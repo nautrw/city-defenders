@@ -1,3 +1,4 @@
+from src.scenes.tower_shop import TowerShopScene
 from typing import TYPE_CHECKING
 
 import pygame
@@ -68,10 +69,28 @@ class GameVictorySceneGUIManager(GUIManager["GameWonScene"]):
             anchor=RectAnchorMode.MIDTOP,
         )
 
+        tower_shop_button = Button(
+            "tower_shop_button",
+            Config.SCREEN_WIDTH / 2,
+            play_again_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+            button_width,
+            Config.BUTTON_SIZE,
+            text=Text(
+                "tower_shop_button_text",
+                "Tower Shop",
+                button_width / 2,
+                Config.BUTTON_SIZE / 2,
+                size=Config.FONT_SIZE_LARGE,
+                anchor=RectAnchorMode.CENTER
+            ),
+            anchor=RectAnchorMode.MIDTOP
+        )
+
         self.add_element(victory_plaque)
         victory_plaque.add_element(victory_text)
         victory_plaque.add_element(shards_reward)
         self.add_element(play_again_button)
+        self.add_element(tower_shop_button)
 
     def handle_event(self, event: pygame.Event) -> None:
         if event.type == CUSTOM_BUTTON_CLICKED:
@@ -84,6 +103,9 @@ class GameVictorySceneGUIManager(GUIManager["GameWonScene"]):
                 # stack is [maingame, gamewonscene] before emptying
                 self.scene.game.scene_manager.empty_stack()
                 self.scene.game.scene_manager.push(MapSelectorScene(self.scene.game))
+            elif event.button.id == "tower_shop_button":
+                self.scene.game.scene_manager.empty_stack()
+                self.scene.game.scene_manager.push(TowerShopScene(self.scene.game))
 
 
 class GameWonScene(Scene):
