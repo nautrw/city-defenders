@@ -10,7 +10,7 @@ class FlamethrowerTower(Tower):
     display_name = "Flamethrower"
     description = "Shoots fireballs fireballs at enemies. Causes damage to multiple enemies and makes them burn."
 
-    cost: ClassVar[tuple[int, ...]] = (350, 470, 620)
+    cost: ClassVar[tuple[int, ...]] = (350, 300, 350)
     damage: ClassVar[tuple[float, ...]] = (3, 4, 6)
     shooting_speed: ClassVar[tuple[float, ...]] = (2.5, 2.0, 1.6)
     area_radius: ClassVar[tuple[float, ...]] = (135, 165, 195)
