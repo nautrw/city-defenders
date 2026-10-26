@@ -185,7 +185,7 @@ MAPS_DATA = {
             ),
         ],
         initial_coins=310,
-        shards_reward=240,
+        shards_reward=330,
         health=35,
         music=ALL_MAP_MUSIC,
     ),
@@ -335,8 +335,7 @@ MAPS_DATA = {
                 "tank_slime",
                 "armored_crab",
                 "lava_slime",
-            ),
-            (
+            ), (
                 "ghost",
                 "phantom",
                 "phantom",
