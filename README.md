@@ -1,5 +1,13 @@
 # City Defenders TD
-Tower defense game about defending medieval cities using towers.
+  Fantasy medieval themed tower defense game.
+
+# Features
+- 7 individual towers, with 2 upgrades each, to fight enemies with
+- 7 maps to move around (drag right click), place towers, and fight enemies on
+- 9 enemies with varying stats to fight
+- Progression of maps and towers (tower shop)
+- ~82 custom pixel art sprites drawn by me
+- Fully custom GUI system made from scratch in pure Pygame
 
 # Credits
 - [Oleaguid font](https://opengameart.org/content/oleaguid-font) by [arynoc](https://opengameart.org/users/arynoc)
