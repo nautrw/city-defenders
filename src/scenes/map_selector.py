@@ -12,6 +12,7 @@ from src.core.utils import (
 )
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
 from src.gui.gui_manager import GUIManager
+from src.gui.gui_utils import build_stat_display
 from src.gui.icon import Icon
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
@@ -60,11 +61,21 @@ class MapSelectorSceneGUIManager(GUIManager):
             anchor=RectAnchorMode.MIDBOTTOM,
         )
 
+        shards_reward = build_stat_display(
+            "shards_reward_container",
+            f"+{map_data.shards_reward}",
+            Config.SCREEN_WIDTH / 2,
+            waves_number.rect.top + Config.ELEMENT_OUTER_PADDING,
+            icon_name="shard_icon",
+            anchor=RectAnchorMode.MIDBOTTOM,
+            text_size=Config.FONT_SIZE_XLARGE,
+        )
+
         map_name_text = Text(
             "map_name",
             map_data.display_name,
             Config.SCREEN_WIDTH / 2,
-            waves_number.rect.top - (padding / 2),
+            shards_reward.rect.top - Config.ELEMENT_OUTER_PADDING,
             size=Config.FONT_SIZE_XXXLARGE,
             anchor=RectAnchorMode.MIDBOTTOM,
         )
@@ -147,6 +158,7 @@ class MapSelectorSceneGUIManager(GUIManager):
         self.add_element(close_icon)
         self.add_element(map_name_text)
         self.add_element(waves_number)
+        self.add_element(shards_reward)
         self.add_element(map_icon)
         self.add_element(go_right_button)
         self.add_element(go_left_button)
