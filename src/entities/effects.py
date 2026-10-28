@@ -1,9 +1,11 @@
 import random
-from src.core.utils import load_asset, load_scaled_asset
-from src.entities.particle import Particle
-import src.core.config as Config
+
 import pygame
 from pygame.typing import ColorLike
+
+import src.core.config as Config
+from src.core.utils import load_scaled_asset
+from src.entities.particle import Particle
 
 
 class EnemyEffect:

@@ -1,22 +1,22 @@
-from src.scenes.instructions import InstructionsScene
-from src.scenes.credits import CreditsScene
-from src.core.data_saving import reset_data, load_data_from_file
-from src.gui.container import ElementContainer
-from enum import Enum, auto
 import random
+from enum import Enum, auto
 from typing import TYPE_CHECKING
 
 import pygame
 from loguru import logger
 
 import src.core.config as Config
+from src.core.data_saving import load_data_from_file, reset_data
 from src.core.scenes_manager import Scene
 from src.core.utils import get_sound, load_asset, load_scaled_asset
 from src.gui.button import CUSTOM_BUTTON_CLICKED, Button
+from src.gui.container import ElementContainer
 from src.gui.gui_manager import GUIManager
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
 from src.maps.data import ALL_MAP_MUSIC
+from src.scenes.credits import CreditsScene
+from src.scenes.instructions import InstructionsScene
 from src.scenes.map_selector import MapSelectorScene
 from src.scenes.tower_shop import TowerShopScene
 

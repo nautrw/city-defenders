@@ -216,7 +216,7 @@ class PauseMenuGUIManager(GUIManager):
                     self.scene.unpause()
 
                     if self.scene.game.scene_manager.current_scene:
-                        self.scene.game.scene_manager.current_scene.restart()  # ty:ignore[unresolved-attribute]
+                        self.scene.game.scene_manager.current_scene.restart()
                 elif event.button.id == "main_menu_button":
                     # prevents circular import
                     from src.scenes.main_menu import MainMenuScene

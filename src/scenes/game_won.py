@@ -1,4 +1,3 @@
-from src.scenes.tower_shop import TowerShopScene
 from typing import TYPE_CHECKING
 
 import pygame
@@ -13,6 +12,7 @@ from src.gui.gui_manager import GUIManager
 from src.gui.gui_utils import build_stat_display
 from src.gui.placement_system import RectAnchorMode
 from src.gui.text import Text
+from src.scenes.tower_shop import TowerShopScene
 
 if TYPE_CHECKING:
     from src.app import GameApp
