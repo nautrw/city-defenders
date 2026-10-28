@@ -12,7 +12,11 @@ https://github.com/user-attachments/assets/c554c462-f5d6-4dd8-a799-03a6dd1d51c3
 - Fully custom GUI system made from scratch in pure Pygame
 
 # Installation
-# Build From Scratch
+## Releases (Recommended)
+Head over to the [releases page](https://github.com/nautrw/city-defenders/releases/latest) and download the file for your operating system:
+- Windows: `CityDefendersTD_windows.exe` (A Windows Defenders warning may pop up)
+- Linux: `CityDefendersTD_linux` (You may have to make it executable using `chmod` to run the file)
+## Build From Scratch
 **Minimum Python Version: `v3.8`**
 
 1. Clone the GitHub repository onto your system
