@@ -1,3 +1,4 @@
+from src.scenes.instructions import InstructionsScene
 from src.scenes.credits import CreditsScene
 from src.core.data_saving import reset_data, load_data_from_file
 from src.gui.container import ElementContainer
@@ -107,6 +108,22 @@ class MainMenuSceneGUIManager(GUIManager):
                 )
             )
 
+            instructions_button = Button(
+                "instructions_button",
+                Config.SCREEN_WIDTH / 2,
+                credits_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                Config.BUTTON_SIZE * 3,
+                Config.BUTTON_SIZE,
+                anchor=RectAnchorMode.MIDTOP,
+                text=Text(
+                    "instructions_button_text",
+                    "Instructions",
+                    Config.BUTTON_SIZE * (3/2),
+                    Config.BUTTON_SIZE / 2,
+                    anchor=RectAnchorMode.CENTER
+                )
+            )
+
             erase_data_button = Button(
                 "erase_data_button",
                 Config.ELEMENT_OUTER_PADDING,
@@ -129,6 +146,7 @@ class MainMenuSceneGUIManager(GUIManager):
             self.add_element(play_button)
             self.add_element(tower_shop_button)
             self.add_element(credits_button)
+            self.add_element(instructions_button)
             self.add_element(erase_data_button)
         elif self.state == MainMenuSceneGUIState.CONFIRM_ERASE_DATA:
             container_width = 650
@@ -216,6 +234,8 @@ class MainMenuSceneGUIManager(GUIManager):
                     self.scene.game.scene_manager.switch(TowerShopScene(self.scene.game))
                 elif event.button.id == "credits_button":
                     self.scene.game.scene_manager.switch(CreditsScene(self.scene.game))
+                elif event.button.id == "instructions_button":
+                    self.scene.game.scene_manager.switch(InstructionsScene(self.scene.game))
                 elif event.button.id == "quit_button":
                     self.scene.game.save_quit()
                 elif event.button.id == "erase_data_button":
