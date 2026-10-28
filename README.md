@@ -1,5 +1,7 @@
 # City Defenders TD
-  Fantasy medieval themed tower defense game.
+Fantasy medieval-themed tower defense game made entirely in Pygame-Ce.
+
+https://github.com/user-attachments/assets/c554c462-f5d6-4dd8-a799-03a6dd1d51c3
 
 # Features
 - 7 individual towers, with 2 upgrades each, to fight enemies with
