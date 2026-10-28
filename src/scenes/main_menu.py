@@ -1,3 +1,4 @@
+from src.scenes.credits import CreditsScene
 from src.core.data_saving import reset_data, load_data_from_file
 from src.gui.container import ElementContainer
 from enum import Enum, auto
@@ -90,6 +91,22 @@ class MainMenuSceneGUIManager(GUIManager):
                 anchor=RectAnchorMode.MIDTOP,
             )
 
+            credits_button = Button(
+                "credits_button",
+                Config.SCREEN_WIDTH / 2,
+                tower_shop_button.rect.bottom + Config.ELEMENT_OUTER_PADDING,
+                Config.BUTTON_SIZE * 2,
+                Config.BUTTON_SIZE,
+                anchor=RectAnchorMode.MIDTOP,
+                text=Text(
+                    "credits_button_text",
+                    "Credits",
+                    Config.BUTTON_SIZE,
+                    Config.BUTTON_SIZE / 2,
+                    anchor=RectAnchorMode.CENTER
+                )
+            )
+
             erase_data_button = Button(
                 "erase_data_button",
                 Config.ELEMENT_OUTER_PADDING,
@@ -110,8 +127,9 @@ class MainMenuSceneGUIManager(GUIManager):
             self.add_element(quit_button)
             self.add_element(title_text)
             self.add_element(play_button)
-            self.add_element(erase_data_button)
             self.add_element(tower_shop_button)
+            self.add_element(credits_button)
+            self.add_element(erase_data_button)
         elif self.state == MainMenuSceneGUIState.CONFIRM_ERASE_DATA:
             container_width = 650
             container_height = 150
@@ -196,6 +214,8 @@ class MainMenuSceneGUIManager(GUIManager):
                     self.scene.game.scene_manager.switch(MapSelectorScene(self.scene.game))
                 elif event.button.id == "tower_shop_button":
                     self.scene.game.scene_manager.switch(TowerShopScene(self.scene.game))
+                elif event.button.id == "credits_button":
+                    self.scene.game.scene_manager.switch(CreditsScene(self.scene.game))
                 elif event.button.id == "quit_button":
                     self.scene.game.save_quit()
                 elif event.button.id == "erase_data_button":

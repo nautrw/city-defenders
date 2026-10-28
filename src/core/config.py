@@ -46,6 +46,7 @@ TEXT_COLOR_NORMAL: ColorLike = "white"
 
 FONT_NORMAL: str = "Oleaguid"
 FONT_SIZE_SMALL: int = 24
+FONT_SIZE_SMALL: int = 24
 FONT_SIZE_MEDIUM: int = 36
 FONT_SIZE_LARGE: int = 48
 FONT_SIZE_XLARGE: int = 60
