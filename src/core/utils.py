@@ -1,5 +1,7 @@
 import json
 import math
+import os
+import sys
 from pathlib import Path
 from typing import TypedDict
 
@@ -7,21 +9,27 @@ import pygame
 
 import src.core.config as Config
 
+
+def resource(relative_path: str) -> str:
+    base_path = Path(getattr(sys, "_MEIPASS", Path(__file__).resolve().parent.parent))
+    return str(base_path / relative_path)
+
+
 SPRITES_DICT = {
-    file.name.replace(".png", ""): file
-    for file in list(Config.ASSET_PATH.rglob("*.png"))
+    file.name.removesuffix(".png"): file
+    for file in Path(resource("assets")).rglob("*.png")
 }
 MAPS_DICT = {
-    file.name.replace(".json", ""): file
-    for file in list(Config.MAPS_PATH.rglob("*.json"))
+    file.name.removesuffix(".json"): file
+    for file in Path(resource("maps")).rglob("*.json")
 }
 FONTS_DICT = {
-    file.name.replace(".ttf", ""): file
-    for file in list(Config.FONTS_PATH.rglob("*.ttf"))
+    file.name.removesuffix(".ttf"): file
+    for file in Path(resource("assets/fonts")).rglob("*.ttf")
 }
 SOUNDS_DICT = {
-    file.name.replace(".mp3", ""): file
-    for file in list(Config.SOUNDS_PATH.rglob("*.mp3"))
+    file.name.removesuffix(".mp3"): file
+    for file in Path(resource("assets/sounds")).rglob("*.mp3")
 }
 
 
