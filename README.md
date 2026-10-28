@@ -11,6 +11,48 @@ https://github.com/user-attachments/assets/c554c462-f5d6-4dd8-a799-03a6dd1d51c3
 - ~82 custom pixel art sprites drawn by me
 - Fully custom GUI system made from scratch in pure Pygame
 
+# Installation
+# Build From Scratch
+**Minimum Python Version: `v3.8`**
+
+1. Clone the GitHub repository onto your system
+2. Open a shell inside the folder of the cloned repository
+3. Copy and run the following commands:
+- On Linux:
+```sh
+python -m venv .venv && \
+source .venv/bin/activate && \
+python -m pip install -r requirements.txt && \
+python -m pip install pyinstaller && \
+pyinstaller --onefile --windowed \
+  --add-data "src/assets:assets" \
+  --add-data "src/maps:maps" \
+  --icon="src/assets/other/game_icon.ico" \
+  --exclude-module numpy \
+  --exclude-module pandas \
+  --exclude-module scipy \
+  --exclude-module matplotlib \
+  --name="CityDefendersTD" \
+  run.py
+```
+- On Windows (Powershell):
+```powershell
+python -m venv .venv && ^
+.venv\Scripts\activate && ^
+python -m pip install -r requirements.txt && ^
+python -m pip install pyinstaller && ^
+pyinstaller --onefile --windowed ^
+  --add-data "src/assets;assets" ^
+  --add-data "src/maps;maps" ^
+  --icon="src/assets/other/game_icon.ico" ^
+  --exclude-module numpy ^
+  --exclude-module pandas ^
+  --exclude-module scipy ^
+  --exclude-module matplotlib ^
+  --name="CityDefendersTD" ^
+  run.py
+```
+
 # Credits
 - [Oleaguid font](https://opengameart.org/content/oleaguid-font) by [arynoc](https://opengameart.org/users/arynoc)
   - Modification: *Removed short quiet segments at the beginning and end removed*
