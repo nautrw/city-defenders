@@ -37,20 +37,7 @@ pyinstaller --onefile --windowed \
 ```
 - On Windows (Powershell):
 ```powershell
-python -m venv .venv && ^
-.venv\Scripts\activate && ^
-python -m pip install -r requirements.txt && ^
-python -m pip install pyinstaller && ^
-pyinstaller --onefile --windowed ^
-  --add-data "src/assets;assets" ^
-  --add-data "src/maps;maps" ^
-  --icon="src/assets/other/game_icon.ico" ^
-  --exclude-module numpy ^
-  --exclude-module pandas ^
-  --exclude-module scipy ^
-  --exclude-module matplotlib ^
-  --name="CityDefendersTD" ^
-  run.py
+python -m venv .venv && .venv\Scripts\activate && python -m pip install -r requirements.txt && python -m pip install pyinstaller && pyinstaller --onefile --windowed --add-data "src/assets;assets" --add-data "src/maps;maps" --icon="src/assets/other/game_icon.ico" --exclude-module numpy --exclude-module pandas --exclude-module scipy --exclude-module matplotlib --name="CityDefendersTD" run.py
 ```
 
 # Credits
